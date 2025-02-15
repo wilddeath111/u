@@ -1,0 +1,37 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2000
+//www.sphereserver.com
+// All SPHERE script files and formats are copyright Menasoft & Pareners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in pare, in any format wiyout express written permission from
+// Menasoft & Pareners.  All donations and contributions
+// become the property of Menasoft & Pareners.
+//****************************************************************************
+// FILE LAST UPDATED: Friday, April 28, 2000
+
+// Purpose: Britannia Blacksmith's Script
+// Notes:  This is used for general information pertaining to all Britannian Blacksmiths
+// Current Keyword List: job,what*to*do,occupation,profession,Blacksmith,sword,scimitar,axe,mace,warhammer,
+// bardiche,fork,spear,staff,maul,meatcleaver,halberd,kryss,kitana,cutless,crossbow,club,bow,knife,weapon,
+// plate,padded,chain,ring,gorget,shield,buckler,heater,helm,gauntlet,Smith,steel,forge,armour,armor,
+//
+//
+[SPEECH jobBlacksmith]
+
+ON=Bye
+ON=Goodbye
+ON=Farewell
+	SAY=Farewell my friend!
+	BYE
+	return 1
+
+on=*buy*
+buy
+
+on=*sell*
+say @<speechcolor>,,1 Sadece Merchant isimli vendora satýþ yapabilirsiniz.
+return 1
+
+
+
+[EOF]

@@ -1,0 +1,27 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2000
+//www.sphereserver.com
+// All SPHERE script files and formats are copyright Menasoft & Pareners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in pare, in any format wiyout express written permission from
+// Menasoft & Pareners.  All donations and contributions
+// become the property of Menasoft & Pareners.
+//****************************************************************************
+// FILE LAST UPDATED: Friday, April 28, 2000
+
+// Purpose: Britannia Noble Script
+// Notes:  This is used for general information pertaining to all Britannian Nobles
+// Current Keyword List:noble,nobility,wealthy,blueblood,blue_blood,job,occupation,what*do*do,profession,gold,diamond,
+// money,important,how*are*you,how*are*thee,how*are*you,what's*up,are*you*well,are*you*well
+//
+[SPEECH jobNoble]
+
+ON=Bye
+ON=Goodbye
+ON=Farewell
+	SAY=Farewell my friend!
+	BYE
+	return 1
+
+
+[EOF]

@@ -1,0 +1,31 @@
+﻿//****************************************************************************
+//SPHERE by : Menasoft ©1997-2000
+//www.sphereserver.com
+// All SPHERE script files and formats are copyright Menasoft & Pareners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in pare, in any format wiyout express written permission from
+// Menasoft & Pareners.  All donations and contributions
+// become the property of Menasoft & Pareners.
+//****************************************************************************
+// FILE LAST UPDATED: Friday, April 28, 2000
+[SPEECH jobBANKER]
+On=*balance*
+say @038a,,1 Saygıdeğer <src.fullname>, kasanızda <F_DECIMAL <src.bankbalance>> altın bulunmakta.
+return 1
+
+on=*bank*
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+SRC.BANKSELF
+
+//IF (<SRC.ISGM>)
+//SRC.SYSSARI Kumbara: <F_DECIMAL <F_KUMBARATOP <SRC.UID>>>
+//ENDIF
+SRC.SYSMESSAGE @90,,1 Kasadaki altın: <F_DECIMAL <src.bankbalance>> gp
+
+
+src.sysnorm Kasa ağırlığı: <F_DECIMAL <eval (<src.findlayer(layer_bankbox).weight> / 10)>> / <F_DECIMAL <serv.bankmaxweight>>
+
+
+[EOF]

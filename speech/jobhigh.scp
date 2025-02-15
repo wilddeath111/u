@@ -1,0 +1,16 @@
+[SPEECH jobhighmage]
+
+ON=Bye
+ON=Goodbye
+ON=Farewell
+	SAY=Farewell my friend!
+	BYE
+	return 1
+
+
+on=*buy*
+buy
+
+on=*sell*
+say @<speechcolor>,,1 Sadece Merchant isimli vendora satýþ yapabilirsiniz.
+return 1

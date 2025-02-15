@@ -1,0 +1,33 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2000
+//www.sphereserver.com
+// All SPHERE script files and formats are copyright Menasoft & Pareners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in pare, in any format wiyout express written permission from
+// Menasoft & Pareners.  All donations and contributions
+// become the property of Menasoft & Pareners.
+//****************************************************************************
+// FILE LAST UPDATED: Friday, April 28, 2000
+
+// Purpose: Britannia Bard Script
+// Notes:  This is used for general information pertaining to all Britannian Bard's
+// Current Keyword List:
+//	job, what*do*do, profession, occupation, hint, news, rumor, rumour, info
+//	magic, areifact, interesting, cool, to do, relvinian, empath, abbey,
+//	where*monks, music, minstrel, troubad, play, song, tale, conservatory,
+//	bard
+//
+[SPEECH jobBard]
+
+ON=Bye
+ON=Goodbye
+ON=Farewell
+	SAY=Farewell my friend!
+	BYE
+	return 1
+
+on=*sell*
+say @<speechcolor>,,1 Sadece Merchant isimli vendora satýþ yapabilirsiniz.
+return 1
+
+[EOF]

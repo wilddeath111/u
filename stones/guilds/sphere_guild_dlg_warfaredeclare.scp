@@ -1,0 +1,106 @@
+﻿//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: 14-March-2007
+VERSION=0.56b
+
+
+[dialog d_Guild_Master_Warfare_DeclareWar]
+5,25
+local.tosearch=<args>
+If (<type>!=t_stone_guild)
+  return 1
+elif (<masteruid>!=<src.uid>)&&(!<src.isgm>)
+  return 1
+endif
+
+//Construct the dialog
+page 0
+resizepic 0 0 5054 550 440
+resizepic 10 10 3000 530 420
+dhtmlgump 20 10 400 25 0 0 Savaş teklifi gönderilecek guild'i seçin.
+dhtmlgump 55 403 245 30 0 0 Savaş teklifi gönder!
+  button 20 400 4005 4007 1 0 1
+dhtmlgump 335 403 100 35 0 0 Çıkış
+  button 300 400 4005 4007 1 0 0
+
+local.say 0
+For num 0 <eval <serv.guilds>-1>
+  If (! (<local.num> % 11))
+    If (<local.num>)
+      button 300 370 4005 4007 0 <eval ((<local.num> / 11) + 1)> 0
+      dhtmlgump 335 370 300 35 0 0 Sonraki sayfa
+    endif
+
+    page <eval ((<local.num> / 11) + 1)>
+    If (<local.num>)
+      button 300 370 4014 4016 0 <eval (<local.num> / 11)> 0
+      dhtmlgump 335 370 300 35 0 0 Önceki sayfa
+    endif
+  endif
+
+
+
+  local.currentguilduid=<SERV.GUILDSTONES.<DLOCAL.NUM>.UID>
+
+  If !(<local.currentguilduid> <= 0) && !(strmatch('<local.currentguilduid>','<uid>')
+ 	radio 20 <eval (35 + ((<dlocal.say> % 11) * 30))> 208 209 0 <eval (<local.num> + 10)> 
+	dhtmlgump 55 <eval (37 + ((<dlocal.say> % 11) * 30))> 300 35 0 0 <uid.<local.currentguilduid>.Name> <qval (strlen(<uid.<local.currentguilduid>.abbrev>))&&(<DEF0.GUILDCONFIG_GUILDLIST_SHOWABBREV>) ? [<uid.<local.currentguilduid>.abbrev>]:>
+  local.say +=1
+	endif
+
+endfor
+
+
+
+[dialog d_Guild_Master_Warfare_DeclareWar Button]
+ON 0
+sdialog d_Guild_Master_Warfare,0
+
+ON=1
+  If (<masteruid>!=<src.uid>)&&(!<src.isgm>)
+    return 1
+  endif
+    
+    local.num=<ARGCHKID>-10 // GUILDİ BURADA SEÇİYOR
+    If ((<local.num> < 0))
+      return 1
+    endif
+
+    local.selectedguild=<serv.guildstones.<dlocal.num>.uid>
+
+    If (!<local.selectedguild>)
+	src.hata Bir guild seçmelisiniz.
+      return 1
+    endif
+    
+    If (<uid.<local.selectedguild>.type>!=T_STONE_GUILD)
+      return 1
+    endif
+
+
+    If ( <guildfromuid.<local.selectedguild>.isenemy> )
+        src.syshata <uid.<local.selectedguild>.name> ile zaten savaş halindesiniz.
+    elseif ( <guildfromuid.<local.selectedguild>.theywar> && !<guildfromuid.<local.selectedguild>.wewar> )
+      If ( <f_guildsys_candeclarewarwith <uid>,<local.selectedguild>> )
+        f_guildsys_declarewar <uid>,<local.selectedguild>,1
+      endif
+    elseif ( <guildfromuid.<local.selectedguild>.wewar> && !<guildfromuid.<local.selectedguild>.theywar> )
+        src.syshata <uid.<local.selectedguild>.name> guild'ine zaten savaş teklifi göndermişsiniz.
+    elseif ( !<guildfromuid.<local.selectedguild>.wewar> && !<guildfromuid.<local.selectedguild>.theywar> )
+      If ( <f_guildsys_candeclarewarwith <uid>,<local.selectedguild>> )
+        f_guildsys_declarewar <uid>,<local.selectedguild>,2
+      endif
+    endif
+
+    sdialog d_Guild_Master_Warfare,0
+  endif
+  return 1
+
+[EOF]

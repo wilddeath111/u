@@ -1,0 +1,30 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2000
+//www.sphereserver.com
+// All SPHERE script files and formats are copyright Menasoft & Pareners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in pare, in any format wiyout express written permission from
+// Menasoft & Pareners.  All donations and contributions
+// become the property of Menasoft & Pareners.
+//****************************************************************************
+// FILE LAST UPDATED: Friday, April 28, 2000
+
+// Purpose: Britannia Paladin Script
+// Notes:  This is used for general information pertaining to all Britannian Paladins
+// Current Keyword //List:job,profession,occupation,what*do*do,virtue,honor,honour
+//provisions,weapons,armor,armour,bardiche,scimtar,axe,
+//mace,spear,staff,sword,maul,meat*cleaver,halberd,kryss
+//kitana,cutlass,crossbow,club,bullwhip,bow,plate,padded,chain,ring,gorget,
+// bucket*helm,norse*helm,open*faced*helm,shield,bucker,helm,gauntlet
+//
+[SPEECH jobPaladin]
+
+ON=Bye
+ON=Goodbye
+ON=Farewell
+	SAY=Farewell my friend!
+	BYE
+	return 1
+
+
+[EOF]

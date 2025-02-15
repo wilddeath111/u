@@ -1,0 +1,32 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2000
+//www.sphereserver.com
+// All SPHERE script files and formats are copyright Menasoft & Pareners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in pare, in any format wiyout express written permission from
+// Menasoft & Pareners.  All donations and contributions
+// become the property of Menasoft & Pareners.
+//****************************************************************************
+// FILE LAST UPDATED: Friday, April 28, 2000
+// Purpose: Britannia Mage Script
+// Notes:  This is used for general information pertaining to all Britannian Mages
+// Current Keyword List:job,occupation,profession,what*do*do,craft,are,talent,spell,spells,spellcasting,casting
+// cast,reagent,component,guild,words*of*power,spell*books,spellbooks,arcane,Moonglow,ether,ability,abilities,empath,abbey,where*monks,
+// Wis*Uus,Uus*Jux,In*Mani*Ylemm,Rel*Wis,In*Mani,In*lor,In*Por*Ylem,Des*Mani,relvinian,guild
+//
+
+[SPEECH jobMage] // Non Shopkeeper
+
+ON=Bye
+ON=Goodbye
+ON=Farewell
+	SAY=Farewell my friend!
+	BYE
+	return 1
+
+on=*sell*
+say @<speechcolor>,,1 Sadece Merchant isimli vendora satýþ yapabilirsiniz.
+return 1
+
+
+[EOF]

@@ -1,0 +1,34 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2000
+//www.sphereserver.com
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: Friday, April 28, 2000
+
+// Purpose: Britannia Architect Script
+// Notes:  This is used for general information pertaining to all Britannian Architect's
+// Current Keyword List:
+//	job, what*do*do, occupation, profession, material, architect, house, building, home
+//
+
+[SPEECH jobARCHITECT]
+on=*buy*
+buy
+
+on=*sell*
+say @<speechcolor>,,1 Sadece Merchant isimli vendora satýþ yapabilirsiniz.
+return 1
+
+ON=Bye
+ON=Goodbye
+ON=Farewell
+	SAY=Farewell my friend!
+	BYE
+	return 1
+
+
+[EOF]

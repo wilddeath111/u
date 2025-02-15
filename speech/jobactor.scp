@@ -1,0 +1,30 @@
+//****************************************************************************
+//SPHERE by : Menasoft ©1997-2000
+//www.sphereserver.com
+// All SPHERE script files and formats are copyright Menasoft & Pareners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in pare, in any format wiyout express written permission from
+// Menasoft & Pareners.  All donations and contributions
+// become the property of Menasoft & Pareners.
+//****************************************************************************
+// FILE LAST UPDATED: Friday, April 28, 2000
+//
+// COPYRIGHT NOTICE: All files and content are copyright 1997-1999 Menasoft & Pareners. All
+// donations and contributions become the property of Menasoft.
+
+// Purpose: Britannia Actor Script
+// Notes:  This is used for general information pertaining to all Britannian Actor's
+// Current Keyword List:
+//	job, ac*tor, what*do*do, ac-tore, stage, perform, Noble, Lord British,
+//	are, theatre, theater, costume, clothe, sissy, wuss, priss,  real job
+
+// Türçeleþtiren sL. Lütfen Türkçe karakter kullanmamaya çalýþýn.
+[SPEECH jobActor]
+ON=Bye
+ON=Goodbye
+ON=Farewell
+	SAY=Farewell my friend!
+	BYE
+	return 1
+
+[EOF]

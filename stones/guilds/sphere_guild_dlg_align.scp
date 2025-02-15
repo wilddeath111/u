@@ -1,0 +1,72 @@
+﻿//****************************************************************************
+// SPHERE by : Menasoft ©1997-2007
+// www.sphereserver.com
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//
+// DO NOT MAKE CHANGES TO DEFAULT SCRIPTS! MAKE YOUR ALTERATIONS IN CUSTOM FILES!
+//****************************************************************************
+// FILE LAST UPDATED: 14-March-2007
+VERSION=0.56b
+
+[dialog d_Guild_ChangeAlign]
+5,25
+If (<type>!=t_stone_guild)
+  return 1
+elif (<memberfromuid.<src.uid>.uid>!=<src.uid>)&&(!<src.isgm>)
+  return 1
+endif
+  
+page 0
+resizepic 0 0 5054 400 300
+resizepic 10 10 3000 380 280
+dhtmlgump 105 15 510 30 0 0 Savaş Yönü Değiştirme Menüsü
+//dhtmlgump 50 50 450 30 0 0 Please select the type of guild you would like to change to
+
+dhtmlgump 335 263 150 100 0 0 İptal
+  button 300 260 4005 4007 1 0 0 // Cancel Button
+
+dorigin 85 0
+local.align=0
+While (!<isempty <def.guildconfig_align_<dlocal.align>>>)
+  If (<align> == <local.align>)
+    dhtmlgump 98 *50 200 100 0 0 <def.guildconfig_align_<dlocal.align>> [şuanda]
+    gumppic 20 -3 4020
+  else
+    dhtmlgump 98 *50 200 100 0 0 <def.guildconfig_align_<dlocal.align>>
+    button 20 -3 4005 4007 1 0 <eval <local.align>+1> // Change alignment
+  endif
+  If (<def0.guildconfig_alignshield_<dlocal.align>>)
+    tilepic 55 -7 <def.guildconfig_alignshield_<dlocal.align>>
+  endif
+  local.align += 1
+endwhile
+
+[dialog d_Guild_ChangeAlign Button]
+on=0 3
+  If (<masteruid>!=<src.uid>)&&(!<src.isgm>)
+    return 1
+  endif
+  If (<argn1> > 0)
+    local.type=<EVAL (<argn1>-1)>
+    If (!<isempty <def.guildconfig_align_<dlocal.type>>>)
+      If (<serv.time> > <tag0.changealign_time>)
+	timer 7200
+	morey <local.type>
+        tag.changealign_time=<eval (<serv.time> + <def0.GUILDCONFIG_MINTIME_ALIGN>)>
+	IF <DLOCAL.TYPE>==1
+	f_guildsys_sendsmsg <uid>,Guild destek yönü 2 saat sonra Order olarak değişecektir.
+	ELIF <DLOCAL.TYPE>==2
+	f_guildsys_sendsmsg <uid>,Guild destek yönü 2 saat sonra Chaos olarak değişecektir.
+	ELSE
+	f_guildsys_sendsmsg <uid>,Guild destek yönü 2 saat sonra Standart olarak değişecektir.
+	ENDIF	
+      endif
+    endif
+  endif
+  return 1
+
+[EOF]

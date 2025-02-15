@@ -1,0 +1,110 @@
+﻿//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007
+//www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: 14-March-2007
+VERSION=0.56b
+
+[TYPEDEF T_STONE_GUILD]
+ON=@Click
+if (<more1> == 1)
+	message @90,,1 [Order]
+elseif (<more1> == 2)
+	message @40,,1 [Chaos]
+elseif (<link> != 04fffffff)
+	message @0,,1 [<link.name>]
+endif
+//  message @0450,,1 üye sayısı: <member.count>
+  message @800,,1 [<member.count> üye]
+IF !(<DTAG0.FACTION>)
+	IF (<eval strlen(<abbrev>)>)
+ 	 message @0481,,1 <name> <qval (<eval strlen(<abbrev>)>)? [<abbrev>]:>
+	ELSE
+ 	 message @0481,,1 <name>
+	ENDIF
+ELSE
+  message @0481,,1 <name> [faction]
+ENDIF
+return 1
+
+ON=@Dclick
+IF (<DTAG0.FACTION>)
+  If (<distance> > 2)
+    src.syshata Çok uzaktasınız.
+   else
+	SDIALOG D_FACTION
+    endif
+RETURN 1
+ENDIF
+
+  If (<distance> > 2)
+    src.syshata Çok uzaktasınız.
+  elif (<member.count>==0)&&(!<masteruid>)	//(<masteruid>!=<src.uid>)
+    f_guildsys_addchartoguild <uid>,<src.uid>,1	//auto makes the master
+  elif (!<masteruid>)
+    f_guildsys_addchartoguild <uid>,<member.0.uid>,1	//first candidate since any member would auto be a master
+  elif (<memberfromuid.<src.uid>.uid>!=<src.uid>)&&(!<src.isgm>)// Not a member
+    src.syshata Bu guildin üyesi değilsiniz.
+  elif (<memberfromuid.<src.uid>.priv> == <def0.STONEPRIV_ACCEPTED>)
+    f_guildsys_addchartoguild <uid>,<src.uid>,1
+  elif (<memberfromuid.<src.uid>.priv>==<def0.STONEPRIV_CANDIDATE>)&&(!<src.isgm>)
+    src.sysnorm Üyeliğiniz için guildmaster onayı beklenmektedir.
+  elif (<memberfromuid.<src.uid>.priv>==<def0.STONEPRIV_MEMBER>)||(<masteruid>==<src.uid>)||(<src.isgm>)
+IF (<DTAG0.RUNEMASTER> > 0)
+IF !(<UID.<TAG0.RUNEMASTERUID>.UID>)
+	LOCAL.GUID <TAG0.RUNEMASTERUID>
+	FORINSTANCES I_RUNE_BOOK_GUILD_LINK
+		IF (strmatch('<TAG0.RUNEMASTERUID>','<LOCAL.GUID>'))
+		REMOVE
+		ENDIF
+	ENDFOR
+TAG0.RUNEMASTER
+TAG0.RUNEMASTERUID
+SRC.SYSHATA Guildmaster runebook silindiği için guild runebookları silinmiştir.
+ENDIF
+ENDIF
+    sdialog d_Guild_Main,0
+  endif
+return 1
+
+[ITEMDEF 0edd]
+//gravestone = Guildstone
+DEFNAME=i_guildstone
+TYPE=T_STONE_GUILD
+VALUE=60000
+
+On=@Create
+attr 08010
+name Guild
+
+On=@Timer
+if (<dmorey> == 1)
+	morey
+	more1 1
+        align=1
+        update
+        f_guildsys_sendsmsg <uid>,Guild destek yönü <aligntype> olarak değişmiştir.
+elseif (<dmorey> == 2)
+	morey
+	more1 2
+        align=2
+        update
+        f_guildsys_sendsmsg <uid>,Guild destek yönü <aligntype> olarak değişmiştir.
+else
+	morey
+	more1 0
+        align=0
+        update
+        f_guildsys_sendsmsg <uid>,Guild destek yönü <aligntype> olarak değişmiştir.
+endif
+try serv.allclients sysnorm [[Guild Haber]: <name> guildinin destek yönü <aligntype> olarak değişmiştir.
+return 1
+
+
+
+[EOF]

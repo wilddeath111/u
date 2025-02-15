@@ -1,0 +1,549 @@
+﻿//****************************************************************************
+//SPHERE by : Menasoft ©1997-2007
+//www.sphereserver.net
+//edited by Lexis
+//****************************************************************************
+// FILE LAST UPDATED: 2014
+VERSION=0.56b
+
+[FUNCTION f_stonesys_iswarring]
+for ctown 0 <guild.count>
+  If ((<guild.<local.ctown>.isenemy>) && (<uid.<guild.<local.ctown>.uid>.guildfromuid.<uid>.isenemy>))
+    local.wars += 1
+  endif
+endfor
+
+return <dlocal.wars>
+
+[dialog d_gs_abbrev]
+100,50
+resizepic 190 175 5054 335 150
+resizepic 200 185 3000 315 130
+resizepic 220 235 3000 270 22
+
+htmlgump 220 200 250 20 0 0 0		// ba$lik
+htmlgump 255 277 100 20 1 0 0		// ok
+button 220 275 4006 4007 1 0 1		// ok b
+htmlgump 435 277 100 20 2 0 0		// cancel
+button 400 275 4018 4019 1 0 0		// cancel b
+textentry 225 237 253 25 0 0 3		// isim buraya
+
+[dialog d_gs_abbrev TEXT]
+Yeni guild kısaltması giriniz. (3 karakter)
+Tamam
+Vazgeç
+<abbrev>
+
+[dialog d_gs_abbrev BUTTON]
+On=0
+if (<distance> < 4)
+	If (<src.isgm>)||(<masteruid>==<src.uid>)
+    	sdialog d_Guild_Master,0
+  	endif
+endif
+
+On=1
+if (<distance> > 3)
+	src.syshata Bu işlem için guildstone'a yeterince yakın değilsiniz.
+elseif (<isnum <argtxt[0]>>)
+	src.syshata Guild ismi sadece harflerden oluşabilir.
+	dialog d_gs_abbrev
+elseif ((strlen(<argtxt[0]>)) > 3)
+	src.syshata Guild kisaltması en fazla 3 karakterden oluşabilir.
+	dialog d_gs_abbrev
+elseif (strmatch('<argtxt[0]>',''))
+	src.syshata Bir kısaltma girmediniz.
+	dialog d_gs_abbrev
+elseif !(<tag0.changeabbrev_time> <= <serv.time>)
+	src.syshata Henüz bu işlemi gerçekleştiremezsiniz.
+else
+  abbrev <argtxt[0]>
+  f_guildsys_sendsmsg <uid>,Guild kısaltması <argtxt[0]> olarak değişmiştir.
+  tag.changeabbrev_time=<serv.time> + <def0.GUILDCONFIG_MINTIME_ABBREV>
+  update
+  src.update
+endif
+
+
+
+[dialog d_gs_recruit]
+-100,-100
+nomove
+
+resizepic 190 165 5120 275 155
+resizepic 200 175 3000 255 135
+
+htmlgump 215 188 223 60 0 1 1
+htmlgump 258 257 140 20 1 0 0
+htmlgump 258 277 150 20 2 0 0
+button 225 255 4006 4007 1 0 1
+button 225 275 4018 4019 1 0 0
+
+[dialog d_gs_recruit text]
+<uid.<src.ctag0.gmaster>.name> tarafından <uid.<src.ctag0.guid>.name> guildine davet edildiniz. Bu guild'e katılmak istiyor musunuz?
+Evet
+Hayır
+
+[dialog d_gs_recruit button]
+On=1
+if (<uid.<src.ctag0.guildgir>.distance> > 3)
+	syshata Guild stone'a yeterince yakın değilsiniz.
+else
+f_guildsys_addchartoguild <src.ctag0.guid>,<src.uid>,0
+src.tag.gs_title
+endif
+
+[dialog d_gs_rename]
+100,50
+resizepic 190 175 5054 335 150
+resizepic 200 185 3000 315 130
+resizepic 220 235 3000 270 22
+
+htmlgump 220 200 250 20 0 0 0		// ba$lik
+htmlgump 255 277 100 20 1 0 0		// ok
+button 220 275 4006 4007 1 0 1		// ok b
+htmlgump 435 277 100 20 2 0 0		// cancel
+button 400 275 4018 4019 1 0 0		// cancel b
+textentry 225 237 253 25 0 0 3		// isim buraya
+
+[dialog d_gs_rename TEXT]
+Yeni guild ismi giriniz. (16 karakter)
+Tamam
+Vazgeç
+<name>
+
+[dialog d_gs_rename BUTTON]
+On=0
+if (<distance> < 3)
+	sdialog d_Guild_Master,0
+endif
+
+On=1
+if !(<distance> < 3)
+	src.syshata Bu işlem için guildstone'a yeterince yakın değilsiniz.
+elseif ((strlen(<argtxt[0]>)) > 20)
+	src.syshata Guild ismi en fazla 20 karakterden oluşabilir.
+	sdialog d_gs_rename
+elseif (<isnum <argtxt[0]>>)
+	src.syshata Guild ismi sadece harflerden oluşabilir.
+	sdialog d_gs_rename
+elseif (strmatch('<argtxt[0]>',''))
+	src.syshata Lütfen bir isim belirleyiniz.
+	sdialog d_gs_rename
+elseif (<SRC.F_GUILDNAME_CHECK <argtxt[0]>> > 0)
+	SRC.SYSHATA Aynı isimde başka bir guild bulunuyor.
+	sdialog d_gs_rename
+ELSE
+	name <argtxt[0]>
+	tag.changename_time=<serv.time> + <def0.GUILDCONFIG_MINTIME_NAME>
+	f_guildsys_sendsmsg <uid>,Guild adı <argtxt[0]> olarak değiştirilmiştir.
+endif
+
+[FUNCTION F_GUILDNAME_CHECK]
+LOCAL.RETURN 0
+FORINSTANCES I_GUILDSTONE
+IF (strmatch('<NAME>','<ARGS>'))
+LOCAL.RETURN 1
+ENDIF
+ENDFOR
+
+RETURN <DLOCAL.RETURN>
+
+[dialog d_unvanmaster]
+100,50
+resizepic 190 175 5054 335 150
+resizepic 200 185 3000 315 130
+resizepic 220 235 3000 270 22
+
+htmlgump 220 200 250 20 0 0 0		// ba$lik
+htmlgump 255 277 100 20 1 0 0		// ok
+button 220 275 4006 4007 1 0 1		// ok b
+htmlgump 435 277 100 20 2 0 0		// cancel
+button 400 275 4018 4019 1 0 0		// cancel b
+textentry 225 237 253 25 0 0 3		// isim buraya
+
+[dialog d_unvanmaster TEXT]
+Ünvanı giriniz. (14 karakter)
+Tamam
+Vazgeç
+??
+
+[dialog d_unvanmaster BUTTON]
+On=0
+
+On=1
+if (<distance> > 3)
+	src.sysh_trk Bu islem için guildstone'a yeterince yakın değilsiniz.
+elseif ((strlen(<argtxt[0]>)) > 14)
+	src.sysh_trk Ünvan en fazla 14 karakterden oluşabilir.
+	sdialog d_unvanmaster
+ELSEIF (<ISALLOWEDCHAR <argtxt[0]>>)
+	SRC.SYSH_TRK Sadece harf kullanabilirsiniz.
+	sdialog d_unvanmaster
+elseif (strmatch('<argtxt[0]>',''))
+	src.sysh_trk Bir ünvan girmediniz.
+	sdialog d_unvanmaster
+else
+	src.sysnorm Yeni ünvanınız: <argtxt[0]>
+	src.tag.gs_title <argtxt[0]>
+endif
+return 1
+
+[dialog d_unvanver]
+100,50
+resizepic 190 175 5054 335 150
+resizepic 200 185 3000 315 130
+resizepic 220 235 3000 270 22
+
+htmlgump 220 200 250 20 0 0 0		// ba$lik
+htmlgump 255 277 100 20 1 0 0		// ok
+button 220 275 4006 4007 1 0 1		// ok b
+htmlgump 435 277 100 20 2 0 0		// cancel
+button 400 275 4018 4019 1 0 0		// cancel b
+textentry 225 237 253 25 0 0 3		// isim buraya
+
+[dialog d_unvanver TEXT]
+Ünvanı giriniz. (14 karakter)
+Tamam
+Vazgeç
+??
+
+[dialog d_unvanver BUTTON]
+On=0
+
+On=1
+if (<distance> > 3)
+	src.sysh_trk Bu islem için guildstone'a yeterince yakın değilsiniz.
+elseif ((strlen(<argtxt[0]>)) > 14)
+	src.sysh_trk Ünvan en fazla 14 karakterden oluşabilir.
+	sdialog d_unvanver
+ELSEIF (<ISALLOWEDCHAR <argtxt[0]>>)
+	SRC.SYSH_TRK Sadece harf kullanabilirsiniz.
+	sdialog d_unvanver
+elseif (strmatch('<argtxt[0]>',''))
+	src.sysh_trk Bir ünvan girmediniz.
+	sdialog d_unvanver
+else
+	src.targetf f_unvanver <argtxt[0]>
+endif
+
+[function f_unvanver]
+if !(strmatch('<memoryfindtype.memory_guild.link.name>','<argo.memoryfindtype.memory_guild.link.name>')
+src.sysh_trk Bu kişi guildinize üye değil.
+return 1
+elseif (strmatch('<args>','Guildmaster')
+src.sysh_trk Bu ünvanı veremezsiniz.
+return 1
+elseif (strmatch('<args>','sikici')
+src.sysh_trk Bu ünvanı veremezsiniz.
+return 1
+elseif (strmatch('<args>','Fahise')
+src.sysh_trk Bu ünvanı veremezsiniz.
+return 1
+elseif (strmatch('<args>','Fahi$e')
+src.sysh_trk Bu ünvanı veremezsiniz.
+return 1
+elseif (strmatch('<args>','Orospu')
+src.sysh_trk Bu ünvanı veremezsiniz.
+return 1
+elseif (strmatch('<args>','Pezevenk')
+src.sysh_trk Bu ünvanı veremezsiniz.
+return 1
+elseif (strmatch('<args>','Pezewenk')
+src.sysh_trk Bu ünvanı veremezsiniz.
+return 1
+elseif (strmatch('<args>','Pezewenq')
+src.sysh_trk Bu ünvanı veremezsiniz.
+return 1
+elseif (strmatch('<args>','Pezevenq')
+src.sysh_trk Bu ünvanı veremezsiniz.
+return 1
+elseif (strmatch('<args>','Amele')
+src.sysh_trk Bu ünvanı veremezsiniz.
+return 1
+else
+src.sysnorm <argo.name> adlı kişiye <src.tag.unvan> ünvanı verildi.
+argo.tag.gs_title <args>
+return 1
+endif
+
+[FUNCTION f_guildsys_recruitguy]
+ref1 = <args>
+
+If (<ref1.type> != t_stone_guild)
+  return 1
+elif ((<ref1.masteruid> != <uid>) && (<ref1.memberfromuid.<uid>.priv> != <def0.STONEPRIV_MEMBER>) && (!<isgm>))
+  syshata Sadece guildmaster tarafından üye alımı yapılabilir.
+  return 1
+elif (<argo.isItem>)
+  syshata Sadece oyuncuları guild üyeliğine davet edebilirsiniz.
+  return 1
+elif (!<argo.isPlayer>)
+  syshata Sadece oyuncuları guild üyeliğine davet edebilirsiniz.
+  return 1
+elif (<argo.flags>&<def.statf_dead>)
+  syshata Ölüleri guild üyeliğine davet edemezsiniz.
+  return 1
+endif
+If (<argo.memoryfindtype.<def0.memory_guild>.uid>)
+  If (<argo.memoryfindtype.<def0.memory_guild>.link> == <ref1.uid>)
+    syshata Başka bir guild üyeliği olanları davet edemezsiniz.
+  else
+    syshata Başka bir guild üyeliği olanları davet edemezsiniz.
+  endif
+  return 1
+endif
+
+If (<ref1.memberfromuid.<argo.uid>.uid> != <argo.uid>)
+  If ((<ref1.masteruid> == <uid>) || (<isgm>))
+    If (<def0.GUILDCONFIG_MAXMEMBERS>)
+      If (<ref1.member.count <def0.STONEPRIV_MEMBER>> < <def0.GUILDCONFIG_MAXMEMBERS>)
+	ARGO.CTAG0.GMASTER <UID>
+	ARGO.CTAG0.GUID <REF1.UID>
+	TRYSRC <ARGO.UID> SRC.SDIALOG D_GS_RECRUIT
+      else
+        sysmessage @038A Zaten <dDEF0.GUILDCONFIG_MAXMEMBERS> üye bulunuyor. Daha fazla üye alamazsınız.
+      endif
+    else
+      	ARGO.CTAG0.GMASTER <UID>
+	ARGO.CTAG0.GUID <REF1.UID>
+	TRYSRC <ARGO.UID> SRC.SDIALOG D_GS_RECRUIT
+    endif
+  else
+    If (<def0.GUILDCONFIG_MAXCANDIDATES>)
+      If (<ref1.member.count <def0.STONEPRIV_CANDIDATE>> < <def0.GUILDCONFIG_MAXCANDIDATES>)
+        ARGO.CTAG0.GMASTER <UID>
+	ARGO.CTAG0.GUID <REF1.UID>
+	TRYSRC <ARGO.UID> SRC.SDIALOG D_GS_RECRUIT
+      else
+        sysmessage @038A Zaten <dDEF0.GUILDCONFIG_MAXCANDIDATES> yarım üye bulunuyor. Daha fazla yarım üye alamazsınız.
+      endif
+    else
+	ARGO.CTAG0.GMASTER <UID>
+	ARGO.CTAG0.GUID <REF1.UID>
+	TRYSRC <ARGO.UID> SRC.SDIALOG D_GS_RECRUIT
+//      f_guildsys_addchartoguild <ref1.uid>,<argo.uid>,0
+    endif
+else
+  sysmessage @038A They are already a candidate.
+endif
+
+// ------------------------------------------------------
+[FUNCTION f_guildsys_addchartoguild]
+// no checks here, everything should be checked before calling this functions
+ref1 = <argv[0]> // The guild
+ref2 = <argv[1]> // The char
+local.addasmember = <argv[2]>
+
+if (<local.addasmember>)
+  ref1.JoinAsMember <ref2.uid>
+else
+  ref1.ApplyToJoin <ref2.uid>
+endif
+
+//if (!<ref2.isevent.<def.GUILDCONFIG_CHAREVENT_NAME>>)
+//  ref2.events +<def.GUILDCONFIG_CHAREVENT_NAME>
+//endif
+  
+//if (!<ref2.isdspeech.<def.GUILDCFGSPEECH_NAME>>)
+//  ref2.dspeech +<def.GUILDCFGSPEECH_NAME>
+//endif
+
+// ------------------------------------------------------
+[FUNCTION f_guildsys_removecharfromguild]
+// no checks here, everything should be checked before calling this functions
+ref1 = <argv[0]> // The guild
+ref2 = <argv[1]> // The char
+
+if (!<ref2.isevent.<def.GUILDCONFIG_CHAREVENT_NAME>>)
+  ref2.events -<def.GUILDCONFIG_CHAREVENT_NAME>
+endif
+
+if (<ref2.isdspeech.<def.GUILDCFGSPEECH_NAME>>)
+  ref2.dspeech -<def.GUILDCFGSPEECH_NAME>
+endif
+
+ref1.resign <ref2.uid>
+f_guildsys_sendsmsg <ref1.uid>,<ref2.name> guild üyeliğinden ayrılmıştır.
+
+// ------------------------------------------------------
+[FUNCTION f_guildsys_isnameused]
+RETURN <f_stonesys_isnameused <args>>
+
+// ------------------------------------------------------
+[FUNCTION f_guildsys_isabbrevused]
+RETURN <f_stonesys_isabbrevused <args>>
+
+
+// ------------------------------------------------------
+[FUNCTION f_guildsys_isatwarwith]
+local.myguild=<argv[0]>
+local.otherguild=<argv[1]>
+
+If ((<uid.<local.myguild>.type>!=t_stone_guild) || (<uid.<local.otherguild>.type>!=t_stone_guild))
+  return 0
+endif
+
+If (<uid.<local.myguild>.guildfromuid.<local.otherguild>.isenemy> && <uid.<local.otherguild>.guildfromuid.<local.myguild>.isenemy>)
+  return 1
+endif
+
+return 0
+
+
+// ------------------------------------------------------
+[FUNCTION f_guildsys_candeclarewarwith]
+local.myguild=<argv[0]>
+local.otherguild=<argv[1]>
+
+If ((<uid.<local.myguild>.type>!=t_stone_guild) || (<uid.<local.otherguild>.type>!=t_stone_guild))
+  return 0
+endif
+
+local.myguild_count=<uid.<local.myguild>.member.count <def0.STONEPRIV_MEMBER>>
+If (<uid.<local.myguild>.masteruid>)
+  local.myguild_count += 1
+endif
+
+If (<local.myguild_count>==0)
+  return 0
+endif
+
+local.otherguild_count=<uid.<local.otherguild>.member.count <def0.STONEPRIV_MEMBER>>
+If (<uid.<local.otherguild>.masteruid>)
+  local.otherguild_count += 1
+endif
+
+If (<local.otherguild_count>==0)
+  return 0
+endif
+
+// Order cannot declare war.
+//If ((<uid.<local.myguild>.align>==1) && (<uid.<local.myguild>.align>==<uid.<local.otherguild>.align>))
+//  return 0
+//endif
+
+return 1
+
+
+// ------------------------------------------------------
+[FUNCTION f_guildsys_searchguildname]
+local.currentuid=<argv[0]>	// Current guild uid
+local.textsearch=<argv[1]>	// Text to search in other guild names
+local.allguilds=0           	// Allguilds check
+
+local.search_found=0
+local.search_num=0
+local.search_uid=<serv.guildstones.<local.search_num>.uid>
+
+If (<def0.GUILDCONFIG_ALLOW_ALLGUILD_SEARCH>)
+    If (!STRCMPI("<local.textsearch>","<def.GUILDCONFIG_ALLOW_ALLGUILD_TEXT>"))
+        local.allguilds=1
+    endif
+endif
+
+while (<local.search_uid>)
+  If (<local.currentuid>!=<local.search_uid>)
+    If (<local.allguilds>)
+      If (!<local.returndata>)
+        local.returndata=<local.search_uid>
+      else
+        local.returndata .= ,<local.search_uid>
+      endif
+      local.search_found += 1
+    elif (strregex(<local.textsearch>*,<uid.<local.search_uid>.name>))
+      If (!<local.returndata>)
+        local.returndata=<local.search_uid>
+      else
+        local.returndata .= ,<local.search_uid>
+      endif
+      local.search_found += 1
+    endif
+  endif
+  
+  local.search_num += 1
+  local.search_uid=<serv.guildstones.<local.search_num>.uid>
+  If (<def0.GUILDCONFIG_MAX_NSEARCH_RES>)
+    If (<local.search_num> >= <def0.GUILDCONFIG_MAX_NSEARCH_RES>)
+      local.search_uid=0 // Break the loop
+    endif
+  endif
+endwhile
+
+If (!<local.search_found>)
+  return ""
+endif
+return <local.returndata>
+
+
+// ------------------------------------------------------
+[FUNCTION f_guildsys_listsplit]
+local.guildlist_count=<argv>
+If (<local.guildlist_count>)
+  For x 0 <eval <local.guildlist_count>-1>
+    try local.guildlist_data<dLOCAL.X>=<argv[<dLOCAL.X>]>
+  endfor
+endif
+
+
+// ------------------------------------------------------
+[FUNCTION f_guildsys_declarewar]
+local.firstuid=<argv[0]>
+local.seconduid=<argv[1]>
+
+If ((<uid.<local.firstuid>.type>!=t_stone_guild) || (<uid.<local.seconduid>.type>!=t_stone_guild))
+  return 0
+endif
+
+ref1 = <local.firstuid>
+ref1.declarewar <local.seconduid>
+
+If (<argv[2]> == 1)
+  f_guildsys_sendsmsg <local.firstuid>,Guildiniz artık <uid.<local.seconduid>.name> ile savaş halinde.
+  f_guildsys_sendsmsg <local.seconduid>,Guildiniz artık <uid.<local.firstuid>.name> ile savaş halinde.
+elseif (<argv[2]> == 2)
+  f_guildsys_sendsmsg <local.firstuid>,Guildiniz <uid.<local.seconduid>.name> guildine savaş teklifi gönderdi.
+  f_guildsys_sendsmsg <local.seconduid>,Guildiniz <uid.<local.firstuid>.name> guildinden savaş teklifi aldı.
+endif
+
+return 1
+
+
+// ------------------------------------------------------
+[FUNCTION f_guildsys_declarepeace]
+local.firstuid=<argv[0]>
+local.seconduid=<argv[1]>
+
+If ((<uid.<local.firstuid>.type>!=t_stone_guild) || (<uid.<local.seconduid>.type>!=t_stone_guild))
+  return 0
+endif
+
+ref1 = <local.firstuid>
+ref1.declarepeace <local.seconduid>
+
+If (<argv[2]> != 0)
+  f_guildsys_sendsmsg <local.firstuid>,Artık <uid.<local.seconduid>.name> guildi ile barış içerisindesiniz.
+  f_guildsys_sendsmsg <local.seconduid>,Artık <uid.<local.firstuid>.name> guildi ile barış içerisindesiniz.
+endif
+
+return 1
+
+// ------------------------------------------------------
+[FUNCTION f_guildsys_sendsmsg]
+f_stonesys_sendsmsg <args>
+
+// ------------------------------------------------------
+[FUNCTION f_guildsys_speech_sendsmsg]
+f_stonesys_speech_sendsmsg <args>
+
+// ------------------------------------------------------
+[FUNCTION f_guildsys_iswarring]
+for cguild 0 <guild.count>
+  If ((<guild.<local.cguild>.isenemy>) && (<uid.<guild.<local.cguild>.uid>.guildfromuid.<uid>.isenemy>))
+    local.wars += 1
+  endif
+endfor
+
+return <dlocal.wars>
+
+[EOF]
