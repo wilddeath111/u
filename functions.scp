@@ -1,0 +1,728 @@
+﻿
+[function cikarbeniekrandan]
+SENDPACKET 01d D<args>
+
+[FUNCTION F_KUMBARATOP]
+FORINSTANCES i_kumbara
+IF (<MORE1>==<SRC.UID>)
+LOCAL.GP <EVAL <LOCAL.GP>+<dtag.gp>>
+ENDIF
+ENDFOR
+RETURN <DLOCAL.GP>
+
+
+[FUNCTION ISMARKLANMAZ]
+FORITEMS 30
+IF (<BASEID>==i_marklanmaz)
+RETURN 1
+ENDIF
+ENDFOR
+
+
+[FUNCTION F_AYAR]
+SYSNORM <UID.040002e5d.NAME>
+SYSNORM <UID.04000b81f.NAME>
+SYSNORM <UID.0400035c1.NAME>
+RETURN 1
+FORINSTANCES i_blood_2
+TIMER 1
+ENDFOR
+RETURN 1
+FORINSTANCES i_hazine6_cont
+ATTR ATTR_STATIC
+ENDFOR
+FORINSTANCES i_hazine5_cont
+ATTR ATTR_STATIC
+ENDFOR
+FORINSTANCES i_hazine4_cont
+ATTR ATTR_STATIC
+ENDFOR
+FORINSTANCES i_hazine3_cont
+ATTR ATTR_STATIC
+ENDFOR
+FORINSTANCES i_hazine2_cont
+ATTR ATTR_STATIC
+ENDFOR
+FORINSTANCES i_hazine1_cont
+ATTR ATTR_STATIC
+ENDFOR
+FORINSTANCES i_hazine_world
+ATTR ATTR_STATIC
+ENDFOR
+
+
+[FUNCTION NELERVAR]
+FORINSTANCES I_CRYSTAL_ICE
+IF (<TOPOBJ.ISPLAYER>)
+LOCAL.ICE <EVAL <LOCAL.ICE>+1>
+ENDIF
+ENDFOR
+
+FORINSTANCES I_CRYSTAL_FIRE
+IF (<TOPOBJ.ISPLAYER>)
+LOCAL.FIRE <EVAL <LOCAL.FIRE>+1>
+ENDIF
+ENDFOR
+
+FORINSTANCES I_CRYSTAL_ENERGY
+IF (<TOPOBJ.ISPLAYER>)
+LOCAL.ENERGY <EVAL <LOCAL.ENERGY>+1>
+ENDIF
+ENDFOR
+
+FORINSTANCES I_CRYSTAL_EARTH
+IF (<TOPOBJ.ISPLAYER>)
+LOCAL.EARTH <EVAL <LOCAL.EARTH>+1>
+ENDIF
+ENDFOR
+
+FORINSTANCES I_DYE_CRYSTAL
+IF (<TOPOBJ.ISPLAYER>)
+LOCAL.DYE <EVAL <LOCAL.DYE>+1>
+ENDIF
+ENDFOR
+
+SYSNORM <DLOCAL.ICE> ice, <DLOCAL.FIRE> fire, <DLOCAL.ENERGY> energy, <DLOCAL.EARTH> earth, <DLOCAL.DYE> dye
+
+
+
+[FUNCTION MS_CONT]
+IF (<DARGV[0]> == 1)
+TRY CONT <UID.<ARGV[1]>.FINDLAYER(LAYER_BANKBOX)>
+TRY UID.<ARGV[1]>.TAG0.MSBNK 1
+ELSE
+TRY CONT <UID.<ARGV[1]>.FINDLAYER(LAYER_PACK)>
+TRY UID.<ARGV[1]>.TAG0.MSBNK 0
+ENDIF
+
+[function trfix]
+FORCHARS 65000
+IF (<ISPLAYER>)
+CTAG0.TRACKFIX
+TAG0.TRACKFIX
+ENDIF
+ENDFOR
+
+[FUNCTION VENDORSIL]
+FORCHARS 65000
+IF (<ID>==C_H_ARCHITECT) || (<ID>==C_H_ARCHITECT_F) || (<ID>==C_H_PROVIS) || (<ID>==C_H_PROVIS_F)
+REMOVE
+ENDIF
+ENDFOR
+
+[FUNCTION F_DB_PV]
+TRY SQLCONN
+db.query truncate table pvsearch
+FORCHARS 65000
+IF (<dISPV>)
+TRYSRC <UID> SRC.F_VENDSEARCH2
+SRC.sysnorm <NAME>
+ENDIF
+ENDFOR
+
+[FUNCTION F_STATUS_UPDATE]
+TRY SQLCONN
+db.query truncate table status
+timerf 1,db.execute "INSERT INTO status (id, online, blabla, blablabla) VALUES ('1','<donlinecount>','1','1')
+
+
+[FUNCTION F_VENDSEARCH2]
+
+db.execute delete from pvsearch where ownername='<UID.<OWNER>.FULLNAME>' AND vendorname='<NAME>'
+
+FORCONT <FINDLAYER.21.UID> 15
+//IF (<UID.<UID>.PRICE> > 0) 
+if ((<type> == t_armor) || (<type> == t_armor_leather) || (<type> == t_shield) || (<type> == t_clothing) || (<type> == t_weapon_sword) || (<type> == t_weapon_fence) || (<type> == t_weapon_mace_staff) || (<type> == t_weapon_mace_smith) || (<type> == t_weapon_mace_pick) || (<type> == t_weapon_bow) || (<type> == t_weapon_xbow) || (<type> == t_weapon_axe) || (<type> == t_weapon_mace_sharp))
+LOCAL.HASAR <eval (100 - ((<more1l> * 100) / <more1h>))>
+DB.EXECUTE INSERT INTO pvsearch (id, name, hasar, magic, vendorname, ownername, location, koordinatx, koordinaty) VALUES ('','<addslashes <NAME>>','%<DLOCAL.HASAR>','<F_MAGICSHOW2>','<addslashes <TOPOBJ.NAME>>','<addslashes <UID.<TOPOBJ.OWNER>.FULLNAME>>','<addslashes <REGION.NAME>>','<TOPOBJ.P.X>','<TOPOBJ.P.Y>')
+else
+DB.EXECUTE INSERT INTO pvsearch (id, name, hasar, magic, vendorname, ownername, location, koordinatx, koordinaty) VALUES ('','<addslashes <NAME>>','','','<addslashes <TOPOBJ.NAME>>','<addslashes <UID.<TOPOBJ.OWNER>.FULLNAME>>','<addslashes <REGION.NAME>>','<TOPOBJ.P.X>','<TOPOBJ.P.Y>')
+endif
+//ENDIF
+ENDFOR
+
+
+
+[EVENTS E_TICARET]
+
+[EVENTS E_YOUNG]
+ON=@SKILLSTART
+IF (<action> == id(Skill_snooping)) || (<action> == Skill_snooping) || (<action> == id(Skill_stealing)) || (<action> == Skill_stealing)
+SYSHATA Bu bölgede bu yeteneği kullanamazsınız.
+SKILL FAIL
+RETURN 1
+ENDIF
+
+ON=@ATTACK
+IF (<SRC.ISPLAYER>)
+	SYSHATA Bu bölgede oyunculara saldıramazsınız.
+	SKILL FAIL
+	ACTION -1
+	RETURN 1
+ENDIF
+
+ON=@HITTRY
+IF (<SRC.ISPLAYER>)
+	SYSHATA Bu bölgede oyunculara saldıramazsınız.
+	SKILL FAIL
+	ACTION -1
+	RETURN 1
+ENDIF
+
+ON=@HIT
+IF (<SRC.ISPLAYER>)
+	SYSHATA Bu bölgede oyunculara saldıramazsınız.
+	SKILL FAIL
+	ACTION -1
+	RETURN 1
+ENDIF
+
+On=@GetHit
+SRC.FLAGS &= ~statf_war
+SRC.MEMORYFINDTYPE.memory_war_targ.remove
+SRC.MEMORYFINDTYPE.memory_war_targ.remove
+SRC.MEMORYFINDTYPE.memory_war_targ.remove
+SRC.SKILL FAIL
+SRC.ACTION -1
+RETURN 1
+
+On=@Spelleffect
+IF !(<serv.spell.<argn>.flags>&spellflag_good)
+IF !(<ARGN>==104)
+	SRC.F_FIZZLE
+	SRC.SKILL FAIL
+	RETURN 1
+ENDIF
+ENDIF
+
+On=@Spellcast
+IF (<serv.spell.<argn>.flags>&spellflag_field)
+	SRC.F_FIZZLE
+	SRC.SKILL FAIL
+	RETURN 1
+ENDIF
+IF !(<serv.spell.<argn>.flags>&spellflag_good) && (<SRC.ACT.ISPLAYER>)
+IF !(<ARGN>==104)
+	SRC.F_FIZZLE
+	SRC.SKILL FAIL
+	RETURN 1
+ENDIF
+ENDIF
+IF (<serv.spell.<argn>.flags>&SPELLFLAG_SUMMON)
+	SRC.F_FIZZLE
+	SRC.SKILL FAIL
+	RETURN 1
+ENDIF
+
+ON=@ITEMDLICK
+IF ((STRMATCH(*HOUSE*, <ACT.NAME>)) || (STRMATCH(*HOUSE*, <ACT.BASEID>)))
+SRC.SYSHATA Bu alanda kullanamazsınz.
+RETURN 1
+ENDIF
+
+IF ((STRMATCH(*SHIP*, <ACT.NAME>)) || (STRMATCH(*SHIP*, <ACT.BASEID>)))
+SRC.SYSHATA Bu alanda kullanamazsınz.
+RETURN 1
+ENDIF
+
+
+[FUNCTION DISPEL_ACTIVE]
+FORINSTANCES I_DISPELER
+TIMER 1
+ENDFOR
+
+
+[function spellcircle] //args=spell number
+if (<args> >= 1) && (<args> <= 64) //only with default (mage) spells
+return <eval ((<args>-1)/8)+1>
+else
+return 1
+endif
+
+
+[FUNCTION ISPV]
+IF (<ID>==c_player_v) || (<ID>==c_pv)
+RETURN 1
+ENDIF
+
+[FUNCTION GOFORCE]
+GO <ARGS>
+
+[FUNCTION HADIG]
+LOCAL.P <F_SPAWN_PLACE>
+GO <LOCAL.P>
+dialogclose MapDlg
+MAP
+
+
+[FUNCTION F_NEWBOUNCE]
+LOCAL.X <EVAL RAND(44,142)>
+LOCAL.Y <EVAL RAND(65,121)>
+RETURN <DLOCAL.X>,<DLOCAL.Y>
+
+
+[FUNCTION closealldialogs]
+IF (<MEMORYFINDTYPE.memory_gumprecord>)
+FORCHARMEMORYTYPE memory_gumprecord
+TRYSRC <CONT> SRC.DIALOGCLOSE <TAG0.DIALOG_NAME> <ARGN2>
+REMOVE
+ENDFOR
+ENDIF
+
+[function moveback]
+return 1
+doswitch <dir>
+begin
+if (<canmove s>)
+move s
+endif
+end
+begin
+if (<canmove sw>)
+move sw
+endif
+end
+begin
+if (<canmove w>)
+move w
+endif
+end
+begin
+if (<canmove nw>)
+move nw
+endif
+end
+begin
+if (<canmove n>)
+move n
+endif
+end
+begin
+if (<canmove ne>)
+move ne
+endif
+end
+begin
+if (<canmove e>)
+move e
+endif
+end
+begin
+if (<canmove se>)
+move se
+endif
+end
+begin
+if (<canmove s>)
+move s
+endif
+end
+enddo
+
+[FUNCTION ISEMPTYZ]
+IF ((strmatch(´<ARGS>´,´0´)) || (strmatch(´<ARGS>´,´´)) || (strmatch(´<ARGS>´,´ ´)))
+RETURN 1
+ENDIF
+
+[function botkoy]
+var0.botkoy <dargs>
+SRC.BOTSELECT
+
+[function onlinecount]
+return <eval <serv.clients>+<dvar0.botkoy>>
+
+
+[FUNCTION F_DECIMAL] // lexis rulaz
+LOCAL.STRLEN <EVAL STRLEN(<ARGS>)>
+
+IF !(<DLOCAL.STRLEN> > 3)
+RETURN <EVAL <ARGS>>
+ENDIF
+
+LOCAL.RETURN <LOCAL.RETURN>a
+FOR X <DLOCAL.STRLEN> 1
+	LOCAL.FIX <EVAL <DLOCAL.FIX>+1>
+	IF (<DLOCAL.FIX> > 3)
+		LOCAL.RETURN <LOCAL.RETURN>.<dF_DECIMAL2 <DLOCAL.X>,<ARGS>>
+		LOCAL.FIX 1
+	ELSE
+		LOCAL.RETURN <LOCAL.RETURN><dF_DECIMAL2 <DLOCAL.X>,<ARGS>>
+	ENDIF
+ENDFOR
+
+LOCAL.STRLEN <EVAL STRLEN(<LOCAL.RETURN>)>
+FOR Y <DLOCAL.STRLEN> 1
+LOCAL.RETURN2 .= <STRSUB <EVAL <DLOCAL.Y>-1> 1 <LOCAL.RETURN>>
+ENDFOR
+
+LOCAL.STRLEN <EVAL STRLEN(<LOCAL.RETURN>)>
+LOCAL.STRLEN <EVAL <DLOCAL.STRLEN>-2>
+LOCAL.RETURN5 <STRSUB 1 <EVAL <DLOCAL.STRLEN>> <LOCAL.RETURN2>>
+
+RETURN <LOCAL.RETURN5>
+
+[FUNCTION F_DECIMAL2]
+RETURN <STRSUB <EVAL <DARGV[0]>-1> 1 <ARGV[1]>>
+
+[FUNCTION DisplayDamage]
+IF (<UID.<argv[0]>.ISONLINE>)
+SENDPACKET 0b D<argv[0]> W<Dargv[1]>
+ENDIF
+
+[DEFNAME DIALOGRENK]
+YESIL 70
+KIRMIZI 35
+BNO 4005 4006
+
+[function f_resenddialog]
+src.closealldialogs
+src.dialogclose <ARGV[0]>
+sdialog <ARGS>
+
+[FUNCTION DUNGD]
+IF (strmatch('*destard*','<region.name>'))
+local.dungeon Destard
+local.poz 1176,2636
+ELSEIF (strmatch('*covetous*','<region.name>'))
+local.dungeon Covetous
+local.poz 2499,918
+ELSEIF (strmatch('*despise*','<region.name>'))
+local.dungeon Despise
+local.poz 1299,1082
+ELSEIF (strmatch('*hythloth*','<region.name>'))
+local.dungeon Hythloth
+local.poz 4722,3815
+ELSEIF (strmatch('*shame*','<region.name>'))
+local.dungeon Shame
+local.poz 513,1561
+ELSEIF (strmatch('*wrong*','<region.name>'))
+local.dungeon Wrong
+local.poz 2042,218,14
+ELSEIF (strmatch('*fire dungeon*','<region.name>'))
+local.dungeon Fire Dungeon
+local.poz 5759,2908,13
+ELSEIF (strmatch('*ice dungeon*','<region.name>'))
+local.dungeon Ice Dungeon
+local.poz 5208,2322,32
+ELSEIF (strmatch('*wind *','<region.name>'))
+local.dungeon Wind Tunnels
+local.poz 1362,889
+ENDIF
+
+
+[function layerlist]
+for 0 29
+if (<findlayer.<local._for>>)
+sysnorm <findlayer.<local._for>.name> - layer# <dlocal._for>
+endif
+endfor
+
+[function esya_kayit]
+if (<findlayer.25>)
+local.oldref3 <ref3>
+ref3 <uid.<findlayer.25.uid>.more2>
+serv.newitem i_deed_animal
+new.name Filled pet trading contract
+new.attr 00
+new.more2 1
+new.tag.trade <ref3.job>
+new.tag.trade_id <ref3.baseid>
+new.tag.trade_name <ref3.name>
+new.tag.trade_str <ref3.str>
+new.tag.trade_dex <ref3.dex>
+new.tag.trade_int <ref3.int>
+new.tag.trade_color <ref3.color>
+new.color <ref3.color>
+new.tag.trade_karma <ref3.karma>
+new.tag.trade_fame <ref3.fame>
+new.tag.trade_food <ref3.food>
+new.bounce	
+ref3.remove
+ref3 <local.oldref3>
+endif
+
+for 1 24
+if (<local._for>!=11) && (<local._for>!=15) && (<local._for>!=16) && (<local._for>!=18) && (<local._for>!=21)
+if (<findlayer.<local._for>>)
+findlayer.<local._for>.bounce
+endif
+endif
+endfor
+
+local.oldref1 <ref1>
+local.oldref2 <ref2>
+
+ref1 <findlayer.21>
+serv.newitem i_hafiza_belgesi
+ref2 <new.uid>
+
+FOR 1 <ref1.rescount>
+ref1.findcont.0.cont <ref2>
+ref1.findcont.<dlocal._for>.cont <ref2>
+endfor
+
+ref1.color 0
+ref1.update
+ref2.cont <findlayer.29>
+ref2.update
+
+ref1 <local.oldref1>
+ref2 <local.oldref2>
+
+sysnorm Eşyalarınız bankanıza deed halinde gönderildi.
+
+[ITEMDEF i_hafiza_belgesi]
+DEFNAME=i_hafiza_belgesi
+ID=09ab
+TYPE=T_CONTAINER
+TDATA2=04a
+FLIP=1
+NAME esya geri alma
+WEIGHT=0
+
+ON=@create
+DISPID=i_deed
+ATTR=04
+COLOR=1989
+
+ON=@click
+message @0450,,1 [<rescount>]
+message @0481,,1 eşya geri alma belgesi
+src.sysnorm Çift tıklamanız halinde eşyalarınız çantanıza geri gelecektir.
+return 1
+
+on=@dclick
+for 1 <rescount>
+findcont.0.cont <src.findlayer.21>
+findcont.<dlocal._for>.cont <src.findlayer.21>
+endfor
+remove
+src.sysyes Eşyalarınız çantanıza koyulmuştur.
+return 1
+
+[FUNCTION F_DEF_DIALOG] //3500 - 5120 - 5054
+resizepic <dargv[0]> <dargv[1]> 5120 <dargv[2]> <dargv[3]>
+gumppictiled <eval <dargv[0]>+7> <eval <dargv[1]>+7> <eval <dargv[2]>-15> <eval <dargv[3]>-15> 2624
+checkertrans <eval <dargv[0]>+7> <eval <dargv[1]>+7> <eval <dargv[2]>-15> <eval <dargv[3]>-15>
+//5054
+//3500 beyaz
+//5100 gri güzel
+
+[FUNCTION F_DEF_DHEADER]
+dtext <dARGV[0]> <dARGV[1]> 1152 <argv[2]>
+
+[FUNCTION MEMORY_EV]
+//FORCHARMEMORYTYPE memory_guard
+FORCONTID i_memory
+IF (<LINK.TYPE>==T_MULTI)
+RETURN 1
+ELSE
+RETURN 0
+ENDIF
+ENDFOR
+
+[FUNCTION MEMORY_TRANSFER]
+//FORCHARMEMORYTYPE memory_guard
+FORCONTID i_memory
+IF (<LINK.UID>==<ARGV[1]>)
+CONT <ARGV[0]>
+UPDATE
+RETURN 1
+ENDIF
+ENDFOR
+
+[FUNCTION f_explode]
+RETURN <ARGV[1]>
+
+
+[FUNCTION FULLNAME]
+IF !((<ISEMPTY <TAG0.NAME.SUFFIX>>) || (<ISNUM <TAG0.NAME.SUFFIX>>))
+LOCAL.NAME <NAME><TAG0.NAME.SUFFIX>
+ELSE
+LOCAL.NAME <NAME>
+ENDIF
+
+RETURN <LOCAL.NAME>
+
+
+[FUNCTION F_ONCOMMAND]
+IF (<dSRC.ISPIN>)
+src.sdialog d_pin_giris
+RETURN 1
+ENDIF
+
+[function ISPK]
+if (<kills> >= <serv.murdermincount>)
+return 1
+endif
+
+[FUNCTION ISCRIMINAL]
+IF (<flags>&statf_criminal)
+RETURN 1
+ENDIF
+
+[FUNCTION ISPIN]
+IF !(<src.ctag0.pingirisi>)
+IF (<dsrc.account.tag0.pinyes>)
+RETURN 1
+ENDIF
+ENDIF
+
+[FUNCTION F_MAGICSHOW4]
+IF <MOREY>==1000
+RETURN vanq
+ELSEIF <MOREY>==800
+RETURN power
+ELSEIF <MOREY>==600
+RETURN force
+ELSEIF <MOREY>==400
+RETURN might
+ELSEIF <MOREY>==200
+RETURN ruin
+ELSE
+return 
+ENDIF
+
+[FUNCTION F_MAGICSHOW]
+IF <MOREY>==1000
+RETURN vanquishing
+ELSEIF <MOREY>==800
+RETURN power
+ELSEIF <MOREY>==600
+RETURN force
+ELSEIF <MOREY>==400
+RETURN might
+ELSEIF <MOREY>==200
+RETURN ruin
+ELSE
+return 
+ENDIF
+
+[FUNCTION F_MAGICSHOW2]
+IF <MOREY>==1000
+RETURN +15
+ELSEIF <MOREY>==800
+RETURN +12
+ELSEIF <MOREY>==600
+RETURN +9
+ELSEIF <MOREY>==400
+RETURN +6
+ELSEIF <MOREY>==200
+RETURN +3
+ELSEIF <MOREY>==1100
+RETURN Craft
+ELSEIF <MOREY>==1200
+RETURN Craft
+ELSE
+return //+0
+ENDIF
+
+[FUNCTION F_MAGICSHOW3]
+IF <MOREY>==1000
+RETURN 15
+ELSEIF <MOREY>==800
+RETURN 12
+ELSEIF <MOREY>==600
+RETURN 9
+ELSEIF <MOREY>==400
+RETURN 6
+ELSEIF <MOREY>==200
+RETURN 3
+ELSE
+return 0
+ENDIF
+
+
+[FUNCTION F_MAGICSHOW_OTHER]
+IF <MOREY>==1000
+RETURN invulnerability
+ELSEIF <MOREY>==800
+RETURN fortification
+ELSEIF <MOREY>==600
+RETURN hardening
+ELSEIF <MOREY>==400
+RETURN guarding
+ELSEIF <MOREY>==200
+RETURN defense
+ELSE
+return 
+ENDIF
+
+[FUNCTION f_unequip_all]
+SRC.FINDLAYER(1).bounce
+SRC.FINDLAYER(2).bounce
+SRC.FINDLAYER(3).bounce
+SRC.FINDLAYER(4).bounce
+SRC.FINDLAYER(5).bounce
+SRC.FINDLAYER(6).bounce
+SRC.FINDLAYER(7).bounce
+SRC.FINDLAYER(10).bounce
+SRC.FINDLAYER(12).bounce
+SRC.FINDLAYER(13).bounce
+SRC.FINDLAYER(14).bounce
+SRC.FINDLAYER(17).bounce
+SRC.FINDLAYER(19).bounce
+SRC.FINDLAYER(20).bounce
+SRC.FINDLAYER(22).bounce
+SRC.FINDLAYER(23).bounce
+SRC.FINDLAYER(24).bounce
+
+[function date]
+return <serv.rtime.format %d>-<serv.rtime.format %m>-<serv.rtime.format %Y>
+
+[function isallowedchar]
+if (STRMATCH("*[*}`>?´;:^%¨!$"<#@_~|=+&/æ{]*","<ARGS>"))
+return 1
+endif
+return 0
+
+[FUNCTION f_array]
+local.temp = <argv[<eval <argv> - 1>]> -1
+return <argv[<dlocal.temp>]>
+
+[FUNCTION SYSNORM]
+SYSMESSAGE @038A,,1 <ARGS>
+
+[FUNCTION SYSHATA]
+SYSMESSAGE @35,,1 <ARGS>
+
+[FUNCTION SYSYES]
+SYSMESSAGE @70,,1 <ARGS>
+
+[FUNCTION SYSSARI]
+SYSMESSAGE @035,,1 <ARGS>
+
+[function sys_trk]
+sysnorm <args>
+
+[function sysh_trk]
+syshata <args>
+
+[function say_trk]
+sayua 038A,6,6,0 <args>
+
+[FUNCTION smg]
+sysnorm <args>
+
+[function ekranitemizle]
+for 28
+sysmessage
+endfor
+
+[FUNCTION targetkapa]
+SENDPACKET 06c 00 D(00) 03 D(00) W(00) W(00) 00 00 W(00)
+return 1
+
+
+[FUNCTION WRITEFILE]
+IF !(<FILE.INUSE>)
+FILE.MODE.CREATE=1
+FILE.MODE.APPEND=1
+FILE.MODE.WRITEFLAG=1
+IF (<FILE.OPEN <STRARG <ARGS>>>)
+FILE.WRITELINE <STREAT <ARGS>>
+FILE.CLOSE
+ENDIF
+ENDIF
+
+[EOF]

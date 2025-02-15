@@ -1,0 +1,100 @@
+﻿//------------------
+// SPEECH.SCP
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+[SPEECH spk_player]
+on=*
+IF (strmatch('<src.action>','skill_magery'))
+src.syshata Büyü yaparken konuşamazsınız.
+return 1
+endif
+IF (<dSRC.ISPIN>)
+src.sdialog d_pin_giris
+RETURN 1
+ENDIF
+
+if (<src.findid.i_kufur>)
+	if (<dsrc.tag0.kufuramk> < 60)
+		for x 60 2
+		try src.tag0.nededi<dlocal.x> <src.tag0.nededi<eval <dlocal.x>-1>>
+		endfor
+		src.tag0.kufuramk ++
+		src.tag0.nededi1 <args>
+	else
+		serv.newitem i_kufurbaz
+		new.tag0.kufurbaz <src.uid>
+		new.tag0.ihbar <src.findid.i_kufur.tag0.ihbar>
+		new.tag0.zaman <src.findid.i_kufur.tag0.zaman>
+		new.cont 040005288
+		new.update
+		src.findid.i_kufur.remove
+		src.tag0.kufuramk
+	endif
+	return 0
+endif
+return 0
+
+On=fiyat *
+On=alisveris
+On=buy
+On=satin al
+On=durum*
+IF (strmatch('<SRC.region.events>','r_events_pazar')
+FORCHARS 3
+IF (<dISPV>) && (<SRC.P.Z>==<P.Z>)
+//SRC.SAY <ARGS>
+HEAR <ARGS>
+ENDIF
+ENDFOR
+ENDIF
+
+ON=*I resign from my guild*
+return 1
+
+ON=*I resign from my town*
+return 1
+
+[SPEECH spk_pet]
+// Pets that cannot talk
+ON=DEFEND ME
+ON=ALL RELEASE
+ON=RELEASE
+ON=TRANSFER
+ON=ALL TRANSFER
+ON=ALL DEFEND ME
+ON=ALL FRIEND
+ON=FRIEND
+ON=DROP
+ON=DROP ALL
+ON=GUARD
+ON=GUARD ME
+ON=DISMISS
+ON=FETCH
+ON=SPEAK
+return 1
+
+ON=GO
+ON=ALL GO
+forchars 20
+if (<dISPV>)
+src.syshata Görüş alanınızda Player Vendor varken bu komutu kullanamazsınız.
+return 1
+endif
+endfor
+
+ON=ATTACK
+ON=COME
+ON=FOLLOW
+ON=FOLLOW ME
+ON=KILL
+ON=FOLLOW ME
+ON=STAY
+ON=STAY HERE
+ON=STOP
+
+
+
+[EOF]

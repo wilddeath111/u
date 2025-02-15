@@ -1,0 +1,4140 @@
+﻿
+[dialog d_young] 
+0,0 
+
+PAGE 0
+F_DEF_DIALOG 55,75,250,85
+
+tilepichue 65 90 <ICON> 0
+
+//button 110 100 2103 2104 1 0 1 
+//dtext 125 95 <def.kirmizi> Young sisteminden çık
+//button 110 120 2103 2104 0 2 0
+//dtext 125 115 0481 Sistem hakkında bilgi al
+
+local.temp = <FINDID.I_YOUNG.TIMER>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+dtext 110 94 0481 Başlangıç alanı kalan süre:
+dtext 110 117 035 <dlocal.day> gün <dlocal.hours> saat <dlocal.minutes> dakika
+
+
+[ITEMDEF i_scroll_weapon]
+DEFNAME=i_scroll_weapon
+ID i_scroll_blank
+TYPE=T_SCRIPT
+WEIGHT=1
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Scrolls
+name weapon scroll
+
+on=@create
+COLOR 0455
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 <NAME>
+ENDIF
+RETURN 1
+
+ON=@DCLICK
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF !(<TOPOBJ.UID>==<SRC.UID>)
+SRC.SYSHATA Sadece üzerinizdeyken kullanabilirsiniz.
+RETURN 1
+ENDIF
+TARGET
+SRC.SYSNORM Üzerinde kullanmak istediğiniz silahı seçin.
+RETURN 1
+
+ON=@TARGON_GROUND
+RETURN 1
+
+ON=@TARGON_CHAR
+RETURN 1
+
+ON=@TARGON_ITEM
+if !((<src.targ.type> == t_weapon_sword) || (<src.targ.type> == t_weapon_fence) || (<src.targ.type> == t_weapon_mace_staff) || (<src.targ.type> == t_weapon_mace_smith) || (<src.targ.type> == t_weapon_mace_pick) || (<src.targ.type> == t_weapon_bow) || (<src.targ.type> == t_weapon_xbow) || (<src.targ.type> == t_weapon_axe) || (<src.targ.type> == t_weapon_mace_sharp))
+SRC.SYSHATA Sadece silahlar üzerinde kullanabilirsiniz.
+RETURN 1
+ENDIF
+IF !(<SRC.TARG.MOREY> > 0)
+SRC.SYSHATA Sadece magical silahlar üzerinde kullanabilirsiniz.
+RETURN 1
+ENDIF
+SERV.NEWITEM RANDOM_WEAPON_<SRC.TARG.F_MAGICSHOW4>
+SRC.BOUNCE <NEW>
+SRC.SYSYES Random <SRC.TARG.F_MAGICSHOW2> silah çantanıza aktarıldı.
+SRC.TARG.REMOVE
+REMOVE
+RETURN 1
+
+
+[ITEMDEF 01c11]
+DEFNAME=i_book_ship
+name=ship blueprints
+RESOURCES=1 i_BOOK_LG_PUB
+WEIGHT=2
+TYPE=T_BOOK
+CATEGORY=Items by Professions
+SUBSECTION=Artists
+DESCRIPTION=Book (W)
+DUPELIST=0fbe
+
+
+on=@create
+attr 04
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 <NAME>
+ENDIF
+RETURN 1
+
+on=@dclick
+sdialog d_shipupgrade
+return 1
+
+[ITEMDEF i_mask_orc_pk]
+DEFNAME=i_mask_orc_pk
+id=0141b
+name=bloody orc mask
+TYPE=t_armor_leather
+FLIP=1
+VALUE=5
+WEIGHT=4
+ARMOR=100
+CATEGORY=Provisions - Armor
+SUBSECTION=Masks
+DESCRIPTION=Orc Mask
+DUPELIST=0141c
+
+ON=@Create
+HITPOINTS=1000
+COLOR=0799
+ATTR=04
+
+ON=@CLICK
+HITPOINTS 1000
+
+ON=@EQUIP
+HITPOINTS 1000
+IF (<SRC.ACCOUNT.PLEVEL> < 2)
+	IF !(<SRC.ISEVENT.E_ORC>)
+		SRC.SYSHATA Bu maskeyi sadece Orc karakterler kullanabilir.
+		UNEQUIP
+		RETURN 1
+	ENDIF
+ENDIF
+
+
+
+
+[itemdef i_deed_50pve]
+id i_deed
+name 50 pve puan deed
+type t_deed
+WEIGHT=1
+VALUE=500000
+TYPE=t_script
+
+on=@create
+attr 04
+color 095
+
+on=@click
+message @038a,,1 <name>
+return 1
+
+On=@dclick
+IF (<SRC.HITS> < 1)
+src.syshata Ölüyken kullanamazsınız.
+RETURN 1
+ELSE
+if (<topobj.uid> != <src.uid>)
+	src.syshata Bunu sadece üzerinizdeyken kullanabilirsiniz.
+RETURN 1
+ELSE
+SRC.TAG0.PVEPUAN <EVAL <SRC.TAG0.PVEPUAN>+50>
+src.sysyes 50 PvE puan kazandınız.
+remove
+RETURN 1
+ENDIF
+ENDIF
+
+ON=@TIMER
+RETURN 1
+
+
+
+[itemdef i_deed_50tame]
+id i_deed
+name 50 taming puan deed
+type t_deed
+WEIGHT=1
+VALUE=500000
+TYPE=t_script
+
+on=@create
+attr 04
+color 07d4
+
+on=@click
+message @038a,,1 <name>
+return 1
+
+On=@dclick
+IF (<SRC.HITS> < 1)
+src.syshata Ölüyken kullanamazsınız.
+RETURN 1
+ELSE
+if (<topobj.uid> != <src.uid>)
+	src.syshata Bunu sadece üzerinizdeyken kullanabilirsiniz.
+RETURN 1
+ELSE
+SRC.TAG0.TAMEPUAN <EVAL <SRC.TAG0.TAMEPUAN>+50>
+src.sysyes 50 Taming puan kazandınız.
+remove
+RETURN 1
+ENDIF
+ENDIF
+
+ON=@TIMER
+RETURN 1
+
+
+
+[itemdef i_deed_50pvp]
+id i_deed
+name 50 pvp puan deed
+type t_deed
+WEIGHT=1
+VALUE=500000
+TYPE=t_script
+
+on=@create
+attr 04
+color 0799
+
+on=@click
+message @038a,,1 <name>
+return 1
+
+On=@dclick
+IF (<SRC.HITS> < 1)
+src.syshata Ölüyken kullanamazsınız.
+RETURN 1
+ELSE
+if (<topobj.uid> != <src.uid>)
+	src.syshata Bunu sadece üzerinizdeyken kullanabilirsiniz.
+RETURN 1
+ELSE
+SRC.TAG0.PVPPUAN <EVAL <SRC.TAG0.PVPPUAN>+50>
+src.sysyes 50 PvP puan kazandınız.
+remove
+RETURN 1
+ENDIF
+ENDIF
+
+ON=@TIMER
+RETURN 1
+
+
+
+
+
+[itemdef i_deed_50craft]
+id i_deed
+name 50 craft puan deed
+type t_deed
+WEIGHT=1
+VALUE=500000
+TYPE=t_script
+
+on=@create
+attr 04
+color 0798
+
+on=@click
+message @038a,,1 <name>
+return 1
+
+On=@dclick
+IF (<SRC.HITS> < 1)
+src.syshata Ölüyken kullanamazsınız.
+RETURN 1
+ELSE
+if (<topobj.uid> != <src.uid>)
+	src.syshata Bunu sadece üzerinizdeyken kullanabilirsiniz.
+RETURN 1
+ELSE
+SRC.TAG0.CRAFTPUAN <EVAL <SRC.TAG0.CRAFTPUAN>+50>
+src.sysyes 50 Craft puan kazandınız.
+remove
+RETURN 1
+ENDIF
+ENDIF
+
+ON=@TIMER
+RETURN 1
+
+
+
+[itemdef i_anduril]
+defname i_andruil
+id=i_sword_viking
+name=anduril blade
+weight 10
+type T_WEAPON_SWORD
+flip 1
+dam 60,75
+speed 55
+skill Swordsmanship
+reqstr 40
+twohands N
+
+
+on=@equip
+attr 04
+if (<src.swordsmanship> < 100.0)
+	src.syshata Bu silahı kullanabilmek için Swordsmanship yeteneğinizin 100.0 olması gerekiyor.
+	unequip
+endif
+
+if (<src.tactics> < 100.0)
+	src.syshata Bu silahı kullanabilmek için Tactics yeteneğinizin 100.0 olması gerekiyor.
+	unequip
+endif
+
+src.events=+e_bleeding
+
+on=@unequip
+src.events=-e_bleeding
+
+On=@Create
+attr 04
+hitpoints=100
+color=0858
+tag.skill Swordsmanship
+tag.twohands Hayır
+tag.bonus Bleeding
+
+
+
+
+[ITEMDEF i_shield_pve2]
+DEFNAME=i_shield_pve
+name=shield of rhun
+id=02B01
+TYPE=t_shield
+FLIP=1
+WEIGHT=14
+ARMOR=10
+REQSTR=30
+CATEGORY=Provisions - Armor
+SUBSECTION=Shields
+DESCRIPTION=pvp Shield
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+ON=@Create
+attr 04
+COLOR=0858
+HITPOINTS=200
+
+on=@equip
+attr 04
+if (<src.parrying> < 100.0)
+	src.syshata Bu kalkanı kullanabilmek için Parrying yeteneğinizin 100.0 olması gerekiyor.
+	unequip
+endif
+src.events +e_pve_damreduce
+
+on=@unequip
+src.events -e_pve_damreduce
+
+
+[events e_pve_damreduce]
+on=@gethit
+if (<findlayer(2).baseid> == i_shield_pve)
+	if !(<act.isplayer>)
+		local.gelendamage <argn1>
+		//local.blockdamage 20
+		if (<dlocal.gelendamage> < 100)
+		ARGN1 = <eval <dlocal.gelendamage> / 4>
+		elseif (<dlocal.gelendamage> < 300)
+		ARGN1 = <eval <dlocal.gelendamage> / 15>
+		elseif (<dlocal.gelendamage> < 500)
+		ARGN1 = <eval <dlocal.gelendamage> / 25>
+		endif
+		//if (<dlocal.gelendamage> < 100)
+		//sysmessage @,,1 Gelen damage <dlocal.gelendamage> | Yansıyan : <eval <dlocal.gelendamage> / 5>
+		//elseif (<dlocal.gelendamage> < 300)
+		//sysmessage @,,1 Gelen damage <dlocal.gelendamage> | Yansıyan : <eval <dlocal.gelendamage> / 15>
+		//elseif (<dlocal.gelendamage> < 500)
+		//sysmessage @,,1 Gelen damage <dlocal.gelendamage> | Yansıyan : <eval <dlocal.gelendamage> / 25>
+		//endif
+	endif
+endif	
+		
+[ITEMDEF 02B01]
+DEFNAME=i_shield_pvp
+name=gladiator's shield
+TYPE=t_shield
+FLIP=1
+WEIGHT=14
+ARMOR=32
+REQSTR=30
+CATEGORY=Provisions - Armor
+SUBSECTION=Shields
+DESCRIPTION=pvp Shield
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+ON=@Create
+attr=04
+COLOR=0799
+HITPOINTS=200
+
+on=@equip
+if (<src.parrying> < 100.0)
+	src.syshata Bu kalkanı kullanabilmek için Parrying yeteneğinizin 100.0 olması gerekiyor.
+	unequip
+endif
+
+
+
+[ITEMDEF i_ball_reputation]
+ID=0e2e
+NAME=reputation crystal
+VALUE=300
+
+ON=@CREATE
+	COLOR 0254
+
+ON=@DCLICK
+	if (<topobj.uid> != <src.uid>)
+		src.syshata Bunu kullanabilmeniz için çantanızda olmalı.
+		return 1
+	endif
+	SRC.EFFECT 3,I_FX_SPARKLE,2,25,1
+	SOUND 0F7
+	SRC.SYSNORM Kill sayınız: <src.kills>
+	SRC.SYSNORM Fame, karma durumunuz: <src.fame> ve <src.karma>.
+	REMOVE
+	RETURN 1
+
+[ITEMDEF i_bankstone]
+DEFNAME=i_bankstone
+ID=i_grave_stone
+TYPE=t_script
+NAME=Bank Stone
+
+On=@create
+attr attr_static
+color 04c2
+
+On=@click
+message @038a,,1 <name>
+return 1
+
+on=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+
+IF (<DISTANCE> > 3)
+RETURN 1
+ENDIF
+
+SRC.BANKSELF
+return 1
+
+on=@timer
+return 1
+
+
+
+[function givearmorname]
+if (strmatch(*plate*,<baseid>)) || (strmatch(*shield*,<baseid>)) || (strmatch(*helm*,<baseid>))
+	if <color>==0
+		return "iron platemail"
+	elif <color>==060a
+		return "dull copper"
+	elif <color>==0641
+		return "copper"
+	elif <color>==06d6
+		return "bronze"
+	elif <color>==045e
+		return "gold"
+	elif <color>==0770
+		return "shadow"
+	elif <color>==0400
+		return "agapite"
+	elif <color>==0231
+		return "silver"
+	elif <color>==07d1
+		return "verite"
+	elif <color>==051f
+		return "mytheril"
+	elif <color>==0515
+		return "valorite"
+	elif <color>==04c2
+		return "bloodrock"
+	elif <color>==0455
+		return "blackrock"
+	elif <color>==075f
+		return "invul platemail"
+	endif
+elif strmatch(*studded*,<baseid>)
+	return "studded"
+elif (strmatch(*leather*,<baseid>)
+	return "leather"
+elif (strmatch(*dragonic*,<baseid>)
+	return "dragonic"
+elif (strmatch(*phoenix*,<baseid>)
+	return "phoenix"
+endif
+
+//platemail 7
+//studded 5
+//leather 6
+
+[function givetotalnum]
+if strmatch(*studded*,<baseid>)
+	return 5
+elseif strmatch(*dragonic*,<baseid>)
+	return 6
+elseif strmatch(*phoenix*,<baseid>)
+	return 6
+elif strmatch(*leather*,<baseid>)
+	return 6
+elif (strmatch(*plate*,<baseid>)) || (strmatch(*shield*,<baseid>)) || (strmatch(*helm*,<baseid>))
+	return 7
+else
+	return 0
+endif
+
+[itemdef i_bag_armor]
+id i_bag
+type t_container
+name armor bag
+weight 3
+value 5000
+
+on=@create
+color 0482
+
+on=@click
+if !<isempty <tag.isim>>
+	name <tag0.isim> armor bag
+	else
+	name armor bag
+endif
+message @038a,,1 <name>
+return 1
+
+on=@dclick
+if <topobj>==<src>
+	target @460,,1 Eklemek istediğiniz armor parçasını seçiniz.
+else
+	sdialog d_armor_bag_menu
+endif
+return 1
+
+on=@targon_char
+target
+return 1
+
+on=@targon_ground
+target
+return 1
+
+on=@dropon_self
+return 1
+
+on=@targon_item
+if <topobj>!=<src>
+	src.sysmessageua 0481,6,6,0 Çanta üzerinizde olmalı.
+elif <src.targ>==<uid>
+	sdialog d_armor_bag_menu
+elif <color>==0
+	src.sysmessageua 0481,6,6,0 Bu eşyayı ekleyemezsiniz.
+elif <src.targ.topobj>!=<src>
+	src.sysmessageua 0481,6,6,0 Eşya üzerinizde olmalı.
+else
+	if !<src.targ.givetotalnum>
+		src.sysmessageua 0481,6,6,0 Yalnızca set parçası ekleyebilirsiniz.
+	else
+		if <drescount> >= <src.targ.givetotalnum>
+			src.sysmessageua 0481,6,6,0 Bu çantaya daha fazla set parçası eklemeyezsiniz.
+		elif !(<isempty <tag.tip>>) && (!strmatch(*<tag0.tip>*,<src.targ.baseid>))
+			src.sysmessageua 0481,6,6,0 Yalnızca tek tip set parçası ekleyebilirsiniz.
+		elif <rescount <src.targ.baseid>> > 0
+			src.sysmessageua 0481,6,6,0 Her parçadan yalnızca bir adet ekleyebilirsiniz.
+		else
+			if (<src.targ.givetotalnum>==7) //plate
+				if (<src.targ.layer>==2)
+					if !strmatch(*heater*,<src.targ.baseid>)
+						src.sysmessageua 0481,6,6,0 Yalnızca heater shield ekleyebilirsiniz.
+						return 1
+					endif
+				endif
+			endif
+			if <isempty <tag.tip>>
+				tag0.tip <strarg <src.targ.givearmorname>>
+			endif
+			tag0.isim <src.targ.givearmorname>
+			color <src.targ.color>
+			src.targ.cont <uid>
+			src.targ.update
+			src.sysmessageua 0481,6,6,0 <src.targ.name> eklendi.
+		endif
+	endif
+endif
+return 1
+
+[dialog d_armor_bag_menu]
+0,0
+nomove
+
+local.height <eval (<rescount>*60)+80>
+F_DEF_DIALOG 50,50,250,<dlocal.height>
+//resizepic 50 50 3600 250 <dlocal.height>
+checkertrans 60 60 230 <eval <local.height>-20>
+dtext 140 65 38 İçindekiler
+if <rescount> > 0
+for 0 <eval <rescount>-1>
+	resizepic 80 <eval (<local._for>*60)+90> 5054 55 55
+	tilepichue 80 <eval (<local._for>*60)+95> <findcont.<dlocal._for>.id> <eval <findcont.<dlocal._for>.color>>
+	dtext 140 <eval (<local._for>*60)+90> 1152 <findcont.<dlocal._for>.name>
+	dtext 140 <eval (<local._for>*60)+110> 38 Hasar:
+	if <findcont.<dlocal._for>.more1l> < <findcont.<dlocal._for>.more1h>
+		dtext 180 <eval (<local._for>*60)+110> 1152 <eval 100-((<findcont.<dlocal._for>.more1l>*100)/<findcont.<dlocal._for>.more1h>)>% eski
+	else
+		dtext 180 <eval (<local._for>*60)+110> 1152 yok
+	endif
+endfor
+endif
+if <topobj>==<src>
+	if <rescount> > 0
+		button 80 <eval <local.height>+15> 4005 4007 1 0 1
+		dtext 115 <eval <local.height>+15> 040 Hepsini Çıkart
+	endif
+endif
+
+[dialog d_armor_bag_menu button]
+on=1
+if <topobj>!=<src>
+	src.sysmessageua 0481,6,6,0 Çanta üzerinizde olmalı.
+else
+	local.cont <src.findlayer(layer_pack)>
+	forcont <uid> 0
+		cont <local.cont>
+	endfor	
+	color 0482
+	tag0.isim
+	tag0.tip
+	src.sysmessageua 0481,6,6,0 Çantadaki tüm set parçaları çıkartıldı.
+endif
+
+
+[ITEMDEF i_saw_hq]
+ID=i_saw
+DEFNAME=i_saw_hq
+NAME=high quality carpenter kit
+WEIGHT=2
+TYPE=t_carpentry
+
+ON=@CREATE
+ATTR 04
+COLOR 0846
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+ON=@DClick
+f_skill_carpentry_new
+RETURN 1
+
+
+
+[ITEMDEF i_head_animal]
+DEFNAME=i_head_animal
+ID i_deed
+name=animal corpse deed
+WEIGHT=1
+VALUE=75000
+TYPE=t_script
+
+on=@create
+attr=04
+color 0455
+
+on=@click
+message @038a,,1 an <name>
+return 1
+
+on=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+SDIALOG d_animal_head
+
+return 1
+
+ON=@TARGON_CHAR
+RETURN 1
+
+ON=@TARGON_GROUND
+RETURN 1
+
+ON=@TARGON_ITEM
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF (<SRC.TARG.DISTANCE> > 4)
+SRC.SYSHATA Hedeften çok uzaktasınız.
+RETURN 1
+ENDIF
+IF (<dSRC.TARG.TAG0.ANHEAD> < 1)
+SRC.SYSHATA Bunu ekleyemezsiniz.
+RETURN 1
+ENDIF
+IF (<dSRC.TARG.TAG0.ANOK> > 0)
+SRC.SYSHATA Bu ceset daha önce kullanılmış.
+RETURN 1
+ENDIF
+IF (<SRC.TARG.TAG0.ANBODY>==c_bear_polar2)
+SRC.SYSHATA Bunu ekleyemezsiniz.
+RETURN 1
+ENDIF
+
+SRC.SYSNORM <SERV.CHARDEF.<SRC.TARG.TAG0.ANBODY>.NAME> cesedi başarıyla eklendi.
+SRC.TARG.TAG0.ANOK 1
+//SRC.SYSYES <EVAL <dTAG.<SRC.TARG.TAG0.ANBODY>>+1>
+TAG.<SRC.TARG.TAG0.ANBODY> <EVAL <dTAG.<SRC.TARG.TAG0.ANBODY>>+1>
+SRC.ANIM 10
+
+RETURN 1
+
+[FUNCTION F_SHIRE_COLOR]
+DORAND 10
+	RETURN 07d4 // ye$il
+	RETURN 0846 // kirmizi
+	RETURN 084a // mavi
+	RETURN 06af // sari
+	RETURN 0455 // siyah
+	RETURN 0844
+	RETURN 0450
+	RETURN 0596
+	RETURN 0740
+	RETURN =0549
+ENDDO
+
+[FUNCTION F_LLAMA2_COLOR]
+DORAND 10
+	RETURN 07d4 // ye$il
+	RETURN 0846 // kirmizi
+	RETURN 084a // mavi
+	RETURN 06af // sari
+	RETURN 0455 // siyah
+	RETURN 0450
+	RETURN 0596
+	RETURN 075a
+	RETURN 0740
+	RETURN 0844
+ENDDO
+
+[FUNCTION F_MID_COLOR]
+DORAND 8
+	RETURN 0961 
+	RETURN 0901
+	RETURN 0450
+	RETURN 0455
+	RETURN 0641
+	RETURN 04c2
+	RETURN 096
+	RETURN 0593
+ENDDO
+
+[FUNCTION F_MUST_COLOR]
+DORAND 12
+	RETURN 01b6
+	RETURN 031c
+	RETURN 01bb
+	RETURN 033
+	RETURN 0279
+	RETURN 03e7
+	RETURN 07d4
+	RETURN 084a
+	RETURN 0846
+	RETURN 06d6
+	RETURN 0740
+	RETURN 075a
+ENDDO 
+
+[dialog d_animal_head]
+20,50
+PAGE 0
+F_DEF_DIALOG 0,0,600,550
+DTEXT 15 7 035 Animal Corpse Deed
+
+
+resizepic 15 35 2620 70 70 // resim bg
+tilepichue 25 50 <serv.itemdef.i_pet_llama.id> 0
+IF (<dTAG0.C_LLAMA> < 5)
+dtext 67 80 33 <dTAG0.C_LLAMA>
+ELSE
+dtext 67 80 0481 <dTAG0.C_LLAMA>
+ENDIF
+button 93 57 4005 4006 1 0 1
+DTEXT 35 105 0481 Llama
+
+resizepic 165 35 2620 70 70 // resim bg
+tilepichue 175 50 <serv.itemdef.i_pet_llama.id> <dF_LLAMA2_COLOR>
+IF (<dTAG0.C_LLAMA2> < 5)
+dtext 217 80 33 <dTAG0.C_LLAMA2>
+ELSE
+dtext 217 80 0481 <dTAG0.C_LLAMA2>
+ENDIF
+button 243 57 4005 4006 1 0 2
+DTEXT 185 105 0481 Llama
+
+resizepic 315 35 2620 70 70 // resim bg
+tilepichue 325 50 <serv.itemdef.i_pet_ostard_desert.id> 0
+IF (<dTAG0.C_OSTARD_DESERT> < 5)
+dtext 367 80 33 <dTAG0.C_OSTARD_DESERT>
+ELSE
+dtext 367 80 0481 <dTAG0.C_OSTARD_DESERT>
+ENDIF
+button 393 57 4005 4006 1 0 3
+DTEXT 315 105 0481 Desert Ostard
+
+resizepic 465 35 2620 70 70 // resim bg
+tilepichue 475 50 <serv.itemdef.i_pet_ostard_forest.id> 0
+IF (<dTAG0.C_OSTARD_FOREST> < 5)
+dtext 517 80 33 <dTAG0.C_OSTARD_FOREST>
+ELSE
+dtext 517 80 0481 <dTAG0.C_OSTARD_FOREST>
+ENDIF
+button 543 57 4005 4006 1 0 4
+DTEXT 465 105 0481 Forest Ostard
+
+
+resizepic 15 135 2620 70 70 // resim bg
+tilepichue 25 150 <serv.itemdef.i_pet_ostard_desert.id> <dF_MID_COLOR>
+IF (<dTAG0.C_OSTARD_MID> < 5)
+dtext 67 180 33 <dTAG0.C_OSTARD_MID>
+ELSE
+dtext 67 180 0481 <dTAG0.C_OSTARD_MID>
+ENDIF
+button 93 157 4005 4006 1 0 5
+DTEXT 15 205 0481 Mid Ostard
+
+resizepic 165 135 2620 70 70 // resim bg
+tilepichue 175 150 <serv.itemdef.i_pet_OSTARD_ZOSTRICH.id> 0
+IF (<dTAG0.c_ostard_zostrich> < 5)
+dtext 217 180 33 <dTAG0.c_ostard_zostrich>
+ELSE
+dtext 217 180 0481 <dTAG0.c_ostard_zostrich>
+ENDIF
+button 243 157 4005 4006 1 0 6
+DTEXT 165 205 0481 Frenzied Ostard
+
+resizepic 315 135 2620 70 70 // resim bg
+tilepichue 325 150 <serv.itemdef.i_pet_bear_polar.id> 0
+IF (<dTAG0.c_bear_polar> < 5)
+dtext 367 180 33 <dTAG0.c_bear_polar>
+ELSE
+dtext 367 180 0481 <dTAG0.c_bear_polar>
+ENDIF
+button 393 157 4005 4006 1 0 7
+DTEXT 315 205 0481 Polar Bear
+
+resizepic 465 135 2620 70 70 // resim bg
+tilepichue 475 150 <serv.itemdef.i_pet_horse_brown_lt.id> <dF_SHIRE_COLOR>
+IF (<dTAG0.C_SHIRE> < 5)
+dtext 517 180 33 <dTAG0.C_SHIRE>
+ELSE
+dtext 517 180 0481 <dTAG0.C_SHIRE>
+ENDIF
+button 543 157 4005 4006 1 0 8
+DTEXT 485 205 0481 Shire
+
+
+resizepic 15 235 2620 70 70 // resim bg
+tilepichue 25 250 <serv.itemdef.i_pet_horse_brown_dk.id> <dF_MUST_COLOR>
+IF (<dTAG0.C_A_MUST> < 5)
+dtext 67 280 33 <dTAG0.C_A_MUST>
+ELSE
+dtext 67 280 0481 <dTAG0.C_A_MUST>
+ENDIF
+button 93 257 4005 4006 1 0 9
+DTEXT 25 305 0481 Mustang
+
+resizepic 165 235 2620 70 70 // resim bg
+tilepichue 175 250 <serv.itemdef.i_pet_horse_brown_dk.id> <EVAL 0455>
+IF (<dTAG0.c_a_fresian> < 5)
+dtext 217 280 33 <dTAG0.c_a_fresian>
+ELSE
+dtext 217 280 0481 <dTAG0.c_a_fresian>
+ENDIF
+button 243 257 4005 4006 1 0 10
+DTEXT 175 305 0481 Fresian
+
+resizepic 315 235 2620 70 70 // resim bg
+tilepichue 325 250 <serv.itemdef.i_pet_horse_brown_lt.id> <EVAL 0482>
+IF (<dTAG0.c_steed_silver> < 5)
+dtext 367 280 33 <dTAG0.c_steed_silver>
+ELSE
+dtext 367 280 0481 <dTAG0.c_steed_silver>
+ENDIF
+button 393 257 4005 4006 1 0 11
+DTEXT 315 305 0481 Silver Steed
+
+resizepic 465 235 2620 70 70 // resim bg
+tilepichue 475 250 <serv.itemdef.i_pet_horse_brown_lt.id> <EVAL 02b>
+IF (<dTAG0.c_m_kiirin> < 5)
+dtext 517 280 33 <dTAG0.c_m_kiirin>
+ELSE
+dtext 517 280 0481 <dTAG0.c_m_kiirin>
+ENDIF
+button 543 257 4005 4006 1 0 12
+DTEXT 485 305 0481 Kiirin
+
+resizepic 15 335 2620 70 70 // resim bg
+tilepichue 25 350 <serv.itemdef.i_pet_horse_brown_dk.id> <EVAL 0481>
+IF (<dTAG0.C_M_UNICORN> < 5)
+dtext 67 380 33 <dTAG0.C_M_UNICORN>
+ELSE
+dtext 67 380 0481 <dTAG0.C_M_UNICORN>
+ENDIF
+button 93 357 4005 4006 1 0 13
+DTEXT 25 405 0481 Unicorn
+
+
+
+resizepic 165 335 2620 70 70 // resim bg
+tilepichue 175 350 <serv.itemdef.i_pet_horse_brown_dk.id> <EVAL 0901>
+IF (<dTAG0.c_m_nightmare> < 5)
+dtext 217 380 33 <dTAG0.c_m_nightmare>
+ELSE
+dtext 217 380 0481 <dTAG0.c_m_nightmare>
+ENDIF
+button 243 357 4005 4006 1 0 14
+DTEXT 175 405 0481 Nightmare
+
+resizepic 315 335 2620 70 70 // resim bg
+gumppic 325 343 2
+//tilepichue 325 350 <serv.itemdef.i_pet_horse_brown_dk.id> <EVAL 0fa2>
+IF (<dTAG0.c_a_haze> < 5)
+dtext 367 380 33 <dTAG0.c_a_haze>
+ELSE
+dtext 367 380 0481 <dTAG0.c_a_haze>
+ENDIF
+button 393 357 4005 4006 1 0 15
+DTEXT 335 405 0481 Haze
+
+resizepic 465 335 2620 70 70 // resim bg
+tilepichue 475 350 <serv.itemdef.i_pet_horse_brown_dk.id> <EVAL 07ad>
+IF (<dTAG0.c_a_ember> < 5)
+dtext 517 380 33 <dTAG0.c_a_ember>
+ELSE
+dtext 517 380 0481 <dTAG0.c_a_ember>
+ENDIF
+button 543 357 4005 4006 1 0 16
+DTEXT 485 405 0481 Ember
+
+resizepic 15 435 2620 70 70 // resim bg
+tilepichue 25 450 <serv.itemdef.i_pet_horse_brown_dk.id> <EVAL 0bb4>
+IF (<dTAG0.c_a_aqua> < 5)
+dtext 67 480 33 <dTAG0.c_a_aqua>
+ELSE
+dtext 67 480 0481 <dTAG0.c_a_aqua>
+ENDIF
+button 93 457 4005 4006 1 0 17
+DTEXT 35 505 0481 Aqua
+
+
+resizepic 165 435 2620 70 70 // resim bg
+tilepichue 175 450 <serv.itemdef.i_pet_horse_brown_lt.id> <EVAL 0800>
+IF (<dTAG0.c_m_frost> < 5)
+dtext 217 480 33 <dTAG0.c_m_frost>
+ELSE
+dtext 217 480 0481 <dTAG0.c_m_frost>
+ENDIF
+button 243 457 4005 4006 1 0 18
+DTEXT 185 505 0481 Frost
+
+
+dtext 370 470 035 Binek cesedi ekle
+button 475 468 4005 4006 1 0 100
+
+[dialog d_animal_head button]
+on 100
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+
+SRC.SYSNORM Binek cesedi seçiniz.
+TARGET
+RETURN 1
+
+ON 1 // LLAMA
+LOCAL.BBINEK C_LLAMA
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+ON 2 // LLAMA2
+LOCAL.BBINEK C_LLAMA2
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+
+ON 3 // desert
+LOCAL.BBINEK C_OSTARD_DESERT
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+ON 4 // FOREST
+LOCAL.BBINEK C_OSTARD_FOREST
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+ON 5
+LOCAL.BBINEK C_OSTARD_MID
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+ON 6
+LOCAL.BBINEK C_OSTARD_FRENZIED
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+ON 7
+LOCAL.BBINEK C_BEAR_POLAR
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+ON 8
+LOCAL.BBINEK C_SHIRE
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+ON 9
+LOCAL.BBINEK C_A_MUST
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+
+
+ON 10
+LOCAL.BBINEK c_a_fresian
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+ON 11
+LOCAL.BBINEK c_steed_silver
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+ON 12
+LOCAL.BBINEK c_m_kiirin
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+ON 13
+LOCAL.BBINEK c_m_unicorn
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+ON 14
+LOCAL.BBINEK c_m_nightmare
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+ON 15
+LOCAL.BBINEK c_a_haze
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+ON 16
+LOCAL.BBINEK c_a_ember
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+ON 17
+LOCAL.BBINEK c_a_aqua
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+ON 18
+LOCAL.BBINEK c_m_frost
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+IF (<dTAG0.<LOCAL.BBINEK>> < 5)
+SRC.SYSHATA Bu işlem için 5 adet eklenmiş olmalıdır.
+ELSE
+
+TAG0.<LOCAL.BBINEK> <EVAL <TAG0.<LOCAL.BBINEK>>-5>
+IF (RAND(2)==1)
+SRC.ANIMALDEED <LOCAL.BBINEK>
+SRC.SYSYES Tebrikler, <SERV.CHARDEF.<LOCAL.BBINEK>.NAME> çantanıza aktarıldı.
+ELSE
+SRC.SYSHATA Şansınıza küsün.
+ENDIF
+ENDIF
+RETURN 1
+
+
+
+
+
+
+
+
+
+
+[itemdef 0310]
+DEFNAME i_kopru_kapa
+name=Orta Dunya
+type t_normal 
+
+on=@create 
+attr=attr_move_never 
+
+on=@click
+message @35,,1 [meydan okuma]
+message @038a,,1 duyuru taşı
+return 1
+
+on=@timer
+TIMER -1
+return 1
+
+on=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF !(<DISTANCE> < 3)
+SRC.SYSHATA Yeterince yakın değilsiniz.
+RETURN 1
+ENDIF
+
+IF (<DTIMER>)
+local.temp = <TIMER>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+src.syshata Tekrar <dlocal.minutes> dakika <dlocal.seconds> saniye sonra kullanılabilir.
+RETURN 1
+ENDIF
+
+SDIALOG D_ISGAL
+RETURN 1
+
+[dialog D_ISGAL] 
+200,0 
+
+PAGE 0
+F_DEF_DIALOG 55,75,235,85
+tilepic 60 80 0310
+
+button 110 93 4005 4006 1 0 1 
+dtext 140 95 0481 Meydan okuma duyurusu
+button 110 115 4005 4006 1 0 2
+dtext 140 117 0481 Guild duyurusu
+
+[dialog D_ISGAL button]
+ON 1
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF !(<DISTANCE> < 3)
+SRC.SYSHATA Taşa yeterince yakın değilsiniz.
+RETURN 1
+ENDIF
+IF (<DTIMER>)
+local.temp = <TIMER>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+src.syshata Tekrar <dlocal.minutes> dakika <dlocal.seconds> saniye sonra kullanılabilir.
+RETURN 1
+ENDIF
+//if (<src.gold> < 10000)
+//src.syshata Karakterinizde 10.000 altın bulunmuyor.
+//RETURN 1
+//ENDIF
+
+//SRC.GOLD -=10000
+TIMER 300
+SERV.ALLCLIENTS SYSMESSAGE @35,,1 [Meydan Okuma]: <SRC.FULLNAME>, <NAME> bölgesinde herkese meydan okuyor.
+
+
+ON 2
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF !(<DISTANCE> < 3)
+SRC.SYSHATA Taşa yeterince yakın değilsiniz.
+RETURN 1
+ENDIF
+IF (<DTIMER>)
+local.temp = <TIMER>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+src.syshata Tekrar <dlocal.minutes> dakika <dlocal.seconds> saniye sonra kullanılabilir.
+RETURN 1
+ENDIF
+IF !(<SRC.memoryfindtype.memory_guild>)
+SRC.SYSHATA Herhangi bir guilde üye değilsiniz.
+RETURN 1
+ENDIF
+//if (<src.gold> < 10000)
+//src.syshata Karakterinizde 10.000 altın bulunmuyor.
+//RETURN 1
+//ENDIF
+
+FORCHARS 15
+IF (<ISPLAYER>) && (<memoryfindtype.memory_guild.LINK.UID> == <SRC.memoryfindtype.memory_guild.LINK.UID>)
+LOCAL.SAY <DLOCAL.SAY>+1
+ENDIF
+ENDFOR
+
+IF (<DLOCAL.SAY> < 3)
+SRC.SYSHATA Guild duyurusu için en az 3 kişi olmalısınız.
+RETURN 1
+ENDIF
+
+//SRC.GOLD -=10000
+TIMER 300
+SERV.ALLCLIENTS SYSMESSAGE @35,,1 [Meydan Okuma]: <SRC.memoryfindtype.memory_guild.LINK.NAME> guildi, <TAG0.LOKASYON> bölgesinde herkese meydan okuyor.
+
+
+[itemdef i_dung_giris]
+name=dungeon giris item
+id=i_crystal_red
+type=t_script
+
+ON=@create
+attr=attr_move_never|attr_can_decay|attr_invis
+color 0810
+
+ON=@timer
+return 1
+
+ON=@dclick
+return 1
+
+[itemdef 01617]
+name flag
+defname i_flama_3
+weight 10
+type t_script
+
+on=@click
+message @038a,,1 <name>
+return 1
+
+on=@create
+attr 010
+
+[itemdef 01618]
+name flag
+defname i_flama_4
+weight 10
+type t_script
+
+on=@click
+message @038a,,1 <name>
+return 1
+
+on=@create
+attr 010
+
+
+[itemdef 01627]
+name flag
+defname i_flama_1
+weight 10
+type t_script
+
+on=@click
+message @038a,,1 <name>
+return 1
+
+on=@create
+attr 010
+
+[itemdef 01628]
+name flag
+defname i_flama_2
+weight 10
+type t_script
+
+on=@click
+message @038a,,1 <name>
+return 1
+
+on=@create
+attr 010
+
+[itemdef 01bee]
+name gold ingot
+defname i_ingot_1
+weight 10
+type t_script
+
+on=@click
+message @038a,,1 <name>
+return 1
+
+on=@create
+attr 010
+
+[itemdef 01bf9]
+name ingot
+defname i_ingot_2
+weight 10
+type t_script
+
+on=@click
+message @038a,,1 <name>
+return 1
+
+on=@create
+attr 010
+
+
+[itemdef 029fd]
+name fire pit
+defname i_ates_cook
+weight 10
+type t_script
+
+on=@click
+message @038a,,1 <name>
+return 1
+
+on=@create
+attr 010
+
+ON=@DCLICK
+IF (<DISTANCE> > 2)
+	SRC.SYSHATA Yeterince yakın değilsiniz.
+//ELSEIF (<DSRC.CTAG.BALIK2>)
+//	src.syshata Ateşi kullanabilmek için biraz beklemelisiniz.
+elseif (<SRC.COOKING> < 98.0)
+	src.syshata Ateşi kullanabilmek için 98.0 Cooking yeteneğine sahip olmalısınız.
+else
+	IF (<SRC.RESTEST 70 i_fish_cut_raw>)
+	SRC.CONSUME=70 i_fish_cut_raw
+	SRC.NEWITEM=i_fish_cut_cooked
+	SRC.ACT.AMOUNT 70
+	SRC.ACT.BOUNCE
+//	SRC.CTAG.BALIK2 1
+//	SRC.TIMERF 2,SRC.CTAG.BALIK2
+	ELSE 
+	SRC.syshata Çantanızda 70 dilim balık bulunmuyor.
+	endif
+endif
+return 1
+
+
+[itemdef i_str_drum]
+defname i_str_drum
+id i_drum
+name Drum
+type t_str_drum
+
+on=@create
+attr attr_static
+color 07d1
+
+[typedef t_str_drum]
+on=@click
+message @1100 [STR]
+message @0481 drum
+return 1
+
+on=@dclick
+if !(<src.str> < 100)
+src.syshata Str değeriniz en fazla 100 olabilir.
+return 1
+elseIF !(<EVAL(<SRC.STR> + <SRC.DEX> + <SRC.INT>)> < 225)
+src.syshata Stat toplamı en fazla 225 olabilir.
+return 1
+else
+src.str=<src.str>+1
+return 1
+endif
+
+[itemdef i_dex_drum]
+defname i_Dex_drum
+id i_lute
+name Lute
+type t_dex_drum
+
+on=@create
+attr attr_Static
+color 0846
+
+[typedef t_dex_drum]
+on=@click
+message @1100 [DEX]
+message @0481 lute
+return 1
+endif
+
+on=@dclick
+if !(<src.dex> < 100)
+src.syshata Dex değeriniz en fazla 100 olabilir.
+return 1
+elseIF !(<EVAL(<SRC.STR> + <SRC.DEX> + <SRC.INT>)> < 225)
+src.syshata Stat toplamı en fazla 225 olabilir.
+return 1
+else
+src.dex=<src.dex>+1
+return 1
+endif
+
+[itemdef i_int_drum]
+defname i_int_drum
+id i_lyre
+name harp
+type t_int_drum
+
+on=@create
+attr attr_Static
+color 084a
+
+[typedef t_int_drum]
+on=@click
+message @1100 [INT]
+message @0481 harp
+return 1
+
+on=@dclick
+if !(<src.int> < 100)
+src.syshata Int değeriniz en fazla 100 olabilir.
+return 1
+elseIF !(<EVAL(<SRC.STR> + <SRC.DEX> + <SRC.INT>)> < 225)
+src.syshata Stat toplamı en fazla 225 olabilir.
+return 1
+else
+src.int=<src.int>+1
+return 1
+endif
+
+
+
+[function platever]
+SRC.NEWITEM i_PLATEMAIL_INVULNERABILITY
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_PLATEMAIL_leggings_INVULNERABILITY
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_PLATEMAIL_ARMS_INVULNERABILITY
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_platemail_HELM_INVULNERABILITY
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_PLATEMAIL_GORGET_INVULNERABILITY
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_PLATEMAIL_GAUNTLETS_INVULNERABILITY
+SRC.ACT.BOUNCE
+
+
+[function invulver]
+SRC.NEWITEM i_studded_leggings_invulnerability
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_studded_tunic_invulnerability
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_studded_gloves_invulnerability
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_studded_sleeves_invulnerability
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_studded_gorget_invulnerability
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_studded_cap_invulnerability
+SRC.ACT.BOUNCE
+
+[function rangerver]
+SRC.NEWITEM i_ranger_sleeves
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_ranger_gloves
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_ranger_gorget
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_ranger_legs
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_ranger_tunic
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_ranger_cap
+SRC.ACT.BOUNCE
+
+
+[function dragonicver]
+SRC.NEWITEM i_dragonic_sleeves
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_dragonic_gloves
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_dragonic_gorget
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_dragonic_legs
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_dragonic_tunic
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_dragonic_cap
+SRC.ACT.BOUNCE
+
+
+[function phoenixver]
+SRC.NEWITEM i_phoenix_sleeves
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_phoenix_gloves
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_phoenix_gorget
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_phoenix_legs
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_phoenix_tunic
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_phoenix_cap
+SRC.ACT.BOUNCE
+
+
+
+
+[ITEMDEF i_deed_studded]
+DEFNAME=i_deed_studded
+NAME=studded armor deed
+ID=i_deed
+Value=3500
+TYPE=t_script
+WEIGHT=1
+
+ON=@CLICK
+message @038a,,1 a <name>
+return 1
+
+ON=@DCLICK
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu ancak çantanızdayken kullanabilirsiniz.
+	return 1
+endif
+SRC.NEWITEM i_studded_leggings
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_studded_tunic
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_studded_gloves
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_studded_sleeves
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_studded_gorget
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_studded_cap
+SRC.ACT.BOUNCE
+remove
+return 1
+
+[ITEMDEF i_deed_leather]
+DEFNAME=i_deed_leather
+NAME=leather armor deed
+ID=i_deed
+Value=3500
+TYPE=t_script
+WEIGHT=1
+
+ON=@CLICK
+message @038a,,1 a <name>
+return 1
+
+ON=@DCLICK
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu ancak çantanızdayken kullanabilirsiniz.
+	return 1
+endif
+SRC.NEWITEM i_leather_leggings
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_leather_tunic
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_leather_gloves
+SRC.ACT.BOUNCE
+SRC.NEWITEM  i_leather_sleeves
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_leather_gorget
+SRC.ACT.BOUNCE
+SRC.NEWITEM i_leather_cap
+SRC.ACT.BOUNCE
+remove
+return 1
+
+[itemdef i_res_pad]
+id=i_rune_alchem_6
+name res pad
+
+On=@Create
+attr attr_invis
+
+on=@step
+src.spelleffect s_resurrection 1000
+
+
+[ITEMDEF i_res_gate]///Pk Res Gate
+ID=i_moongate_black
+
+on=@click
+message @0481,,1 Resurrection Gate
+return 1
+
+ON=@Create
+COLOR=025
+
+on=@dclick
+return 1
+
+ON=@STEP
+if !(<src.hits> < 1)
+return 1
+endif
+SRC.RESURRECT
+
+[itemdef i_dispeler]
+name=Dispeller
+id=i_crystal_red
+type=t_script
+
+ON=@create
+attr=attr_move_never|attr_can_decay|attr_invis
+timer=5
+
+ON=@timer
+timer 5
+foritems 15
+	if (<attr>&attr_magic)
+		if (<type> == t_magic) || (<type> == t_spell)
+			remove
+			timer 5
+		endif
+	endif
+endfor
+timer 5
+return 1
+
+ON=@dclick
+return 1
+
+[itemdef i_oluchar]
+name=olu char
+id=i_crystal_red
+type=t_script
+
+ON=@create
+attr=attr_move_never|attr_can_decay|attr_invis
+timer=5
+
+ON=@timer
+timer 1
+forchars 15
+IF (<ISPK>)
+GO ORC CITY
+ELSE
+GO ROHAN
+ENDIF
+endfor
+timer 1
+return 1
+
+ON=@dclick
+return 1
+
+[itemdef i_marklanmaz]
+name=marklanmaz
+id=i_crystal_red
+type=t_script
+
+ON=@create
+attr=attr_move_never|attr_can_decay|attr_invis
+
+ON=@timer
+return 1
+
+ON=@dclick
+return 1
+
+[itemdef i_res_1]
+id=02
+weight 200
+Name res
+type t_shrine
+
+on=@create
+attr=attr_static
+
+on=@TIMER
+RETURN 1
+
+on=@click
+message Resurrection Ankh
+return 1
+
+on=@dclick
+if !(<src.hits> < 1)
+return 1
+endif
+if (<src.findid.i_reslexis>)
+src.sysh_trk Resurrection işlemi zaten başlamış.
+return 1
+endif
+src.newitem i_reslexis
+src.new.equip
+return 1
+
+[itemdef i_res_2]
+id=03
+weight 200
+Name res
+type t_shrine
+
+on=@create
+attr=attr_static
+
+on=@TIMER
+RETURN 1
+
+on=@click
+message Resurrection Ankh
+return 1
+
+on=@dclick
+if !(<src.hits> < 1)
+return 1
+endif
+if (<src.findid.i_reslexis>)
+src.sysh_trk Resurrection işlemi zaten başlamış.
+return 1
+endif
+src.newitem i_reslexis
+src.new.equip
+return 1
+
+[itemdef i_res_3]
+id=04
+weight 200
+Name res
+type t_shrine
+
+on=@create
+attr=attr_static
+
+on=@TIMER
+RETURN 1
+
+on=@click
+message Resurrection Ankh
+return 1
+
+on=@dclick
+if !(<src.hits> < 1)
+return 1
+endif
+if (<src.findid.i_reslexis>)
+src.sysh_trk Resurrection işlemi zaten başlamış.
+return 1
+endif
+src.newitem i_reslexis
+src.equip <new>
+return 1
+
+[itemdef i_res_4]
+id=05
+weight 200
+Name res
+type t_shrine
+
+on=@create
+attr=attr_static
+
+on=@TIMER
+RETURN 1
+
+on=@click
+message Resurrection Ankh
+return 1
+
+on=@dclick
+if !(<src.hits> < 1)
+return 1
+endif
+if (<src.findid.i_reslexis>)
+src.sysh_trk Resurrection işlemi zaten başlamış.
+return 1
+endif
+src.newitem i_reslexis
+src.new.equip
+return 1
+
+[itemdef i_reslexis]
+id=i_memory
+type=t_eq_script
+weight=0
+
+On=@Create
+attr attr_invis|attr_decay
+
+on=@equip
+timer 30
+src.stone 1
+src.sysmessage @0481,,1 30 saniye içinde canlanacaksınız.
+
+on=@timer
+if (<cont.hits> < 1)
+cont.resurrect
+cont.hits <cont.str>
+endif
+cont.stone 0
+remove
+return 1
+
+[itemdef 01189]
+name mezar
+defname i_mezar_5
+weight 10
+type t_script
+
+on=@create
+attr 010
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 01188]
+name mezar
+defname i_mezar_4
+weight 10
+type t_script
+
+on=@create
+attr 010
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 01187]
+name mezar
+defname i_mezar_3
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+on=@create
+attr 010
+
+[itemdef 01186]
+name mezar
+defname i_mezar_2
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+on=@create
+attr 010
+
+[itemdef 01185]
+name mezar
+defname i_mezar_1
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+on=@create
+attr 010
+
+[itemdef 0224B]
+name tree
+defname i_agac_buyuk2
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+on=@create
+attr 010
+
+
+[itemdef 014e7]  //roxside item buyuk agaca kadar
+name tether
+defname i_tether
+weight 10
+type t_script
+RESOURCES=150 i_log
+SKILLMAKE=CARPENTRY 1000, t_carpentry
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 01950]
+name mongbat statue
+defname i_mongbat_statue
+weight 10
+type t_script
+RESOURCES=150 i_log, 500 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+[itemdef 01953]
+name mongbat statue
+defname i_mongbat_statue2
+weight 10
+type t_script
+RESOURCES=150 i_log, 500 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+[itemdef 024c2]
+name decorative lamp
+defname i_decorative_lamp_rox1
+weight 10
+type t_script
+RESOURCES=150 i_log, 150 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 024c6]
+name decorative lamp
+defname i_decorative_lamp_rox2
+weight 10
+type t_script
+RESOURCES=150 i_log, 150 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 024c4]
+name decorative lamp
+defname i_decorative_lamp_rox3
+weight 10
+type t_script
+RESOURCES=150 i_log, 150 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 024c8]
+name decorative lamp
+defname i_decorative_lamp_rox4
+weight 10
+type t_script
+RESOURCES=150 i_log, 150 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 025cf]
+name decorative dog
+defname i_decorative_dog
+weight 10
+type t_script
+RESOURCES=150 i_log, 150 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 0280b]
+name wooden shelf
+defname i_wood_shelf_rox_3
+weight 10
+type t_script
+RESOURCES=350 i_log, 150 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 02815]
+name wooden shelf
+defname i_wood_shelf_rox_1
+weight 10
+type t_script
+RESOURCES=350 i_log, 150 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 02816]
+name wooden shelf
+defname i_wood_shelf_rox_2
+weight 10
+type t_script
+RESOURCES=350 i_log, 150 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 02817]
+name wooden table
+defname i_wood_table_rox_1
+weight 10
+type t_script
+RESOURCES=250 i_log, 150 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 02818]
+name wooden table
+defname i_wood_table_rox_2
+weight 10
+type t_script
+RESOURCES=250 i_log, 150 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 02819]
+name wooden table
+defname i_wood_table_rox_3
+weight 10
+type t_script
+RESOURCES=250 i_log, 150 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 02851]
+name decorative katana
+defname i_decorative_katana_rox1
+weight 10
+type t_script
+RESOURCES=250 i_log, 250 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, BLACKSMITHING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 02852]
+name decorative katana
+defname i_decorative_katana_rox2
+weight 10
+type t_script
+RESOURCES=250 i_log, 250 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, BLACKSMITHING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+[itemdef 02dd9]
+name decorative cart
+defname i_decorative_cart_roxx1
+weight 10
+type t_script
+RESOURCES=250 i_log, 250 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 02dda]
+name decorative cart
+defname i_decorative_cart_roxx2
+weight 10
+type t_script
+RESOURCES=250 i_log, 250 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 02ddc]
+name vase with drawer
+defname i_rox_vwd
+weight 10
+type t_script
+RESOURCES=250 i_log, 50 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 02ddf]
+name long comfy chair
+defname i_rox_lcc
+weight 10
+type t_script
+RESOURCES=250 i_log, 150 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+
+
+[itemdef 02dde]
+name stand
+defname i_rox_stand
+weight 10
+type t_script
+RESOURCES=50 i_log, 100 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+[itemdef 02de9]
+name wooden container
+defname i_rox_wc1
+weight 10
+type t_script
+RESOURCES=250 i_log, 100 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+[itemdef 02dea]
+name wooden container
+defname i_rox_wc2
+weight 10
+type t_script
+RESOURCES=250 i_log, 100 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 02df5]
+name wooden chair
+defname i_rox_ch2
+weight 10
+type t_script
+RESOURCES=250 i_log, 100 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 02df6]
+name wooden chair
+defname i_rox_ch2
+weight 10
+type t_script
+RESOURCES=250 i_log, 100 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+[itemdef 02fd4]
+name Decorative Ruby
+defname i_rox_ruby1
+weight 10
+type t_script
+RESOURCES=50 i_log, 500 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+[itemdef 02fea]
+name casino table
+defname i_rox_casino1
+weight 10
+type t_script
+RESOURCES=350 i_log, 500 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+[itemdef 02ffa]
+name stone container
+defname i_rox_stonecntr
+weight 10
+type t_script
+RESOURCES=150 i_log, 180 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 02ff9]
+name stone container
+defname i_rox_stonecntr2
+weight 10
+type t_script
+RESOURCES=150 i_log, 180 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+
+[itemdef 0280e]
+name wooden container
+defname i_rox_stonecntr3
+weight 10
+type t_script
+RESOURCES=350 i_log, 100 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 032f0]
+name decorative stone
+defname i_rox_stonedeco7
+weight 10
+type t_script
+RESOURCES=150 i_log, 380 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 032f2]
+name decorative stone
+defname i_rox_stonedeco7
+weight 10
+type t_script
+RESOURCES=150 i_log, 380 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 03daf]
+name decorative stone
+defname i_rox_stonedeco7
+weight 10
+type t_script
+RESOURCES=150 i_log, 380 i_ingot_iron
+SKILLMAKE=CARPENTRY 1000, TINKERING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 03f0a]
+name carpet
+defname i_rox_carpet1
+weight 10
+type t_script
+RESOURCES=300 i_cloth
+SKILLMAKE=CARPENTRY 1000, TAILORING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 03f17]
+name carpet
+defname i_rox_carpet2
+weight 10
+type t_script
+RESOURCES=300 i_cloth
+SKILLMAKE=CARPENTRY 1000, TAILORING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 03f18]
+name carpet
+defname i_rox_carpet3
+weight 10
+type t_script
+RESOURCES=300 i_cloth
+SKILLMAKE=CARPENTRY 1000, TAILORING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 03f08]
+name carpet
+defname i_rox_carpet4
+weight 10
+type t_script
+RESOURCES=300 i_cloth
+SKILLMAKE=CARPENTRY 1000, TAILORING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+[itemdef 03f09]
+name carpet
+defname i_rox_carpet5
+weight 10
+type t_script
+RESOURCES=300 i_cloth
+SKILLMAKE=CARPENTRY 1000, TAILORING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 03f0d]
+name carpet
+defname i_rox_carpet6
+weight 10
+type t_script
+RESOURCES=300 i_cloth
+SKILLMAKE=CARPENTRY 1000, TAILORING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+[itemdef 03f11]
+name carpet
+defname i_rox_carpet7
+weight 10
+type t_script
+RESOURCES=300 i_cloth
+SKILLMAKE=CARPENTRY 1000, TAILORING 1000, t_carpentry
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+
+
+
+
+[itemdef 0224A] //roxside item burda bitiyo
+name tree
+defname i_agac_buyuk
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+on=@create
+attr 010
+
+[itemdef 022C4]
+name small plaster house
+defname i_evler
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+on=@create
+attr 010
+
+[itemdef 0238C]
+name rune book
+defname i_runebak
+weight 10
+type t_book
+
+on=@create
+attr 010
+
+
+[itemdef 03AFE]
+name fish
+defname i_balik_2
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+on=@create
+attr 010
+
+[itemdef 03B02]
+name fish
+defname i_balik_1
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+on=@create
+attr 010
+
+[itemdef 02F59]
+name talisman of sondias
+defname i_talisman_2
+weight 10
+type t_clothing
+
+on=@create
+attr 010
+
+[itemdef 02F5B]
+name talisman of lexis
+defname i_talisman
+weight 10
+type t_clothing
+
+on=@create
+attr 010
+
+[itemdef 02330]
+name flower
+defname i_cicek_3
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 02378]
+name tree
+defname i_agac_2
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 02377]
+name tree
+defname i_agac_1
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 02376]
+name flower
+defname i_cicek_2
+weight 10
+type t_normal
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 0232A]
+name gift
+defname i_hediye_paket
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 02328]
+name snow man
+defname i_kardan_adam
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 0234C]
+name flower
+defname i_cicek_1
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 013A0]
+name statue
+defname i_heykel_3
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 02259]
+name statue
+defname i_kitap_1
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+on=@create
+attr 010
+
+[itemdef 02252]
+name statue
+defname i_kitap_2
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+on=@create
+attr 010
+
+[itemdef 0139F]
+name statue
+defname i_heykel_2
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 0139E]
+name statue
+defname i_heykel_1
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+
+[itemdef 03083]
+name pentagram
+defname i_penta9
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 03082]
+name pentagram
+defname i_penta8
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 03081]
+name pentagram
+defname i_penta7
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 03080]
+name pentagram
+defname i_penta6
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 0307F]
+name pentagram
+defname i_penta5
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 0307E]
+name pentagram
+defname i_penta4
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 0307D]
+name pentagram
+defname i_penta3
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 0307C]
+name pentagram
+defname i_penta2
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 0307B]
+name pentagram
+defname i_penta
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 0306B]
+name troll statue
+defname i_heykel3
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 03069]
+name troll statue
+defname i_heykel2
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 0306A]
+name troll statue
+defname i_heykel
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 03063]
+name akvaryum
+defname i_akvaryum2
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+
+[itemdef 03062]
+name akvaryum
+defname i_akvaryum
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+attr 010
+hitpoints 100
+
+[itemdef 0306D]
+name statue
+defname i_pk_heykel
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+hitpoints 100
+attr 010
+
+[itemdef 0227c]
+name statue
+defname i_donate2
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+hitpoints 100
+attr 010
+
+[itemdef 0306C]
+name statue
+defname i_pk_heykel2
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+hitpoints 100
+attr 010
+
+[itemdef 0306E]
+name statue
+defname i_pk_heykel3
+weight 10
+type t_script
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+on=@create
+hitpoints 100
+attr 010
+
+[itemdef i_copkutu]
+id=i_barrel
+weight 200
+Name çöp kutusu
+type t_container
+
+on=@create
+color 0455
+timer 60
+attr=attr_static|attr_decay
+
+on=@dclick
+empty
+timer 60
+src.sysnorm Buraya konulan eşyalar 1 dakika içinde silinir.
+return 0
+
+on=@timer
+timer 60
+empty
+return 1
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+[ITEMDEF i_oil_cloth]
+DEFNAME=i_oil_cloth
+ID=0e21
+NAME=oil cloth
+RESOURCES=i_cloth
+WEIGHT=.1
+DYE=0
+VALUE=15
+SKILLMAKE=TAILORING 74.6, t_sewing_kit
+CATEGORY=Items by Professions
+SUBSECTION=Tailor
+DESCRIPTION=Oil Cloth
+TYPE=t_normal
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 an <NAME>
+ENDIF
+RETURN 1
+
+
+ON=@DClick
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu ancak çantanızdayken kullanabilirsiniz.
+	return 1
+endif
+	TARGET @038A,,1 Lütfen zehrini geçirmeye çalışacağınız silahı seçin.
+RETURN 1
+
+ON=@TargOn_Char
+	SRC.SYSHATA Bu bir silah değil.
+RETURN 1
+
+ON=@TargOn_Item
+IF (<SRC.TARG.UID>==<UID>)
+	SRC.SYSHATA Bu bir silah değil.
+ELSEIF (<SRC.TARG.morez> > 0)
+	SRC.SysYES Silahın zehrini geçirdiniz.
+	SRC.TARG.morez 0
+	CONSUME 1
+ELSE
+	SRC.SYSHATA Bu zehirli değil.
+ENDIF
+RETURN 1
+
+[ITEMDEF i_magic_reg30]
+ID=i_crystal_green_big 
+Value=1500
+WEIGHT=1
+NAME=reagent crystal (30)
+
+
+
+
+ON=@CREATE
+ATTR 04
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+ON=@DClick
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu ancak çantanızdayken kullanabilirsiniz.
+	return 1
+endif
+src.emote use a lesser reagent crystal
+src.newitem i_bag
+local.bag <new.uid>
+src.bounce <new>
+src.newitem i_reag_black_pearl,30
+src.new.cont <local.bag>
+src.newitem i_reag_blood_moss,30
+src.new.cont <local.bag>
+src.newitem i_reag_garlic,30
+src.new.cont <local.bag>
+src.newitem i_reag_ginseng,30
+src.new.cont <local.bag>
+src.newitem i_reag_mandrake_root,30
+src.new.cont <local.bag>
+src.newitem i_reag_nightshade,30
+src.new.cont <local.bag>
+src.newitem i_reag_sulfur_ash,30
+src.new.cont <local.bag>
+src.newitem i_reag_spider_silk,30
+src.new.cont <local.bag>
+remove
+return 1
+
+[ITEMDEF i_magic_reg60]
+ID=i_crystal_green_big 
+Value=2500
+WEIGHT=2
+NAME=reagent crystal (60)
+
+
+ON=@CREATE
+ATTR 04
+
+
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+ON=@DClick
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu ancak çantanızdayken kullanabilirsiniz.
+	return 1
+endif
+src.emote use a reagent crystal
+src.newitem i_bag
+local.bag <new.uid>
+src.bounce <new>
+src.newitem i_reag_black_pearl,60
+src.new.cont <local.bag>
+src.newitem i_reag_blood_moss,60
+src.new.cont <local.bag>
+src.newitem i_reag_garlic,60
+src.new.cont <local.bag>
+src.newitem i_reag_ginseng,60
+src.new.cont <local.bag>
+src.newitem i_reag_mandrake_root,60
+src.new.cont <local.bag>
+src.newitem i_reag_nightshade,60
+src.new.cont <local.bag>
+src.newitem i_reag_sulfur_ash,60
+src.new.cont <local.bag>
+src.newitem i_reag_spider_silk,60
+src.new.cont <local.bag>
+remove
+return 1
+
+[ITEMDEF i_magic_reg90]
+ID=i_crystal_green_big 
+Value=4000
+WEIGHT=3
+NAME=reagent crystal (90)
+
+
+ON=@CREATE
+ATTR 04
+
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+ON=@DClick
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu ancak çantanızdayken kullanabilirsiniz.
+	return 1
+endif
+src.emote use a greater reagent crystal
+src.newitem i_bag
+local.bag <new.uid>
+src.bounce <new>
+src.newitem i_reag_black_pearl,90
+src.new.cont <local.bag>
+src.newitem i_reag_blood_moss,90
+src.new.cont <local.bag>
+src.newitem i_reag_garlic,90
+src.new.cont <local.bag>
+src.newitem i_reag_ginseng,90
+src.new.cont <local.bag>
+src.newitem i_reag_mandrake_root,90
+src.new.cont <local.bag>
+src.newitem i_reag_nightshade,90
+src.new.cont <local.bag>
+src.newitem i_reag_sulfur_ash,90
+src.new.cont <local.bag>
+src.newitem i_reag_spider_silk,90
+src.new.cont <local.bag>
+remove
+return 1
+
+
+[ITEMDEF i_magic_reg120]
+ID=i_crystal_orange
+Value=6000
+WEIGHT=3
+NAME=reagent crystal (120)
+
+
+ON=@CREATE
+ATTR 04
+
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+ON=@DClick
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu ancak çantanızdayken kullanabilirsiniz.
+	return 1
+endif
+src.emote use a greater reagent crystal
+src.newitem i_bag
+local.bag <new.uid>
+src.bounce <new>
+src.newitem i_reag_black_pearl,120
+src.new.cont <local.bag>
+src.newitem i_reag_blood_moss,120
+src.new.cont <local.bag>
+src.newitem i_reag_garlic,120
+src.new.cont <local.bag>
+src.newitem i_reag_ginseng,120
+src.new.cont <local.bag>
+src.newitem i_reag_mandrake_root,120
+src.new.cont <local.bag>
+src.newitem i_reag_nightshade,120
+src.new.cont <local.bag>
+src.newitem i_reag_sulfur_ash,120
+src.new.cont <local.bag>
+src.newitem i_reag_spider_silk,120
+src.new.cont <local.bag>
+remove
+return 1
+
+[ITEMDEF i_magic_reg150]
+ID=i_crystal_orange
+Value=8000
+WEIGHT=3
+NAME=reagent crystal (150)
+
+
+ON=@CREATE
+ATTR 04
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+ON=@DClick
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu ancak çantanızdayken kullanabilirsiniz.
+	return 1
+endif
+src.emote use a greater reagent crystal
+src.newitem i_bag
+local.bag <new.uid>
+src.bounce <new>
+src.newitem i_reag_black_pearl,150
+src.new.cont <local.bag>
+src.newitem i_reag_blood_moss,150
+src.new.cont <local.bag>
+src.newitem i_reag_garlic,150
+src.new.cont <local.bag>
+src.newitem i_reag_ginseng,150
+src.new.cont <local.bag>
+src.newitem i_reag_mandrake_root,150
+src.new.cont <local.bag>
+src.newitem i_reag_nightshade,150
+src.new.cont <local.bag>
+src.newitem i_reag_sulfur_ash,150
+src.new.cont <local.bag>
+src.newitem i_reag_spider_silk,150
+src.new.cont <local.bag>
+remove
+return 1
+
+[itemdef 0c4]
+defname i_crystal_orange
+weight=3
+type=t_script
+name crystal
+
+[itemdef 0240]
+defname i_crystal_purple
+weight=3
+type=t_script
+name crystal
+
+[function telefix]
+FORINSTANCES I_DGTELE
+attr attr_invis|attr_static|08010
+update
+ENDFOR
+
+[itemdef i_dgtele]
+id=i_teleporter
+type=t_telepad
+defname=i_dgtele
+
+on=@create
+attr attr_invis|attr_static|08010
+
+on=@click
+message @038A,,1 <name>
+return 1
+
+on=@step
+src.P.x <morex>
+src.p.y <morey>
+src.p.z <morez>
+src.p <morep>
+src.fix
+return 1
+
+[itemdef i_lex_gate]
+id=i_moongate_black
+type=t_telepad
+defname=i_lex_gate
+
+on=@create
+color=0
+attr attr_static|attr_decay
+
+on=@click
+message @038A,,1 <name>
+return 1
+
+on=@step
+IF (<DTAG0.NONPK>)
+IF (<SRC.KILLS> > 6)
+SRC.SYSHATA GZ içerisine gidişiniz engellendi.
+RETURN 1
+ENDIF
+if (<src.findid i_rune_poison>)
+src.syshata Zehirliyken kullanamazsınız.
+elseif (<src.hits> < <src.str>) && (<src.hits> > 0)
+src.syshata Yaralıyken kullanamazsınız.
+else
+src.go <morep>
+endif
+return 1
+
+on=@dclick
+IF (<DTAG0.NONPK>)
+IF (<SRC.KILLS> > 6)
+SRC.SYSHATA GZ içerisine gidişiniz engellendi.
+RETURN 1
+ENDIF
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF (<DISTANCE> > 2)
+RETURN 1
+ENDIF
+if (<src.findid i_rune_poison>)
+src.syshata Zehirliyken kullanamazsınız.
+elseif (<src.hits> < <src.str>) && (<src.hits> > 0)
+src.syshata Yaralıyken kullanamazsınız.
+else
+src.go <morep>
+endif
+return 1
+
+[itemdef i_young_gate]
+id=i_moongate_black
+type=t_telepad
+defname=i_young_gate
+
+on=@create
+color=0
+attr attr_static|attr_decay
+
+on=@click
+message @038A,,1 <name>
+return 1
+
+on=@step
+IF !(<SRC.FINDID.I_YOUNG>) && (<SRC.ACCOUNT.PLEVEL> < 2)
+SRC.SYSHATA 3 günlük kullanım süreniz dolmuştur.
+RETURN 1
+ENDIF
+if (<src.findid i_rune_poison>)
+src.syshata Zehirliyken kullanamazsınız.
+elseif (<src.hits> < <src.str>) && (<src.hits> > 0)
+src.syshata Yaralıyken kullanamazsınız.
+else
+local.temp = <SRC.FINDID.I_YOUNG.TIMER>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+src.sysnorm Bu alanı <dlocal.day> gün, <dlocal.hours> saat, <dlocal.minutes> dakika daha kullanabilirsiniz.
+src.go <morep>
+endif
+return 1
+
+on=@dclick
+IF !(<SRC.FINDID.I_YOUNG>) && (<SRC.ACCOUNT.PLEVEL> < 2)
+SRC.SYSHATA 3 günlük kullanım süreniz dolmuştur.
+RETURN 1
+ENDIF
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF (<DISTANCE> > 2)
+RETURN 1
+ENDIF
+if (<src.findid i_rune_poison>)
+src.syshata Zehirliyken kullanamazsınız.
+elseif (<src.hits> < <src.str>) && (<src.hits> > 0)
+src.syshata Yaralıyken kullanamazsınız.
+else
+local.temp = <SRC.FINDID.I_YOUNG.TIMER>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+src.sysnorm Bu alanı <dlocal.day> gün, <dlocal.hours> saat, <dlocal.minutes> dakika daha kullanabilirsiniz.
+src.go <morep>
+endif
+return 1
+
+
+[FUNCTION f_array_lenght]
+return <dargv>
+
+[itemdef i_npc_silici] //npc remover
+name=Ellemeyin Bu Alani Temizler // lexis
+weight 999
+id=i_crystal_green
+type=t_script
+
+ON=@create
+attr=attr_move_never|attr_invis
+timer=60
+color=1940
+
+on=@click
+message @1153 <name>
+return 1
+
+ON=@dclick
+timer 1
+return 1
+
+ON=@timer
+forchars 100
+if (<memoryfindtype.memory_ipet>) && ((<id> == c_cow_brown) || (<id> == c_sheep_woolly) || (<id> == c_pig) || (<id> == c_chicken) || (<id> == c_bull_brown_lt) || (<id> == c_bull_brown_dk) || (<id> == c_sheep_shorn) || (<id> == c_doe) || (<id> == c_cow_bw) || (<id> == c_goat) || (<id> == c_pig_big) || (<id> == c_bird) || (<id> == c_bird_crow) || (<id> == c_eagle) || (<id> == c_hart_great) || (<id> == c_wolf) || (<id> == c_bird_raven) || (<id> == c_bird_magpie) || (<id> == c_dog) || (<id> == c_bullfrog) || (<id> == c_rat_giant) || (<id> == c_a_jackrabbit) || (<id> == c_rat) || (<id> == c_bear_brown) || (<id> == c_bear_grizzly))
+say_trk *açlıktan ölür*
+hits 0
+endif
+endfor
+attr=attr_move_never|attr_invis
+timer 60
+return 1
+
+[ITEMDEF i_pouch_trapped]
+ID=i_pouch
+NAME=trapped pouch
+WEIGHT=2
+SKILLMAKE=TINKERING 65.0,t_tinker_tools
+RESOURCES=1 i_ingot_iron,2 i_log
+TYPE=t_script
+
+on=@create
+color 026
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+
+ON=@DClick
+return 1
+
+

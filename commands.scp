@@ -1,0 +1,250 @@
+﻿//------------------
+// COMMANDS.SCP
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+[PLEVEL 1]
+DISARM
+INGOTS
+HUNGRY
+ORES
+REGS
+STAT
+SKILLDUSUR
+stun
+makelast
+tekraryap
+
+[PLEVEL 2]
+SINFO
+star
+AFK
+WHERE
+BANKSELF
+ADMIN
+CAST
+GETIR
+XGO
+GO
+INVIS
+PG
+S
+SA
+SUICIDE
+TELE
+STONE
+XSTONE
+INVUL
+set
+pazar
+PAGE
+
+[PLEVEL 3]
+NOT
+SICIL
+
+[PLEVEL 4]
+STATIC
+SUMMON
+ADD
+EDIT
+INFO
+SAVE
+TWEAK
+hapis af
+
+[PLEVEL 5]
+REGION
+SECTOR
+JFORGIVE
+privshow
+
+[PLEVEL 6]
+remove 1
+SERV
+save
+PASSWORD
+Nuke
+kick
+xkills
+tag
+xtag
+account
+xaccount
+
+[PLEVEL 7]
+PAGE KICK
+PAGE K
+PAGE BAN
+PAGE B
+EVENTS
+SHOW
+TAGLIST
+GMPAGE
+
+[function f_disc]
+newitem i_insta_disconnecter
+src.new.equip
+
+[itemdef i_insta_disconnecter]
+name Instant Disconnecter
+id i_memory
+type t_eq_script
+weight 0
+layer layer_special
+
+On=@Create
+attr attr_invis|attr_decay
+
+On=@Equip
+timer 3	
+
+On=@Timer
+if (<cont>)
+	cont.disconnect
+endif
+remove
+return 1
+
+[function f_player_login] // playerlar boyle login oluyor
+f_set_mysphere_web
+FINDID.I_NAVIGASYON.REMOVE
+skillclass 0
+detail 0
+account.resdisp 5
+account.plevel 1
+ARROWQUEST
+
+IF (<SRC.TAG0.PVEGOREV> < 1)
+SRC.TAG0.PVEGOREV 1
+ENDIF
+SRC.TAG0.GOREVSYS
+
+IF (<SRC.TAG0.TAMERGOREV> < 1)
+SRC.TAG0.TAMERGOREV 1
+ENDIF
+
+IF !(<dTAG0.ROXREV> > 0)
+TAG0.ROXREV 1
+P 1107,401,-80,2
+UPDATE
+SRC.FINDID.I_YOUNG.REMOVE
+SERV.NEWITEM I_YOUNG
+SRC.EQUIP <NEW>
+IF (<ISEVENT.E_ORC>)
+SERV.NEWITEM I_ET_BEAR2
+BOUNCE <NEW>
+ENDIF
+ENDIF
+
+
+IF (<FINDID.I_YOUNG>)
+SDIALOG D_YOUNG
+ENDIF
+
+
+IF (strmatch('*young*','<region.name>'))
+	IF !(<SRC.FINDID.I_YOUNG>)
+		IF (<dISPK>)
+			GO ORC CITY
+		ELSE
+			GO ROHAN
+		ENDIF
+	src.sysnorm Kullanım süreniz dolduğu için young alanından çıktınız.
+	ENDIF
+ENDIF
+
+if (strmatch('Orc','<tag0.irk>')
+	if !(<src.isevent.e_orc_pevent>)
+		src.events +e_orc_pevent
+	endif
+	IF (<dISEMPTYZ <TAG0.puan>>)
+		src.tag.puan 0
+	endif
+	IF (<FINDID.I_ET_BEAR2>) && (<TAG0.ORCLOG> > 0)
+	TAG0.ORCLOG
+	TIMERF 1, FINDID.I_ET_BEAR2.DCLICK
+	ENDIF
+	IF (<FINDID.I_ET_WOLF>) && (<TAG0.ORCLOG2> > 0)
+	TAG0.ORCLOG2
+	TIMERF 1, FINDID.I_ET_WOLF.DCLICK
+	ENDIF
+endif
+
+IF ((<ISEMPTY <SRC.TAG0.IRK>>) || (<ISNUM <SRC.TAG0.IRK>>))
+		src.allskills 0
+		src.sdialog d_weight_irk
+		src.sysnorm Önce ırk sonra da yetenek seçeceksiniz.
+		src.sysnorm Önce ırk seçiminizi yapın.
+		src.invis 1
+		src.stone 1
+ELSE
+		IF (<SRC.SKILLTOTAL> < 1)
+		src.invis 1
+		src.stone 1
+			SRC.F_SKILL_SECIM
+			SRC.SYSNORM Irk seçimi zaten yapılmış. yeteneklerinizi seçip devam edin.
+		ENDIF
+ENDIF
+
+IF (<dACCOUNT.TAG0.ODULOK>)
+ACCOUNT.TAG0.ODULOK
+ENDIF
+
+if (<donlinecount> > <dvar.rekor>)
+var.rekor <donlinecount>
+endif
+
+if !(<memoryfindtype.memory_guild.link.align>)
+	if (<findlayer(2).baseid> == i_shield_chaos) || (<findlayer(2).baseid> == i_shield_order)
+		findlayer(2).unequip
+	endif
+endif
+
+ctag0.pingirisi 1
+
+[function f_player_logout] // playerlar boyle logout oluyor
+f_set_mysphere_web
+SRC.FLAGS &= ~statf_war
+SRC.MEMORYFINDTYPE.memory_war_targ.remove
+SRC.MEMORYFINDTYPE.memory_war_targ.remove
+SRC.MEMORYFINDTYPE.memory_war_targ.remove
+src.skill fail
+src.action -1
+FINDID.I_NAVIGASYON.REMOVE
+ARROWQUEST
+tag.makelast
+f_makeloop_cancel
+if (<findid.i_rune_incognito>)
+	findid.i_rune_incognito.remove
+endif
+IF (<FINDLAYER.25.BASEID>==i_et_ayiamk) && (<ISEVENT.E_ORC>)
+src.findlayer.25.remove
+serv.newitem i_et_bear2
+new.bounce
+events -e_ethereal_mountitem2
+TAG0.ORCLOG 1
+ENDIF
+IF (<FINDLAYER.25.BASEID>==i_et_wolfb) && (<ISEVENT.E_ORC>)
+src.findlayer.25.remove
+serv.newitem i_et_wolf
+new.bounce
+events -e_ethereal_mountitem3
+TAG0.ORCLOG2 1
+ENDIF
+if (<region.guarded>) && !(<region.flags>&region_flag_insta_logout) && (<hits> < <str>) && !(<flags>&statf_dead)
+	if (<memoryfindtype.memory_town>) || (<memoryfindtype.memory_guild.link.align> > 0)
+		hits 10
+	endif
+endif
+
+IF (strmatch(´<SRC.region.events>´,´r_house_system´)
+IF !((<UID.<UID.<REGION.UID>.MORE2>.ISFRIEND <SRC>>) || (<UID.<UID.<REGION.UID>.MORE2>.ISCOOWNER <SRC>>) || (<UID.<UID.<REGION.UID>.MORE2>.ISOWNER <SRC>>))
+	TRY UID.<SRC.UID>.GO=<UID.<UID.<SRC.REGION.UID>.MORE2>.P>
+	TRY UID.<SRC.UID>.FIX
+ENDIF
+ENDIF
+
+[eof]

@@ -1,0 +1,3666 @@
+﻿//------------------
+// SPELLS
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+
+[Spell 0]
+DEFNAME=s_Water
+NAME=Water
+SOUND=0
+RUNES=
+CAST_TIME=0
+RESOURCES=
+RUNE_ITEM=0
+SCROLL_ITEM=0
+FLAGS=0
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=4
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 1]
+DEFNAME=s_Clumsy
+NAME=Clumsy
+SOUND=snd_SPELL_CLUMSY
+RUNES=UJ
+CAST_TIME=0.3
+RESOURCES=i_reag_blood_moss,i_reag_nightshade
+RUNE_ITEM=i_rune_CLUMSY
+SCROLL_ITEM=i_scroll_CLUMSY
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_RESIST
+EFFECT_ID=i_fx_curse
+EFFECT=6,15
+DURATION=2*60.0,4*60.0
+MANAUSE=4
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 2]
+DEFNAME=s_create_food
+NAME=Create Food
+SOUND=snd_SPELL_CREATE_FOOD
+RUNES=IMY
+CAST_TIME=0.5
+RESOURCES=i_reag_garlic,i_reag_ginseng,i_reag_mandrake_root
+RUNE_ITEM=i_rune_CREATE_FOOD
+SCROLL_ITEM=i_scroll_CREATE_FOOD
+FLAGS=SPELLFLAG_TARG_XYZ
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=4
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 3]
+DEFNAME=s_feeblemind
+NAME=Feeblemind
+SOUND=snd_SPELL_FEEBLEMIND
+RUNES=RW
+CAST_TIME=0.5
+RESOURCES=i_reag_ginseng,i_reag_nightshade
+RUNE_ITEM=i_rune_FEEBLEMIND
+SCROLL_ITEM=i_scroll_FEEBLEMIND
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_RESIST
+EFFECT_ID=i_fx_curse
+EFFECT=5,10
+DURATION=2*60.0,4*60.0
+MANAUSE=4
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 4]
+DEFNAME=s_heal
+NAME=Heal
+SOUND=snd_SPELL_HEAL
+RUNES=IM
+CAST_TIME=0.9
+RESOURCES=i_reag_garlic,i_reag_ginseng,i_reag_spider_silk
+RUNE_ITEM=i_rune_HEAL
+SCROLL_ITEM=i_scroll_HEAL
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_FX_TARG | SPELLFLAG_GOOD
+EFFECT_ID=i_fx_HEAL_EFFECT
+EFFECT=9,10
+DURATION=0.0
+MANAUSE=4
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+//on=@effect
+//IF (<ISPLAYER>)
+//IF (<HITS> < <STR>)
+//MESSAGE @70 <EVAL RAND(9,10)>
+//ENDIF
+//ENDIF
+
+
+[Spell 5]
+DEFNAME=s_magic_arrow
+NAME=Magic Arrow
+SOUND=snd_SPELL_MAGIC_ARROW
+CAST_TIME=0.5
+RUNES=IPY
+RESOURCES=i_reag_sulfur_ash
+RUNE_ITEM=i_rune_MAGIC_ARROW
+SCROLL_ITEM=i_scroll_MAGIC_ARROW
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM
+EFFECT_ID=0
+EFFECT=2
+DURATION=0.0
+MANAUSE=4
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 6]
+DEFNAME=s_night_sight
+NAME=Night Sight
+SOUND=snd_SPELL_NIGHT_SIGHT
+RUNES=IL
+CAST_TIME=0.4
+RESOURCES=i_reag_spider_silk,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_NIGHT_SIGHT
+SCROLL_ITEM=i_scroll_NIGHT_SIGHT
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_FX_TARG | SPELLFLAG_GOOD
+EFFECT_ID=i_fx_HEAL_EFFECT
+EFFECT=0
+DURATION=10*60.0,12*60.0
+MANAUSE=4
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 7]
+DEFNAME=s_reactive_armor
+NAME=Reactive Armor
+SOUND=snd_SPELL_REACTIVE_ARMOR
+RUNES=FS
+CAST_TIME=0.8
+RESOURCES=i_reag_garlic,i_reag_spider_silk,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_REACTIVE_ARMOR
+SCROLL_ITEM=i_scroll_REACTIVE_ARMOR
+FLAGS=SPELLFLAG_GOOD | SPELLFLAG_FX_TARG
+EFFECT_ID=i_fx_HEAL_EFFECT
+EFFECT=10.0,60.0
+DURATION=480.0
+MANAUSE=4
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 8]
+DEFNAME=s_weaken
+NAME=Weaken
+SOUND=snd_SPELL_WEAKEN
+RUNES=DM
+CAST_TIME=0.5
+RESOURCES=i_reag_garlic,i_reag_nightshade
+RUNE_ITEM=i_rune_WEAKEN
+SCROLL_ITEM=i_scroll_WEAKEN
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_RESIST
+EFFECT_ID=i_fx_curse
+EFFECT=5,10
+DURATION=2*60.0,3*60.0
+MANAUSE=4
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 9]
+DEFNAME=s_Agility
+NAME=Agility
+SOUND=snd_SPELL_AGILITY
+RUNES=EU
+CAST_TIME=1.2
+RESOURCES=i_reag_blood_moss,i_reag_mandrake_root
+RUNE_ITEM=i_rune_AGILITY
+SCROLL_ITEM=i_scroll_AGILITY
+FLAGS=SPELLFLAG_GOOD | SPELLFLAG_FX_TARG
+EFFECT_ID=i_fx_BLESS_EFFECT
+EFFECT=5,20
+DURATION=480.0
+MANAUSE=6
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 10]
+DEFNAME=s_Cunning
+NAME=Cunning
+SOUND=snd_SPELL_CUNNING
+RUNES=UW
+CAST_TIME=1.0
+RESOURCES=i_reag_mandrake_root,i_reag_nightshade
+RUNE_ITEM=i_rune_CUNNING
+SCROLL_ITEM=i_scroll_CUNNING
+FLAGS=SPELLFLAG_GOOD | SPELLFLAG_FX_TARG
+EFFECT_ID=i_fx_BLESS_EFFECT
+EFFECT=5,20
+DURATION=2*60.0,4*60.0
+MANAUSE=6
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 11]
+DEFNAME=s_cure
+NAME=Cure
+SOUND=snd_SPELL_CURE
+RUNES=AN
+CAST_TIME=1.2
+RESOURCES=i_reag_garlic,i_reag_ginseng
+RUNE_ITEM=i_rune_CURE
+SCROLL_ITEM=i_scroll_CURE
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_FX_TARG | SPELLFLAG_GOOD
+EFFECT_ID=i_fx_HEAL_EFFECT
+EFFECT=0
+DURATION=0
+MANAUSE=6
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 12]
+DEFNAME=s_harm
+NAME=Harm
+SOUND=snd_SPELL_HARM
+RUNES=AM
+CAST_TIME=1.1
+RESOURCES=i_reag_nightshade,i_reag_spider_silk
+RUNE_ITEM=i_rune_HARM
+SCROLL_ITEM=i_scroll_HARM
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_RESIST
+EFFECT_ID=i_fx_curse
+EFFECT=0
+DURATION=0.0
+MANAUSE=6
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+on=@effect
+IF !(<SRC.UID>==<UID>)
+IF !(<FINDID.i_rune_MAGIC_REFLECTION>)
+if !(<src.tactics> > 0) && (<SRC.EVALUATINGINTEL> > 89.9)
+if ((<serv.spell.<argn>.flags>&spellflag_harm) && !(<serv.spell.<argn>.flags>&spellflag_field))
+LOCAL.DAMAGE <dSPELLCIRCLE <DARGN1>>
+endif
+endif
+
+if !(<src.tactics> > 0) && (<SRC.INSCRIPTION> > 89.9)
+if ((<serv.spell.<argn>.flags>&spellflag_harm) && !(<serv.spell.<argn>.flags>&spellflag_field))
+LOCAL.DAMAGE <EVAL <dSPELLCIRCLE <DARGN1>>+<DLOCAL.DAMAGE>>
+endif
+endif
+
+IF (<ISPLAYER>)
+LOCAL.MRESIST <EVAL <MAGICRESISTANCE>/200>
+LOCAL.MRESIST <EVAL <DLOCAL.MRESIST>*<dSPELLCIRCLE <DARGN1>>>
+LOCAL.MRESIST <EVAL <DLOCAL.MRESIST>/5>
+ENDIF
+
+LOCAL.DAMAGE <EVAL <EVAL <DLOCAL.DAMAGE>-<DLOCAL.MRESIST>>+{4 7}>
+
+IF (<DLOCAL.DAMAGE> > 0)
+damage <DLOCAL.DAMAGE> 00010 <src.uid>
+ENDIF
+ENDIF
+ENDIF
+return 0
+
+
+[Spell 13]
+DEFNAME=s_magic_trap
+NAME=Magic Trap
+SOUND=snd_SPELL_MAGIC_TRAP
+RUNES=IJ
+CAST_TIME=1.0
+RESOURCES=i_reag_garlic,i_reag_spider_silk,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_MAGIC_TRAP
+SCROLL_ITEM=i_scroll_MAGIC_TRAP
+FLAGS=SPELLFLAG_TARG_OBJ
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=6
+SKILLREQ=MAGERY 120.0
+INTERRUPT=100.0,100.0
+
+ON=@effect
+RETURN 1
+
+[Spell 14]
+DEFNAME=s_magic_untrap
+NAME=Magic Untrap
+SOUND=snd_SPELL_MAGIC_UNTRAP
+RUNES=AJ
+CAST_TIME=1.0
+RESOURCES=i_reag_blood_moss,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_MAGIC_UNTRAP
+SCROLL_ITEM=i_scroll_MAGIC_UNTRAP
+FLAGS=SPELLFLAG_TARG_OBJ
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=6
+SKILLREQ=MAGERY 120.0
+INTERRUPT=100.0,100.0
+
+[Spell 15]
+DEFNAME=s_protection
+NAME=Protection
+SOUND=snd_SPELL_PROTECTION
+RUNES=US
+CAST_TIME=1.3
+RESOURCES=i_reag_garlic,i_reag_ginseng,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_PROTECTION
+SCROLL_ITEM=i_scroll_PROTECTION
+FLAGS=SPELLFLAG_GOOD | SPELLFLAG_FX_TARG
+EFFECT_ID=i_fx_BLESS_EFFECT
+EFFECT=5,20
+DURATION=480.0
+MANAUSE=6
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 16]
+DEFNAME=s_strength
+NAME=Strength
+SOUND=snd_SPELL_STRENGTH
+RUNES=UM
+CAST_TIME=1.0
+RESOURCES=i_reag_mandrake_root,i_reag_nightshade
+RUNE_ITEM=i_rune_STRENGTH
+SCROLL_ITEM=i_scroll_STRENGTH
+FLAGS=SPELLFLAG_GOOD | SPELLFLAG_FX_TARG
+EFFECT_ID=i_fx_BLESS_EFFECT
+EFFECT=5,15
+DURATION=2*60.0,4*60.0
+MANAUSE=6
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 17]
+DEFNAME=s_bless
+NAME=Bless
+SOUND=snd_SPELL_BLESS
+RUNES=RS
+CAST_TIME=1.5
+RESOURCES=i_reag_garlic,i_reag_mandrake_root
+RUNE_ITEM=i_rune_BLESS
+SCROLL_ITEM=i_scroll_BLESS
+FLAGS=SPELLFLAG_GOOD | SPELLFLAG_FX_TARG
+EFFECT_ID=i_fx_BLESS_EFFECT
+EFFECT=5,20
+DURATION=500.0
+MANAUSE=9
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 18]
+DEFNAME=s_fireball
+NAME=Fireball
+SOUND=snd_SPELL_FIREBALL
+RUNES=VF
+CAST_TIME=2.0
+RESOURCES=i_reag_black_pearl,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_FIREBALL
+SCROLL_ITEM=i_scroll_FIREBALL
+FLAGS=SPELLFLAG_TARG_OBJ | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=9
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+ON=@effect
+IF !(<SRC.UID>==<UID>)
+IF !(<FINDID.i_rune_MAGIC_REFLECTION>)
+if !(<src.tactics> > 0) && (<SRC.EVALUATINGINTEL> > 89.9)
+if ((<serv.spell.<argn>.flags>&spellflag_harm) && !(<serv.spell.<argn>.flags>&spellflag_field))
+LOCAL.DAMAGE <dSPELLCIRCLE <DARGN1>>
+endif
+endif
+
+if !(<src.tactics> > 0) && (<SRC.INSCRIPTION> > 89.9)
+if ((<serv.spell.<argn>.flags>&spellflag_harm) && !(<serv.spell.<argn>.flags>&spellflag_field))
+LOCAL.DAMAGE <EVAL <dSPELLCIRCLE <DARGN1>>+<DLOCAL.DAMAGE>>
+endif
+endif
+
+IF (<ISPLAYER>)
+LOCAL.MRESIST <EVAL <MAGICRESISTANCE>/200>
+LOCAL.MRESIST <EVAL <DLOCAL.MRESIST>*<dSPELLCIRCLE <DARGN1>>>
+LOCAL.MRESIST <EVAL <DLOCAL.MRESIST>/5>
+ENDIF
+
+LOCAL.DAMAGE <EVAL <DLOCAL.DAMAGE>+<eval (<src.magery>/150)>>
+
+LOCAL.DAMAGE <EVAL <DLOCAL.DAMAGE>-<DLOCAL.MRESIST>>
+
+IF (<DLOCAL.DAMAGE> > 0)
+damage <DLOCAL.DAMAGE> 00010 <src.uid>
+ENDIF
+ENDIF
+ENDIF
+return 0
+
+
+[Spell 19]
+DEFNAME=s_magic_lock
+NAME=Magic Lock
+SOUND=snd_SPELL_MAGIC_LOCK
+RUNES=AP
+CAST_TIME=2.0
+RESOURCES=i_reag_blood_moss,i_reag_garlic,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_MAGIC_LOCK
+SCROLL_ITEM=i_scroll_MAGIC_LOCK
+FLAGS=SPELLFLAG_TARG_OBJ
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=9
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 20]
+DEFNAME=s_poison
+NAME=Poison
+SOUND=snd_SPELL_POISON
+RUNES=IN
+CAST_TIME=2.5
+RESOURCES=i_reag_nightshade
+RUNE_ITEM=i_rune_POISON
+SCROLL_ITEM=i_scroll_POISON
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG
+EFFECT_ID=i_fx_curse
+EFFECT=10,60
+DURATION=2,3
+MANAUSE=9
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+on=@success
+src.act.skill fail
+IF !(<SRC.UID>==<SRC.ACT.UID>)
+src.psg
+ENDIF
+
+[Spell 21]
+DEFNAME=s_telekinesis
+NAME=Telekinesis
+SOUND=snd_SPELL_telekinesis
+RUNES=OPY
+CAST_TIME=1.9
+RESOURCES=i_reag_blood_moss,i_reag_mandrake_root
+RUNE_ITEM=i_rune_telekinesis
+SCROLL_ITEM=i_scroll_telekinesis
+FLAGS=SPELLFLAG_TARG_OBJ
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=9
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 22]
+DEFNAME=s_teleport
+NAME=Teleport
+SOUND=snd_SPELL_TELEPORT
+RUNES=RP
+CAST_TIME=2.0
+RESOURCES=i_reag_blood_moss,i_reag_mandrake_root
+RUNE_ITEM=i_rune_TELEPORT
+SCROLL_ITEM=i_scroll_TELEPORT
+FLAGS=SPELLFLAG_TARG_XYZ
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=9
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 23]
+DEFNAME=s_unlock
+NAME=Unlock
+SOUND=snd_SPELL_UNLOCK
+RUNES=EP
+CAST_TIME=1.5
+RESOURCES=i_reag_blood_moss,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_UNLOCK
+SCROLL_ITEM=i_scroll_UNLOCK
+FLAGS=SPELLFLAG_TARG_OBJ
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=9
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 24]
+DEFNAME=s_wall_of_stone
+NAME=Wall of Stone
+SOUND=snd_SPELL_WALL_OF_STONE
+RUNES=ISY
+CAST_TIME=1.8
+RESOURCES=i_reag_blood_moss,i_reag_garlic
+RUNE_ITEM=i_rune_WALL_OF_STONE
+SCROLL_ITEM=i_scroll_WALL_OF_STONE
+FLAGS=SPELLFLAG_TARG_XYZ | SPELLFLAG_FX_TARG | SPELLFLAG_FIELD | spellflag_nounparalyze | SPELLFLAG_HARM
+EFFECT_ID=0
+EFFECT=0
+DURATION=30.0
+MANAUSE=9
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 25]
+DEFNAME=s_archcure
+NAME=Arch Cure
+SOUND=snd_SPELL_ARCHCURE
+RUNES=VAN
+CAST_TIME=2.6
+RESOURCES=i_reag_garlic,i_reag_ginseng,i_reag_mandrake_root
+RUNE_ITEM=i_rune_ARCHCURE
+SCROLL_ITEM=i_scroll_ARCHCURE
+FLAGS=SPELLFLAG_FX_TARG | SPELLFLAG_GOOD
+EFFECT_ID=i_fx_HEAL_EFFECT
+EFFECT=0
+DURATION=0.0
+MANAUSE=11
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 26]
+DEFNAME=s_archprotection
+NAME=Arch Protection
+SOUND=snd_SPELL_ARCHPROTECTION
+RUNES=VUS
+CAST_TIME=3.2
+RESOURCES=i_reag_garlic,i_reag_ginseng,i_reag_mandrake_root,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_ARCHPROTECTION
+SCROLL_ITEM=i_scroll_ARCHPROTECTION
+FLAGS=SPELLFLAG_FX_TARG | SPELLFLAG_GOOD
+EFFECT_ID=i_fx_BLESS_EFFECT
+EFFECT=2,8
+DURATION=30.0,90.0
+MANAUSE=11
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 27]
+DEFNAME=s_curse
+NAME=Curse
+SOUND=snd_SPELL_CURSE
+RUNES=DS
+CAST_TIME=2.1
+RESOURCES=i_reag_garlic,i_reag_nightshade,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_CURSE
+SCROLL_ITEM=i_scroll_CURSE
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_RESIST
+EFFECT_ID=i_fx_curse
+EFFECT=5,15
+DURATION=10.0,60.0
+MANAUSE=11
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 28]
+DEFNAME=s_fire_field
+NAME=Fire Field
+SOUND=snd_SPELL_FIRE_FIELD
+RUNES=IFG
+CAST_TIME=2.4
+RESOURCES=i_reag_black_pearl,i_reag_spider_silk,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_FIRE_FIELD
+SCROLL_ITEM=i_scroll_FIRE_FIELD
+FLAGS=SPELLFLAG_TARG_XYZ | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_FIELD | SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=5,12
+DURATION=40.0
+MANAUSE=11
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 29]
+DEFNAME=s_greater_heal
+NAME=Greater Heal
+SOUND=snd_SPELL_GREATER_HEAL
+RUNES=IVM
+CAST_TIME=3.1
+RESOURCES=i_reag_garlic,i_reag_ginseng,i_reag_mandrake_root,i_reag_spider_silk
+RUNE_ITEM=i_rune_GREATER_HEAL
+SCROLL_ITEM=i_scroll_GREATER_HEAL
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_FX_TARG | SPELLFLAG_GOOD
+EFFECT_ID=i_fx_HEAL_EFFECT
+EFFECT=40,42
+DURATION=0.0
+MANAUSE=11
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+//on=@effect
+//IF (<ISPLAYER>)
+//IF (<HITS> < <STR>)
+//MESSAGE @70 <EVAL RAND(40,42)>
+//ENDIF
+//ENDIF
+
+[Spell 30]
+DEFNAME=s_lightning
+NAME=Lightning
+SOUND=snd_SPELL_LIGHTNING
+RUNES=POG
+CAST_TIME=2.5
+RESOURCES=i_reag_black_pearl,i_reag_mandrake_root,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_LIGHTNING
+SCROLL_ITEM=i_scroll_LIGHTNING
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_HARM | SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=10,15
+DURATION=0.0
+MANAUSE=11
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 31]
+DEFNAME=s_mana_drain
+NAME=Mana Drain
+SOUND=snd_SPELL_MANA_DRAIN
+RUNES=OR
+CAST_TIME=2.0
+RESOURCES=i_reag_black_pearl,i_reag_mandrake_root,i_reag_spider_silk
+RUNE_ITEM=i_rune_MANA_DRAIN
+SCROLL_ITEM=i_scroll_MANA_DRAIN
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_RESIST
+EFFECT_ID=i_fx_curse
+EFFECT=0
+DURATION=0.0
+MANAUSE=11
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 32]
+DEFNAME=s_recall
+NAME=Recall
+SOUND=snd_SPELL_RECALL
+RUNES=KOP
+CAST_TIME=2.0
+RESOURCES=i_reag_black_pearl,i_reag_blood_moss,i_reag_mandrake_root
+RUNE_ITEM=i_rune_RECALL
+SCROLL_ITEM=i_scroll_RECALL
+FLAGS=SPELLFLAG_TARG_OBJ
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=11
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 33]
+DEFNAME=s_blade_spirits
+NAME=Blade Spirit
+SOUND=snd_SPELL_BLADE_SPIRITS
+RUNES=IJHY
+CAST_TIME=2.9
+RESOURCES=i_reag_black_pearl,i_reag_mandrake_root,i_reag_nightshade
+RUNE_ITEM=i_rune_BLADE_SPIRITS
+SCROLL_ITEM=i_scroll_BLADE_SPIRITS
+FLAGS=SPELLFLAG_TARG_XYZ | SPELLFLAG_HARM | SPELLFLAG_SUMMON
+EFFECT_ID=0
+EFFECT=0
+DURATION=2*60.0,3*60.0
+MANAUSE=14
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 34]
+DEFNAME=s_dispel_field
+NAME=Dispel Field
+SOUND=snd_SPELL_DISPEL_FIELD
+RUNES=AG
+CAST_TIME=2.5
+RESOURCES=i_reag_black_pearl,i_reag_garlic,i_reag_spider_silk,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_DISPEL_FIELD
+SCROLL_ITEM=i_scroll_DISPEL_FIELD
+FLAGS=SPELLFLAG_TARG_OBJ
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=14
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 35]
+DEFNAME=s_incognito
+NAME=Incognito
+SOUND=snd_SPELL_INCOGNITO
+RUNES=KIE
+CAST_TIME=2.5
+RESOURCES=i_reag_blood_moss,i_reag_garlic,i_reag_nightshade
+RUNE_ITEM=i_rune_INCOGNITO
+SCROLL_ITEM=i_scroll_INCOGNITO
+FLAGS=0
+EFFECT_ID=0
+EFFECT=0
+DURATION=5*60.0,8*60.0
+MANAUSE=14
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 36]
+DEFNAME=s_magic_reflection
+NAME=Magic Reflect
+SOUND=snd_SPELL_MAGIC_REFLECTION
+RUNES=IJS
+CAST_TIME=2.8
+RESOURCES=i_reag_garlic,i_reag_mandrake_root,i_reag_spider_silk
+RUNE_ITEM=i_rune_MAGIC_REFLECTION
+SCROLL_ITEM=i_scroll_MAGIC_REFLECTION
+FLAGS=SPELLFLAG_GOOD | SPELLFLAG_FX_TARG
+EFFECT_ID=i_fx_BLESS_EFFECT
+EFFECT=0
+DURATION=480.0
+MANAUSE=14
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 37]
+DEFNAME=s_mind_blast
+NAME=Mind Blast
+SOUND=snd_SPELL_MIND_BLAST
+RUNES=PCW
+CAST_TIME=4.0
+RESOURCES=i_reag_black_pearl,i_reag_mandrake_root,i_reag_nightshade,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_MIND_BLAST
+SCROLL_ITEM=i_scroll_MIND_BLAST
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_FX_TARG | SPELLFLAG_HARM | SPELLFLAG_RESIST | SPELLFLAG_DIR_ANIM
+EFFECT_ID=i_fx_curse
+EFFECT=0
+DURATION=0.0
+MANAUSE=14
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+on=@effect
+IF !(<SRC.UID>==<UID>)
+IF !(<FINDID.i_rune_MAGIC_REFLECTION>)
+if !(<src.tactics> > 0) && (<SRC.EVALUATINGINTEL> > 89.9)
+if ((<serv.spell.<argn>.flags>&spellflag_harm) && !(<serv.spell.<argn>.flags>&spellflag_field))
+LOCAL.DAMAGE <dSPELLCIRCLE <DARGN1>>
+endif
+endif
+
+if !(<src.tactics> > 0) && (<SRC.INSCRIPTION> > 89.9)
+if ((<serv.spell.<argn>.flags>&spellflag_harm) && !(<serv.spell.<argn>.flags>&spellflag_field))
+LOCAL.DAMAGE <EVAL <dSPELLCIRCLE <DARGN1>>+<DLOCAL.DAMAGE>>
+endif
+endif
+
+IF (<ISPLAYER>)
+LOCAL.MRESIST <EVAL <MAGICRESISTANCE>/200>
+LOCAL.MRESIST <EVAL <DLOCAL.MRESIST>*<dSPELLCIRCLE <DARGN1>>>
+LOCAL.MRESIST <EVAL <DLOCAL.MRESIST>/5>
+ENDIF
+
+	if (<src.int> > <int>)
+		local.mb (<src.int> - <int>)
+		local.mb <eval (<local.mb> / 2)>
+		if (<eval <local.mb>> > 40)
+			local.mb 40
+		endif
+		local.damageb <eval (<local.mb> + {-5 5)>
+	else
+		local.damageb {5 10}
+	endif
+	sfx snd_spell_mind_blast
+	effect 3,0374a,1,15,1
+
+LOCAL.DAMAGE <EVAL <EVAL <DLOCAL.DAMAGE>-<DLOCAL.MRESIST>>+<dlocal.damageb>>
+
+IF (<DLOCAL.DAMAGE> > 0)
+if ((<isevent.e_orc_pevent>) && (<tag0.puan> >= 1000))
+sysmessage @,,1 Orc War Chief olduğnuz için Mind Blast büyüsünden etkilenmediniz.
+else
+damage <DLOCAL.DAMAGE> 00010 <src.uid>
+endif
+ENDIF
+ENDIF
+ENDIF
+return 0
+
+[Spell 38]
+DEFNAME=s_paralyze
+NAME=Paralyze
+SOUND=snd_SPELL_PARALYZE
+RUNES=AEP
+CAST_TIME=2.8
+RESOURCES=i_reag_garlic,i_reag_mandrake_root,i_reag_spider_silk
+RUNE_ITEM=i_rune_PARALYZE
+SCROLL_ITEM=i_scroll_PARALYZE
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG
+EFFECT_ID=i_fx_curse
+EFFECT=0
+DURATION=25.0
+MANAUSE=14
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 39]
+DEFNAME=s_poison_field
+NAME=Poison Field
+SOUND=snd_SPELL_POISON_FIELD
+RUNES=ING
+CAST_TIME=3.0
+RESOURCES=i_reag_black_pearl,i_reag_nightshade,i_reag_spider_silk
+RUNE_ITEM=i_rune_POISON_FIELD
+SCROLL_ITEM=i_scroll_POISON_FIELD
+FLAGS=SPELLFLAG_TARG_XYZ | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_FIELD | SPELLFLAG_RESIST
+EFFECT_ID=i_fx_curse
+EFFECT=5,50
+DURATION=2*60.0,4*60.0
+MANAUSE=14
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 40]
+DEFNAME=s_summon_creature
+NAME=Summon
+SOUND=snd_SPELL_SUMMON_CREATURE
+RUNES=KX
+CAST_TIME=2.5
+RESOURCES=i_reag_blood_moss,i_reag_mandrake_root,i_reag_spider_silk
+RUNE_ITEM=i_rune_SUMMON_CREATURE
+SCROLL_ITEM=i_scroll_SUMMON_CREATURE
+FLAGS=SPELLFLAG_TARG_XYZ | SPELLFLAG_SUMMON
+EFFECT_ID=0
+EFFECT=0
+DURATION=1*60.0,2*60.0
+MANAUSE=14
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 41]
+DEFNAME=s_dispel
+NAME=Dispel
+SOUND=snd_SPELL_DISPEL
+RUNES=AO
+CAST_TIME=2.8
+RESOURCES=i_reag_garlic,i_reag_mandrake_root,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_DISPEL
+SCROLL_ITEM=i_scroll_DISPEL
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=20
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 42]
+DEFNAME=s_energy_bolt
+NAME=Energy Bolt
+SOUND=snd_SPELL_ENERGY_BOLT
+RUNES=CP
+CAST_TIME=3.2
+RESOURCES=i_reag_black_pearl,i_reag_nightshade
+RUNE_ITEM=i_rune_ENERGY_BOLT
+SCROLL_ITEM=i_scroll_ENERGY_BOLT
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_RESIST | SPELLFLAG_DIR_ANIM
+EFFECT_ID=0
+EFFECT=45,50
+DURATION=0.0
+MANAUSE=20
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 43]
+DEFNAME=s_explosion
+NAME=Explosion
+SOUND=snd_SPELL_EXPLOSION
+RUNES=VOF
+CAST_TIME=3.3
+RESOURCES=i_reag_black_pearl,i_reag_mandrake_root,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_EXPLOSION
+SCROLL_ITEM=i_scroll_EXPLOSION
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_RESIST
+EFFECT_ID=i_fx_explode
+EFFECT=35,45
+DURATION=0.0
+MANAUSE=20
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+on=@start
+if ((<region.guarded>==1) || (<region.safe>==1))
+	syshata Burada patlayıcı madde kullanamazsınız.
+	return 1
+endif
+
+[Spell 44]
+DEFNAME=s_invisibility
+NAME=Invisibility
+SOUND=snd_SPELL_INVISIBILITY
+RUNES=ALX
+CAST_TIME=3.0
+RESOURCES=i_reag_blood_moss,i_reag_nightshade
+RUNE_ITEM=i_rune_INVISIBILITY
+SCROLL_ITEM=i_scroll_INVISIBILITY
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_GOOD
+EFFECT_ID=0
+EFFECT=0
+DURATION=3*60.0,5*60.0
+MANAUSE=20
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 45]
+DEFNAME=s_mark
+NAME=Mark
+SOUND=snd_SPELL_MARK
+RUNES=KPY
+CAST_TIME=3.0
+RESOURCES=i_reag_black_pearl,i_reag_blood_moss,i_reag_mandrake_root
+RUNE_ITEM=i_rune_MARK
+SCROLL_ITEM=i_scroll_MARK
+FLAGS=SPELLFLAG_TARG_OBJ
+EFFECT_ID=0
+EFFECT=1,10
+DURATION=0.0
+MANAUSE=20
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+on=@success
+IF (<dISMARKLANMAZ>)
+F_FIZZLE
+SKILL FAIL
+RETURN 1
+ENDIF
+IF (<ACT.BASEID>==I_RUNE_MARKER) || (<ACT.BASEID>==I_DGTELE)
+	IF (<ACT.topobj.uid> == <uid>)
+	IF (<SERV.MAP(<P.X>,<P.Y>).REGION.FLAGS>&REGION_FLAG_GUARDED)
+		act.color 0189
+	else
+		act.color 026
+	ENDIF
+	ELSE
+		syshata Rune üzerinizde olmalıdır.
+		f_fizzle
+		RETURN 1
+	ENDIF
+ELSE
+	F_FIZZLE
+	RETURN 1
+ENDIF
+
+[Spell 46]
+DEFNAME=s_mass_curse
+NAME=Mass Curse
+SOUND=snd_SPELL_MASS_CURSE
+RUNES=VDS
+CAST_TIME=3.3
+RESOURCES=i_reag_garlic,i_reag_mandrake_root,i_reag_nightshade,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_MASS_CURSE
+SCROLL_ITEM=i_scroll_MASS_CURSE
+FLAGS=SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_RESIST
+EFFECT_ID=i_fx_curse
+EFFECT=50,85
+DURATION=0.0
+MANAUSE=20
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+
+[Spell 47]
+DEFNAME=s_paralyzation_field
+NAME=Paralyze Field
+SOUND=snd_SPELL_PARALYZE_FIELD
+RUNES=IEG
+CAST_TIME=3.1
+RESOURCES=i_reag_black_pearl,i_reag_ginseng,i_reag_spider_silk
+RUNE_ITEM=i_rune_PARALYZE_FIELD
+SCROLL_ITEM=i_scroll_PARALYZE_FIELD
+FLAGS=SPELLFLAG_TARG_XYZ | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_FIELD | SPELLFLAG_RESIST
+EFFECT_ID=i_fx_curse
+EFFECT=0
+DURATION=1*30.0,1*50.0
+MANAUSE=20
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 48]
+DEFNAME=s_reveal
+NAME=Reveal
+SOUND=snd_SPELL_REVEAL
+RUNES=WQ
+CAST_TIME=3.2
+RESOURCES=i_reag_blood_moss,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_REVEAL
+SCROLL_ITEM=i_scroll_REVEAL
+FLAGS=0
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=20
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 49]
+DEFNAME=s_chain_lightning
+NAME=Chain Lightning
+SOUND=snd_SPELL_CHAIN_LIGHTNING
+RUNES=VOG
+CAST_TIME=3.5
+RESOURCES=i_reag_black_pearl,i_reag_blood_moss,i_reag_mandrake_root,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_CHAIN_LIGHTNING
+SCROLL_ITEM=i_scroll_CHAIN_LIGHTNING
+FLAGS=SPELLFLAG_TARG_XYZ | SPELLFLAG_HARM | SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=40
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+on=@success
+if (<region.guarded> == 1)
+	f_fizzle
+	return 1
+endif
+
+on=@effect
+IF !(<SRC.UID>==<UID>)
+IF !(<ISITEM>)
+IF !(<FINDID.i_rune_MAGIC_REFLECTION>)
+if !(<src.tactics> > 0) && (<SRC.EVALUATINGINTEL> > 89.9)
+if ((<serv.spell.<argn>.flags>&spellflag_harm) && !(<serv.spell.<argn>.flags>&spellflag_field))
+LOCAL.DAMAGE <dSPELLCIRCLE <DARGN1>>
+endif
+endif
+
+if !(<src.tactics> > 0) && (<SRC.INSCRIPTION> > 89.9)
+if ((<serv.spell.<argn>.flags>&spellflag_harm) && !(<serv.spell.<argn>.flags>&spellflag_field))
+LOCAL.DAMAGE <EVAL <dSPELLCIRCLE <DARGN1>>+<DLOCAL.DAMAGE>>
+endif
+endif
+
+IF (<ISPLAYER>)
+LOCAL.MRESIST <EVAL <MAGICRESISTANCE>/200>
+LOCAL.MRESIST <EVAL <DLOCAL.MRESIST>*<dSPELLCIRCLE <DARGN1>>>
+LOCAL.MRESIST <EVAL <DLOCAL.MRESIST>/5>
+ENDIF
+
+LOCAL.DAMAGE <EVAL <EVAL <DLOCAL.DAMAGE>-<DLOCAL.MRESIST>>+{35 45}>
+
+IF (<DLOCAL.DAMAGE> > 0)
+damage <DLOCAL.DAMAGE> 00010 <src.uid>
+ENDIF
+ENDIF
+ENDIF
+return 0
+ENDIF
+	
+[Spell 50]
+DEFNAME=s_energy_field
+NAME=Energy Field
+SOUND=snd_SPELL_ENERGY_FIELD
+RUNES=ISG
+CAST_TIME=4.0
+RESOURCES=i_reag_black_pearl,i_reag_mandrake_root,i_reag_spider_silk,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_ENERGY_FIELD
+SCROLL_ITEM=i_scroll_ENERGY_FIELD
+FLAGS=SPELLFLAG_TARG_XYZ | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_FIELD
+EFFECT_ID=0
+EFFECT=40,60
+DURATION=6*60.0,10*60.0
+MANAUSE=40
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 51]
+DEFNAME=s_flamestrike
+NAME=Flame Strike
+SOUND=snd_SPELL_FLAMESTRIKE
+RUNES=KVF
+CAST_TIME=4.0
+RESOURCES=i_reag_spider_silk,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_FLAMESTRIKE
+SCROLL_ITEM=i_scroll_FLAMESTRIKE
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_RESIST
+EFFECT_ID=03709
+EFFECT=0
+DURATION=0.0
+MANAUSE=40
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+on=@effect
+IF !(<SRC.UID>==<UID>)
+IF !(<FINDID.i_rune_MAGIC_REFLECTION>)
+if !(<src.tactics> > 0) && (<SRC.EVALUATINGINTEL> > 89.9)
+if ((<serv.spell.<argn>.flags>&spellflag_harm) && !(<serv.spell.<argn>.flags>&spellflag_field))
+LOCAL.DAMAGE <dSPELLCIRCLE <DARGN1>>
+endif
+endif
+
+if !(<src.tactics> > 0) && (<SRC.INSCRIPTION> > 89.9)
+if ((<serv.spell.<argn>.flags>&spellflag_harm) && !(<serv.spell.<argn>.flags>&spellflag_field))
+LOCAL.DAMAGE <EVAL <dSPELLCIRCLE <DARGN1>>+<DLOCAL.DAMAGE>>
+endif
+endif
+
+IF (<ISPLAYER>)
+LOCAL.MRESIST <EVAL <MAGICRESISTANCE>/200>
+LOCAL.MRESIST <EVAL <DLOCAL.MRESIST>*<dSPELLCIRCLE <DARGN1>>>
+LOCAL.MRESIST <EVAL <DLOCAL.MRESIST>/5>
+ENDIF
+
+LOCAL.DAMAGE <EVAL <EVAL <DLOCAL.DAMAGE>-<DLOCAL.MRESIST>>+{35 50}>
+
+IF (<DLOCAL.DAMAGE> > 0)
+damage <DLOCAL.DAMAGE> 00010 <src.uid>
+ENDIF
+ENDIF
+ENDIF
+return 0
+
+[Spell 52]
+DEFNAME=s_gate_travel
+NAME=Gate Travel
+SOUND=snd_SPELL_GATE_TRAVEL
+RUNES=VRP
+CAST_TIME=3.5
+RESOURCES=i_reag_black_pearl,i_reag_mandrake_root,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_GATE_TRAVEL
+SCROLL_ITEM=i_scroll_GATE_TRAVEL
+FLAGS=SPELLFLAG_TARG_OBJ
+EFFECT_ID=i_moongate_black
+EFFECT=0
+DURATION=90.0
+MANAUSE=40
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 53]
+DEFNAME=s_mana_vampire
+NAME=Mana Vampire
+SOUND=snd_SPELL_MANA_VAMPIRE
+RUNES=OS
+CAST_TIME=3.5
+RESOURCES=i_reag_black_pearl,i_reag_blood_moss,i_reag_mandrake_root,i_reag_spider_silk
+RUNE_ITEM=i_rune_MANA_VAMPIRE
+SCROLL_ITEM=i_scroll_MANA_VAMPIRE
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_RESIST
+EFFECT_ID=i_fx_curse
+EFFECT=0
+DURATION=0.0
+MANAUSE=40
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 54]
+DEFNAME=s_mass_dispel
+NAME=Mass Dispel
+SOUND=snd_SPELL_MASS_DISPEL
+RUNES=VAO
+CAST_TIME=4.3
+RESOURCES=i_reag_black_pearl,i_reag_garlic,i_reag_mandrake_root,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_MASS_DISPEL
+SCROLL_ITEM=i_scroll_MASS_DISPEL
+FLAGS=0
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=40
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 55]
+DEFNAME=s_meteor_swarm
+NAME=Meteor Swarm
+SOUND=snd_SPELL_METEOR_swarm
+RUNES=FKDY
+CAST_TIME=3.8
+RESOURCES=i_reag_blood_moss,i_reag_mandrake_root,i_reag_spider_silk,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_METEOR_swarm
+SCROLL_ITEM=i_scroll_METEOR_swarm
+FLAGS=SPELLFLAG_TARG_XYZ | SPELLFLAG_HARM | SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=40
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+on=@success
+if (<region.guarded> == 1)
+	f_fizzle
+	return 1
+endif
+
+on=@effect
+IF !(<SRC.UID>==<UID>)
+IF !(<FINDID.i_rune_MAGIC_REFLECTION>)
+if !(<src.tactics> > 0) && (<SRC.EVALUATINGINTEL> > 89.9)
+if ((<serv.spell.<argn>.flags>&spellflag_harm) && !(<serv.spell.<argn>.flags>&spellflag_field))
+LOCAL.DAMAGE <dSPELLCIRCLE <DARGN1>>
+endif
+endif
+
+if !(<src.tactics> > 0) && (<SRC.INSCRIPTION> > 89.9)
+if ((<serv.spell.<argn>.flags>&spellflag_harm) && !(<serv.spell.<argn>.flags>&spellflag_field))
+LOCAL.DAMAGE <EVAL <dSPELLCIRCLE <DARGN1>>+<DLOCAL.DAMAGE>>
+endif
+endif
+
+IF (<ISPLAYER>)
+LOCAL.MRESIST <EVAL <MAGICRESISTANCE>/200>
+LOCAL.MRESIST <EVAL <DLOCAL.MRESIST>*<dSPELLCIRCLE <DARGN1>>>
+LOCAL.MRESIST <EVAL <DLOCAL.MRESIST>/5>
+ENDIF
+
+LOCAL.DAMAGE <EVAL <EVAL <DLOCAL.DAMAGE>-<DLOCAL.MRESIST>>+{35 50}>
+
+IF (<DLOCAL.DAMAGE> > 0)
+damage <DLOCAL.DAMAGE> 00010 <src.uid>
+ENDIF
+ENDIF
+ENDIF
+return 0
+
+
+[Spell 56]
+DEFNAME=s_polymorph
+NAME=Polymorph
+SOUND=snd_SPELL_POLYMORPH
+RUNES=VYR
+CAST_TIME=3.5
+RESOURCES=i_reag_blood_moss,i_reag_mandrake_root,i_reag_spider_silk
+RUNE_ITEM=i_rune_POLYMORPH
+SCROLL_ITEM=i_scroll_POLYMORPH
+FLAGS=0
+EFFECT_ID=0
+EFFECT=0
+DURATION=2*60.0,4*60.0
+MANAUSE=40
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+ON=@effect
+RETURN 1
+
+[Spell 57]
+DEFNAME=s_earthquake
+NAME=Earthquake
+SOUND=snd_SPELL_EARTHQUAKE
+RUNES=IVP
+CAST_TIME=4.5
+RESOURCES=i_reag_blood_moss,i_reag_ginseng,i_reag_mandrake_root,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_EARTHQUAKE
+SCROLL_ITEM=i_scroll_EARTHQUAKE
+FLAGS=SPELLFLAG_HARM | SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=40
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+on=@success
+if (<region.guarded> == 1)
+	f_fizzle
+	return 1
+endif
+
+on=@effect
+IF !(<SRC.UID>==<UID>)
+IF !(<ISITEM>)
+IF !(<FINDID.i_rune_MAGIC_REFLECTION>)
+if !(<src.tactics> > 0) && (<SRC.EVALUATINGINTEL> > 89.9)
+if ((<serv.spell.<argn>.flags>&spellflag_harm) && !(<serv.spell.<argn>.flags>&spellflag_field))
+LOCAL.DAMAGE <dSPELLCIRCLE <DARGN1>>
+endif
+endif
+
+if !(<src.tactics> > 0) && (<SRC.INSCRIPTION> > 89.9)
+if ((<serv.spell.<argn>.flags>&spellflag_harm) && !(<serv.spell.<argn>.flags>&spellflag_field))
+LOCAL.DAMAGE <EVAL <dSPELLCIRCLE <DARGN1>>+<DLOCAL.DAMAGE>>
+endif
+endif
+
+IF (<ISPLAYER>)
+LOCAL.MRESIST <EVAL <MAGICRESISTANCE>/200>
+LOCAL.MRESIST <EVAL <DLOCAL.MRESIST>*<dSPELLCIRCLE <DARGN1>>>
+LOCAL.MRESIST <EVAL <DLOCAL.MRESIST>/5>
+ENDIF
+
+LOCAL.DAMAGE <EVAL <EVAL <DLOCAL.DAMAGE>-<DLOCAL.MRESIST>>+{40 50}>
+
+IF (<DLOCAL.DAMAGE> > 0)
+damage <DLOCAL.DAMAGE> <src.uid>
+ENDIF
+ENDIF
+return 0
+ENDIF
+ENDIF
+
+[Spell 58]
+DEFNAME=s_energy_vortex
+NAME=Energy Vortex
+SOUND=snd_SPELL_ENERGY_VORTEX
+RUNES=VCP
+CAST_TIME=4.3
+RESOURCES=i_reag_black_pearl,i_reag_blood_moss,i_reag_mandrake_root,i_reag_nightshade
+RUNE_ITEM=i_rune_ENERGY_VORTEX
+SCROLL_ITEM=i_scroll_ENERGY_VORTEX
+FLAGS=SPELLFLAG_TARG_XYZ | SPELLFLAG_HARM | SPELLFLAG_SUMMON
+EFFECT_ID=0
+EFFECT=0
+DURATION=2*60.0,3*60.0
+MANAUSE=40
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 59]
+DEFNAME=s_resurrection
+NAME=Resurrection
+SOUND=snd_SPELL_RESURRECTION
+RUNES=AC
+CAST_TIME=4.5
+RESOURCES=i_reag_blood_moss,i_reag_garlic,i_reag_ginseng
+RUNE_ITEM=i_rune_RESURRECTION
+SCROLL_ITEM=i_scroll_RESURRECTION
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_GOOD
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=40
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+[Spell 60]
+DEFNAME=s_summon_elem_air
+NAME=Air Elemental
+SOUND=snd_SPELL_SUMMON_elem_air
+RUNES=KVXH
+CAST_TIME=4.0
+RESOURCES=i_reag_blood_moss,i_reag_mandrake_root,i_reag_spider_silk
+RUNE_ITEM=i_rune_SUMMON_elem_air
+SCROLL_ITEM=i_scroll_SUMMON_elem_air
+FLAGS=SPELLFLAG_TARG_XYZ | SPELLFLAG_SUMMON
+EFFECT_ID=0
+EFFECT=0
+DURATION=2*60.0,3*60.0
+MANAUSE=40
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+
+[Spell 61]
+DEFNAME=s_summon_daemon
+NAME=Daemon
+SOUND=snd_SPELL_SUMMON_DAEMON
+RUNES=KVXC
+CAST_TIME=4.0
+RESOURCES=i_reag_blood_moss,i_reag_mandrake_root,i_reag_spider_silk,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_SUMMON_DAEMON
+SCROLL_ITEM=i_scroll_SUMMON_DAEMON
+FLAGS=SPELLFLAG_TARG_XYZ | SPELLFLAG_SUMMON
+EFFECT_ID=0
+EFFECT=0
+DURATION=2*60.0,3*60.0
+MANAUSE=40
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+
+[Spell 62]
+DEFNAME=s_summon_elem_earth
+NAME=Earth Elemental
+SOUND=snd_SPELL_SUMMON_elem_earth
+RUNES=KVXY
+CAST_TIME=4.0
+RESOURCES=i_reag_blood_moss,i_reag_mandrake_root,i_reag_spider_silk
+RUNE_ITEM=i_rune_SUMMON_elem_earth
+SCROLL_ITEM=i_scroll_SUMMON_elem_earth
+FLAGS=SPELLFLAG_TARG_XYZ | SPELLFLAG_SUMMON
+EFFECT_ID=0
+EFFECT=0
+DURATION=2*60.0,3*60.0
+MANAUSE=40
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+
+[Spell 63]
+DEFNAME=s_summon_elem_fire
+NAME=Fire Elemental
+SOUND=snd_SPELL_SUMMON_elem_fire
+RUNES=KVXF
+CAST_TIME=4.0
+RESOURCES=i_reag_blood_moss,i_reag_mandrake_root,i_reag_spider_silk,i_reag_sulfur_ash
+RUNE_ITEM=i_rune_SUMMON_elem_fire
+SCROLL_ITEM=i_scroll_SUMMON_elem_fire
+FLAGS=SPELLFLAG_TARG_XYZ | SPELLFLAG_SUMMON
+EFFECT_ID=0
+EFFECT=0
+DURATION=2*60.0,3*60.0
+MANAUSE=40
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+
+[Spell 64]
+DEFNAME=s_summon_elem_water
+NAME=Water Elemental
+SOUND=snd_SPELL_SUMMON_elem_water
+RUNES=KVXAF
+CAST_TIME=4.0
+RESOURCES=i_reag_blood_moss,i_reag_mandrake_root,i_reag_spider_silk
+RUNE_ITEM=i_rune_SUMMON_elem_water
+SCROLL_ITEM=i_scroll_SUMMON_elem_water
+FLAGS=SPELLFLAG_TARG_XYZ | SPELLFLAG_SUMMON
+EFFECT_ID=0
+EFFECT=0
+DURATION=2*60.0,3*60.0
+MANAUSE=40
+SKILLREQ=MAGERY 1.0
+INTERRUPT=100.0,100.0
+
+
+[Spell 65]
+DEFNAME=s_summon_undead
+NAME=Summon Undead
+SOUND=snd_SPELL_SUMMON_UNDEAD
+RUNES=KNM
+CAST_TIME=4.0
+RESOURCES=i_reag_blood_vial,i_reag_bone
+RUNE_ITEM=i_RUNE_ALCHEM_1
+SCROLL_ITEM=i_scroll_X_GREEN2
+FLAGS=SPELLFLAG_TARG_XYZ | SPELLFLAG_SUMMON
+EFFECT_ID=0
+EFFECT=0
+DURATION=2*60.0,3*60.0
+MANAUSE=0
+SKILLREQ=NECROMANCY 20.0
+
+
+
+[Spell 67]
+DEFNAME=s_bone_armor
+NAME=Bone Armor
+SOUND=snd_SPELL_BONE_ARMOR
+RUNES=ICSY
+CAST_TIME=2.0
+RESOURCES=i_reag_blood_moss
+RUNE_ITEM=i_RUNE_ALCHEM_3
+SCROLL_ITEM=i_scroll_X_BROWN2
+FLAGS=SPELLFLAG_TARG_OBJ
+EFFECT_ID=0
+EFFECT=0
+DURATION=0.0
+MANAUSE=0
+SKILLREQ=NECROMANCY 30.0
+
+[Spell 68]
+DEFNAME=s_light
+NAME=Light
+SOUND=snd_SPELL_LIGHT
+RUNES=IL
+CAST_TIME=1.0
+RESOURCES=i_reag_spider_silk,i_reag_sulfur_ash
+RUNE_ITEM=i_light_source
+SCROLL_ITEM=I_SCROLL_X_RED
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_GOOD
+EFFECT_ID=0
+EFFECT=0
+DURATION=3*60.0,5*60.0
+MANAUSE=0
+SKILLREQ=NECROMANCY 10.0
+
+[Spell 69]
+DEFNAME=s_fire_bolt
+NAME=Fire Bolt
+SOUND=snd_SPELL_FIRE_BOLT
+RUNES=VFP
+CAST_TIME=5.0
+RESOURCES=i_reag_black_pearl,i_reag_sulfur_ash,i_reag_nightshade
+RUNE_ITEM=i_rune_FIREBALL
+SCROLL_ITEM=I_SCROLL_X_BLUE
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_BOLT | SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=35,65
+DURATION=0.0
+MANAUSE=0
+SKILLREQ=NECROMANCY 50.0
+
+[Spell 70]
+DEFNAME=s_Hallucination
+NAME=Hallucination
+SOUND=snd_Z_END_MYSTERY1
+RUNES=WN
+CAST_TIME=3.0
+RESOURCES=i_reag_garlic,i_reag_nightshade
+RUNE_ITEM=i_rune_MIND_BLAST
+SCROLL_ITEM=i_scroll_MIND_BLAST
+FLAGS=SPELLFLAG_TARG_CHAR|SPELLFLAG_DIR_ANIM| SPELLFLAG_HARM | SPELLFLAG_FX_TARG| SPELLFLAG_RESIST
+EFFECT_ID=i_fx_curse
+EFFECT=2,5
+DURATION=2*60.0,4*60.0
+MANAUSE=0
+SKILLREQ=NECROMANCY 40.0
+
+// Potions are just spells that have and effect attached at the potion layer.
+// All spells and potion effects can be added to equipped items.
+
+[Spell 71]
+DEFNAME=s_Stone
+NAME=Stone
+FLAGS=SPELLFLAG_TARG_CHAR|SPELLFLAG_DIR_ANIM| SPELLFLAG_HARM | SPELLFLAG_FX_TARG
+RUNE_ITEM=i_RUNE_ALCHEM_3
+DURATION=2*60.0,4*60.0
+
+[Spell 72]
+DEFNAME=s_Shrink
+NAME=Shrink
+FLAGS=SPELLFLAG_TARG_CHAR|SPELLFLAG_DIR_ANIM| SPELLFLAG_HARM | SPELLFLAG_FX_TARG
+RUNE_ITEM=i_RUNE_ALCHEM_3
+DURATION=2*60.0,4*60.0
+
+[Spell 73]
+DEFNAME=s_Refresh
+NAME=Refresh
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_FX_TARG | SPELLFLAG_GOOD
+RUNE_ITEM=i_RUNE_ALCHEM_3
+EFFECT=40,180
+
+[Spell 74]
+DEFNAME=s_Restore
+NAME=Restore
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_FX_TARG | SPELLFLAG_GOOD
+RUNE_ITEM=i_RUNE_ALCHEM_3
+EFFECT=10,100
+
+[Spell 75]
+DEFNAME=s_Mana
+NAME=Mana
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_FX_TARG | SPELLFLAG_GOOD
+RUNE_ITEM=i_RUNE_ALCHEM_3
+EFFECT_ID=i_fx_HEAL_EFFECT
+EFFECT=10,100
+
+[Spell 76]
+DEFNAME=s_Sustenance
+NAME=Sustenance
+FLAGS=SPELLFLAG_TARG_CHAR|SPELLFLAG_DIR_ANIM| SPELLFLAG_GOOD | SPELLFLAG_FX_TARG
+RUNE_ITEM=i_RUNE_ALCHEM_3
+EFFECT=4,100
+
+[Spell 77]
+// This potion makes your skin match the colors of whatever is behind you.
+DEFNAME=s_Chameleon
+NAME=Chameleon
+FLAGS=SPELLFLAG_TARG_CHAR|SPELLFLAG_DIR_ANIM| SPELLFLAG_HARM | SPELLFLAG_FX_TARG
+RUNE_ITEM=i_RUNE_ALCHEM_3
+DURATION=2*60.0,4*60.0
+
+[Spell 78]
+// This potion polymorphs you into an animal for a while.
+DEFNAME=s_BeastForm
+NAME=Beast Form
+FLAGS=SPELLFLAG_HARM| SPELLFLAG_RESIST
+RUNE_ITEM=i_RUNE_ALCHEM_3
+DURATION=2*60.0,4*60.0
+
+[Spell 79]
+// This potion polymorphs you into a monster for a while.
+DEFNAME=s_Monster_Form
+NAME=Monster Form
+FLAGS=SPELLFLAG_HARM| SPELLFLAG_RESIST
+RUNE_ITEM=i_RUNE_ALCHEM_3
+DURATION=2*60.0,4*60.0
+
+[Spell 80]
+//
+DEFNAME=s_Forget
+NAME=Forget
+FLAGS=SPELLFLAG_HARM| SPELLFLAG_RESIST
+RUNE_ITEM=i_RUNE_ALCHEM_3
+
+[Spell 81]
+// This potion permanently changes your gender.
+DEFNAME=s_Gender_Swap
+NAME=Gender Swap
+FLAGS=SPELLFLAG_HARM| SPELLFLAG_RESIST
+RUNE_ITEM=i_RUNE_ALCHEM_3
+
+[Spell 82]
+//
+DEFNAME=s_Trance
+NAME=Trance
+RUNE_ITEM=i_RUNE_ALCHEM_3
+EFFECT_ID=i_fx_HEAL_EFFECT
+DURATION=2*60.0,4*60.0
+
+[Spell 83] // This potion turns you into an immobile but untargetable particle system for a while.
+DEFNAME=s_Particle_Form
+NAME=Particle Form
+RUNE_ITEM=i_RUNE_ALCHEM_3
+DURATION=1*60.0,2*60.0
+
+[Spell 84]
+// This potion erects a temporary force field around you. Nobody approaching will be able to get within 1 tile of you though you can move close to them if you wish.
+DEFNAME=s_Shield
+NAME=Shield
+RUNE_ITEM=i_RUNE_ALCHEM_3
+DURATION=2*60.0,4*60.0
+
+[Spell 85]
+// This potion turns your skin into steel, giving a boost to your AR.
+DEFNAME=s_Steelskin
+NAME=Steel Skin
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_FX_TARG| SPELLFLAG_GOOD
+RUNE_ITEM=i_RUNE_ALCHEM_3
+EFFECT=4,40
+DURATION=2*60.0,4*60.0
+
+[Spell 86]
+DEFNAME=s_Stoneskin
+NAME=Stone Skin
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_FX_TARG| SPELLFLAG_GOOD
+RUNE_ITEM=i_RUNE_ALCHEM_3
+EFFECT=4,40
+DURATION=2*60.0,4*60.0
+
+[SPELL 87]
+// Regen hit points at fast rate.
+DEFNAME=s_Regenerate
+NAME=Regeneration
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_FX_TARG | SPELLFLAG_GOOD
+RUNE_ITEM=i_RUNE_ALCHEM_3
+DURATION=2*60.0,4*60.0
+
+
+[SPELL 88]
+// Enchant a weapon or armor.
+// Effect of all enchanted weapons is tied to EFFECT here !
+DEFNAME=s_Enchant
+NAME=Enchantment
+FLAGS=SPELLFLAG_TARG_OBJ | SPELLFLAG_FX_TARG | SPELLFLAG_GOOD
+RUNE_ITEM=i_RUNE_ALCHEM_3
+MANAUSE=200
+SKILLREQ=MAGERY 200.0
+EFFECT=1,15
+
+
+//#################################################\\
+//#                 Curse Weapon                  #\\
+//#################################################\\
+
+[spell 104]
+DEFNAME=s_curse_weapon
+NAME=Curse Weapon
+SOUND=snd_spell_curse
+RUNES=
+CAST_TIME=2.5
+RESOURCES=i_reag_pig_iron
+RUNE_ITEM=i_rune_curse
+SCROLL_ITEM=i_scroll_curse_weapon
+FLAGS=SPELLFLAG_FX_TARG
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=7
+SKILLREQ=Necromancy 0.1
+INTERRUPT=100.0,100.0
+
+ON=@Start
+IF !(<ISEVENT.E_HARADRIM>)
+src.syshata Sadece Haradrim irki kullanabilir.
+src.skill fail
+src.action -1
+return 1
+ENDIF
+
+sd 1
+src.necroespell_say An Sanct Gra Char
+
+
+ON=@Success
+src.necro_gain
+//src.sysmessage Buyu basarili oldu.
+if <src.restest i_curse_weapon>
+  src.consume i_curse_weapon
+endif
+serv.newitem i_curse_weapon
+new.timer=(<eval <src.spiritspeak>/70>)+1
+new.equip <src>
+effect 3,i_fx_BLESS_EFFECT,1,18,0,39,3
+
+[itemdef i_curse_weapon]
+NAME=Curse Weapon
+ID=i_memory 
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@Equip
+src.events +e_curse_weapon
+
+ON=@UnEquip
+cont.events -e_curse_weapon
+cont.sound snd_spell_magic_arrow
+
+ON=@Timer
+cont.sysmessage @55 Curse Weapon etkisi kayboldu.
+remove
+return 1
+
+[events e_curse_weapon]
+ON=@Hit
+//if (<argo.uid>==<tag0.cursed_weapon>)
+  sound 1317
+  //sysmessage life drain
+  hits += <argn1>/2
+  if <hits> > <maxhits>
+     hits=<maxhits>
+  endif
+//endif
+
+//#################################################\\
+//#                  Pain Spike                   #\\
+//#################################################\\
+
+[spell 109]
+DEFNAME=s_pain_spike
+NAME=Pain Spike
+SOUND=snd_spell_dispel_field
+RUNES=
+CAST_TIME=2.5
+RESOURCES=i_reag_grave, i_reag_pig_iron
+RUNE_ITEM=i_rune_poison
+SCROLL_ITEM=i_scroll_pain_spike
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG| SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=5
+SKILLREQ=Necromancy 20.0
+INTERRUPT=100.0,100.0
+
+ON=@start
+IF !(<ISEVENT.E_HARADRIM>)
+src.syshata Sadece Haradrim irki kullanabilir.
+src.skill fail
+src.action -1
+return 1
+ENDIF
+src.sd 2
+src.necroespell_say In Sar
+
+ON=@Success
+serv.newitem i_pain_spike
+//new.more1=<eval ((<src.spiritspeak>-<act.magicresistance>)/100)+30>
+new.more1=<eval ((<src.spiritspeak>-<eval ((<act.magicresistance>*80)/100)>)/100)+30>
+new.more2=<eval <new.more1>/3>
+new.link=<act.uid>
+new.equip
+src.necro_gain
+
+
+[itemdef i_pain_spike]
+NAME=Pain Spike
+ID=i_memory 
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@Equip
+timer=5
+link.effect 3,i_fx_glow_spike,1,18,0,39,3
+link.damage <more1> 02 <uid>
+link.stam -=<eval ((<link.stam>*30) / 100)>
+
+ON=@Timer
+if !(<cont.flags> & statf_dead)
+  link.sound 0210
+  link.hits += <dmore2>
+  if (<link.hits> > <link.maxhits>)
+    link.hits=<link.maxhits>
+  endif
+  remove
+  return 1
+else
+  remove
+  return 1
+endif
+
+//#################################################\\
+//#                  Corpse Skin                  #\\
+//#################################################\\
+
+[spell 103] // okey
+DEFNAME=s_corpse_skin
+NAME=Corpse Skin
+SOUND=snd_spell_weaken
+RUNES=
+CAST_TIME=2.0
+RESOURCES=i_reag_grave, i_reag_batwing
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_corpse_skin
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_RESIST | spellflag_playeronly
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=11
+SKILLREQ=Necromancy 20.0
+INTERRUPT=100.0,100.0
+
+ON=@start
+return 1
+
+if !<act.isplayer>
+src.sysmessage sadece oyunculara atabilirsiniz.
+src.f_fizzle
+src.skill fail
+return 1
+endif
+src.sd 1
+src.necroespell_say In Agle Corp Ylem
+
+
+ON=@Success
+if (<findid.i_rune_reactive_armor>)
+	findid.i_rune_reactive_armor.remove
+endif
+if (<findid.i_rune_ARCHPROTECTION>)
+	findid.i_rune_ARCHPROTECTION.remove
+endif
+
+if (<findid.i_rune_protection>)
+	findid.i_rune_protection.remove
+endif
+if (<findid.i_rune_ARCHPROTECTION>)
+	findid.i_rune_ARCHPROTECTION.remove
+endif
+
+src.necro_gain_basit
+if <act.restest i_corpse_skin>
+  act.consume i_corpse_skin
+  return 1
+endif
+serv.newitem i_liche_fx
+new.attr=attr_static|attr_decay
+new.timer=2 
+new.p=<act.p>
+serv.newitem i_corpse_skin
+local.spirit=<eval ((<act.spiritspeak>*8)/100)>
+local.necro=<eval ((<act.necromancy>*4)/100)>
+new.timer=<eval (<dlocal.spirit>+<dlocal.necro>/100)+120>
+act.sysmessage @1153,,1 Büyü süresi : <eval (<dlocal.spirit>+<dlocal.necro>/50)+120>
+act.say <dlocal.spirit>,<dlocal.necro> 
+act.equip <new>
+
+
+[itemdef i_corpse_skin]
+NAME=Corpse Skin
+ID=i_memory 
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@Equip
+  src.color=0059f
+  src.events +e_corpse
+  src.modar +=<eval <src.necromancy>/50>
+
+ON=@UnEquip
+  cont.color=<cont.oskin>
+  cont.events -e_corpse
+  src.modar=0
+
+ON=@Timer
+  remove
+  return 1
+
+[events e_corpse]
+ON=@Spelleffect
+if (<argn> == 34) || (<argn> == 41)
+  consume i_corpse_skin
+endif
+
+//#################################################\\
+//#                   Evil Omen                   #\\
+//#################################################\\
+
+[spell 105] // okey
+DEFNAME=s_evil_omen
+NAME=Evil Omen
+SOUND=0245
+RUNES=
+CAST_TIME=2.7
+RESOURCES=i_reag_batwing, i_reag_nox
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_evil_omen
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=11
+SKILLREQ=Necromancy 20.0
+INTERRUPT=100.0,100.0
+
+ON=@start
+IF !(<ISEVENT.E_HARADRIM>)
+src.syshata Sadece Haradrim irki kullanabilir.
+src.skill fail
+src.action -1
+return 1
+ENDIF
+src.sd 1
+src.necroespell_say Pas Tym An Sanct
+
+ON=@Success
+src.necro_gain
+act.events +e_evil_omen
+act.effect 3,i_fx_curse,1,18,0,39,3
+
+[events e_evil_omen]
+ON=@GetHit
+argn1 += <argn1>/4
+events -e_evil_omen
+
+ON=@Spelleffect
+if (<argn> == 34) || (<argn> == 41)
+  events -e_evil_omen
+endif
+
+//#################################################\\
+//#                  Blood Oath                   #\\
+//#################################################\\
+
+[spell 102]
+DEFNAME=s_blood_oath
+NAME=Blood Oath
+SOUND=01e9
+RUNES=
+CAST_TIME=2.7
+RESOURCES=i_reag_blood_daemon
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_blood_oath
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=13
+SKILLREQ=Necromancy 20.0
+INTERRUPT=100.0,100.0
+
+ON=@start
+return 1
+src.sd 1
+src.necroespell_say In Jux Mani Xen
+
+ON=@Success
+src.necro_gain_basit
+if <act.restest i_blood_oath>
+  act.consume i_blood_oath
+endif
+serv.newitem i_fx_curse
+  new.attr=attr_static|attr_decay 
+  new.timer=2 
+  new.p=<act.p>
+serv.newitem i_blood_oath
+  new.link=<src.uid>
+  new.timer=25  //(<eval <src.spiritspeak>-<act.magicresistance>>/80)+8
+  act.equip <new>
+
+[itemdef i_blood_oath]
+ID=i_memory 
+NAME=blood oath
+TYPE=t_eq_script
+
+ON=@Equip
+src.events +e_blood_oath
+
+ON=@UnEquip
+cont.events -e_blood_oath
+
+ON=@Timer
+remove
+return 1
+
+[events e_blood_oath]
+ON=@Hit
+
+ref1=<findid.i_blood_oath.link>
+if strmatch('<ref1.uid>','<src.uid>')
+ //damage <argn1> <argn2> <uid>
+endif
+
+ON=@Spellsuccess
+ref1=<findid.i_blood_oath.link>
+
+if strmatch('<ref1.uid>','<act.uid>')
+if (<serv.spell.<argn>.flags>&SPELLFLAG_HARM)
+ local.hits=<hits>
+ src.spelleffect <argn1> <argn2>
+ //say test spell <dlocal.hits> <hits> <argn1> <argn2>
+endif
+endif
+
+
+ON=@Spelleffect
+
+if (<argn> == 34) || (<argn> == 41)
+  consume i_blood_oath
+endif
+
+//#################################################\\
+//#                 Wraith Form                   #\\
+//#################################################\\
+
+[spell 116]
+DEFNAME=s_wraith_form
+NAME=Wraith Form
+SOUND=01d2
+RUNES=
+CAST_TIME=3.0
+RESOURCES=i_reag_nox, i_reag_pig_iron
+RUNE_ITEM=i_rune_weaken
+SCROLL_ITEM=i_scroll_wraith_form
+FLAGS=SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=17
+SKILLREQ=Necromancy 20.0
+INTERRUPT=100.0,100.0
+
+ON=@start
+IF !(<ISEVENT.E_HARADRIM>)
+src.syshata Sadece Haradrim irki kullanabilir.
+src.skill fail
+src.action -1
+return 1
+ENDIF
+if <src.findid.i_beast_form>
+ src.sysmessage @1153,,1 Bu durumdayken kullanamazsınız.
+ return 1
+endif
+if <src.findid.i_liche_form>
+ src.sysmessage @1153,,1 Bu durumdayken kullanamazsınız.
+ return 1
+endif
+if <src.findid.i_vampire_form>
+ src.sysmessage @1153,,1 Bu durumdayken kullanamazsınız.
+ return 1
+endif
+src.sd 2
+  src.necroespell_say Rel Xen Um
+
+ON=@Success
+src.necro_gain
+  serv.newitem=i_wraith_fx
+  new.attr=attr_static|attr_decay 
+  new.timer=1 
+  new.p=<act.p>
+if !<src.findid.i_wraith_form>
+  src.consume 99 i_beast_form
+  src.consume 99 i_liche_form
+  src.consume 99 i_vampire_form
+  serv.newitem i_wraith_form
+  act.equip <new>
+  src.updatex
+else
+  src.consume 99 i_wraith_form
+  src.updatex
+endif
+
+[itemdef i_wraith_form]
+NAME=Wraith Form
+ID=i_memory 
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@Equip
+ if <src.obody> == c_man
+  src.body=c_Harrower
+ else
+  src.body=c_Wailing_Banshee
+ endif
+  src.events +e_wraith
+ src.updatex
+  src.modar +=30
+
+ON=@UnEquip
+  src.body=<src.obody>
+  src.color=<src.oskin>
+  src.events -e_wraith
+ src.modar -=30
+
+[events e_wraith]
+ON=@Hit
+src.sound 1307
+mana += <eval (<argn1>/3)*2>
+src.mana -= <eval (<argn1>/3)*2>
+if (<mana> > <maxmana>)
+mana=<maxmana>
+endif
+if (<src.mana> < 0)
+src.mana=0
+endif
+
+ON=@Spellselect
+if (<argn>==56)
+  src.sysmessage @1153,,1 Bu büyüyü kullanamazsınız.
+  return 1
+endif
+
+on=@death
+src.consume 99 i_wraith_form
+
+[itemdef i_wraith_fx]
+defname=i_wraith_fx
+name=wraith fx
+id=i_fx_smoke
+
+on=@create
+color=00afd
+
+//#################################################\\
+//#                   Mind Rot                    #\\
+//#################################################\\
+
+[spell 108] // finito
+DEFNAME=s_mind_rot
+NAME=Mind Rot
+SOUND=0213
+RUNES=
+CAST_TIME=2.3
+RESOURCES=i_reag_batwing, i_reag_blood_daemon, i_reag_pig_iron
+RUNE_ITEM=i_rune_poison
+SCROLL_ITEM=i_scroll_mind_rot
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=17
+SKILLREQ=Necromancy 30.0
+INTERRUPT=100.0,100.0
+
+ON=@start
+return 1
+src.sd 1
+src.necroespell_say Wis An Ben
+
+ON=@Success
+src.necro_gain_orta
+if <act.restest 1 i_mind_rot>
+  act.consume i_mind_rot
+  return 1
+endif
+  serv.newitem=i_fx_curse
+  new.attr=attr_static|attr_decay 
+  new.timer=1 
+  new.p=<act.p>
+  serv.newitem i_mind_rot
+  if <act.isplayer>
+  new.timer=(<eval <src.spiritspeak>-<act.magicresistance>>/50)+20
+  else
+  new.timer=20
+  endif
+  act.equip <new>
+
+[itemdef i_mind_rot]
+ID=i_memory 
+name=mind rot
+TYPE=t_eq_script
+
+ON=@Equip
+src.events +e_mind_rot
+
+ON=@UnEquip
+cont.events -e_mind_rot
+
+ON=@Timer
+remove
+return 1
+
+[events e_mind_rot]
+ON=@SpellSelect
+  mana -= {5 15}
+if (<src.mana> < 0)
+src.mana=0
+endif
+
+ON=@Spelleffect
+if (<argn> == 34) || (<argn> == 41)
+  consume i_mind_rot
+endif
+
+//#################################################\\
+//#                Summon Familiar                #\\
+//#################################################\\
+
+[spell 112] 
+DEFNAME=s_summon_familiar
+NAME=Summon Familiar
+SOUND=0214
+RUNES=
+CAST_TIME=3.0
+RESOURCES=i_reag_batwing, i_reag_grave, i_reag_blood_daemon
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_summon_familiar
+FLAGS=SPELLFLAG_SUMMON|SPELLFLAG_PLAYERONLY
+EFFECT_ID=
+EFFECT=0
+DURATION=0
+MANAUSE=17
+SKILLREQ=Necromancy 30.0
+INTERRUPT=100.0,100.0
+
+ON=@Start
+return 1
+//src.sd 2
+//src.necroespell_say Kal Xen Bal
+  skillmenu sm_summon_familiar
+  return 1
+
+
+[skillmenu sm_summon_familiar]
+Which familiar do you wish to summon?
+
+ON=i_pet_wisp Shadow Wisp
+TEST=necromancy 50.0 spiritspeak 50.0
+SUMMON=c_familiar_wisp_shadow
+src.sd 2
+src.necroespell_say Kal Xen Bal
+
+ON=i_pet_wolf Dark Wolf
+TEST=necromancy 60.0 spiritspeak 60.0
+SUMMON=c_familiar_dark_wolf
+src.necroespell_say Kal Xen Bal
+
+ON=i_pet_snake_giant Death Adder
+TEST=necromancy 80.0 spiritspeak 80.0
+SUMMON=c_familiar_death_adder
+src.necroespell_say Kal Xen Bal
+
+
+//#################################################\\
+//#                 Horrific Beast                #\\
+//#################################################\\
+
+[spell 106]
+DEFNAME=s_horrific_beast
+NAME=Horrific Beast
+SOUND=snd_spell_summon_daemon
+RUNES=
+CAST_TIME=3.0
+RESOURCES=i_reag_pig_iron, i_reag_batwing
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_horrific_beast
+FLAGS=SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=11
+SKILLREQ=Necromancy 40.0
+INTERRUPT=100.0,100.0
+
+ON=@start
+IF !(<ISEVENT.E_HARADRIM>)
+src.syshata Sadece Haradrim irki kullanabilir.
+src.skill fail
+src.action -1
+return 1
+ENDIF
+if <src.findid.i_liche_form>
+ src.sysmessage @1153,,1 Bu durumdayken kullanamazsınız.
+ return 1
+endif
+if <src.findid.i_vampire_form>
+ src.sysmessage @1153,,1 Bu durumdayken kullanamazsınız.
+ return 1
+endif
+if <src.findid.i_wraith_form>
+ src.sysmessage @1153,,1 Bu durumdayken kullanamazsınız.
+ return 1
+endif
+src.sd 2
+src.necroespell_say Rel Xen Vas Bal
+
+ON=@Success
+src.necro_gain
+  serv.newitem=i_beast_fx
+  new.attr=attr_static|attr_decay 
+  new.timer=1 
+  new.p=<act.p>
+if !<src.findid.i_beast_form>
+  src.consume 99 i_liche_form
+  src.consume 99 i_wraith_form
+  src.consume 99 i_vampire_form
+  serv.newitem i_beast_form
+  new.timer=1
+  act.equip <new>
+  src.updatex
+else
+  src.consume 99 i_beast_form
+  src.updatex
+endif
+
+[itemdef i_beast_form]
+NAME=Beast Form
+ID=i_memory 
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@Equip
+src.spelleffect s_dispel,1000
+src.tag.beast_dex=<src.dex>
+  src.dex=30
+  src.body=c_Moloch
+  src.color=0
+  src.events +e_beast_form
+
+ON=@UnEquip
+src.spelleffect s_dispel,1000
+  src.body=<src.obody>
+  src.color=<src.oskin>
+  src.events -e_beast_form
+  src.dex=<src.dtag0.beast_dex>
+  src.tag.beast_dex=
+
+ON=@Timer
+cont.hits += 1
+if (<cont.hits> > <cont.maxhits>)
+  cont.hits=<cont.maxhits>
+endif
+timer=1
+return 1
+
+[events e_beast_form]
+ON=@Hit
+if <dex> < 35
+argn1=<eval {13 18}>
+argn1 += <argn1>/4
+else
+argn1=<eval {1 3}>
+dex=30
+endif
+
+on=@death
+src.consume 99 i_beast_form
+
+ON=@Spellselect
+if !((<argn>==106) || (<argn>==107) || (<argn>==113) || (<argn>==116))
+  src.sysmessage @1153,,1 Bu büyüyü kullanamazsınız.
+  return 1
+endif
+
+on=@spelleffect
+
+[itemdef i_beast_fx]
+defname=i_beast_fx
+name=beast fx
+id=i_fx_smoke
+
+on=@create
+color=colors_neutral
+
+//#################################################\\
+//#                  Animate Dead                 #\\
+//#################################################\\
+
+[Spell 101]
+DEFNAME=s_animate_dead
+NAME=Animate Dead
+SOUND=snd_spell_resurrection
+RUNES=
+CAST_TIME=1.5
+RESOURCES=i_reag_grave, i_reag_blood_daemon
+RUNE_ITEM=i_rune_resurrection
+SCROLL_ITEM=i_scroll_animate_dead
+FLAGS=spellflag_summon
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=23
+SKILLREQ=Necromancy 40.0
+INTERRUPT=100.0,100.0
+
+ON=@start
+return 1
+src.sysmessage bakim...
+return 1
+
+src.sd 2
+src.necroespell_say Uus Corp
+
+ON=@Success
+src.necro_gain_basit
+if <src.restest i_animate_dead>
+  src.consume i_animate_dead
+  return 1
+endif
+serv.newitem i_animate_dead
+new.equip <src>
+
+[ITEMDEF i_animate_dead]
+ID=i_memory
+TYPE=t_eq_script
+NAME=Animate Dead
+
+ON=@Equip
+TARGET Which corpse would you like to animate
+TIMER=15
+
+ON=@Timer
+remove
+return 1
+
+ON=@TargOn_Ground
+remove
+return 1
+
+ON=@TargOn_Char
+remove
+return 1
+
+ON=@TargOn_Item
+  local.casterability=(<eval ((<cont.necromancy>/100)*30)+((<cont.spiritspeak>/100)*70)>*180)
+ if (<dlocal.casterability> > <cont.targ.tag0.corpsefame>)
+    local.casterability=<cont.targ.tag.corpsefame>
+  endif
+if !(<cont.targ.baseid>==i_corpse)
+  cont.sysmessage @1153,,1 Bu bir ceset değil.
+  remove
+  return 1
+elseif ((<cont.targ.amount>==400) || (<cont.targ.amount>==401))
+  cont.sysmessage @1153,,1 Bu cesedi seçemezsiniz.
+  remove
+  return 1
+else 
+  serv.newitem=i_fx_smoke
+  new.attr=attr_static|attr_decay 
+  new.timer=1 
+  new.p=<cont.targ.p>
+    if (<dlocal.casterability> > 17500)
+      serv.newnpc c_skeletal_dragon
+    elseif (<dlocal.casterability> > 15000)
+      serv.newnpc c_m_liche_lord
+    elseif (<dlocal.casterability> > 12500)
+      serv.newnpc c_flesh_golem
+    elseif (<dlocal.casterability> > 10000)
+      serv.newnpc c_mummy
+    elseif (<dlocal.casterability> > 8000)
+      serv.newnpc c_liche
+    elseif (<local.casterability> > 6000)
+      serv.newnpc c_m_skeleton_knight
+    elseif (<dlocal.casterability> > 4000)
+      serv.newnpc c_m_skeleton_mage
+    elseif (<dlocal.casterability> > 2000)
+      serv.newnpc c_patchwork_skeleton
+    else
+      serv.newnpc c_mound_maggots
+    endif
+   local.npc=<new.uid>
+   new.p=<cont.targ.p>
+   new.flags |= statf_conjured
+   new.maxhits=(<eval <local.casterability>/50>)
+   new.hits=<new.maxhits>
+   new.karma=-2500
+   new.fame=0
+   new.events +e_animate_dead
+  serv.newitem i_animate_checker
+   new.timer=1
+   new.cont=<local.npc>
+  cont.targ.remove
+remove
+return 1
+endif
+
+[ITEMDEF i_animate_checker]
+ID=i_memory
+TYPE=t_eq_script
+NAME=Animate Checker
+
+ON=@Timer
+cont.hits -= 1
+cont.maxhits -= 1
+  if (<cont.hits> < 0)
+    cont.hits=0
+    cont.remove
+  endif
+timer=1
+return 1
+
+[events e_animate_dead]
+ON=@NPCLookAtChar
+if !((<src.body>==c_man) || (<src.body>==c_woman) || (<src.isplayer>))
+  attack
+  return 1
+endif
+
+ON=@Death
+src.remove
+
+
+//#################################################\\
+//#                  Poison Strike                #\\
+//#################################################\\
+
+[spell 110]
+DEFNAME=s_poison_strike
+NAME=Poison Strike
+SOUND=snd_spell_poison_field
+RUNES=
+CAST_TIME=3.6
+RESOURCES=i_reag_nox
+RUNE_ITEM=i_rune_poison
+SCROLL_ITEM=i_scroll_poison_strike
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=1.0,15.0
+MANAUSE=17
+SKILLREQ=Necromancy 50.0
+INTERRUPT=100.0,100.0
+
+ON=@start
+IF !(<ISEVENT.E_HARADRIM>)
+src.syshata Sadece Haradrim irki kullanabilir.
+src.skill fail
+src.action -1
+return 1
+ENDIF
+src.sd 2
+src.necroespell_say In Vas Nox
+
+ON=@Success
+src.necro_gain
+act.damage <eval {15 25}> dam_poison <act.uid>
+act.spelleffect 20 1000
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=5
+new.timer={1 4}
+new.p=<act.p>
+serv.newitem i_poison_cloud 
+new.attr=attr_static|attr_decay
+new.more1=5
+new.timer={1 4}
+new.p=<act.p> 
+new.move n
+serv.newitem i_poison_cloud 
+new.attr=attr_static|attr_decay
+new.more1=5
+new.timer={1 4}
+new.p=<act.p> 
+new.move s
+serv.newitem i_poison_cloud 
+new.attr=attr_static|attr_decay
+new.more1=5
+new.timer={1 4}
+new.p=<act.p> 
+new.move e
+serv.newitem i_poison_cloud 
+new.attr=attr_static|attr_decay
+new.more1=5
+new.timer={1 4}
+new.p=<act.p> 
+new.move w
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=4
+new.timer={1 4}
+new.p=<act.p>
+new.move <eval(rand(2))> <eval(rand(2))> 
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=3
+new.timer={1 4} 
+new.p=<act.p>
+new.move <eval(rand(3))> <eval(rand(3))> 
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=3
+new.timer={1 4}
+new.p=<act.p>
+new.move <eval(rand(3))> <eval(rand(3))> 
+serv.newitem=i_poison_cloud 
+new.attr=attr_static|attr_decay
+new.more1=2
+new.timer={1 4}
+new.p=<act.p>
+new.move <eval(rand(3))> <eval(rand(3))> 
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=2
+new.timer={1 4}
+new.p=<act.p>
+new.move <eval(rand(3))> <eval(rand(3))>
+serv.newitem=i_poison_cloud
+new.attr=attr_static|attr_decay
+new.more1=2
+new.timer={1 4}
+new.p=<act.p>
+new.move <eval(rand(6))+-(rand(6))> <eval(rand(3))+-(rand(3))>
+
+
+[itemdef i_poison_cloud]
+defname=i_poison_cloud
+name=Poison Cloud
+id=i_fx_smoke
+
+ON=@Create
+color=00787
+
+ON=@Step
+  src.spelleffect 20 700
+  src.damage <more1> dam_poison <uid>
+  remove
+  return 1
+
+//#################################################\\
+//#                      Wither                   #\\
+//#################################################\\
+
+[spell 115]
+DEFNAME=s_wither
+NAME=Wither
+SOUND=0108
+RUNES=
+CAST_TIME=4.5
+RESOURCES=i_reag_grave, i_reag_nox, i_reag_pig_iron
+RUNE_ITEM=i_rune_weaken
+SCROLL_ITEM=i_scroll_wither
+FLAGS=SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_FX_TARG | SPELLFLAG_RESIST
+EFFECT_ID=i_fx_curse
+EFFECT=0
+DURATION=0
+MANAUSE=23
+SKILLREQ=Necromancy 60.0
+INTERRUPT=100.0,100.0
+
+ON=@start
+IF !(<ISEVENT.E_HARADRIM>)
+src.syshata Sadece Haradrim irki kullanabilir.
+src.skill fail
+src.action -1
+return 1
+ENDIF
+src.sd 3
+src.necroespell_say Kal Vas An Flam
+
+ON=@Success
+ref1=<uid>
+forchars 5
+ if !(strmatch('<uid>','<ref1.uid>'))
+  if !(<flags>&statf_reflection)
+  EFFECT 2,03709,3,30,0,200
+  damage 45 dam_cold <ref1.uid>
+  else
+//  say reflected
+  damage 1 dam_cold <ref1.uid>
+  endif
+ endif
+endfor
+src.necro_gain
+
+
+[itemdef i_frost_wither]
+defname=i_frost_wither
+name=Frost
+id=i_fx_curse
+
+ON=@Create
+color=200
+
+ON=@Step
+  src.damage 1 dam_cold <uid>
+
+//#################################################\\
+//#                     Strangle                  #\\
+//#################################################\\
+
+[spell 111]
+DEFNAME=s_strangle
+NAME=Strangle
+SOUND=
+RUNES=
+CAST_TIME=3.2
+RESOURCES=i_reag_batwing, i_reag_nox
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_strangle
+FLAGS=SPELLFLAG_TARG_CHAR | SPELLFLAG_DIR_ANIM | SPELLFLAG_HARM | SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=29
+SKILLREQ=Necromancy 65.0
+INTERRUPT=100.0,100.0
+
+ON=@start
+IF !(<ISEVENT.E_HARADRIM>)
+src.syshata Sadece Haradrim irki kullanabilir.
+src.skill fail
+src.action -1
+return 1
+ENDIF
+src.sd 2
+src.necroespell_say In Bal Nox
+
+ON=@Success
+src.necro_gain
+act.effect 3,i_fx_heal_effect,16,20,0,01,1
+act.damage 1
+serv.newitem i_strangle
+new.more1=(<eval <src.spiritspeak>>/200)
+new.more2=5
+new.link=<src.uid>
+new.timer=1
+act.equip <new>
+
+[itemdef i_strangle]
+NAME=Strangle
+ID=i_memory 
+TYPE=t_eq_script
+LAYER=layer_special
+
+
+ON=@Timer
+ref1=<link.uid>
+  local.multiplier=(<eval (3-(<cont.stam>/<cont.maxstam>)*2>)
+  local.damage=(<more2>*<local.multiplier>)
+  if <dlocal.damage> >= 15
+   local.damage=<eval {9 15}>
+  endif
+  cont.effect 3,i_fx_heal_effect,16,20,0,01,1
+  cont.damage <dlocal.damage> dam_poison <qval (<ref1>) ? <ref1.uid>:<cont.uid>>
+  more1 -= 1
+  if (<more1> < 1)
+    remove
+  endif
+  timer=<more1>
+  return 1
+
+//#################################################\\
+//#                   Liche Form                  #\\
+//#################################################\\
+
+[spell 107]
+DEFNAME=s_liche_form
+NAME=Liche Form
+SOUND=00fb
+RUNES=
+CAST_TIME=3.0
+RESOURCES=i_reag_grave, i_reag_nox, i_reag_blood_daemon
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_lich_transformation
+FLAGS=SPELLFLAG_RESIST
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=23
+SKILLREQ=Necromancy 70.0
+INTERRUPT=100.0,100.0
+
+on=@start
+return 1
+if <src.findid.i_beast_form>
+ src.sysmessage @1153,,1 Bu durumdayken kullanamazsınız.
+ return 1
+endif
+if <src.findid.i_vampire_form>
+ src.sysmessage @1153,,1 Bu durumdayken kullanamazsınız.
+ return 1
+endif
+if <src.findid.i_wraith_form>
+ src.sysmessage @1153,,1 Bu durumdayken kullanamazsınız.
+ return 1
+endif
+src.sd 2
+src.necroespell_say Rel Xen Corp Ort
+
+ON=@Effect
+
+  serv.newitem=i_liche_fx
+  new.attr=attr_static|attr_decay 
+  new.timer=1 
+  new.p=<src.p>
+
+ON=@Success
+src.necro_gain_zor
+  serv.newitem=i_liche_fx
+  new.attr=attr_static|attr_decay 
+  new.timer=1 
+  new.p=<act.p>
+if !<src.findid.i_liche_form>
+  src.consume 99 i_beast_form
+  src.consume 99 i_wraith_form
+  src.consume 99 i_vampire_form
+  serv.newitem i_liche_form
+  new.timer=10
+  act.equip <new>
+  src.updatex
+else
+  src.consume 99 i_liche_form
+  src.updatex
+endif
+
+[itemdef i_liche_form]
+NAME=liche Form
+ID=i_memory 
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@Equip
+  src.body=c_liche
+  src.color=0
+  src.events +e_liche_form
+
+ON=@UnEquip
+  src.body=<src.obody>
+  src.color=<src.oskin>
+  src.events -e_liche_form
+
+ON=@Timer
+if <cont.hits> > 5
+cont.hits -=5
+else
+cont.hits=1
+endif
+
+cont.mana += 13
+if (<cont.mana> > <cont.maxmana>)
+  cont.mana=<cont.maxmana>
+endif
+timer=10
+return 1
+
+[events e_liche_form]
+ON=@Spellselect
+if (<argn>==56)
+  src.sysmessage @1153,,1 Bu büyüyü kullanamazsınız.
+  return 1
+endif
+
+on=@death
+src.consume 99 i_liche_form
+
+[itemdef i_liche_fx]
+defname=i_liche_fx
+name=liche fx
+id=i_fire_column
+type=t_script
+
+on=@create
+color=001
+
+//#################################################\\
+//#                 Vengeful Spirit               #\\
+//#################################################\\
+
+[spell 114]
+DEFNAME=s_vengeful_spirit
+NAME=Vengeful Spirit
+SOUND=019c
+RUNES=
+CAST_TIME=5.2
+RESOURCES=i_reag_batwing, i_reag_grave, i_reag_pig_iron
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_vengeful_spirit
+FLAGS=SPELLFLAG_HARM|SPELLFLAG_TARG_CHAR
+EFFECT_ID=0
+EFFECT=0
+DURATION=0
+MANAUSE=41
+SKILLREQ=Necromancy 100.0
+INTERRUPT=100.0,100.0
+
+
+ON=@start
+return 1
+src.sysmessage @39 Kullanima kapalidir. (Bakimda...)
+return 1
+
+if <src.findid.i_Revenant_tracker>
+  src.sysmessage @1153,,1 Zaten bir Revenantınız var.
+  return 1
+endif
+src.sd 5
+src.necroespell_say Kal Xen Bal Beh
+
+
+ON=@Success
+src.necro_gain_zor
+serv.newitem i_revenant_tracker
+new.equip <src>
+ref1=<new>
+serv.newnpc c_revenant
+ref1.more2=<new>
+ref1.more1=<act.uid>
+new.flags |= statf_conjured
+new.tag.owner=<src.uid>
+new.tag.victim=<act.uid>
+new.p=<act.p>
+act.events +e_revenant_rakip
+act.tag.revenant=<new.uid>
+new.move <eval(rand(6))+-(rand(6))>
+ref2=<new.uid>
+  serv.newitem i_vengeful_spirit
+   new.more1=<eval (<src.spiritspeak>/8)+10>
+   src.sysmessage <eval (<src.spiritspeak>/8)+10>
+   ref2.findid.i_vengeful_spirit.trigger=@equip
+  ref2.update
+  ref2.attack <act.uid>
+
+
+[ITEMDEF i_revenant_tracker]
+ID=i_memory 
+NAME=Revenant Tracker
+TYPE=t_eq_script
+
+on=@create
+timer 1
+attr=014
+
+on=@timer
+timer 2
+ref1=<more1> // rakip
+ref2=<more2> //revenant
+
+//if !<ref2.canseelos <ref1.uid>> 
+// if <ref2.distance <ref1.uid>> < 10
+// ref2.p=<ref1.p>
+// ref2.update
+// ref2.attack=<ref1.uid>
+// endif
+//endif
+
+if !<ref2> // alet silinmişse mal bir gm tarafından :)
+ref1.events -e_revenant_rakip
+ref1.tag.revenant=
+remove
+endif
+
+if !<ref1>
+ref2.hits=0
+endif
+
+
+return 1
+
+[ITEMDEF i_vengeful_spirit]
+ID=i_memory 
+NAME=Vengeful Spirit
+TYPE=t_eq_script
+
+ON=@Equip
+timer=1
+
+ON=@Timer
+ref1=<cont.tag.victim>
+ref2=<cont.tag.owner>
+  serv.b <ref1.name> asdasda
+if (<ref1.flags>&statf_dead)
+  ref2.findid.i_revenant_tracker.remove
+  cont.remove
+else
+  cont.p=<ref1.p>
+  cont.attack <ref1.uid>
+  serv.b <ref1.name> asdasda
+  more1 -= 1
+  if (<more1> < 1)
+    ref2.findid.i_revenant_tracker.remove
+    cont.remove
+  endif
+  timer=10
+  return 1
+endif
+
+[CHARDEF c_revenant]
+ID=c_man
+NAME=Revenant
+SOUND=snd_MONSTER_GHOST1
+CAN=MT_USEHANDS|MT_EQUIP|MT_WALK|MT_RUN|MT_GHOST
+DAM=30,40
+
+ON=@Create
+    EVENTS +e_revenant
+    NPC=brain_monster
+    COLOR=0455
+    STR=250
+    DEX=250
+    INT=150
+    SWORDSMANSHIP=200.0
+    MAGICRESISTANCE=120.0
+    TACTICS=200.0
+    KARMA=-5000
+    FAME=0
+
+ON=@NPCRestock
+    ITEMNEWBIE=i_halberd
+    COLOR=0455
+    ITEMNEWBIE=i_robe
+    dispid=9860
+    color=0455
+
+[events e_revenant_rakip]
+on=@death
+if !<isempty <tag.revenant>>
+ref1=<tag.revenant>
+ref1.hits=0
+events -e_revenant_rakip
+tag.revenant=
+endif
+
+[EVENTS e_revenant]
+on=@hittry // say revenant ,, src rakip
+ref1=<tag.victim>
+if !<ref1>
+ref1.hits=0
+endif
+
+if !(strmatch('<src.uid>','<ref1.uid>'))
+p=<ref1.p>
+attack <ref1.uid>
+endif
+
+on=@attack // say revenant ,, src rakip
+ref1=<tag.victim>
+if !<ref1>
+ref1.hits=0
+endif
+
+if !(strmatch('<src.uid>','<ref1.uid>'))
+p=<ref1.p>
+attack <ref1.uid>
+endif
+
+on=@hit
+if !<src.isplayer>
+argn1=<eval {5 10}>
+endif
+
+
+ON=@Death
+ref1=<src.tag.owner>
+ref2=<src.tag.victim>
+ref1.findid.i_revenant_tracker.remove
+ref2.events -e_revenant_rakip
+ref2.tag.revenant=
+
+ON=@Kill
+if (<argo.uid>==<src.tag.victim>)
+  finduid.<src.tag.owner>.findid.i_revenant_tracker.remove
+  remove
+endif
+
+//#################################################\\
+//#                 Vampiric Embrace              #\\
+//#################################################\\
+
+[spell 113]
+DEFNAME=s_vampiric_embrace
+NAME=Vampiric Embrace
+SOUND=01eb
+RUNES=
+CAST_TIME=3.0
+RESOURCES=i_reag_batwing, i_reag_pig_iron, i_reag_nox
+RUNE_ITEM=
+SCROLL_ITEM=i_scroll_vampiric_embrace
+FLAGS=SPELLFLAG_RESIST
+EFFECT_ID=i_fx_smoke
+EFFECT=0
+DURATION=0
+MANAUSE=23
+SKILLREQ=Necromancy 99.0
+INTERRUPT=100.0,100.0
+
+ON=@start
+return 1
+if <src.findid.i_beast_form>
+ src.sysmessage @1153,,1 Bu durumdayken kullanamazsınız.
+ return 1
+endif
+if <src.findid.i_liche_form>
+ src.sysmessage @1153,,1 Bu durumdayken kullanamazsınız.
+ return 1
+endif
+if <src.findid.i_wraith_form>
+ src.sysmessage @1153,,1 Bu durumdayken kullanamazsınız.
+ return 1
+endif
+src.sd 2
+src.necroespell_say Rel Xen An Sanct
+
+ON=@Success
+src.necro_gain_zor
+serv.newitem i_fx_bless_effect
+  new.color=00B38
+  new.attr=attr_static|attr_decay 
+  new.timer=2 
+  new.p=<src.p> 
+  new.move n 
+serv.newitem i_fx_bless_effect
+  new.color=00B38
+  new.attr=attr_static|attr_decay 
+  new.timer=2 
+  new.p=<src.p> 
+  new.move s
+serv.newitem i_fx_bless_effect
+  new.color=00B38
+  new.attr=attr_static|attr_decay 
+  new.timer=2 
+  new.p=<src.p> 
+  new.move e 
+serv.newitem i_fx_bless_effect
+  new.color=00B38
+  new.attr=attr_static|attr_decay 
+  new.timer=2 
+  new.p=<src.p> 
+  new.move w
+if !<src.findid.i_vampire_form>
+  src.consume 99 i_beast_form
+  src.consume 99 i_wraith_form
+  src.consume 99 i_liche_form
+  serv.newitem i_vampire_form
+  act.equip <new>
+  src.updatex
+else
+  src.consume 99 i_vampire_form
+  src.updatex
+endif
+
+[itemdef i_vampire_form]
+NAME=Vampire Form
+ID=i_memory 
+TYPE=t_eq_script
+LAYER=layer_special
+
+ON=@Equip
+  src.color=0
+  src.events +e_vampire_form
+
+ON=@UnEquip
+  src.color=<src.oskin>
+  src.events -e_vampire_form
+
+[events e_vampire_form]
+ON=@Spellselect
+if (<argn>==56)
+  src.sysmessage @1153,,1 Bu büyüyü kullanamazsınız.
+  return 1
+endif
+
+on=@death
+src.consume 99 i_vampire_form
+
+on=@spelleffect
+if (<serv.spell.<argn>.flags>&SPELLFLAG_GOOD)
+return 1
+endif
+
+if <argn> == 20
+return 1
+endif
+
+ON=@Hit
+say test <eval ((<argn1>*40)/100)+1> <argn1>
+  hits +=  <eval ((<argn1>*40)/100)+1>
+  if <hits> > <maxhits>
+     hits=<maxhits>
+  endif
+
+
+//////////////
+
+//#################################################\\
+//#                  Horde Minion                 #\\
+//#################################################\\
+
+[chardef c_familiar_horde_minion] 
+ID=c_horde_minion
+NAME=Horde Minion
+DAM=1,5
+CAN=MT_WALK|MT_RUN|MT_USEHANDS
+MOVERATE=40
+TAG.PHYSICALDAMAGE=100
+TAG.PHYSICALRESIST=55
+TAG.FIRERESIST=55
+TAG.POISONRESIST=30
+TAG.ENERGYRESIST=30
+
+CATEGORY=Summons
+SUBSECTION=Familiars
+DESCRIPTION=Horde Minion
+
+ON=@Create
+	EVENTS +e_familiar_horde_minion
+	NPC=brain_monster
+	STR={35 45}
+	DEX=40
+	INT=100
+	MAXHITS=70
+	MAXSTAM=110
+	TACTICS=50.0
+	WRESTLING=75.0
+	FAME=0
+	KARMA=0
+
+[EVENTS e_familiar_horde_minion]
+ON=@ItemStep
+if !( (<act.attr>&attr_static) || (<act.attr>&attr_move_never) || (<act.attr>&attr_invis) || (<act.attr>&attr_owned) || <act.type> == t_corpse) )
+  emote pick up an item for his master
+  act.cont=<owner.findlayer.layer_pack.uid>
+endif
+
+//#################################################\\
+//#                   Shadow Wisp                 #\\
+//#################################################\\
+
+[CHARDEF c_familiar_wisp_shadow]
+ID=c_wisp
+NAME=Shadow Wisp
+DAM=2,8
+CAN=MT_WALK|MT_FLY|MT_FIRE_IMMUNE|MT_USEHANDS
+
+
+CATEGORY=Summons
+SUBSECTION=Familiars
+DESCRIPTION=Shadow Wisp
+
+ON=@Create
+	EVENTS +e_familiar_shadow_wisp
+	NPC=brain_monster
+	COLOR=colors_black
+	STR=50
+	DEX=60
+	INT=100
+	TACTICS=40.0
+	WRESTLING=40.0
+	FAME=0
+	KARMA=0
+	ITEMNEWBIE=i_light_source
+	ATTR=attr_magic|attr_newbie
+	ITEMNEWBIE=i_wisp_mana_equiper
+	ITEMNEWBIE=i_wisp_mana_timer
+	ATTR=attr_magic|attr_newbie
+
+[ITEMDEF i_wisp_mana_equiper]
+ID=i_memory
+TYPE=t_eq_script
+
+CATEGORY=Memories
+SUBSECTION=Miscellaneous
+DESCRIPTION=Wisp Mana Equiper
+
+ON=@CREATE
+TIMER=1
+
+ON=@TIMER
+trysrc <cont.uid> cont.findid.i_wisp_mana_timer.trigger=@equip
+remove
+return 1
+
+[ITEMDEF i_wisp_mana_timer]
+NAME=Wisp Mana Timer
+ID=i_memory
+TYPE=t_eq_script
+
+CATEGORY=Memories
+SUBSECTION=Miscellaneous
+DESCRIPTION=Wisp Mana Timer
+
+ON=@Equip
+timer={15 25}
+	
+ON=@Timer
+if <cont.owner>
+if (<cont.owner.karma> < 0) && (<cont.owner.karma> > -1000)
+  cont.owner.sound snd_monster_wisp1
+  cont.owner.mana += 5
+elseif (<cont.owner.karma> < 1000) && (<cont.owner.karma> > -2500)
+  cont.owner.sound snd_monster_wisp1
+  cont.owner.mana += 7
+elseif (<cont.owner.karma> < 2500) && (<cont.owner.karma> > -5000)
+  cont.owner.sound snd_monster_wisp1
+  cont.owner.mana += 10
+elseif (<cont.owner.karma> < 5000) && (<cont.owner.karma> > -7500)
+  cont.owner.sound snd_monster_wisp1
+  cont.owner.mana += 12
+elseif (<cont.owner.karma> < 7500)
+  cont.owner.sound snd_monster_wisp1
+  cont.owner.mana += 16
+endif
+if (<cont.owner.mana> > <cont.owner.maxmana>)
+  cont.owner.mana=<cont.owner.maxmana>
+endif
+timer={15 25}
+else
+remove
+endif
+return 1
+
+[EVENTS e_familiar_shadow_wisp]
+
+//#################################################\\
+//#                    Dark Wolf                  #\\
+//#################################################\\
+
+[CHARDEF c_familiar_dark_wolf]
+ID=c_wolf
+NAME=Dark Wolf
+DAM=1,8
+CAN=MT_WALK|MT_RUN
+TAG.SLOTS_NEEDED=2
+
+CATEGORY=Summons
+SUBSECTION=Familiars
+DESCRIPTION=Dark Wolf
+
+ON=@Create
+	EVENTS +e_familiar_dark_wolf
+	NPC=brain_animal
+	COLOR=colors_black
+	STR={35 50}
+	DEX=45
+	INT=90
+	MAXHITS=60
+	MAXSTAM=90
+	TACTICS=50.0
+	WRESTLING=87.5
+	FAME=0
+	KARMA=0
+	ITEMNEWBIE=i_wolf_stam_equiper
+	ITEMNEWBIE=i_wolf_stam_timer
+	ATTR=attr_magic|attr_newbie
+
+[ITEMDEF i_wolf_stam_equiper]
+ID=i_memory
+TYPE=t_eq_script
+
+CATEGORY=Memories
+SUBSECTION=Miscellaneous
+DESCRIPTION=Wolf Stamina Equiper
+
+ON=@CREATE
+TIMER=1
+
+ON=@TIMER
+trysrc <cont.uid> cont.findid.i_wolf_stam_timer.trigger=@equip
+remove
+return 1
+
+[ITEMDEF i_wolf_stam_timer]
+NAME=Wolf Stamina Timer
+ID=i_memory
+TYPE=t_eq_script
+
+CATEGORY=Memories
+SUBSECTION=Miscellaneous
+DESCRIPTION=Wolf Stamina Timer
+
+ON=@Equip
+timer=2
+	
+ON=@Timer
+if <cont.owner>
+cont.owner.stam += 1
+if (<cont.owner.stam> > <cont.owner.maxstam>)
+  cont.owner.stam=<cont.owner.maxstam>
+endif
+timer=2
+else
+remove
+endif
+return 1
+
+[EVENTS e_familiar_dark_wolf]
+//ON=@Dclick
+//if (<ismypet>)
+//  serv.newitem i_wolf_mastery
+//  new.equip <src>
+//  return 1
+//endif
+
+[ITEMDEF i_wolf_mastery]
+ID=i_memory
+TYPE=t_eq_script
+NAME=Wolf Mastery
+
+CATEGORY=Memories
+SUBSECTION=Miscellaneous
+DESCRIPTION=Wolf Mastery
+
+ON=@Equip
+ TARGET Kontrol etmek istediginiz "kurt"u secin
+ TIMER=15
+
+ON=@Timer
+ remove
+ return 1
+
+ON=@TargOn_Item
+ remove
+ return 1
+
+ON=@TargOn_Ground
+ remove
+ return 1
+
+ON=@TargOn_Char
+if !(strmatch("*wolf*","<cont.targ.id>"))
+  cont.sysmessage bu bir "kurt" degil
+  remove
+  return 1
+else
+  local.npc=<cont.targ.uid>
+  cont.targ.flags=<cont.targ.flags>|statf_pet
+  while (<cont.targ.memoryfindtype.02>)
+    cont.targ.memoryfindtype.02.remove
+  endwhile
+  serv.newitem i_memory
+  new.color=042
+  new.link=<cont.uid>
+  new.cont=<local.npc>
+  try uid.<local.npc>.update
+  cont.sysmessage Kurt sizi sahibi olarak kabul etti.
+  remove
+  return 1
+endif
+
+//#################################################\\
+//#                   Death Adder                 #\\
+//#################################################\\
+
+[CHARDEF c_familiar_death_adder]
+ID=c_snake_giant
+NAME=Death Adder
+DAM=1,4
+CAN=MT_WALK|MT_RUN
+TAG.SLOTS_NEEDED=2
+
+CATEGORY=Summons
+SUBSECTION=Familiars
+DESCRIPTION=Death Adder
+
+ON=@Create
+	EVENTS +e_familiar_death_adder
+	NPC=brain_monster
+	COLOR=colors_snake
+	STR={35 45}
+	DEX=45
+	INT=100
+	MAXHITS=50
+	MAXSTAM=150
+	TACTICS=50.0
+	WRESTLING=90.0
+	POISONING=150.0
+	FAME=0
+	KARMA=0
+
+[EVENTS e_familiar_death_adder] 
+//ON=@Dclick
+//if (<ismypet>)
+//  serv.newitem i_snake_charming
+//  new.equip <src>
+//  return 1
+//endif
+
+[ITEMDEF i_snake_charming]
+ID=i_memory
+TYPE=t_eq_script
+NAME=Snake Charming
+
+CATEGORY=Memories
+SUBSECTION=Miscellaneous
+DESCRIPTION=Snake Charming
+
+ON=@Equip
+ TARGET Kontrol etmek istediginiz "yilan"i secin
+ TIMER=15
+
+ON=@Timer
+ remove
+ return 1
+
+ON=@TargOn_Item
+ remove
+ return 1
+
+ON=@TargOn_Ground
+ remove
+ return 1
+
+ON=@TargOn_Char
+if !(strmatch("*snake*","<cont.targ.id>"))
+  cont.sysmessage Bu bir yilan degil
+  remove
+  return 1
+else
+  local.npc=<cont.targ.uid>
+  cont.targ.flags=<cont.targ.flags>|statf_pet
+  while (<cont.targ.memoryfindtype.02>)
+    cont.targ.memoryfindtype.02.remove
+  endwhile
+  serv.newitem i_memory
+  new.color=042
+  new.link=<cont.uid>
+  new.cont=<local.npc>
+  try uid.<local.npc>.update
+  cont.sysmessage Yilan emirlerinizi bekliyor.
+  remove
+  return 1
+endif
+
+//#################################################\\
+//#                   Vampire Bat                 #\\
+//#################################################\\
+
+[chardef c_familiar_vampire_bat]
+ID=c_vampire_bat
+NAME=Vampire Bat
+DAM=3,11
+CAN=MT_WALK|MT_FLY
+TAG.SLOTS_NEEDED=3
+
+CATEGORY=Summons
+SUBSECTION=Familiars
+DESCRIPTION=Vampire Bat
+
+ON=@Create 
+	EVENTS +e_familiar_vampire_bat
+	NPC=brain_monster
+	STR={35 45}
+	DEX=75
+	INT=100
+	MAXHITS=90
+	TACTICS=50.0
+	WRESTLING=95.0
+	FAME=0 
+	KARMA=0
+
+[EVENTS e_familiar_vampire_bat]
+ON=@Hit
+owner.hits += 5
+if (<owner.hits> > <owner.maxhits>)
+  owner.hits=<owner.maxhits>
+endif
+
+
+[chardef 0308]
+name Horde Minion
+defname=c_horde_minion
+CAN=MT_WALK|MT_USEHANDS
+DAM=1,5
+SOUND=1150
+ARMOR=70
+MOVERATE=60
+
+ON=@Create
+NPC=brain_monster
+KARMA=-10000
+FAME=10000
+STR={901 1000}
+DEX={126 140}
+INT={1001 1200}
+MAXHITS=20000
+MAXMANA=6000
+WRESTLING=100.0
+TACTICS=100.0
+MAGICRESISTANCE=100.0
+MAGERY=100.0
+EVALUATINGINTEL=100.0
+
+[CHARDEF 146]
+DEFNAME=c_Harrower
+NAME=Harrower
+CAN=MT_WALK|MT_USEHANDS
+DAM=1,5
+SOUND=1150
+ARMOR=50
+MOVERATE=60
+CATEGORY=Addon
+SUBSECTION=Champs
+DESCRIPTION=Harrower
+
+ON=@Create
+NPC=brain_monster
+KARMA=-10000
+FAME=10000
+STR={901 1000}
+DEX={126 140}
+INT={1001 1200}
+MAXHITS=20000
+MAXMANA=6000
+WRESTLING=100.0
+TACTICS=100.0
+MAGICRESISTANCE=100.0
+MAGERY=100.0
+EVALUATINGINTEL=100.0
+
+
+[CHARDEF 03a]
+DEFNAME=c_wisp
+NAME=Wisp
+SOUND=snd_MONSTER_WISP1
+ICON=i_pet_WISP
+ANIM=078c7f
+DAM=15,20
+ARMOR=20
+CAN=MT_WALK|MT_FLY|MT_FIRE_IMMUNE|MT_USEHANDS
+FOODTYPE=t_spell
+RESOURCES=t_magic
+////SHELTER=r_swamp,r_jungle,r_forests
+AVERSIONS=r_civilization
+CATEGORY=Miscellaneous
+SUBSECTION=Wisp
+DESCRIPTION=Wisp
+
+ON=@Create
+	NPC=brain_animal
+	FAME={0 100}
+	KARMA=0
+	//ALIGNMENT=NEUTRAL
+	STR={195 225}
+	DEX={195 225}
+	INT={435 475}
+	PARRYING=80.0
+	MAGERY=80.0
+	MAGICRESISTANCE=80.0
+	TACTICS=80.0
+	WRESTLING=80.0
+	//SPELLCIRCLES=5-7
+	ITEMNEWBIE=i_light_source
+	ATTR=attr_magic|attr_newbie
+
+[events e_tumnpcler]
+ON=@DeathCorpse
+argo.tag.corpsefame=<fame>
+
+
+
+[EOF]

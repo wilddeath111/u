@@ -1,0 +1,1777 @@
+﻿//------------------
+// SKILLS
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+
+
+// Generic advance rates for stats
+[ADVANCE]
+STR=4500,1500,250
+INT=4500,1500,25
+DEX=4500,1500,250
+
+
+[COMMENT SKILL x]
+ADV_RATE=10.0,200.0,800.0	// 10.0 successes at 0% to gain .1, 800.0 successes at 100% to gain .1 skill, 200.0 successes at 50% to gain .1, 
+VALUES=0,100			// The amount of value an item created with the skill gets at skill levels.
+EFFECT=0,100			// Healing: Effect of bandages; Crafting Skills: Percentage of resources lost on failure.
+//STAT_STR=80			// You will tend toward these stat vals if you use this skill a lot.
+//BONUS_STATS=10			// What percent of the skill success is based on stat levels. = 10%
+//BONUS_STR=80			// % of each stat toward success at skill
+
+
+
+[Skill 0]
+DEFNAME=Skill_Alchemy
+KEY=Alchemy
+TITLE=Alchemist
+EFFECT=0.0,125.0
+DELAY=1.0 //3
+VALUES=1,2,3
+ADV_RATE=0.1,0.1,0.1
+
+
+STAT_STR=0
+STAT_DEX=0
+STAT_INT=100
+BONUS_STR=0
+BONUS_DEX=0
+BONUS_INT=100
+BONUS_STATS=60
+
+ON=@Fail
+	src.SYSHATA İksiriniz heba oldu.
+
+
+[Skill 1]
+DEFNAME=Skill_Anatomy
+KEY=Anatomy
+TITLE=Scholar
+PROMPT_MSG=@038A,,1 Kimi inceleyeceksiniz?
+DELAY=2.5
+ADV_RATE=0.1,0.1,0.1
+
+STAT_STR=0
+STAT_DEX=0
+STAT_INT=100
+BONUS_STR=0
+BONUS_DEX=0
+BONUS_INT=100
+BONUS_STATS=60
+
+ON=@Fail
+	src.SYSHATA Bu yaratık hakkında pek fikriniz yok.
+	return 1
+
+[Skill 2]
+DEFNAME=Skill_Animal_Lore
+KEY=AnimalLore
+TITLE=Scholar
+PROMPT_MSG=@038A,,1 Hangi hayvanı inceleyeceksiniz?
+DELAY=1.0,3.0
+ADV_RATE=0.1,0.1,0.1
+
+STAT_STR=0
+STAT_DEX=0
+STAT_INT=100
+BONUS_STR=0
+BONUS_DEX=0
+BONUS_INT=100
+BONUS_STATS=60
+
+on=@start
+if !(<act.npc>==brain_animal) 
+syshata Sadece hayvanlar üzerinde kullanabilirsiniz.
+skill fail
+return 1
+endif
+if (<act.distance> > 5)
+syshata <act.name> sizden çok uzakta.
+skill fail
+return 1
+endif
+face <act>
+
+on=@success
+act.dialogclose d_animallore
+act.dialog d_animallore
+sysyes <act.name> isimli hayvanı incelemeyi başardınız.
+f_animallore_gain
+return 1
+
+ON=@Fail
+	src.syshata Bu hayvan hakkinda pek fikriniz yok.
+	return 1
+
+[Skill 3]
+DEFNAME=Skill_Appraise
+KEY=ItemID
+TITLE=Merchant
+PROMPT_MSG=@038A,,1 Neyi inceleyeceksiniz?
+DELAY=1.0,3.0
+ADV_RATE=0.1,0.1,0.1
+
+STAT_STR=0
+STAT_DEX=0
+STAT_INT=100
+BONUS_STR=0
+BONUS_DEX=0
+BONUS_INT=100
+BONUS_STATS=60
+
+ON=@Fail
+	src.SYSHATA Bu eşya hakkında bir fikriniz yok.
+	return 1
+
+on=@select
+IF (<dSRC.CTAG0.ITEMID> > 0)
+SRC.SYSHATA Tekrar kullanmak için bir süre beklemelisiniz.
+SRC.SKILL FAIL
+RETURN 1
+ENDIF
+
+on=@start
+IF (<dSRC.CTAG0.ITEMID> > 0)
+SRC.SYSHATA Tekrar kullanmak için bir süre beklemelisiniz.
+SRC.SKILL FAIL
+RETURN 1
+ENDIF
+if (<src.act.attr>&(attr_magic))
+	IF (<SRC.ACT.TOPOBJ.UID> == <SRC.UID>)
+	if !(<src.act.attr>&(attr_identified))
+		src.act.attr <src.act.attr>|attr_identified
+	endif
+	ENDIF
+	src.sysyes Bu eşya (<src.act.name>), <src.act.F_MAGICSHOW2> büyü gücüne sahip.
+	SRC.F_ITEMID_GAIN
+	SRC.CTAG0.ITEMID 1
+	SRC.TIMERF 3, SRC.CTAG0.ITEMID
+ELSE
+	src.syshata Sadece magical eşyalar üzerinde kullanabilirsiniz.
+ENDIF
+SRC.SKILL FAIL
+RETURN 1
+
+[Skill 4]
+DEFNAME=Skill_Armslore
+KEY=ArmsLore
+TITLE=Arms%s
+PROMPT_MSG=@038A,,1 Neyi inceleyeceksiniz?
+DELAY=1.0,3.0
+ADV_RATE=0.1,0.1,0.1
+
+STAT_STR=0
+STAT_DEX=0
+STAT_INT=100
+BONUS_STR=0
+BONUS_DEX=0
+BONUS_INT=100
+BONUS_STATS=60
+
+ON=@Fail
+	src.SYSHATA Bu eşya hakkında bir fikriniz yok.
+	return 1
+
+on=@start
+if !(<act.isitem>)
+SRC.SKILL FAIL
+SRC.SYSHATA Sadece silahlar üzerinde kullanabilirsiniz.
+SRC.ACTION -1
+RETURN 1
+endif
+if !((<act.type> == t_weapon_axe) || (<act.type> == t_weapon_sword) || (<act.type> == t_weapon_fence) || (<act.type> == t_weapon_mace_staff) || (<act.type> == t_weapon_mace_smith) || (<act.type> == t_weapon_mace_pick) || (<act.type> == t_weapon_bow) || (<act.type> == t_weapon_xbow) || (<act.type> == t_weapon_mace_sharp))
+SRC.SKILL FAIL
+SRC.SYSHATA Sadece silahlar üzerinde kullanabilirsiniz.
+SRC.ACTION -1
+RETURN 1
+endif
+
+IF (<ACT.ISEVENT.E_REYON>)
+SRC.SKILL FAIL
+SRC.ACTION -1
+RETURN 1
+endif
+
+on=@success
+//IF (<ARMSLORE> > 97.9)
+SRC.CLOSEALLDIALOGS
+CLOSEALLDIALOGS
+act.dialogclose d_armslore
+SRC.dialogclose d_armslore
+act.dialog d_armslore
+//ENDIF
+sysyes <strtoupper <strsub 0 1 <act.name>>><strtolower <strsub 1 50 <act.name>>> isimli silahı incelemeyi başardınız.
+f_armslore_gain
+action -1
+return 1
+
+
+[Skill 5]
+DEFNAME=Skill_Parrying
+KEY=Parrying
+TITLE=Shieldfighter
+EFFECT=70.0,110.0
+ADV_RATE=0.1,0.1,0.1
+
+STAT_STR=100
+STAT_DEX=100
+STAT_INT=0
+BONUS_STR=50
+BONUS_DEX=50
+BONUS_INT=0
+BONUS_STATS=60
+
+
+[Skill 6]
+DEFNAME=Skill_Begging
+KEY=Begging
+TITLE=Beggar
+PROMPT_MSG=@038A,,1 Dileneceğiniz kişiyi seçiniz.
+DELAY=2.0,4.0
+ADV_RATE=0.1,0.1,0.1
+
+STAT_STR=0
+STAT_DEX=0
+STAT_INT=0
+BONUS_STR=0
+BONUS_DEX=0
+BONUS_INT=0
+BONUS_STATS=0
+
+on=@start
+SKILL FAIL
+IF <ACT.DISTANCE> > 2
+SYSHATA <ACT.NAME> sizden çok uzakta.
+RETURN 1
+ENDIF
+IF (<ACT.UID>==<UID>)
+SYSHATA Kendinizden dilenemezsiniz.
+RETURN 1
+ENDIF
+IF (<dACT.ISPV>)
+SYSHATA Oyuncu tezgahtarlarından dilenemezsiniz.
+RETURN 1
+ENDIF
+FACE <ACT>
+IF <ACT.ISPLAYER>
+	ACT.SYSNORM <NAME> isimli kişi size acınası halde olduğunu anlatmaya çalışıyor.
+	TIMERF 5,F_BEGGING_GAIN
+ELIF <ACT.ISVENDOR>
+	IF !(<ACT.TAG0.<UID>>)
+	SYSNORM <ACT.NAME> isimli karakterden dileniyorsunuz.
+	TRY ACT.TAG.<UID>=1
+	TIMERF 5,F_BEGGING_SUCCESS
+	ELSE
+	SYSHATA Aynı vendordan para istemek için bir süre beklemelisiniz.
+	RETURN 1
+	ENDIF
+ELSE
+	SYSHATA Sadece oyuncu ve tezgahtarlar üzerinde kullanılabilir.
+ENDIF
+RETURN 1
+
+[FUNCTION F_BEGGING_SUCCESS]
+SERV.NEWITEM I_GOLD,<R25,120>
+SYSYES <ACT.NAME> size <NEW.AMOUNT> tutarında altın bağışladı.
+NEW.BOUNCE
+TRY ACT.TAG.<UID>=1
+ACT.TIMERF <EVAL 60*<R15,30>>,TAG.<UID>=
+F_BEGGING_GAIN
+
+ON=@FAIL
+SYSHATA Karşınızdakinde yeterli etkiyi bırakamadınız.
+
+
+[Skill 7]
+DEFNAME=Skill_Blacksmith
+KEY=Blacksmithing
+TITLE=Blacksmith
+VALUES=1,2,3
+DELAY=2.0
+ADV_RATE=0.1,0.1,0.1
+
+
+STAT_STR=100
+STAT_DEX=25
+STAT_INT=0
+BONUS_STR=90
+BONUS_DEX=10
+BONUS_INT=0
+BONUS_STATS=60
+
+ON=@Fail
+	src.SYSHATA Malzemeniz eriyip gitti.
+
+[Skill 8]
+DEFNAME=Skill_Bowcraft
+KEY=Bowcraft
+TITLE=Bowyer
+DELAY=5.0
+VALUES=1,2,3
+ADV_RATE=0.1,0.1,0.1
+
+
+STAT_STR=0
+STAT_INT=0
+STAT_DEX=100
+BONUS_STR=0
+BONUS_DEX=100
+BONUS_INT=0
+BONUS_STATS=60
+
+ON=@Fail
+	src.SYSHATA Malzemeniz heba oldu.
+	
+//ON=@Success
+//	src.f_bow_gain
+
+[Skill 9]
+DEFNAME=Skill_Peacemaking
+KEY=Peacemaking
+TITLE=Bard
+DELAY=4.0
+ADV_RATE=0.1,0.1,0.1
+VALUES=1,50,100
+STAT_STR=0
+STAT_INT=100
+STAT_DEX=50
+BONUS_STR=0
+BONUS_DEX=10
+BONUS_INT=90
+BONUS_STATS=60
+
+on=@start
+IF (<SRC.HITS> < 1)
+SRC.SKILL FAIL
+SRC.ACTION -1
+RETURN 1
+ENDIF
+IF (<SRC.FINDID(i_peacemaking_timer)>)
+SRC.syshata Bu yeteneği 15 saniyede bir kez kullanabilirsiniz.
+SRC.ACTION -1
+return 1
+ENDIF
+IF !(<SRC.FINDTYPE.T_MUSICAL>)
+SRC.SYSHATA Yanınızda müzik aleti olmalıdır.
+RETURN 1
+ENDIF
+IF (<SRC.FINDID.I_PEACE_SUCC>)
+SRC.SYSHATA Biraz beklemelisiniz.
+RETURN 1
+ENDIF
+SRC.SYSNORM Etrafınızdaki yaratıkları sakinleştirmeye çalışıyorsunuz.
+SERV.NEWITEM I_PEACE_SUCC
+SRC.EQUIP <NEW>
+RETURN 1
+
+on=@fail
+src.syshata Kimseyi sakinleştirmeyi başaramadınız.
+src.action -1
+RETURN 1
+
+[FUNCTION F_PEACE]
+IF (<FLAGS> & statf_war)
+syshata Savaş durumundayken kullanamazsınız.
+SRC.ACTION -1
+SKILL FAIL
+return 1
+ELIF (<SRC.FLAGS> & statf_dead) || (<SRC.FLAGS> & statf_freeze)
+syshata Şu anki durumunuzda kullanamazsınız.
+SRC.ACTION -1
+SKILL FAIL
+return 1
+ELIF (<SRC.FINDID(i_peacemaking_timer)>)
+syshata Bu yeteneği 15 saniyede bir kez kullanabilirsiniz.
+SRC.ACTION -1
+SKILL FAIL
+return 1
+ENDIF
+
+LOCAL.RATE1 <EVAL <SRC.PEACEMAKING>/2>
+LOCAL.RATE2 <EVAL <SRC.MUSICIANSHIP>/2>
+LOCAL.RATE <EVAL <LOCAL.RATE1>+<LOCAL.RATE2>>
+IF (RAND(600) < <dLOCAL.RATE1>)
+//IF (<R<EVAL 40 - (<dLOCAL.RATE>/100)>> == 1)
+	FORCHARS <EVAL (<LOCAL.RATE>/100)+2>
+	IF !(<ISPLAYER>) && !(<ISEVENT.e_peacemaking>) && !(<ISVENDOR>) && !(<ID>==C_REIS2) && !(<ID>==C_TEZGAHTAR2) && !(<ID>==C_A_HAZE) && !(<ID>==C_DUMMY_VET) && !(<ID>==C_H_TEACHER) && !(<ID>==C_DUMMY) && !(<ID>==C_DUMMY_HEAL) && !(<ID>==C_PV)  && !(<ID>==C_PLAYER_V) && !(<BRAIN>==BRAIN_VENDOR) && !(<ID>==C_H_GUARD) && !(<ID>==C_H_GUARD_F) && !(<ID>==C_H_GUARD_A)  && !(<ID>==C_H_BANKER)  && !(<ID>==C_H_BANKER_F)
+		TIMERF = <QVAL (<EVAL (<EVAL (<LOCAL.RATE>/50)>) + (<EVAL (<SRC.INT> * 0.08)/100>) - (<EVAL (<INT> * 0.02)/100>)> < 5) ? 5 : <EVAL (<EVAL (<LOCAL.RATE>/50)>) + (<EVAL (<SRC.INT> * 0.08)/100>) - (<EVAL (<INT> * 0.02)/100>)>>, peacemaking_
+		sayua 1153,6,6,0 *uyumaya başlar*
+		SRC.SYSYES <NAME> isimli yaratığı <EVAL (<EVAL (<LOCAL.RATE>/50)>) + (<EVAL (<SRC.INT> * 0.08)/100>) - (<EVAL (<INT> * 0.02)/100>)> saniye uyutmayı başardınız.
+		EVENTS = +e_peacemaking
+		FLAGS &= ~statf_war
+		FLAGS |= statf_freeze
+		LOCAL.OK 1
+		MEMORYFINDTYPE.memory_war_targ.remove
+			IF !(<SRC.FINDID(i_peacemaking_timer)>)
+			SERV.NEWITEM i_peacemaking_timer
+			SRC.EQUIP <NEW>
+			NEW.TIMER = 15
+			ENDIF
+	ENDIF
+	ENDFOR
+	IF !(<DLOCAL.OK> > 0)
+	SRC.SYSNORM Etrafınızda yaratık bulunmuyor.
+	ENDIF
+	SRC.F_PEACE_GAIN
+ELSE
+	SRC.syshata Başarısız oldunuz.
+	SRC.F_PEACE_GAIN
+	SRC.SKILL FAIL
+	src.action -1
+RETURN 1
+ENDIF
+
+[EVENTS e_peacemaking]
+ON=@GETHIT
+EVENTS -E_PEACEMAKING
+ATTACK <SRC>
+
+ON=@HITTRY
+ACTION -1
+RETURN 1
+
+ON=@ATTACK
+ACTION -1
+RETURN 1
+
+ON=@NPCACTFIGHT
+ACTION -1
+RETURN 1
+
+ON=@Fail
+	src.SYSHATA Kimseyi sakinleştiremediniz.
+	return 1
+
+
+[FUNCTION peacemaking_]
+IF (<ISEVENT.e_peacemaking>)
+EVENTS = -e_peacemaking
+FLAGS &= ~statf_freeze
+sayua 1153,6,6,0 *uykunun etkisi geçer*
+FORPLAYERS 12
+IF !(<ISGM>)
+SRC.ATTACK <UID>
+RETURN 1
+ENDIF
+ENDFOR
+ENDIF
+
+[ITEMDEF i_peacemaking_timer]
+ID = i_gold
+TYPE = t_eq_script
+WEIGHT = 0
+
+on=@Create
+ATTR = attr_static|attr_decay|attr_invis
+
+on=@Timer
+REMOVE
+RETURN 1
+
+[ITEMDEF i_peace_succ]
+ID = i_gold
+TYPE = t_eq_script
+WEIGHT = 0
+
+on=@Create
+timer 4
+ATTR = attr_static|attr_decay|attr_invis
+
+on=@equip
+timer 4
+
+on=@Timer
+TRYSRC <CONT> SRC.F_PEACE
+REMOVE
+RETURN 1
+
+[Skill 10]
+DEFNAME=Skill_Camping
+KEY=Camping
+TITLE=Camper
+DELAY=3.0
+ADV_RATE=0.1,0.1,0.1
+
+STAT_STR=30
+STAT_INT=20
+STAT_DEX=30
+BONUS_STR=33
+BONUS_DEX=33
+BONUS_INT=34
+BONUS_STATS=70
+
+ON=@Fail
+	src.SYSHATA Ateşiniz rüzgarla söndü.
+
+[Skill 11]
+DEFNAME=Skill_Carpentry
+KEY=Carpentry
+TITLE=Carpenter
+PROMPT_MSG=
+DELAY=1.0 //5
+STAT_STR=60
+STAT_INT=40
+STAT_DEX=30
+BONUS_STR=50
+BONUS_DEX=30
+BONUS_INT=20
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+VALUES=1,2,3
+
+
+ON=@Fail
+	src.SYSHATA Malzemeniz heba oldu.
+	
+[Skill 12]
+DEFNAME=Skill_CARTOGRAPHY
+KEY=Cartography
+TITLE=Cartographer
+PROMPT_MSG=
+DELAY=5.0
+STAT_STR=15
+STAT_INT=70
+STAT_DEX=20
+BONUS_STR=0
+BONUS_DEX=20
+BONUS_INT=80
+BONUS_STATS=70
+ADV_RATE=3200.0,3200.0,3200.0
+VALUES=1,2,3
+FLAGS=SKF_CRAFT
+
+on=@success
+SRC.f_cartop_gain
+S
+ON=@Fail
+	src.SYSHATA Haritaniz gerçek dışı oldu.
+	src.consume 1 i_map_blank
+
+[Skill 13]
+DEFNAME=Skill_Cooking
+KEY=Cooking
+TITLE=Chef
+PROMPT_MSG=@038A,,1 Neyi pişireceksiniz?
+DELAY=0
+STAT_STR=25
+STAT_INT=45
+STAT_DEX=20
+BONUS_STR=0
+BONUS_DEX=40
+BONUS_INT=60
+BONUS_STATS=50
+ADV_RATE=0.1,0.1,0.1
+VALUES=1,2,3
+
+ON=@Fail
+	src.SYSHATA Yemeği yaktınız.
+
+[Skill 14]
+DEFNAME=Skill_DetectHidden
+KEY=DetectingHidden
+TITLE=Detective
+PROMPT_MSG=
+DELAY=3.0,2.0
+STAT_STR=15
+STAT_INT=60
+STAT_DEX=20
+BONUS_STR=0
+BONUS_DEX=20
+BONUS_INT=80
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+
+ON=@Fail
+	src.SYSHATA Saklanmış birşey göremiyorsunuz.
+	return 1
+
+on=@success
+f_detect_gain
+FORCHARS 30
+IF (<FLAGS> & statf_invisible) || (<FLAGS> & statf_hidden)
+IF !(<UID>==<SRC.UID>)
+FINDID.i_rune_INVISIBILITY.REMOVE
+FLAGS &= ~statf_invisible
+FLAGS &= ~statf_hidden
+FIX
+EFFECT=3,0375A,6,50
+SRC.SYSYES <FULLNAME> görünür hale geldi.
+ENDIF
+ENDIF
+ENDFOR
+return 1
+
+[Skill 15]
+DEFNAME=Skill_Enticement
+KEY=Enticement
+TITLE=Bard
+PROMPT_MSG=@038A,,1 Whom do you wish to entice?
+DELAY=2.0
+STAT_STR=15
+STAT_INT=70
+STAT_DEX=50
+BONUS_STR=0
+BONUS_DEX=50
+BONUS_INT=50
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+
+ON=@Fail
+	src.SYSHATA Sizi umursayan olmadı.
+	return 1
+
+[Skill 16]
+DEFNAME=Skill_EvalInt
+KEY=EvaluatingIntel
+TITLE=Scholar
+PROMPT_MSG=@038A,,1 Kimi inceleyeceksiniz?
+DELAY=4.0
+STAT_STR=5
+STAT_INT=60
+STAT_DEX=10
+BONUS_STR=0
+BONUS_DEX=0
+BONUS_INT=100
+BONUS_STATS=50
+ADV_RATE=0.1,0.1,0.1
+
+ON=@Fail
+	src.syshata Bu şey sizden daha akıllı çıktı. Hakkında pek birşey öğrenemediniz.
+	return 1
+
+[Skill 17]
+DEFNAME=Skill_Healing
+KEY=Healing
+TITLE=Healer
+PROMPT_MSG=@038A,,1 Kimi Tedavi ediceksiniz.?
+
+DELAY=3.0,1.0
+EFFECT=2.0,20.0
+ADV_RATE=0.1,0.1,0.1
+
+STAT_STR=10
+STAT_INT=90
+STAT_DEX=10
+
+BONUS_STATS=70
+BONUS_STR=0
+BONUS_DEX=30
+BONUS_INT=70
+
+ON=@Fail
+	src.SYSHATA Bandajları kullanmadınız.
+	return 1
+
+
+[Skill 18]
+DEFNAME=Skill_Fishing
+KEY=Fishing
+TITLE=Fisher%s
+PROMPT_MSG=@038A,,1 Nerede balık tutacaksınız?
+DELAY=0.5
+STAT_STR=40
+STAT_INT=20
+STAT_DEX=40
+BONUS_STR=10
+BONUS_DEX=90
+BONUS_INT=0
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+VALUES=1,2,3
+
+ON=@Fail
+	src.SYSHATA Herhangi bir balık tutmayı başaramadınız.
+	return 1
+
+ON=@Success
+IF (<SRC.FINDLAYER.1.BASEID>==I_FISHING_POLE_P)
+SRC.F_OLTA
+ENDIF
+
+[Skill 19]
+DEFNAME=Skill_Forensics
+KEY=Forensics
+TITLE=Scholar
+PROMPT_MSG=@038A,,1 Hangi cesedi inceleyeceksiniz?
+DELAY=1.0
+STAT_STR=10
+STAT_INT=60
+STAT_DEX=25
+BONUS_STR=0
+BONUS_DEX=0
+BONUS_INT=100
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+
+ON=@Fail
+	src.SYSHATA Cesetten pek bilgi cikaramadiniz.
+	return 1
+
+[Skill 20]
+DEFNAME=Skill_Herding
+KEY=Herding
+TITLE=Shepherd
+PROMPT_MSG=
+DELAY=2.0
+STAT_STR=50
+STAT_INT=50
+STAT_DEX=50
+BONUS_STR=25
+BONUS_DEX=45
+BONUS_INT=30
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+
+
+[Skill 21]
+DEFNAME=Skill_Hiding
+KEY=Hiding
+TITLE=Rogue
+PROMPT_MSG=
+DELAY=3.0
+STAT_STR=0
+STAT_INT=0
+STAT_DEX=100
+BONUS_STR=0
+BONUS_DEX=100
+BONUS_INT=0
+BONUS_STATS=60
+ADV_RATE=0.1,0.1,0.1
+
+ON=@Fail
+	src.SYSHATA Burada gizlenemezsiniz.
+	return 1
+
+[Skill 22]
+DEFNAME=Skill_PROVOCATION
+KEY=Provocation
+TITLE=Bard
+PROMPT_MSG=Whom do you wish to incite?
+DELAY=999.0
+STAT_STR=20
+STAT_INT=60
+STAT_DEX=70
+BONUS_STR=0
+BONUS_DEX=90
+BONUS_INT=10
+BONUS_STATS=70
+ADV_RATE=2.5,5.0,10.0
+
+ON=@start
+src.skill fail
+return 1
+
+On=@abort
+return 1
+
+On=@fail
+return 1
+
+
+[Skill 23]
+DEFNAME=Skill_Inscription
+KEY=Inscription
+TITLE=Scribe
+PROMPT_MSG=
+DELAY=5.5
+STAT_STR=15
+STAT_INT=100
+STAT_DEX=15
+BONUS_STR=0
+BONUS_DEX=0
+BONUS_INT=100
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+VALUES=1,2,3
+
+ON=@Fail
+	src.SYSHATA Malzemeniz heba oldu.
+	src.consume 1 i_scroll_blank
+	if (<src.mana> > 5)
+		src.mana (<src.mana> - 5)
+	else
+		src.mana 1
+	endif
+	return 1
+	
+[Skill 24]
+DEFNAME=Skill_LockPick
+KEY=Lockpicking           
+TITLE=Locksmith
+PROMPT_MSG=What do you want to pick?
+DELAY=3.0
+STAT_STR=20
+STAT_INT=60
+STAT_DEX=90
+BONUS_STR=0
+BONUS_DEX=80
+BONUS_INT=20
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+
+ON=@Fail
+	src.SYSHATA Kilit sizden zeki gibi.
+
+[Skill 25]
+DEFNAME=Skill_magery
+KEY=Magery
+TITLE=Mage
+PROMPT_MSG=
+//STAT_STR=0
+//STAT_INT=100
+//STAT_DEX=0
+//BONUS_STR=0
+//BONUS_DEX=0
+//BONUS_INT=100
+//BONUS_STATS=80
+ADV_RATE=0.1,0.1,0.1
+VALUES=1,1,1
+
+ON=@UseQuick
+ARGN2 0
+ARGN3 1
+
+ON=@Fail
+	if (<src.findid.i_spdelay_NEW>)
+		if (<src.findid.i_spdelay_NEW.timer>>1)
+			src.findid.i_spdelay_NEW.timer 1
+		endif
+	endif
+	src.f_fizzle
+	//return 1
+TAG.NOMOVETILL
+f_fizzle
+skill fail
+action -1
+return 1
+
+ON=@prestart
+IF (<ISEVENT.E_ORC>)
+syshata Orc olduğunuz için büyü atamazsınız.
+skill fail
+action -1
+RETURN 1
+ENDIF
+ARGN2=0
+ARGN3 1
+
+ON=@START
+//actdiff=1
+IF (<ISEVENT.E_ORC>)
+syshata Orc olduğunuz için büyü atamazsınız.
+skill fail
+action -1
+F_fizzle
+RETURN 1
+ENDIF
+ARGN2=0
+ARGN3 1
+
+on=@abort
+	if (<src.findid.i_spdelay_NEW>)
+		src.findid.i_spdelay_NEW.remove
+	endif
+TAG.NOMOVETILL
+mgabort
+
+on=@success
+	if (<src.findid.i_spdelay_NEW>)
+		src.findid.i_spdelay_NEW.remove
+	endif
+TAG.NOMOVETILL
+//F_MAGE_GAIN
+IF (rand(3) == 1)
+F_EVA_GAIN
+ENDIF
+
+[Skill 26]
+DEFNAME=Skill_MagicResist
+KEY=MagicResistance
+TITLE=Resistor
+PROMPT_MSG=
+EFFECT=0
+STAT_STR=40
+STAT_INT=100
+STAT_DEX=40
+BONUS_STR=0
+BONUS_DEX=0
+BONUS_INT=30
+BONUS_STATS=50
+ADV_RATE=32000.1,320000.1,3200000.1
+FLAGS=SKF_SCRIPTED
+
+on=@success
+SRC.SKILL FAIL
+SRC.ACTION -1
+RETURN 1
+
+on=@gain
+SRC.SKILL FAIL
+SRC.ACTION -1
+RETURN 1
+
+
+[Skill 27]
+DEFNAME=Skill_Tactics
+KEY=Tactics
+TITLE=Warrior
+STAT_STR=60
+STAT_INT=20
+STAT_DEX=70
+BONUS_STR=50
+BONUS_DEX=50
+BONUS_INT=0
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+
+[Skill 28]
+DEFNAME=Skill_Snooping
+KEY=Snooping
+TITLE=Pickpocket
+PROMPT_MSG=
+DELAY=2.0
+STAT_STR=30
+STAT_INT=50
+STAT_DEX=60
+BONUS_STR=0
+BONUS_DEX=100
+BONUS_INT=0
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+
+ON=@Fail
+	src.SYSHATA Çantaya ulaşamadınız.
+	return 1
+
+[Skill 29]
+DEFNAME=Skill_Musicianship
+KEY=Musicianship
+TITLE=Bard
+PROMPT_MSG=
+DELAY=1.0
+STAT_STR=0
+STAT_INT=20
+STAT_DEX=60
+BONUS_STR=0
+BONUS_DEX=80
+BONUS_INT=20
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+
+ON=@FAIL
+	src.SYSHATA Berbat çaldığınız için pek umursayan olmadı.
+	SRC.ACTION -1
+	return 1
+
+on=@start
+IF (<SRC.HITS> < 1)
+SRC.SKILL FAIL
+SRC.ACTION -1
+RETURN 1
+ENDIF
+IF (<SRC.FINDID.I_MUSIC_SUCC>)
+SRC.SYSHATA Biraz beklemelisiniz.
+RETURN 1
+ENDIF
+SRC.SYSNORM Müzik aletini kurcalıyorsunuz.
+SERV.NEWITEM I_MUSIC_SUCC
+SRC.EQUIP <NEW>
+RETURN 1
+
+[FUNCTION F_MUSICS]
+IF (<FLAGS> & statf_war)
+syshata Savaş durumundayken kullanamazsınız.
+SRC.ACTION -1
+SKILL FAIL
+return 1
+ELIF (<SRC.FLAGS> & statf_dead) || (<SRC.FLAGS> & statf_freeze)
+syshata Şu anki durumunuzda kullanamazsınız.
+SRC.ACTION -1
+SKILL FAIL
+return 1
+ENDIF
+
+
+LOCAL.RATE <EVAL <SRC.MUSICIANSHIP>>
+IF (<R<EVAL 12 - (<dLOCAL.RATE>/100)>> == 1)
+	SRC.F_MUSIC_GAIN
+ELSE
+	SRC.syshata Başarısız oldunuz.
+	SRC.F_MUSIC_GAIN
+	SRC.SKILL FAIL
+	src.action -1
+RETURN 1
+ENDIF
+
+[ITEMDEF i_music_succ]
+ID = i_gold
+TYPE = t_eq_script
+WEIGHT = 0
+
+on=@Create
+timer 3
+ATTR = attr_static|attr_decay|attr_invis
+
+on=@equip
+timer 3
+
+on=@Timer
+TRYSRC <CONT> SRC.F_MUSICS
+REMOVE
+RETURN 1
+
+
+[Skill 30]
+DEFNAME=Skill_POISONING
+KEY=Poisoning
+TITLE=Assassin
+PROMPT_MSG=@038A,,1 Neye zehir süreceksiniz? 
+DELAY=2.0
+STAT_STR=15
+STAT_INT=40
+STAT_DEX=40
+BONUS_STR=0
+BONUS_DEX=20
+BONUS_INT=80
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+VALUES=1,30,200
+
+ON=@SELECT
+IF (<SRC.ARMSLORE> < 98.0)
+IF !((strmatch(´<SRC.TAG0.IRK>´,´Human´))
+SRC.SYSHATA Zehir sürebilmek için 98.0 Armslore gereklidir.
+SRC.SKILL FAIL
+SRC.action -1
+RETURN 1
+ENDIF
+
+ON=@START
+IF (<SRC.ACT.BASEID>==I_POTION_POISONDEADLY) && (<SRC.POISONING> < 80.0)
+SRC.SYSHATA Deadly poison sürebilmek için 80.0 Poisoning gereklidir.
+SRC.SKILL FAIL
+SRC.action -1
+RETURN 1
+ENDIF
+
+ON=@Fail
+	src.SYSHATA Zehir heba oldu.
+	
+[Skill 31]
+DEFNAME=Skill_Archery
+KEY=Archery
+TITLE=Archer
+PROMPT_MSG=
+DELAY=2.0,0.1
+STAT_STR=40
+STAT_INT=20
+STAT_DEX=70
+BONUS_STR=0
+BONUS_DEX=95
+BONUS_INT=5
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+
+[Skill 32]
+DEFNAME=Skill_SPIRITSPEAK
+KEY=SpiritSpeak
+TITLE=Medium
+PROMPT_MSG=
+DELAY=2.0
+STAT_STR=20
+STAT_INT=70
+STAT_DEX=30
+BONUS_STR=0
+BONUS_DEX=0
+BONUS_INT=100
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+
+ON=@Fail
+if (<src.findid.i_spdelay_NEW>)
+	if (<src.findid.i_spdelay_NEW.timer>>1)
+		src.findid.i_spdelay_NEW.timer 1
+	endif
+endif
+src.sysh_trk Başaramadınız.
+src.f_fizzle
+return 1
+
+on=@abort
+if (<src.findid.i_spdelay_NEW>)
+	src.findid.i_spdelay_NEW.remove
+endif
+
+
+ON=@Start
+if (<src.mana> < 10)
+src.syshata Yeterli mananız yok. (10 Mana)
+return 1
+elseif (<src.findid.i_rune_poison>)
+src.syshata Zehirliyken bunu yapamazsınız.
+return 1
+endif
+sd 1
+src.spell_say Anh Mi Sah Ko
+src.sound 586
+src.anim 17
+
+
+ON=@Success
+IF (<HITS> < <STR>)
+src.hits += <qval (<eval <src.maxhits> - <src.hits>> < <eval <src.spiritspeak>/50>)?<eval <src.maxhits> - <src.hits>>:<eval <src.spiritspeak>/50>>
+SRC.MESSAGE @70 <qval (<eval <src.maxhits> - <src.hits>> < <eval <src.spiritspeak>/50>)?<eval <src.maxhits> - <src.hits>>:<eval <src.spiritspeak>/50>>
+ENDIF
+src.mana -= 10
+src.effect 3,i_fx_bless_effect,1,20
+src.f_speak_gain
+return 1
+
+ON=@Gain
+return 1
+
+[Skill 33]
+DEFNAME=Skill_Stealing
+KEY=Stealing
+TITLE=Thief
+PROMPT_MSG=@038A,,1 Neyi çalacaksınız?
+DELAY=2.0
+STAT_STR=40
+STAT_INT=50
+STAT_DEX=100
+BONUS_STR=0
+BONUS_DEX=100
+BONUS_INT=0
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+
+ON=@Fail
+	src.SYSHATA Eşyayı çalamadınız.
+
+on=@start
+IF (<SRC.TARG.attr>&04)
+SRC.SYSHATA Newbie eşyaları çalamazsınız.
+src.skill fail
+return 1
+ENDIF
+
+
+[Skill 34]
+DEFNAME=Skill_Tailoring
+KEY=Tailoring
+TITLE=Tailor
+PROMPT_MSG=
+DELAY=5.0
+STAT_STR=30
+STAT_INT=20
+STAT_DEX=60
+BONUS_STR=5
+BONUS_DEX=75
+BONUS_INT=20
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+VALUES=1,2,3
+
+
+ON=@Fail
+	src.SYSHATA Kumaş falan hep heba oldu.
+
+[Skill 35]
+DEFNAME=Skill_Taming
+KEY=Taming
+TITLE=Animal Tamer
+PROMPT_MSG=@038A,,1 Lütfen taming staff kullanın.
+DELAY=9991.0
+STAT_STR=0
+STAT_INT=0
+STAT_DEX=0
+BONUS_STR=0
+BONUS_DEX=0
+BONUS_INT=0
+BONUS_STATS=0
+ADV_RATE=1.0,1.0,1.0
+
+on=@start
+syshata Lütfen taming staff kullanın.
+skill fail
+return 1
+
+[Skill 36]
+DEFNAME=Skill_tasteid
+KEY=TasteID
+TITLE=Food Taster
+PROMPT_MSG=@038A,,1 Neyin tadına bakmak istiyorsunuz?
+DELAY=1.0
+STAT_STR=25
+STAT_INT=50
+STAT_DEX=15
+BONUS_STR=20
+BONUS_DEX=0
+BONUS_INT=80
+BONUS_STATS=50
+ADV_RATE=0.1,0.1,0.1
+
+ON=@Fail
+	src.SYSHATA Hmm.. tavuk gibi.
+
+[Skill 37]
+DEFNAME=Skill_Tinkering
+KEY=Tinkering
+TITLE=Tinker
+PROMPT_MSG=
+DELAY=3.0 //5.0
+STAT_STR=30
+STAT_INT=100
+STAT_DEX=50
+BONUS_STR=20
+BONUS_DEX=20
+BONUS_INT=60
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+VALUES=1,2,3
+
+
+ON=@Fail
+	src.SYSHATA Malzemeniz heba oldu.
+
+[Skill 38]
+DEFNAME=Skill_Tracking
+KEY=Tracking
+TITLE=Ranger
+PROMPT_MSG=
+DELAY=1.0
+STAT_STR=25
+STAT_INT=50
+STAT_DEX=50
+BONUS_STR=0
+BONUS_DEX=50
+BONUS_INT=50
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+
+ON=@Select
+src.SKILL FAIL
+SRC.ACTION -1
+IF (<DSRC.CTAG0.TRACKFIX>)
+src.SKILL FAIL
+SRC.ACTION -1
+RETURN 1
+ENDIF
+IF (<SRC.HITS> < 1)
+src.SKILL FAIL
+SRC.ACTION -1
+RETURN 1
+ENDIF
+IF (<SRC.TRACKING> < 300)
+SRC.SYSHATA Etrafı gözetleyebilmek için en az 30.0 Tracking yeteneği gereklidir.
+SRC.SKILL FAIL
+SRC.ACTION -1
+RETURN 1
+ENDIF
+SRC.SYSNORM Etrafı gözetlemeye başladınız.
+SRC.CTAG0.TRACKFIX 1
+SRC.ARROWQUEST
+SRC.TIMERF 3, SRC.F_TRACKING
+src.SKILL FAIL
+SRC.ACTION -1
+RETURN 1
+
+ON=@Fail
+SRC.CTAG0.TRACKFIX
+SRC.SYSHATA Tracking başarısız oldu.
+src.SKILL FAIL
+SRC.ACTION -1
+RETURN 1
+
+ON=@Abort
+SRC.CTAG0.TRACKFIX
+SRC.SYSHATA Tracking durduruldu.
+src.SKILL FAIL
+SRC.ACTION -1
+RETURN 1
+
+on=@start
+src.SKILL FAIL
+SRC.ACTION -1
+RETURN 1
+
+on=@success
+src.SKILL FAIL
+SRC.ACTION -1
+RETURN 1
+
+
+[Skill 39]
+DEFNAME=Skill_Vet
+KEY=Veterinary
+TITLE=Veterinarian
+PROMPT_MSG=@038A,,1 Hangi hayvanı tedavi edeceksiniz?
+DELAY=2.0
+STAT_STR=30
+STAT_INT=50
+STAT_DEX=40
+BONUS_STR=20
+BONUS_DEX=20
+BONUS_INT=60
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+
+ON=@Fail
+	src.SYSHATA Bandajlarınız yetersiz geldi.
+
+[Skill 40]
+DEFNAME=Skill_Swordsmanship
+KEY=Swordsmanship
+TITLE=Swords%s
+PROMPT_MSG=
+STAT_STR=100
+STAT_INT=0
+STAT_DEX=100
+BONUS_STR=50
+BONUS_DEX=50
+BONUS_INT=0
+BONUS_STATS=80
+ADV_RATE=0.1,0.1,0.1
+
+[Skill 41]
+DEFNAME=Skill_Macefighting
+KEY=Macefighting
+TITLE=Macefighter
+PROMPT_MSG=
+STAT_STR=100
+STAT_INT=10
+STAT_DEX=100
+BONUS_STR=50
+BONUS_DEX=50
+BONUS_INT=0
+BONUS_STATS=80
+ADV_RATE=0.1,0.1,0.1
+
+[Skill 42]
+DEFNAME=Skill_Fencing
+KEY=Fencing
+TITLE=Fencer
+PROMPT_MSG=
+STAT_STR=100
+STAT_INT=0
+STAT_DEX=100
+BONUS_STR=50
+BONUS_DEX=50
+BONUS_INT=0
+BONUS_STATS=80
+ADV_RATE=0.1,0.1,0.1
+
+[Skill 43]
+DEFNAME=Skill_Wrestling
+KEY=Wrestling
+TITLE=Wrestler
+PROMPT_MSG=
+STAT_STR=100
+STAT_INT=0
+STAT_DEX=100
+BONUS_STR=50
+BONUS_DEX=50
+BONUS_INT=0
+BONUS_STATS=80
+ADV_RATE=0.1,0.1,0.1
+
+[Skill 44]
+DEFNAME=Skill_LUMBERJACK
+KEY=Lumberjacking
+TITLE=Lumberjack
+PROMPT_MSG=
+DELAY=1.0
+STAT_STR=85
+STAT_INT=20
+STAT_DEX=45
+BONUS_STR=90
+BONUS_DEX=10
+BONUS_INT=0
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+VALUES=1,2,3
+
+ON=@UseQuick
+ARGN2 0
+ARGN3 1
+
+ON=@Fail
+	src.SYSHATA İşe yarar odun çıkaramadınız.
+	return 1
+
+ON=@Success
+IF (<SRC.FINDLAYER.1.BASEID>==I_HATCHET_P)
+SRC.F_AXE
+ENDIF
+
+[Skill 45]
+DEFNAME=Skill_MINING
+KEY=Mining
+TITLE=Miner
+PROMPT_MSG=
+DELAY=0.5
+STAT_STR=85
+STAT_INT=20
+STAT_DEX=45
+BONUS_STR=70
+BONUS_DEX=30
+BONUS_INT=0
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+VALUES=1,1,1
+
+ON=@START
+IF (<SRC.MINING> < 30.0)
+SRC.SYSHATA Mining yeteğiniz en az 30.0 olmalıdır.
+RETURN 1
+ENDIF
+IF (<SRC.FINDLAYER.1.BASEID>==I_PICKAXE_DWARF)
+SRC.F_PAXE_IRON
+ENDIF
+
+ON=@Fail
+	src.SYSHATA İşe yarar bir maden bulamadınız.
+	return 1
+
+ON=@Success
+IF (<SRC.FINDLAYER.1.BASEID>==I_PICKAXE_P)
+SRC.F_PAXE
+ENDIF
+
+[Skill 46]
+DEFNAME=Skill_Meditation
+KEY=Meditation
+TITLE=Stoic
+DELAY=0.4,0.6
+STAT_STR=10
+STAT_INT=100
+STAT_DEX=10
+BONUS_STR=5
+BONUS_DEX=90
+BONUS_INT=5
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+VALUES=1,20,80
+EFFECT=5
+
+ON=@Fail
+	src.SYSNORM Konsantrasyonunuzu kaybettiniz.
+	return 1
+
+
+on=@Success
+local.artacak <EVAL <SRC.MEDITATION>/400>
+
+IF !(<SRC.TACTICS> > 0)
+IF (<SRC.MEDITATION> > 89.9)
+local.artacak <EVAL <DLOCAL.ARTACAK>+2>
+ENDIF
+ENDIF
+
+src.mana += <qval (<eval <src.int> - <src.mana>> < <dlocal.artacak>)?<eval <src.int> - <src.mana>>:<dlocal.artacak>>
+
+
+
+[Skill 47]
+DEFNAME=Skill_STEALTH
+KEY=Stealth
+TITLE=Rogue
+PROMPT_MSG=
+DELAY=2.0
+STAT_STR=20
+STAT_INT=60
+STAT_DEX=90
+BONUS_STR=0
+BONUS_DEX=80
+BONUS_INT=20
+BONUS_STATS=70
+ADV_RATE=0.1,0.1,0.1
+
+ON=@Fail
+	src.syshata Kendinizi gizleyemediniz.
+	return 1
+
+[Skill 48]
+DEFNAME=Skill_REMOVE_TRAP
+KEY=RemoveTrap
+TITLE=Disarmer
+PROMPT_MSG=Select the trap to disarm
+DELAY=7.0,3.0,2.0
+STAT_STR=20
+STAT_INT=60
+STAT_DEX=90
+BONUS_STR=0
+BONUS_DEX=80
+BONUS_INT=20
+BONUS_STATS=70
+ADV_RATE=1.0,1.0,1.0
+
+ON=@Fail
+	src.SYSHATA Tuzak etkisiz hale gelmedi.
+
+[Skill 49]
+DEFNAME=Skill_Necromancy
+KEY=Necromancy
+TITLE=Necromancer
+STAT_STR=20
+STAT_INT=100
+STAT_DEX=40
+BONUS_STR=0
+BONUS_DEX=0
+BONUS_INT=100
+BONUS_STATS=70
+ADV_RATE=20.0,500.0,1800.0
+VALUES=1,10,80
+
+on=@start
+IF !(<ISEVENT.E_HARADRIM>)
+src.syshata Sadece Haradrim irki kullanabilir.
+src.skill fail
+src.action -1
+ENDIF
+
+On=@Fail
+	src.SYSHATA Konsantrasyonunuz bozuldu.
+if (<src.findid.i_spdelay_NEW>)
+	if (<src.findid.i_spdelay_NEW.timer>>1)
+		src.findid.i_spdelay_NEW.timer 1
+	endif
+endif
+src.f_fizzle
+return 1
+
+on=@abort
+if (<src.findid.i_spdelay_NEW>)
+	src.findid.i_spdelay_NEW.remove
+endif
+	
+[SKILL 50]
+DEFNAME=SKILL_Focus
+KEY=Focus
+TITLE=Stoic
+//STAT_STR=10
+//STAT_INT=100
+//STAT_DEX=10
+//BONUS_STR=0
+//BONUS_DEX=0
+//BONUS_INT=0
+//BONUS_STATS=0
+ADV_RATE=10.0,200.0,800.0
+
+on=@start
+src.syshata Bu yetenek kullanıma kapalıdır.
+src.skill fail
+return 1
+
+[SKILL 51]
+DEFNAME=SKILL_CHIVALRY
+KEY=Chivalry
+TITLE=Paladin
+//STAT_STR=100
+//STAT_INT=35
+//STAT_DEX=55
+//BONUS_STR=80
+//BONUS_DEX=20
+//BONUS_INT=0
+//BONUS_STATS=10
+ADV_RATE=10.0,150.0,600.0
+
+on=@start
+src.syshata Bu yetenek kullanıma kapalıdır.
+src.skill fail
+return 1
+
+
+[SKILL 52]
+DEFNAME=SKILL_BUSHIDO
+KEY=Bushido
+TITLE=Samurai
+//STAT_STR=55
+//STAT_INT=60
+//STAT_DEX=95
+//BONUS_STR=20
+//BONUS_DEX=80
+//BONUS_INT=0
+//BONUS_STATS=10
+ADV_RATE=10.0,150.0,600.0
+
+on=@start
+src.syshata Bu yetenek kullanıma kapalıdır.
+src.skill fail
+return 1
+
+
+[SKILL 53]
+DEFNAME=SKILL_NINJITSU
+KEY=Ninjitsu
+TITLE=Ninja
+//STAT_STR=55
+//STAT_INT=60
+//STAT_DEX=95
+//BONUS_STR=20
+//BONUS_DEX=80
+//BONUS_INT=0
+//BONUS_STATS=10
+ADV_RATE=10.0,150.0,600.0
+
+on=@start
+src.syshata Bu yetenek kullanıma kapalıdır.
+src.skill fail
+return 1
+
+
+[SKILL 54]
+DEFNAME=SKILL_SPELLWEAVING
+KEY=Spellweaving
+TITLE=Arcanist
+//STAT_STR=20
+//STAT_INT=70
+//STAT_DEX=30
+//BONUS_STR=0
+//BONUS_DEX=0
+//BONUS_INT=100
+//BONUS_STATS=50
+ADV_RATE=2.5,50.0,200.0
+
+on=@start
+src.syshata Bu yetenek kullanıma kapalıdır.
+src.skill fail
+return 1
+
+
+[SKILLCLASS 0] // e_ClassUndeclared
+DEFNAME=Class_undeclared
+NAME=undeclared
+STATSUM=225
+SKILLSUM=800.0
+STR=100
+INT=100
+DEX=100
+Alchemy=100.0
+Anatomy=100.0
+AnimalLore=100.0
+ItemId=100.0
+ArmsLore=100.0
+Parrying=100.0
+Begging=100.0
+Blacksmithing=100.0
+Bowcraft=100.0
+Peacemaking=100.0
+Camping=100.0
+Carpentry=100.0
+Cartography=100.0
+Cooking=100.0
+DetectingHidden=100.0
+Enticement=100.0
+EvaluatingIntel=100.0
+Healing=100.0
+Fishing=100.0
+Forensics=100.0
+Herding=100.0
+Hiding=100.0
+Provocation=100.0
+Inscription=100.0
+LockPicking=100.0
+Magery=100.0
+MagicResistance=100.0
+Tactics=100.0
+Snooping=100.0
+Musicianship=100.0
+Poisoning=100.0
+Archery=100.0
+SpiritSpeak=100.0
+Stealing=100.0
+Tailoring=100.0
+Taming=100.0
+TasteId=100.0
+Tinkering=100.0
+Tracking=100.0
+Veterinary=100.0
+Swordsmanship=100.0
+Macefighting=100.0
+Fencing=100.0
+Wrestling=100.0
+Lumberjacking=100.0
+Mining=100.0
+Meditation=100.0
+Stealth=100.0
+RemoveTrap=100.0
+//Necromancy=100.0
+//Focus=100.0
+//Chivalry=100.0
+//Bushido=100.0
+//Ninjitsu=100.0
+//Spellweaving=100.0
+
+On=@EnvironChange
+if (0<account.plevel> > 1)
+	events +gmfix
+else
+if !(<isevent.fix>)
+	events +fix
+endif
+endif
+
+On=@Login
+//f_accountlang
+if (<account.plevel> < 2)
+f_player_login
+else
+f_staff_login
+endif
+
+On=@Logout
+if (<account.plevel> < 2)
+f_player_logout
+else
+f_staff_logout
+endif
+
+ON=@UserExtCmd
+//teslim öncesi connectör scripti kaldırıldı 10/06/2023 08h00
+
+[SKILLCLASS 1] // e_ClassUndeclaredxx
+DEFNAME=Class_undeclaredxx
+NAME=undeclaredxx
+STATSUM=225
+SKILLSUM=800.0
+STR=100
+INT=100
+DEX=100
+
+On=@EnvironChange
+if (0<account.plevel> > 1)
+	events +gmfix
+endif
+
+On=@Login
+if (<account.plevel> < 2)
+f_player_login
+else
+f_staff_login
+endif
+
+On=@Logout
+if (<account.plevel> < 2)
+f_player_logout
+else
+f_staff_logout
+endif
+
+
+[FUNCTION F_Packet0C]
+IF (<eval <local.deger>> < 999)
+IF !(<local.3> == 058) && (<LOCAL.4> == 000)
+	RETURN 1
+ENDIF
+ENDIF
+IF (<eval <local.deger>> > 999)
+IF (<LOCAL.4> == 000)
+	RETURN 1
+ENDIF
+ENDIF
+
+[EOF]

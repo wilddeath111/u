@@ -1,0 +1,477 @@
+﻿//mysql scripts
+
+[ITEMDEF i_boss_kutu]
+DEFNAME=i_boss_kutu
+ID=i_gravestone_18
+TYPE=t_script
+NAME=boss kutu
+
+On=@create
+color 0455
+attr 010|attr_invis
+timer 3
+
+on=@click
+message @0481,,1 [<dtimer>]
+
+on=@timer
+FORITEMS 75
+IF (<TYPE>==T_CONTAINER) && ((strmatch('*box*','<name>')) || (strmatch('*chest*','<name>')))
+REMOVE
+ENDIF
+IF ((strmatch('*sheaf*','<name>')) || (strmatch('*sheaf*','<name>')))
+REMOVE
+ENDIF
+ENDFOR
+TIMER 3
+RETURN 1
+
+[FUNCTion cikartt]
+		DORAND 3
+		TRYSRV SERV.NEWNPC c_a_aqua
+		TRYSRV SERV.NEWNPC c_a_ember
+		TRYSRV SERV.NEWNPC c_m_frost
+		ENDDO
+		new.tag.binekweek 1
+		new.p=1762,68,-23,2
+		new.fix
+		new.home=<new.p>
+		new.homedist 3
+		new.update	
+		VAR.BINEKWEEK <NEW.UID>	
+
+[ITEMDEF i_boss_spawn]
+DEFNAME=i_boss_spawn
+ID=i_gravestone_18
+TYPE=t_script
+NAME=boss spawner
+
+On=@create
+color 0455
+attr 010
+timer 20
+
+on=@click
+message @0481,,1 [<dtimer> & <dTAG0.GUNLUK>]
+
+on=@timer
+IF (<dF_DAYCHECK> < 7)
+IF (<dF_HOUR>==21) && (<dF_MINUTE>==00)
+	IF !(<dTAG0.GUNLUK> > 0)
+		IF !(<ISEMPTYZ <VAR.GRAVEBOSS>>)
+		TRY UID.<VAR.GRAVEBOSS>.REMOVE
+		ENDIF
+		LOCAL.BOSS <R1,2>
+		IF (<DLOCAL.BOSS>==1)
+		SERV.ALLCLIENTS SYSMESSAGE @0154,,1 [Graveyard Boss]: Minotaur, Rohan mezar bölgesinde görüldü.
+		LOCAL.P 2342,2423,3
+		ELSE
+		SERV.ALLCLIENTS SYSMESSAGE @0154,,1 [Graveyard Boss]: Minotaur, Iron Hills mezar bölgesinde görüldü.
+		LOCAL.P 3944,1046,1
+		ENDIF
+
+		TRYSRV SERV.NEWNPC C_TITAN_BOSS
+		new.p=<LOCAL.P>
+		new.fix
+		new.home=<new.p>
+		new.homedist 3
+		new.update	
+		VAR.GRAVEBOSS <NEW.UID>
+
+		TRY TAG0.GUNLUK 1
+		TIMERF 300, TAG0.GUNLUK
+	ENDIF
+ENDIF
+ELSE
+IF (<dF_HOUR>==21) && (<dF_MINUTE>==00)
+	IF !(<dTAG0.GUNLUK> > 0)
+		IF !(<dISEMPTYZ <VAR.GRAVEBOSS>>)
+		TRY UID.<VAR.GRAVEBOSS>.REMOVE
+		ENDIF
+
+		SERV.ALLCLIENTS SYSMESSAGE @01c6,,1 [Haftalık Boss]: Spellcaster, Rohan köprü bölgesinde görüldü.
+		LOCAL.P 2435,2444,5
+
+		TRYSRV SERV.NEWNPC C_BOSS_WEEK
+		new.p=<LOCAL.P>
+		new.fix
+		new.home=<new.p>
+		new.homedist 3
+		new.update	
+		VAR.BOSSWEEK <NEW.UID>
+		VAR.GRAVEBOSS <NEW.UID>
+		
+		FORINSTANCES I_BOSS_SPAWN2
+		TIMER 1800
+		ENDFOR
+		new.update
+
+		DORAND 3
+		TRYSRV SERV.NEWNPC c_a_aqua
+		TRYSRV SERV.NEWNPC c_a_ember
+		TRYSRV SERV.NEWNPC c_m_frost
+		ENDDO
+		new.tag.binekweek 1
+		new.p=1762,68,-23,2
+		new.fix
+		new.home=<new.p>
+		new.homedist 3
+		new.update	
+		VAR.BINEKWEEK <NEW.UID>			
+
+		TRY TAG0.GUNLUK 1
+		TIMERF 300, TAG0.GUNLUK
+	ENDIF
+ENDIF
+ENDIF
+timer 20
+
+return 1
+
+[ITEMDEF i_boss_spawn2]
+DEFNAME=i_boss_spawn2
+ID=i_gravestone_18
+TYPE=t_script
+NAME=boss spawner
+
+On=@create
+color 0455
+attr 010|attr_invis
+timer 20
+
+on=@click
+message @0481,,1 [<dtimer>]
+
+on=@timer
+		IF !(<dISEMPTYZ <VAR.BINEKWEEK>>)
+		TRY UID.<VAR.BINEKWEEK>.REMOVE
+		SERV.ALLCLIENTS SYSMESSAGE @01c6,,1 [Haftalık Boss]: Spawn süresi doldu, binek ehlileştirilemedi.
+		ENDIF
+		IF !(<dISEMPTYZ <VAR.SPAWNGATE>>)
+		TRY UID.<VAR.SPAWNGATE>.REMOVE
+		ENDIF
+		
+		FORCHARS 75
+			IF !(<ISGM>) && (<ISPLAYER>)
+				GO PAZAR
+			ENDIF
+		ENDFOR
+
+timer -1
+
+return 1
+
+[function f_set_mysphere_web]
+SQLCONN
+
+db.execute delete from myrunuo_characters where char_id='<eval <uid>>'
+
+// Instead of deleting you can also update the content belong to uid like db.query update to related char_str,dex,guild so and so forth. But i would say that it is not convenient.
+
+db.query insert into myrunuo_characters (char_id, char_name, char_str, char_dex, char_int, char_female, char_counts, char_guild, char_guildtitle, char_nototitle, char_bodyhue, char_public) VALUES ('<eval <uid>>', '<addslashes <fullname>>', '<str>', '<dex>', '<int>', '<sex 0/1>', 'null', '<guild>', 'null', '<title>', '<eval <color>>', 'null')
+
+db.execute delete from myrunuo_characters_layers where char_id='<eval <uid>>'
+
+// Inserting data of layers from <src>
+FOR X 1 24
+IF !((<dLOCAL.X> == 14) && (<FINDLAYER.<dDEF.PLAYER_LAYER_17>>))
+ IF <FINDLAYER.<dDEF.PLAYER_LAYER_<dLOCAL.X>>> && !<dLOCAL.<dLOCAL.X>> && <dDEF.PLAYER_LAYER_<dLOCAL.X>> != 21
+  REF1 <FINDLAYER.<dDEF.PLAYER_LAYER_<dLOCAL.X>>.UID>
+  DB.EXECUTE INSERT INTO myrunuo_characters_layers (char_id, sequence, layer_id, item_id, item_hue, item_name) VALUES ('<dREF1.CONT.UID>','<dLOCAL.X>','<dDEF.PLAYER_LAYER_<dLOCAL.X>>','<dREF1.ID>','<dREF1.COLOR>','nomore')
+ ENDIF
+ ENDIF
+ENDFOR 
+
+//FOR X 1 24
+// IF <FINDLAYER.<dLOCAL.X>>
+//  REF1 <FINDLAYER.<dLOCAL.X>.UID>
+//  DB.EXECUTE INSERT INTO myrunuo_characters_layers (char_id, layer_id, sequence, item_id, item_hue, item_name) VALUES ('<dREF1.CONT.UID>','<dLOCAL.X>','<dDEF.PLAYER_LAYER_<dLOCAL.X>>','<dREF1.ID>','<dREF1.COLOR>','<REF1.NAME>')
+// ENDIF
+//ENDFOR 
+//for x 1 24
+//    if <findlayer.<dlocal.x>>
+//        ref1 = <findlayer.<dlocal.x>.uid>
+//        db.query insert into myrunuo_characters_layers (char_id, layer_id, item_id, item_hue) VALUES ('<eval <ref1.cont.uid>>','<dlocal.x>','<eval <ref1.id>>','<eval <ref1.color>>') //
+//    endif
+//endfor
+
+// Character skills
+db.execute delete from myrunuo_characters_skills where char_id='<eval <uid>>'
+
+for x 1 49
+IF (<<def.player_skill_<dlocal.x>>> > 0)
+db.query insert into myrunuo_characters_skills (char_id, skill_id, skill_value) VALUES ('<eval <uid>>','<dlocal.x>','<<def.player_skill_<dlocal.x>>>')
+endfor
+ENDIF
+
+[DEFNAME player_layers]
+player_layer_1 3
+player_layer_2 4
+player_layer_3 5
+player_layer_4 8
+player_layer_5 14
+player_layer_6 15
+player_layer_7 16
+player_layer_8 17
+player_layer_9 18
+player_layer_10 20
+player_layer_11 7
+player_layer_12 19
+player_layer_13 13
+player_layer_14 23
+player_layer_15 10
+player_layer_16 24
+player_layer_17 11
+player_layer_18 22
+player_layer_19 6
+player_layer_20 12
+player_layer_21 1
+player_layer_22 2
+player_layer_23 9
+player_layer_24 21
+
+[defname player_skilldown]
+player_skill_1 Alchemy
+player_skill_2 Anatomy
+player_skill_3 AnimalLore
+player_skill_4 Taming
+player_skill_5 Archery
+player_skill_6 ArmsLore
+player_skill_7 Begging
+player_skill_8 Blacksmithing
+player_skill_9 Bowcraft
+player_skill_10 Camping
+player_skill_11 Carpentry
+player_skill_12 Cartography
+player_skill_13 Cooking
+player_skill_14 DetectingHidden
+player_skill_15 Enticement
+player_skill_16 EvaluatingIntel
+player_skill_17 Fencing
+player_skill_18 Fishing
+player_skill_19 Forensics
+player_skill_20 Healing
+player_skill_21 Herding
+player_skill_22 Hiding
+player_skill_23 Inscription
+player_skill_24 ItemId
+player_skill_25 Lockpicking
+player_skill_26 Lumberjacking
+player_skill_27 MaceFighting
+player_skill_28 Magery
+player_skill_29 Meditation
+player_skill_30 Mining
+player_skill_31 Musicianship
+player_skill_32 Parrying
+player_skill_33 Peacemaking
+player_skill_34 Poisoning
+player_skill_35 Provocation
+player_skill_36 RemoveTrap
+player_skill_37 MagicResistance
+player_skill_38 Snooping
+player_skill_39 SpiritSpeak
+player_skill_40 Stealing
+player_skill_41 Stealth
+player_skill_42 Swordsmanship
+player_skill_43 Tactics
+player_skill_44 Tailoring
+player_skill_45 TasteId
+player_skill_46 Tinkering
+player_skill_47 Tracking
+player_skill_48 Veterinary
+player_skill_49 Wrestling 
+
+[function sqlconn]
+RETURN 1
+if !(<DB.connected>)
+db.connect
+endif
+
+[function f_acc_update]
+SQLCONN
+DB.QUERY "SELECT user,pass FROM accxshadetb"
+if (<DB.ROW.NUMROWS> > 0)
+	for R 0 <eval <DB.ROW.NUMROWS>-1>
+	IF !(<dISEMPTY <DB.ROW.<eval <LOCAL.R>>.0>>)
+	SERV.ACCOUNT ADD <DB.ROW.<eval <LOCAL.R>>.0> <DB.ROW.<eval <LOCAL.R>>.1>
+	//SERV.ACCOUNT <DB.ROW.<eval <LOCAL.R>>.0> PLEVEL 1
+	LOCAL.USER <DB.ROW.<eval <LOCAL.R>>.0>
+	ENDIF 
+	DB.QUERY "SELECT user,pin FROM accxshadetb WHERE user='<LOCAL.USER>'"
+	if (<DB.ROW.NUMROWS> > 0)
+	SERV.ACCOUNT <DB.ROW.0.0> TAG0.PIN <dDB.ROW.0.1>
+ 	endif
+
+        serv.log Bilgi: #<eval <LOCAL.R>> account <DB.ROW.<eval <LOCAL.R>>.0> yaratıldı.
+	db.execute delete from accxshadetb where user='<DB.ROW.<eval <LOCAL.R>>.0>'
+        endfor
+endif
+SERV.ACCOUNT UPDATE
+
+
+DB.QUERY "SELECT user,pass FROM accxshadetb_upd"
+if (<DB.ROW.NUMROWS> > 0)
+	for R 0 <eval <DB.ROW.NUMROWS>-1>
+	SERV.ACCOUNT <DB.ROW.<eval <LOCAL.R>>.0> PASSWORD <DB.ROW.<eval <LOCAL.R>>.1>
+	SERV.ACCOUNT <DB.ROW.<eval <LOCAL.R>>.0> PLEVEL 1
+        serv.log Bilgi: #<eval <LOCAL.R>> account <DB.ROW.<eval <LOCAL.R>>.0> sifre degistirdi.
+	db.execute delete from accxshadetb_upd where user='<DB.ROW.<eval <LOCAL.R>>.0>'
+        endfor
+endif
+SERV.ACCOUNT UPDATE
+
+DB.QUERY "SELECT user,pin FROM accxshadetb_updp"
+if (<DB.ROW.NUMROWS> > 0)
+	for R 0 <eval <DB.ROW.NUMROWS>-1>
+	SERV.ACCOUNT <DB.ROW.<eval <LOCAL.R>>.0> TAG0.PIN <dDB.ROW.<eval <LOCAL.R>>.1>
+	SERV.ACCOUNT <DB.ROW.<eval <LOCAL.R>>.0> PLEVEL 1
+        serv.log Bilgi: #<eval <LOCAL.R>> account <DB.ROW.<eval <LOCAL.R>>.0> pin degistirdi.
+	db.execute delete from accxshadetb_updp where user='<DB.ROW.<eval <LOCAL.R>>.0>'
+        endfor
+endif
+SERV.ACCOUNT UPDATE
+
+[ITEMDEF i_pv_saver]
+DEFNAME=i_pv_saver
+ID=i_gravestone_18
+TYPE=t_script
+NAME=vendor saver
+
+On=@create
+color 100
+attr 010
+timer 1800
+
+on=@click
+message @0481,,1 [ellemeyin!!!]
+
+on=@timer
+timer 1800
+SAY @90,,1 PV Updated
+if !(<db.connected>)
+db.connect
+endif
+try F_DB_PV
+timer 1800
+return 1
+
+
+[ITEMDEF i_acc_saver]
+DEFNAME=i_acc_saver
+ID=i_gravestone_18
+TYPE=t_script
+NAME=account saver
+
+On=@create
+color 100
+attr 010
+timer 60
+
+on=@click
+message @0481,,1 [ellemeyin!!!]
+
+on=@timer
+TRY DISPEL_ACTIVE
+timer 60
+SAY @90,,1 Accounts Updated
+if !(<db.connected>)
+db.connect
+endif
+try f_acc_update 
+try F_status_update
+timer 60
+return 1
+
+[function sql_create]
+db.execute "create table tops (id int unsigned not null auto_increment primary key, isim text, puan int, guild text)"
+db.execute "create table olum (id int unsigned not null auto_increment primary key, olen text, olduren text, saat text, yer text, neden text)"
+db.execute "create table guilds (id int unsigned not null auto_increment primary key, isim text, master text, uye int, taraf text, puan int, uid text)"
+db.execute "create table status (oyuncu int, masum int, katil int, chars int, items int, accounts int, yetkili int, page int, aile int, guilds int, lexis int)"
+db.execute "create table aile (id int unsigned not null auto_increment primary key, isim text, uye int, reis text, uid text)"
+serv.allclients istatistik1
+timerf 1,db.execute "INSERT INTO status (oyuncu, masum, katil, chars, items, accounts, yetkili, page, aile, guilds, lexis) VALUES ('<donlinecount>','<var0.masum> ','<var0.katil> ','<serv.chars>','<serv.items>','<serv.accounts>','<var0.yetkili>','<uid.<var.pg_box>.rescount>','<var0.ailetop>','<serv.guilds>','1')"
+
+
+[ITEMDEF i_guild_saver]
+DEFNAME=i_guild_saver
+ID=i_gravestone_18
+TYPE=t_script
+NAME=guild saver
+
+On=@create
+color 100
+attr 010
+timer 60
+
+on=@click
+message @0481,,1 [ellemeyin!!!]
+
+on=@timer
+foritems 65000
+if (<type> == t_stone_guild)
+if !(<dtag0.ilkgiris>)
+// first inserting
+db.execute "INSERT INTO guilds (id, isim, master, uye, taraf, puan, uid) VALUES ('','<db.escapedata <addslashes <name>>> ','<db.escapedata <addslashes <master>>> ','<member.count>','Tarafsiz','<dtag0.puan>','<uid>')"
+tag0.ilkgiris 1
+else
+// updating
+db.execute "UPDATE guilds set isim='<db.escapedata <addslashes <name>>>', master='<db.escapedata <addslashes <master>>>', uye='<member.count>', puan='<dtag0.puan>' where uid='<uid>'"
+if (<more1> == 1)
+db.execute "UPDATE guilds set taraf='Order' where uid='<uid>'"
+elseif (<more1> == 2)
+db.execute "UPDATE guilds set taraf='Chaos' where uid='<uid>'"
+else
+db.execute "UPDATE guilds set taraf='Tarafsiz' where uid='<uid>'"
+endif
+endif
+endif
+endfor
+timer 1800
+return 1
+
+[ITEMDEF i_status_saver]
+DEFNAME=i_status_saver
+ID=i_gravestone_18
+TYPE=t_script
+NAME=status saver
+
+On=@create
+color 100
+attr 010
+timer 60
+
+on=@click
+message @0481,,1 [ellemeyin!!!]
+
+on=@timer
+if !(<db.connected>)
+db.connect
+endif
+serv.allclients istatistik1
+db.execute "UPDATE status set oyuncu='<donlinecount>', masum='<var0.masum>', katil='<var0.katil>', chars='<serv.chars>', items='<serv.items>', accounts='<serv.accounts>', yetkili='<var0.yetkili>', page='<uid.<var.pg_box>.rescount>', aile='<var0.ailetop>', guilds='<serv.guilds>' where lexis='1'"
+timer 60
+return 1
+
+[function addslashes]
+local.str=<asc <args>>
+local.string=s
+for i 0 strlen(<local.str>)
+    local.check=<strarg <local.str>>
+    local.last=<local.check>
+    if <local.check>==00
+        return <strsub 1 <eval strlen(<local.string>)-2> <local.string>>
+    endif
+    if <local.check>=<asc \>
+        local.last=<asc \>
+        local.string <strsub 0 <eval strlen(<local.string>)-1> <local.string>>\\s
+    elif <local.check>=<asc '>
+        local.string <strsub 0 <eval strlen(<local.string>)-1> <local.string>>\'s
+    else
+        local.string <strsub 0 <eval strlen(<local.string>)-1> <local.string>><chr <local.check>>s
+    endif
+    local.str=<streat <local.str>>
+endfor
+return <strsub 1 <eval strlen(<local.string>)-2> <local.string>>
+
+
+[eof]
