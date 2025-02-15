@@ -1,0 +1,2875 @@
+﻿[DIALOG D_SHIPUPGRADE]
+50,50
+
+page 0
+
+F_DEF_DIALOG 30,40,295,180
+
+dtext 140 50 <eval 100>  Ship Upgrade
+dtext 55 70 035 Upgrade etmek istediğiniz gemiyi seçin.
+
+dtext 70 100 0481 Small Dragon Ship
+button 40 100 4005 4006 0 1 1
+dtext 70 120 0481 Medium Ship
+button 40 120 4005 4006 0 2 2
+dtext 70 140 0481 Medium Dragon Ship
+button 40 140 4005 4006 0 3 3
+dtext 70 160 0481 Long Ship
+button 40 160 4005 4006 0 4 4
+dtext 70 180 0481 Long Dragon Ship
+button 40 180 4005 4006 0 5 5
+
+
+
+//dtext 80 152 035 Değiştir
+
+
+page 1
+
+F_DEF_DIALOG 330,40,205,260
+
+dtext 385 50 <eval 100> Small Dragon Ship
+dtext 385 80 035 Gerekli malzemeler:
+
+dtext 400 110 <def.yesil> 1 Ship Blueprints
+tilepichue 350 100 <serv.itemdef.i_book_ship.id>
+
+dtext 400 160 <def.yesil> 1 Small Ship
+tilepichue 350 160 <serv.itemdef.i_model_ship.id>
+
+dtext 400 213 <def.yesil> 500.000
+gumppic 350 200 1105
+
+
+button 380 250 4005 4006 1 0 100
+dtext 410 253 035 Upgrade
+
+
+page 2
+
+F_DEF_DIALOG 330,40,205,260
+
+dtext 400 50 <eval 100> Medium Ship
+dtext 385 80 035 Gerekli malzemeler:
+
+dtext 400 110 <def.yesil> 1 Ship Blueprints
+tilepichue 350 100 <serv.itemdef.i_book_ship.id>
+
+dtext 400 160 <def.yesil> 1 Small Dragon Ship
+tilepichue 350 160 <serv.itemdef.i_model_ship.id>
+
+dtext 400 213 <def.yesil> 1.000.000
+gumppic 350 200 1105
+
+
+button 380 250 4005 4006 1 0 200
+dtext 410 253 035 Upgrade
+
+
+page 3
+
+F_DEF_DIALOG 330,40,205,260
+
+dtext 385 50 <eval 100> Medium Dragon Ship
+dtext 385 80 035 Gerekli malzemeler:
+
+dtext 400 110 <def.yesil> 1 Ship Blueprints
+tilepichue 350 100 <serv.itemdef.i_book_ship.id>
+
+dtext 400 160 <def.yesil> 1 Medium Ship
+tilepichue 350 160 <serv.itemdef.i_model_ship.id>
+
+dtext 400 213 <def.yesil> 1.500.000
+gumppic 350 200 1105
+
+
+button 380 250 4005 4006 1 0 300
+dtext 410 253 035 Upgrade
+
+
+
+page 4
+
+F_DEF_DIALOG 330,40,205,260
+
+dtext 400 50 <eval 100> Long Ship
+dtext 385 80 035 Gerekli malzemeler:
+
+dtext 400 110 <def.yesil> 1 Ship Blueprints
+tilepichue 350 100 <serv.itemdef.i_book_ship.id>
+
+dtext 400 160 <def.yesil> 1 Medium Dragon Ship
+tilepichue 350 160 <serv.itemdef.i_model_ship.id>
+
+dtext 400 213 <def.yesil> 2.000.000
+gumppic 350 200 1105
+
+
+button 380 250 4005 4006 1 0 400
+dtext 410 253 035 Upgrade
+
+page 5
+
+F_DEF_DIALOG 330,40,205,260
+
+dtext 385 50 <eval 100> Long Dragon Ship
+dtext 385 80 035 Gerekli malzemeler:
+
+dtext 400 110 <def.yesil> 1 Ship Blueprints
+tilepichue 350 100 <serv.itemdef.i_book_ship.id>
+
+dtext 400 160 <def.yesil> 1 Long Ship
+tilepichue 350 160 <serv.itemdef.i_model_ship.id>
+
+dtext 400 213 <def.yesil> 2.500.000
+gumppic 350 200 1105
+
+
+button 380 250 4005 4006 1 0 500
+dtext 410 253 035 Upgrade
+
+
+
+
+[DIALOG D_SHIPUPGRADE BUTTON]
+ON=100
+if (<src.restest 1 i_deed_ship_small_n>) && (<src.restest 1 i_book_ship>) && (<src.restest 500000 i_gold>)
+	SRC.CONSUME 1 i_deed_ship_small_n
+	SRC.CONSUME 1 i_book_ship
+	SRC.CONSUME 500000 i_gold
+	SERV.NEWITEM=i_deed_ship_dragon_small_n
+	SRC.NEW.BOUNCE
+	SRC.SYSYES Small Dragon Ship ürettiniz.
+ELSE 
+	SRC.syshata Çantanızda yeterli malzeme bulunmuyor.
+endif
+
+
+ON=200
+if (<src.restest 1 i_deed_ship_dragon_small_n>) && (<src.restest 1 i_book_ship>) && (<src.restest 1000000 i_gold>)
+	SRC.CONSUME 1 i_deed_ship_dragon_small_n
+	SRC.CONSUME 1 i_book_ship
+	SRC.CONSUME 1000000 i_gold
+	SERV.NEWITEM=i_deed_ship_medium_n
+	SRC.NEW.BOUNCE
+	SRC.SYSYES Medium Ship ürettiniz.
+ELSE 
+	SRC.syshata Çantanızda yeterli malzeme bulunmuyor.
+endif
+
+ON=300
+if (<src.restest 1 i_deed_ship_medium_n>) && (<src.restest 1 i_book_ship>) && (<src.restest 1500000 i_gold>)
+	SRC.CONSUME 1 i_deed_ship_medium_n
+	SRC.CONSUME 1 i_book_ship
+	SRC.CONSUME 1500000 i_gold
+	SERV.NEWITEM=i_deed_ship_dragon_medium_n
+	SRC.NEW.BOUNCE
+	SRC.SYSYES Medium Dragon Ship ürettiniz.
+ELSE 
+	SRC.syshata Çantanızda yeterli malzeme bulunmuyor.
+endif
+
+ON=400
+if (<src.restest 1 i_deed_ship_dragon_medium_n>) && (<src.restest 1 i_book_ship>) && (<src.restest 2000000 i_gold>)
+	SRC.CONSUME 1 i_deed_ship_dragon_medium_n
+	SRC.CONSUME 1 i_book_ship
+	SRC.CONSUME 2000000 i_gold
+	SERV.NEWITEM=i_deed_ship_long_n
+	SRC.NEW.BOUNCE
+	SRC.SYSYES Long Ship ürettiniz.
+ELSE 
+	SRC.syshata Çantanızda yeterli malzeme bulunmuyor.
+endif
+
+ON=500
+if (<src.restest 1 i_deed_ship_long_n>) && (<src.restest 1 i_book_ship>) && (<src.restest 2500000 i_gold>)
+	SRC.CONSUME 1 i_deed_ship_long_n
+	SRC.CONSUME 1 i_book_ship
+	SRC.CONSUME 2500000 i_gold
+	SERV.NEWITEM=i_deed_ship_dragon_long_n
+	SRC.NEW.BOUNCE
+	SRC.SYSYES Long Dragon Ship ürettiniz.
+ELSE 
+	SRC.syshata Çantanızda yeterli malzeme bulunmuyor.
+endif
+
+
+
+[itemdef i_repair_tool]
+name repair tool
+defname i_repair_tool
+id i_toolcase
+type t_normal
+VALUE=12500
+
+on=@create
+attr attr_newbie
+MOREX 25
+
+on=@click
+message @90,,1 [şarj: <dmorex>]
+message @038a,,1 a <name>
+return 1
+
+on=@targon_char
+return 1
+
+on=@targon_ground
+return 1
+
+
+on=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+
+if (<topobj.uid> != <src.uid>)
+src.syshata Repair tool üzerinizde olmalı.
+return 1
+endif
+
+target
+SRC.SYSNORM Tamir etmek istediğiniz eşyayı seçin.
+RETURN 1
+
+
+on=@targon_item
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if (<src.targ.topobj.uid> != <src.uid>)
+src.syshata Tamir edeceğiniz eşya çantanızda olmalı.
+return 1
+endif
+
+if (strmatch(*_x_*,'<src.targ.baseid>'))
+src.syshata Bu eşya tamir edilemez
+return 1
+endif
+
+LOCAL.ESKI <eval (100 - ((<SRC.TARG.more1l> * 100) / <SRC.TARG.more1h>))>
+
+IF (<DLOCAL.ESKI> < 1)
+SRC.SYSNORM Bu eşyanın tamire ihtiyacı yok.
+RETURN 1
+ENDIF
+
+SRC.TARG.more1l <SRC.TARG.more1h>
+src.sysyes <src.targ.name> tamir edildi.
+MOREX <EVAL <DMOREX>-1>
+
+IF (<DMOREX>==0)
+SRC.SYSHATA Şarjı bittiği için repair tool silindi.
+REMOVE
+ENDIF
+
+RETURN 1
+
+ON=@TIMER
+RETURN 1
+
+
+[ITEMDEF i_inlor_taki]
+DEFNAME=i_inlor_taki
+name nightsight bracelet
+ID i_bracelet_gold
+TYPE=t_jewelry
+SKILLMAKE=TINKERING 44.5,t_tinker_tools
+RESOURCES=5 i_ingot_gold
+WEIGHT=.1
+CATEGORY=Provisions - Jewels and Jewelry
+SUBSECTION=Jewelry
+DESCRIPTION=Bracelet (Gold)
+
+on=@create
+attr 04
+color 0481
+timer 1209600
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+local.temp = <timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+SRC.SYSNORM Kalan süre: <dlocal.day> gün, <dlocal.minutes> dakika, <dlocal.seconds> saniye
+RETURN 1
+
+ON=@EQUIP
+if <src.findid.i_rune_night_sight>
+src.findid.i_rune_night_sight.remove
+endif
+src.spelleffect s_night_sight 8000
+
+ON=@TIMER
+REMOVE
+RETURN 1
+
+
+[ITEMDEF i_famekarma0]
+DEFNAME=i_famekarma0
+ID i_deed
+name=fame karma reset deed
+WEIGHT=1
+TYPE=t_script
+
+on=@create
+attr=04
+color 0455
+
+on=@click
+message @038a,,1 fame karma reset deed
+return 1
+
+on=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+SRC.KARMA 0
+SRC.FAME 0
+REMOVE
+SRC.SYSYES Fame ve karmanız resetlenmiştir.
+RETURN 1
+
+[ITEMDEF i_famekarma10]
+DEFNAME=i_famekarma10
+ID i_deed
+name=fame karma deed
+WEIGHT=1
+TYPE=t_script
+
+on=@create
+attr=04
+color 0455
+
+on=@click
+message @038a,,1 fame karma 10.000 deed
+return 1
+
+on=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+SRC.KARMA 10000
+SRC.FAME 10000
+REMOVE
+SRC.SYSYES Fame ve karmanız 10.000 olarak ayarlanmıştır.
+RETURN 1
+
+
+[ITEMDEF i_tame_cikar]
+DEFNAME=i_tame_cikar
+ID i_deed
+name=binek tameden cikarma belgesi
+WEIGHT=1
+TYPE=t_script
+
+on=@create
+attr=04
+color 0455
+
+on=@click
+message @038a,,1 binek tameden çıkarma belgesi
+return 1
+
+on=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Bunu sadece çanta veya bankanızda kullanabilirsiniz.
+	return 1
+endif
+TARGET
+SRC.SYSNORM Sahipsiz bırakmak istediğiniz bineği seçin.
+RETURN 1
+
+ON=@TARGON_ITEM
+RETURN 1
+
+ON=@TARGON_GROUND
+RETURN 1
+
+ON=@TARGON_CHAR
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF !(<SRC.TARG.ISEVENT.E_BINEK>)
+SRC.SYSHATA Sadece binekler üzerinde kullanabilirsiniz.
+RETURN 1
+ENDIF
+IF (<SRC.TARG.DISTANCE> > 4)
+SRC.SYSHATA Binek çok uzakta.
+RETURN 1
+ENDIF
+
+IF ((strmatch(´<SRC.TARG.memoryfindtype.memory_ipet.link.fullname>´,´0´)) || (strmatch(´<SRC.TARG.memoryfindtype.memory_ipet.link.fullname>´,´´)) || (strmatch(´<SRC.TARG.memoryfindtype.memory_ipet.link.fullname>´,´ ´)))
+SRC.SYSHATA Sadece sahipli bineklerde kullanabilirsiniz.
+RETURN 1
+ENDIF
+
+IF (<SRC.TARG.memoryfindtype.memory_ipet.link.UID>==<SRC.UID>)
+SRC.SYSHATA Kendinize ait bineklerde kullanamazsınız.
+RETURN 1
+ENDIF
+
+IF (<SRC.TARG.FINDID.I_T_TBC>)
+SRC.SYSHATA Bu binek zaten bir süre sonra sahipsiz kalacak.
+RETURN 1
+ENDIF
+
+SERV.NEWITEM I_T_TBC
+SRC.TARG.EQUIP <NEW>
+
+SRC.SYSYES <SRC.TARG.NAME>, 1 saat içerisinde sahipsiz kalacak.
+SRC.SYSHATA Bu süre boyunca sahibi bineğe binerse işlem iptal olur.
+REMOVE
+
+RETURN 1
+
+
+[ITEMDEF i_t_tbc]
+Id i_handr_1
+type t_eq_script
+name sahipsiz birakma
+
+On=@create
+timer 3600
+attr attr_invis
+
+ON=@equip
+timer 3600
+
+On=@timer
+CONT.memoryfindtype.memory_ipet.remove
+CONT.SAY_TRK *sahipsiz kalır*
+CONT.UPDATE
+remove
+return 1
+
+[ITEMDEF i_gemi_hiz]
+Id i_handr_1
+type t_eq_script
+name gemi hizlandirici
+
+On=@create
+timer 1209600
+attr attr_invis
+
+ON=@equip
+timer 1209600
+
+On=@timer
+CONT.SYSSARI Gemi hızlandırıcının süresi doldu.
+remove
+return 1
+
+
+
+
+[DEFNAME GOREV] // tailor=112 puan
+TAILOR_GOREV1 i_bandana
+TAILOR_GOREV1_MIK 25
+TAILOR_GOREV1_PARA 10000
+TAILOR_GOREV1_PUAN 1
+
+TAILOR_GOREV2 i_leather_cap
+TAILOR_GOREV2_MIK 35
+TAILOR_GOREV2_PARA 10000
+TAILOR_GOREV2_PUAN 1
+
+TAILOR_GOREV3 i_apron_half
+TAILOR_GOREV3_MIK 30
+TAILOR_GOREV3_PARA 10000
+TAILOR_GOREV3_PUAN 1
+
+
+TAILOR_GOREV4 i_tunic
+TAILOR_GOREV4_MIK 40
+TAILOR_GOREV4_PARA 10000
+TAILOR_GOREV4_PUAN 1
+
+TAILOR_GOREV5 i_cape
+TAILOR_GOREV5_MIK 35
+TAILOR_GOREV5_PARA 10000
+TAILOR_GOREV5_PUAN 1
+
+TAILOR_GOREV6 i_robe
+TAILOR_GOREV6_MIK 50
+TAILOR_GOREV6_PARA 10000
+TAILOR_GOREV6_PUAN 1
+
+TAILOR_GOREV7 i_pants_short
+TAILOR_GOREV7_MIK 40
+TAILOR_GOREV7_PARA 10000
+TAILOR_GOREV7_PUAN 1
+
+TAILOR_GOREV8 i_doublet
+TAILOR_GOREV8_MIK 30
+TAILOR_GOREV8_PARA 15000
+TAILOR_GOREV8_PUAN 1
+
+TAILOR_GOREV9 i_hat_straw_tall
+TAILOR_GOREV9_MIK 35
+TAILOR_GOREV9_PARA 15000
+TAILOR_GOREV9_PUAN 1
+
+TAILOR_GOREV10 i_kilt
+TAILOR_GOREV10_MIK 45
+TAILOR_GOREV10_PARA 15000
+TAILOR_GOREV10_PUAN 1
+
+TAILOR_GOREV11 i_shirt_fancy
+TAILOR_GOREV11_MIK 50
+TAILOR_GOREV11_PARA 15000
+TAILOR_GOREV11_PUAN 1
+
+TAILOR_GOREV12 i_surcoat
+TAILOR_GOREV12_MIK 40
+TAILOR_GOREV12_PARA 15000
+TAILOR_GOREV12_PUAN 1
+
+TAILOR_GOREV13 i_pants_long
+TAILOR_GOREV13_MIK 50
+TAILOR_GOREV13_PARA 15000
+TAILOR_GOREV13_PUAN 1
+
+TAILOR_GOREV14 i_hat_wizards
+TAILOR_GOREV14_MIK 50
+TAILOR_GOREV14_PARA 20000
+TAILOR_GOREV14_PUAN 1
+
+TAILOR_GOREV15 i_hat_straw
+TAILOR_GOREV15_MIK 45
+TAILOR_GOREV15_PARA 20000
+TAILOR_GOREV15_PUAN 1
+
+TAILOR_GOREV16 i_skirt_long
+TAILOR_GOREV16_MIK 45
+TAILOR_GOREV16_PARA 20000
+TAILOR_GOREV16_PUAN 1
+
+TAILOR_GOREV17 i_dress_full
+TAILOR_GOREV17_MIK 45
+TAILOR_GOREV17_PARA 20000
+TAILOR_GOREV17_PUAN 1
+
+TAILOR_GOREV18 i_jester_suit
+TAILOR_GOREV18_MIK 40
+TAILOR_GOREV18_PARA 20000
+TAILOR_GOREV18_PUAN 1
+
+TAILOR_GOREV19 i_hat_jester
+TAILOR_GOREV19_MIK 60
+TAILOR_GOREV19_PARA 20000
+TAILOR_GOREV19_PUAN 1
+
+
+TAILOR_GOREV20 i_hat_floppy
+TAILOR_GOREV20_MIK 40
+TAILOR_GOREV20_PARA 20000
+TAILOR_GOREV20_PUAN 1
+
+
+TAILOR_GOREV21 i_studded_tunic
+TAILOR_GOREV21_MIK 30
+TAILOR_GOREV21_PARA 30000
+TAILOR_GOREV21_PUAN 3
+
+
+TAILOR_GOREV22 i_armor_female_leather
+TAILOR_GOREV22_MIK 35
+TAILOR_GOREV22_PARA 30000
+TAILOR_GOREV22_PUAN 3
+
+TAILOR_GOREV23 i_apron_full
+TAILOR_GOREV23_MIK 50
+TAILOR_GOREV23_PARA 30000
+TAILOR_GOREV23_PUAN 3
+
+
+TAILOR_GOREV24 i_shroud
+TAILOR_GOREV24_MIK 25
+TAILOR_GOREV24_PARA 30000
+TAILOR_GOREV24_PUAN 5
+
+
+TAILOR_GOREV25 i_leather_cap
+TAILOR_GOREV25_MIK 30
+TAILOR_GOREV25_PARA 30000
+TAILOR_GOREV25_PUAN 3
+
+TAILOR_GOREV26 i_oil_cloth
+TAILOR_GOREV26_MIK 300
+TAILOR_GOREV26_PARA 30000
+TAILOR_GOREV26_PUAN 3
+
+TAILOR_GOREV27 i_studded_sleeves
+TAILOR_GOREV27_MIK 15
+TAILOR_GOREV27_PARA 30000
+TAILOR_GOREV27_PUAN 3
+
+TAILOR_GOREV28 i_sandals
+TAILOR_GOREV28_MIK 30
+TAILOR_GOREV28_PARA 40000
+TAILOR_GOREV28_PUAN 3
+
+TAILOR_GOREV29 i_sash
+TAILOR_GOREV29_MIK 50
+TAILOR_GOREV29_PARA 40000
+TAILOR_GOREV29_PUAN 3
+
+TAILOR_GOREV30 i_backpack
+TAILOR_GOREV30_MIK 50
+TAILOR_GOREV30_PARA 40000
+TAILOR_GOREV30_PUAN 5
+
+TAILOR_GOREV31 i_hat_feather
+TAILOR_GOREV31_MIK 50
+TAILOR_GOREV31_PARA 40000
+TAILOR_GOREV31_PUAN 5
+
+TAILOR_GOREV32 i_armor_female_shorts
+TAILOR_GOREV32_MIK 30
+TAILOR_GOREV32_PARA 40000
+TAILOR_GOREV32_PUAN 5
+
+TAILOR_GOREV33 i_boots_thigh
+TAILOR_GOREV33_MIK 20
+TAILOR_GOREV33_PARA 40000
+TAILOR_GOREV33_PUAN 5
+
+TAILOR_GOREV34 i_bag
+TAILOR_GOREV34_MIK 35
+TAILOR_GOREV34_PARA 40000
+TAILOR_GOREV34_PUAN 5
+
+TAILOR_GOREV35 i_bonnet
+TAILOR_GOREV35_MIK 60
+TAILOR_GOREV35_PARA 40000
+TAILOR_GOREV35_PUAN 5
+
+TAILOR_GOREV36 i_studded_gorget
+TAILOR_GOREV36_MIK 35
+TAILOR_GOREV36_PARA 60000
+TAILOR_GOREV36_PUAN 5
+
+TAILOR_GOREV37 i_shirt_plain
+TAILOR_GOREV37_MIK 60
+TAILOR_GOREV37_PARA 60000
+TAILOR_GOREV37_PUAN 5
+
+TAILOR_GOREV38 i_boots_calf
+TAILOR_GOREV38_MIK 40
+TAILOR_GOREV38_PARA 60000
+TAILOR_GOREV38_PUAN 5
+
+TAILOR_GOREV39 i_leather_gloves
+TAILOR_GOREV39_MIK 30
+TAILOR_GOREV39_PARA 60000
+TAILOR_GOREV39_PUAN 5
+
+TAILOR_GOREV40 i_mr
+TAILOR_GOREV40_MIK 10
+TAILOR_GOREV40_PARA 200000
+TAILOR_GOREV40_PUAN 10
+
+ALCHEMY_GOREV1 i_potion_nightsight //70 puan
+ALCHEMY_GOREV1_MIK 100
+ALCHEMY_GOREV1_PARA 10000
+ALCHEMY_GOREV1_PUAN 1
+
+ALCHEMY_GOREV2 i_potion_strength
+ALCHEMY_GOREV2_MIK 90
+ALCHEMY_GOREV2_PARA 10000
+ALCHEMY_GOREV2_PUAN 1
+
+ALCHEMY_GOREV3 i_potion_poison
+ALCHEMY_GOREV3_MIK 150
+ALCHEMY_GOREV3_PARA 10000
+ALCHEMY_GOREV3_PUAN 1
+
+ALCHEMY_GOREV4 i_potion_refresh
+ALCHEMY_GOREV4_MIK 100
+ALCHEMY_GOREV4_PARA 10000
+ALCHEMY_GOREV4_PUAN 1
+
+ALCHEMY_GOREV5 i_potion_cureless
+ALCHEMY_GOREV5_MIK 130
+ALCHEMY_GOREV5_PARA 10000
+ALCHEMY_GOREV5_PUAN 3
+
+ALCHEMY_GOREV6 i_potion_heal
+ALCHEMY_GOREV6_MIK 150
+ALCHEMY_GOREV6_PARA 10000
+ALCHEMY_GOREV6_PUAN 3
+
+ALCHEMY_GOREV7 i_potion_agility
+ALCHEMY_GOREV7_MIK 150
+ALCHEMY_GOREV7_PARA 10000
+ALCHEMY_GOREV7_PUAN 3
+
+ALCHEMY_GOREV8 i_potion_refresh
+ALCHEMY_GOREV8_MIK 130
+ALCHEMY_GOREV8_PARA 10000
+ALCHEMY_GOREV8_PUAN 3
+
+ALCHEMY_GOREV9 i_potion_cureless
+ALCHEMY_GOREV9_MIK 130
+ALCHEMY_GOREV9_PARA 10000
+ALCHEMY_GOREV9_PUAN 3
+
+ALCHEMY_GOREV10 i_potion_explosion
+ALCHEMY_GOREV10_MIK 170
+ALCHEMY_GOREV10_PARA 20000
+ALCHEMY_GOREV10_PUAN 4
+
+ALCHEMY_GOREV11 i_potion_poisongreat
+ALCHEMY_GOREV11_MIK 160
+ALCHEMY_GOREV11_PARA 20000
+ALCHEMY_GOREV11_PUAN 4
+
+ALCHEMY_GOREV12 i_potion_explosiongreat
+ALCHEMY_GOREV12_MIK 170
+ALCHEMY_GOREV12_PARA 20000
+ALCHEMY_GOREV12_PUAN 4
+
+ALCHEMY_GOREV13 i_potion_healless
+ALCHEMY_GOREV13_MIK 170
+ALCHEMY_GOREV13_PARA 20000
+ALCHEMY_GOREV13_PUAN 4
+
+ALCHEMY_GOREV14 i_potion_poisonless
+ALCHEMY_GOREV14_MIK 200
+ALCHEMY_GOREV14_PARA 20000
+ALCHEMY_GOREV14_PUAN 4
+
+ALCHEMY_GOREV15 i_potion_explosion
+ALCHEMY_GOREV15_MIK 170
+ALCHEMY_GOREV15_PARA 20000
+ALCHEMY_GOREV15_PUAN 4
+
+ALCHEMY_GOREV16 i_potion_healgreat
+ALCHEMY_GOREV16_MIK 200
+ALCHEMY_GOREV16_PARA 50000
+ALCHEMY_GOREV16_PUAN 4
+
+ALCHEMY_GOREV17 i_potion_agilitygreat
+ALCHEMY_GOREV17_MIK 200
+ALCHEMY_GOREV17_PARA 50000
+ALCHEMY_GOREV17_PUAN 4
+
+ALCHEMY_GOREV18 i_potion_curegreat
+ALCHEMY_GOREV18_MIK 200
+ALCHEMY_GOREV18_PARA 50000
+ALCHEMY_GOREV18_PUAN 5
+
+ALCHEMY_GOREV19 i_potion_poisondeadly
+ALCHEMY_GOREV19_MIK 200
+ALCHEMY_GOREV19_PARA 50000
+ALCHEMY_GOREV19_PUAN 6
+
+ALCHEMY_GOREV20 i_potion_bleed
+ALCHEMY_GOREV20_MIK 300
+ALCHEMY_GOREV20_PARA 65000
+ALCHEMY_GOREV20_PUAN 7
+
+BLACKSMITH_GOREV1 i_bracelet_gold //192 puan
+BLACKSMITH_GOREV1_MIK 10
+BLACKSMITH_GOREV1_PARA 10000
+BLACKSMITH_GOREV1_PUAN 1
+
+BLACKSMITH_GOREV2 i_shield_round_bronze
+BLACKSMITH_GOREV2_MIK 20
+BLACKSMITH_GOREV2_PARA 10000
+BLACKSMITH_GOREV2_PUAN 1
+
+BLACKSMITH_GOREV3 i_earrings_gold
+BLACKSMITH_GOREV3_MIK 10
+BLACKSMITH_GOREV3_PARA 10000
+BLACKSMITH_GOREV3_PUAN 1
+
+BLACKSMITH_GOREV4 i_hinge
+BLACKSMITH_GOREV4_MIK 50
+BLACKSMITH_GOREV4_PARA 10000
+BLACKSMITH_GOREV4_PUAN 1
+
+BLACKSMITH_GOREV5 i_platemail_gloves
+BLACKSMITH_GOREV5_MIK 10
+BLACKSMITH_GOREV5_PARA 15000
+BLACKSMITH_GOREV5_PUAN 2
+
+BLACKSMITH_GOREV6 i_hatchet
+BLACKSMITH_GOREV6_MIK 20
+BLACKSMITH_GOREV6_PARA 15000
+BLACKSMITH_GOREV6_PUAN 2
+
+BLACKSMITH_GOREV7 i_dull_copper_metal_shield
+BLACKSMITH_GOREV7_MIK 25
+BLACKSMITH_GOREV7_PARA 15000
+BLACKSMITH_GOREV7_PUAN 2
+
+BLACKSMITH_GOREV8 i_copper_plate_helm
+BLACKSMITH_GOREV8_MIK 20
+BLACKSMITH_GOREV8_PARA 15000
+BLACKSMITH_GOREV8_PUAN 2
+
+BLACKSMITH_GOREV9 i_shovel
+BLACKSMITH_GOREV9_MIK 15
+BLACKSMITH_GOREV9_PARA 15000
+BLACKSMITH_GOREV9_PUAN 2
+
+BLACKSMITH_GOREV10 i_bronze_heater_shield
+BLACKSMITH_GOREV10_MIK 20
+BLACKSMITH_GOREV10_PARA 20000
+BLACKSMITH_GOREV10_PUAN 3
+
+BLACKSMITH_GOREV11 i_bronze_platemail_gorget
+BLACKSMITH_GOREV11_MIK 20
+BLACKSMITH_GOREV11_PARA 20000
+BLACKSMITH_GOREV11_PUAN 3
+
+
+BLACKSMITH_GOREV12 i_copper_platemail
+BLACKSMITH_GOREV12_MIK 10
+BLACKSMITH_GOREV12_PARA 20000
+BLACKSMITH_GOREV12_PUAN 3
+
+BLACKSMITH_GOREV13 i_gold_platemail_leggings
+BLACKSMITH_GOREV13_MIK 10
+BLACKSMITH_GOREV13_PARA 20000
+BLACKSMITH_GOREV13_PUAN 3
+
+BLACKSMITH_GOREV14 i_shadow_platemail_gauntlets
+BLACKSMITH_GOREV14_MIK 15
+BLACKSMITH_GOREV14_PARA 20000
+BLACKSMITH_GOREV14_PUAN 3
+
+BLACKSMITH_GOREV15 i_gold_closed_helm
+BLACKSMITH_GOREV15_MIK 10
+BLACKSMITH_GOREV15_PARA 30000
+BLACKSMITH_GOREV15_PUAN 4
+
+BLACKSMITH_GOREV16 i_bronze_platemail
+BLACKSMITH_GOREV16_MIK 20
+BLACKSMITH_GOREV16_PARA 30000
+BLACKSMITH_GOREV16_PUAN 4
+
+BLACKSMITH_GOREV17 i_agapite_closed_helm
+BLACKSMITH_GOREV17_MIK 10
+BLACKSMITH_GOREV17_PARA 30000
+BLACKSMITH_GOREV17_PUAN 4
+
+BLACKSMITH_GOREV18 i_candleabra
+BLACKSMITH_GOREV18_MIK 50
+BLACKSMITH_GOREV18_PARA 30000
+BLACKSMITH_GOREV18_PUAN 4
+
+BLACKSMITH_GOREV19 i_scales
+BLACKSMITH_GOREV19_MIK 55
+BLACKSMITH_GOREV19_PARA 30000
+BLACKSMITH_GOREV19_PUAN 4
+
+
+BLACKSMITH_GOREV20 i_gold_female_platemail
+BLACKSMITH_GOREV20_MIK 10
+BLACKSMITH_GOREV20_PARA 50000
+BLACKSMITH_GOREV20_PUAN 5
+
+BLACKSMITH_GOREV21 i_shadow_metal_shield
+BLACKSMITH_GOREV21_MIK 25
+BLACKSMITH_GOREV21_PARA 50000
+BLACKSMITH_GOREV21_PUAN 5
+
+
+BLACKSMITH_GOREV22 i_agapite_platemail
+BLACKSMITH_GOREV22_MIK 10
+BLACKSMITH_GOREV22_PARA 50000
+BLACKSMITH_GOREV22_PUAN 5
+
+BLACKSMITH_GOREV23 i_silver_platemail_arms
+BLACKSMITH_GOREV23_MIK 10
+BLACKSMITH_GOREV23_PARA 50000
+BLACKSMITH_GOREV23_PUAN 5
+
+BLACKSMITH_GOREV24 i_shadow_platemail_gorget
+BLACKSMITH_GOREV24_MIK 30
+BLACKSMITH_GOREV24_PARA 50000
+BLACKSMITH_GOREV24_PUAN 5
+
+
+BLACKSMITH_GOREV25 i_keg_potion
+BLACKSMITH_GOREV25_MIK 20
+BLACKSMITH_GOREV25_PARA 60000
+BLACKSMITH_GOREV25_PUAN 6
+
+BLACKSMITH_GOREV26 i_shadow_platemail_leggings
+BLACKSMITH_GOREV26_MIK 25
+BLACKSMITH_GOREV26_PARA 60000
+BLACKSMITH_GOREV26_PUAN 6
+
+
+BLACKSMITH_GOREV27 i_silver_heater_shield
+BLACKSMITH_GOREV27_MIK 10
+BLACKSMITH_GOREV27_PARA 60000
+BLACKSMITH_GOREV27_PUAN 6
+
+BLACKSMITH_GOREV28 i_agapite_platemail_gorget
+BLACKSMITH_GOREV28_MIK 40
+BLACKSMITH_GOREV28_PARA 60000
+BLACKSMITH_GOREV28_PUAN 6
+
+BLACKSMITH_GOREV29 i_gold_platemail_leggings
+BLACKSMITH_GOREV29_MIK 25
+BLACKSMITH_GOREV29_PARA 60000
+BLACKSMITH_GOREV29_PUAN 6
+
+BLACKSMITH_GOREV30 i_agapite_platemail
+BLACKSMITH_GOREV30_MIK 25
+BLACKSMITH_GOREV30_PARA 80000
+BLACKSMITH_GOREV30_PUAN 7
+
+BLACKSMITH_GOREV31 i_chest_metal
+BLACKSMITH_GOREV31_MIK 30
+BLACKSMITH_GOREV31_PARA 80000
+BLACKSMITH_GOREV31_PUAN 7
+
+BLACKSMITH_GOREV32 i_gold_platemail
+BLACKSMITH_GOREV32_MIK 15
+BLACKSMITH_GOREV32_PARA 80000
+BLACKSMITH_GOREV32_PUAN 7
+
+BLACKSMITH_GOREV33 i_spyglass
+BLACKSMITH_GOREV33_MIK 100
+BLACKSMITH_GOREV33_PARA 80000
+BLACKSMITH_GOREV33_PUAN 7
+
+BLACKSMITH_GOREV34 i_silver_halb
+BLACKSMITH_GOREV34_MIK 10
+BLACKSMITH_GOREV34_PARA 80000
+BLACKSMITH_GOREV34_PUAN 8
+
+BLACKSMITH_GOREV35 i_silver_kryss
+BLACKSMITH_GOREV35_MIK 3
+BLACKSMITH_GOREV35_PARA 120000
+BLACKSMITH_GOREV35_PUAN 8
+
+
+BLACKSMITH_GOREV36 i_verite_platemail_gauntlets
+BLACKSMITH_GOREV36_MIK 3
+BLACKSMITH_GOREV36_PARA 120000
+BLACKSMITH_GOREV36_PUAN 8
+
+
+BLACKSMITH_GOREV37 i_mytheril_plate_helm
+BLACKSMITH_GOREV37_MIK 2
+BLACKSMITH_GOREV37_PARA 120000
+BLACKSMITH_GOREV37_PUAN 8
+
+BLACKSMITH_GOREV38 i_valorite_heater_shield
+BLACKSMITH_GOREV38_MIK 2
+BLACKSMITH_GOREV38_PARA 120000
+BLACKSMITH_GOREV38_PUAN 8
+
+BLACKSMITH_GOREV39 i_bloodrock_platemail_leggings
+BLACKSMITH_GOREV39_MIK 2
+BLACKSMITH_GOREV39_PARA 200000
+BLACKSMITH_GOREV39_PUAN 10
+
+BLACKSMITH_GOREV40 i_blackrock_platemail
+BLACKSMITH_GOREV40_MIK 2
+BLACKSMITH_GOREV40_PARA 300000
+BLACKSMITH_GOREV40_PUAN 10
+
+CARPENTER_GOREV1 i_chair_wood_bamboo
+CARPENTER_GOREV1_MIK 25
+CARPENTER_GOREV1_PARA 20000
+CARPENTER_GOREV1_PUAN 3
+
+CARPENTER_GOREV2 i_chair_throne
+CARPENTER_GOREV2_MIK 15
+CARPENTER_GOREV2_PARA 20000
+CARPENTER_GOREV2_PUAN 3
+
+CARPENTER_GOREV3 i_bow_sup
+CARPENTER_GOREV3_MIK 20
+CARPENTER_GOREV3_PARA 20000
+CARPENTER_GOREV3_PUAN 3
+
+CARPENTER_GOREV4 i_xbow_excep
+CARPENTER_GOREV4_MIK 20
+CARPENTER_GOREV4_PARA 20000
+CARPENTER_GOREV4_PUAN 3
+
+CARPENTER_GOREV5 i_table_writing
+CARPENTER_GOREV5_MIK 25
+CARPENTER_GOREV5_PARA 50000
+CARPENTER_GOREV5_PUAN 4
+
+CARPENTER_GOREV6 i_crate_small
+CARPENTER_GOREV6_MIK 35
+CARPENTER_GOREV6_PARA 50000
+CARPENTER_GOREV6_PUAN 4
+
+CARPENTER_GOREV7 i_music_stand
+CARPENTER_GOREV7_MIK 20
+CARPENTER_GOREV7_PARA 50000
+CARPENTER_GOREV7_PUAN 4
+
+CARPENTER_GOREV8 I_HXBOW_EXCEP
+CARPENTER_GOREV8_MIK 25
+CARPENTER_GOREV8_PARA 50000
+CARPENTER_GOREV8_PUAN 4
+
+CARPENTER_GOREV9 i_armoir_dk
+CARPENTER_GOREV9_MIK 15
+CARPENTER_GOREV9_PARA 50000
+CARPENTER_GOREV9_PUAN 5
+
+CARPENTER_GOREV10 i_bookcase
+CARPENTER_GOREV10_MIK 5
+CARPENTER_GOREV10_PARA 70000
+CARPENTER_GOREV10_PUAN 5
+
+CARPENTER_GOREV11 i_bookcase_full
+CARPENTER_GOREV11_MIK 10
+CARPENTER_GOREV11_PARA 70000
+CARPENTER_GOREV11_PUAN 5
+
+CARPENTER_GOREV12 i_barrel_open
+CARPENTER_GOREV12_MIK 10
+CARPENTER_GOREV12_PARA 70000
+CARPENTER_GOREV12_PUAN 5
+
+CARPENTER_GOREV13 i_bar_piece
+CARPENTER_GOREV13_MIK 15
+CARPENTER_GOREV13_PARA 70000
+CARPENTER_GOREV13_PUAN 5
+
+CARPENTER_GOREV14 i_barrel_open
+CARPENTER_GOREV14_MIK 10
+CARPENTER_GOREV14_PARA 100000
+CARPENTER_GOREV14_PUAN 5
+
+CARPENTER_GOREV15 i_deed_forge
+CARPENTER_GOREV15_MIK 10
+CARPENTER_GOREV15_PARA 100000
+CARPENTER_GOREV15_PUAN 6
+
+CARPENTER_GOREV16 i_deed_anvil
+CARPENTER_GOREV16_MIK 10
+CARPENTER_GOREV16_PARA 100000
+CARPENTER_GOREV16_PUAN 6
+
+CARPENTER_GOREV17 i_deed_pentagram
+CARPENTER_GOREV17_MIK 10
+CARPENTER_GOREV17_PARA 100000
+CARPENTER_GOREV17_PUAN 6
+
+CARPENTER_GOREV18 i_bow_elven
+CARPENTER_GOREV18_MIK 5
+CARPENTER_GOREV18_PARA 150000
+CARPENTER_GOREV18_PUAN 6
+
+CARPENTER_GOREV19 i_deed_wheel_n
+CARPENTER_GOREV19_MIK 10
+CARPENTER_GOREV19_PARA 200000
+CARPENTER_GOREV19_PUAN 8
+
+CARPENTER_GOREV20 i_deed_loom_n
+CARPENTER_GOREV20_MIK 15
+CARPENTER_GOREV20_PARA 250000
+CARPENTER_GOREV20_PUAN 10
+
+
+PVE_GOREV1 c_spider_giant //81 puan total 
+PVE_GOREV1_MIK 30
+PVE_GOREV1_PARA 20000
+PVE_GOREV1_PUAN 1
+
+PVE_GOREV2 c_gargoyle
+PVE_GOREV2_MIK 35
+PVE_GOREV2_PARA 20000
+PVE_GOREV2_PUAN 1
+
+PVE_GOREV3 c_m_elem_blood
+PVE_GOREV3_MIK 30
+PVE_GOREV3_PARA 20000
+PVE_GOREV3_PUAN 1
+
+PVE_GOREV4 c_scorpion_giant
+PVE_GOREV4_MIK 35
+PVE_GOREV4_PARA 20000
+PVE_GOREV4_PUAN 1
+
+PVE_GOREV5 c_harpy
+PVE_GOREV5_MIK 40
+PVE_GOREV5_PARA 40000
+PVE_GOREV5_PUAN 3
+
+PVE_GOREV6 c_lizardman
+PVE_GOREV6_MIK 40
+PVE_GOREV6_PARA 40000
+PVE_GOREV6_PUAN 3
+
+PVE_GOREV7 c_ogre_artic_lord
+PVE_GOREV7_MIK 40
+PVE_GOREV7_PARA 40000
+PVE_GOREV7_PUAN 3
+
+PVE_GOREV8 c_m_cyclops_king
+PVE_GOREV8_MIK 40
+PVE_GOREV8_PARA 40000
+PVE_GOREV8_PUAN 3
+
+PVE_GOREV9 c_m_ettin_lord
+PVE_GOREV9_MIK 50
+PVE_GOREV9_PARA 40000
+PVE_GOREV9_PUAN 3
+
+PVE_GOREV10 c_titan
+PVE_GOREV10_MIK 50
+PVE_GOREV10_PARA 40000
+PVE_GOREV10_PUAN 3
+
+PVE_GOREV11 c_troll_w_axe
+PVE_GOREV11_MIK 40
+PVE_GOREV11_PARA 40000
+PVE_GOREV11_PUAN 3
+
+PVE_GOREV12 c_m_orc_brute
+PVE_GOREV12_MIK 40
+PVE_GOREV12_PARA 40000
+PVE_GOREV12_PUAN 3
+
+PVE_GOREV13 c_orc
+PVE_GOREV13_MIK 40
+PVE_GOREV13_PARA 40000
+PVE_GOREV13_PUAN 3
+
+PVE_GOREV14 c_m_orc_frightened
+PVE_GOREV14_MIK 40
+PVE_GOREV14_PARA 40000
+PVE_GOREV14_PUAN 3
+
+PVE_GOREV15 c_m_silver_serpent
+PVE_GOREV15_MIK 50
+PVE_GOREV15_PARA 40000
+PVE_GOREV15_PUAN 3
+
+PVE_GOREV16 c_m_goblin
+PVE_GOREV16_MIK 40
+PVE_GOREV16_PARA 40000
+PVE_GOREV16_PUAN 3
+
+PVE_GOREV17 c_m_goblin_lord
+PVE_GOREV17_MIK 50
+PVE_GOREV17_PARA 40000
+PVE_GOREV17_PUAN 3
+
+PVE_GOREV18 c_snake_giant
+PVE_GOREV18_MIK 35
+PVE_GOREV18_PARA 40000
+PVE_GOREV18_PUAN 3
+
+PVE_GOREV19 c_h_warlock
+PVE_GOREV19_MIK 50
+PVE_GOREV19_PARA 40000
+PVE_GOREV19_PUAN 3
+
+PVE_GOREV20 c_m_gazer_elder
+PVE_GOREV20_MIK 40
+PVE_GOREV20_PARA 40000
+PVE_GOREV20_PUAN 3
+
+PVE_GOREV21 c_h_dreadlord
+PVE_GOREV21_MIK 40
+PVE_GOREV21_PARA 40000
+PVE_GOREV21_PUAN 3
+
+PVE_GOREV22 c_daemon
+PVE_GOREV22_MIK 20
+PVE_GOREV22_PARA 60000
+PVE_GOREV22_PUAN 5
+
+PVE_GOREV23 c_elem_air
+PVE_GOREV23_MIK 35
+PVE_GOREV23_PARA 60000
+PVE_GOREV23_PUAN 5
+
+PVE_GOREV24 c_dragon_green
+PVE_GOREV24_MIK 20
+PVE_GOREV24_PARA 60000
+PVE_GOREV24_PUAN 5
+
+PVE_GOREV25 c_m_efreet
+PVE_GOREV25_MIK 35
+PVE_GOREV25_PARA 60000
+PVE_GOREV25_PUAN 5
+
+PVE_GOREV26 c_m_kraken
+PVE_GOREV26_MIK 20
+PVE_GOREV26_PARA 150000
+PVE_GOREV26_PUAN 7
+
+PVE_GOREV27 c_m_golem
+PVE_GOREV27_MIK 10
+PVE_GOREV27_PARA 150000
+PVE_GOREV27_PUAN 7
+
+PVE_GOREV28 c_wyrm_ancient
+PVE_GOREV28_MIK 5
+PVE_GOREV28_PARA 150000
+PVE_GOREV28_PUAN 7
+
+PVE_GOREV29 c_m_balron
+PVE_GOREV29_MIK 5
+PVE_GOREV29_PARA 150000
+PVE_GOREV29_PUAN 7
+
+PVE_GOREV30 c_dragonic
+PVE_GOREV30_MIK 5
+PVE_GOREV30_PARA 200000
+PVE_GOREV30_PUAN 7
+
+PVE_GOREV31 c_rx_phoenix
+PVE_GOREV31_MIK 5
+PVE_GOREV31_PARA 250000
+PVE_GOREV31_PUAN 7
+
+
+TAMER_GOREV1 c_bird_raven
+TAMER_GOREV1_MIK 15
+TAMER_GOREV1_PARA 20000
+TAMER_GOREV1_PUAN 1
+
+TAMER_GOREV2 c_eagle
+TAMER_GOREV2_MIK 15
+TAMER_GOREV2_PARA 20000
+TAMER_GOREV2_PUAN 1
+
+TAMER_GOREV3 c_bear_brown
+TAMER_GOREV3_MIK 10
+TAMER_GOREV3_PARA 20000
+TAMER_GOREV3_PUAN 1
+
+TAMER_GOREV4 c_pig
+TAMER_GOREV4_MIK 15
+TAMER_GOREV4_PARA 20000
+TAMER_GOREV4_PUAN 1
+
+TAMER_GOREV5 c_chicken
+TAMER_GOREV5_MIK 10
+TAMER_GOREV5_PARA 30000
+TAMER_GOREV5_PUAN 2
+
+TAMER_GOREV6 c_cat
+TAMER_GOREV6_MIK 20
+TAMER_GOREV6_PARA 30000
+TAMER_GOREV6_PUAN 2
+
+TAMER_GOREV7 c_rabbit
+TAMER_GOREV7_MIK 15
+TAMER_GOREV7_PARA 30000
+TAMER_GOREV7_PUAN 2
+
+TAMER_GOREV8 c_familiar_cat
+TAMER_GOREV8_MIK 20
+TAMER_GOREV8_PARA 30000
+TAMER_GOREV8_PUAN 2
+
+TAMER_GOREV9 c_dog
+TAMER_GOREV9_MIK 25
+TAMER_GOREV9_PARA 30000
+TAMER_GOREV9_PUAN 2
+
+TAMER_GOREV10 c_horse_tan
+TAMER_GOREV10_MIK 10
+TAMER_GOREV10_PARA 40000
+TAMER_GOREV10_PUAN 3
+
+TAMER_GOREV11 c_wolf
+TAMER_GOREV11_MIK 15
+TAMER_GOREV11_PARA 40000
+TAMER_GOREV11_PUAN 3
+
+TAMER_GOREV12 c_rat
+TAMER_GOREV12_MIK 20
+TAMER_GOREV12_PARA 40000
+TAMER_GOREV12_PUAN 3
+
+TAMER_GOREV13 c_a_cougar
+TAMER_GOREV13_MIK 10
+TAMER_GOREV13_PARA 40000
+TAMER_GOREV13_PUAN 3
+
+TAMER_GOREV14 c_familiar_rat
+TAMER_GOREV14_MIK 25
+TAMER_GOREV14_PARA 40000
+TAMER_GOREV14_PUAN 3
+
+TAMER_GOREV15 c_horse_brown_dk
+TAMER_GOREV15_MIK 15
+TAMER_GOREV15_PARA 50000
+TAMER_GOREV15_PUAN 4
+
+TAMER_GOREV16 c_a_jackrabbit
+TAMER_GOREV16_MIK 20
+TAMER_GOREV16_PARA 50000
+TAMER_GOREV16_PUAN 4
+
+TAMER_GOREV17 c_a_black_bear
+TAMER_GOREV17_MIK 15
+TAMER_GOREV17_PARA 50000
+TAMER_GOREV17_PUAN 4
+
+TAMER_GOREV18 c_bird_tropical
+TAMER_GOREV18_MIK 15
+TAMER_GOREV18_PARA 50000
+TAMER_GOREV18_PUAN 4
+
+TAMER_GOREV19 c_gorilla
+TAMER_GOREV19_MIK 10
+TAMER_GOREV19_PARA 80000
+TAMER_GOREV19_PUAN 4
+
+TAMER_GOREV20 c_bear_grizzly
+TAMER_GOREV20_MIK 10
+TAMER_GOREV20_PARA 100000
+TAMER_GOREV20_PUAN 6
+
+
+[chardef c_q_craft]
+defname c_q_craft
+name #NAMES_HUMANMALE
+id c_man
+can mt_nonmover
+desires i_gold
+
+on=@click
+message @035 [Quest]
+message @0481 <name>
+return 1
+
+On=@Create
+title Craft Quest
+invul 1
+color colors_skin
+food 990
+npc brain_vendor
+STR=9500
+DEX={71 85}
+INT={186 300}
+taming 9900
+
+itemnewbie i_hair_long
+color 084a
+ITEMNEWBIE I_pants_long
+color 084a
+itemnewbie i_shirt_plain
+color 084a
+itemnewbie i_boots_calf
+color 084a
+itemnewbie i_studded_gloves
+color 084a
+
+on=@gethit
+hit <str>
+return 1
+
+on=@dclick
+if (<src.hits> < 1)
+return 1
+endif
+if !(<distance> < 3)
+src.syshata Yeterince yakın değilsiniz.
+return 1
+endif
+
+
+SDIALOG D_Q_CRAFT
+RETURN 1
+
+[dialog d_q_pve]
+
+200,100
+F_DEF_DIALOG 0,50,245,360
+
+IF (<SRC.TAG0.PVEGOREV> < 1)
+SRC.TAG0.PVEGOREV 1
+ENDIF
+SRC.CTAG0.GORDIA PVE
+
+LOCAL.GOREV <DSRC.TAG0.<SRC.CTAG0.GORDIA>GOREV>
+
+dtext 30 65 90 <serv.name> UO - <SRC.CTAG0.GORDIA> Quest
+dtext 50 100 035 Görev Detayları ve Durum
+//dtext 45 120 0481 - <dDEF.<SRC.CTAG0.GORDIA>_GOREV<DLOCAL.GOREV>_MIK> <SERV.CHARDEF.<DEF.<SRC.CTAG0.GORDIA>_GOREV<DLOCAL.GOREV>>.NAME>
+//dtext 25 140  0481 -  <dACT.TAG.<dACT.TAG.PVEGOREV>_MIK>/<dDEF.PVE_GOREV<dACT.TAG.PVEGOREV>_MIK> <SERV.CHARDEF.<DEF.PVE_GOREV<dACT.TAG.PVEGOREV>>.NAME>
+dtext 65 120 0481 <dTAG.<dTAG.PVEGOREV>_MIK>/<dDEF.PVE_GOREV<dTAG.PVEGOREV>_MIK> <SERV.CHARDEF.<DEF.PVE_GOREV<dTAG.PVEGOREV>>.NAME>
+
+dtext 105 150 035 Ödül:
+dtext 45 170 0481 - <F_DECIMAL <dDEF.<SRC.CTAG0.GORDIA>_GOREV<DLOCAL.GOREV>_PARA>> altın
+dtext 45 190 0481 - <dDEF.<SRC.CTAG0.GORDIA>_GOREV<DLOCAL.GOREV>_PUAN> PVE puan
+
+resizepic 45 220 2620 155 125
+tilepic 95 270 <SERV.CHARDEF.<DEF.<SRC.CTAG0.GORDIA>_GOREV<DLOCAL.GOREV>>.ICON>
+
+//LOCAL.BUTTONINDEX <EVAL <SRC.CTAG0.BUTTONINDEX>+<DLOCAL.GOREV>>
+//button 180 350 4005 4006 1 0 <DLOCAL.BUTTONINDEX>
+dtext 15 351 035 Görevi tamamladıktan sonra diğer 
+dtext 15 371 035 göreve otomatik geçecektir.
+
+[dialog d_q_tame]
+
+200,100
+F_DEF_DIALOG 0,50,245,360
+
+IF (<SRC.TAG0.TAMERGOREV> < 1)
+SRC.TAG0.TAMERGOREV 1
+ENDIF
+SRC.CTAG0.GORDIA Tamer
+
+LOCAL.GOREV <DSRC.TAG0.<SRC.CTAG0.GORDIA>GOREV>
+
+dtext 30 65 90 <serv.name> UO - <SRC.CTAG0.GORDIA> Quest
+dtext 50 100 035 Görev Detayları ve Durum
+dtext 85 120 0481 <dTAG.<dTAG.TAMERGOREV>T_MIK>/<dDEF.TAMER_GOREV<dTAG.TAMERGOREV>_MIK> <SERV.CHARDEF.<DEF.TAMER_GOREV<dTAG.TAMERGOREV>>.NAME>
+
+
+dtext 105 150 035 Ödül:
+dtext 45 170 0481 - <F_DECIMAL <dDEF.<SRC.CTAG0.GORDIA>_GOREV<DLOCAL.GOREV>_PARA>> altın
+dtext 45 190 0481 - <dDEF.<SRC.CTAG0.GORDIA>_GOREV<DLOCAL.GOREV>_PUAN> taming puan
+
+resizepic 45 220 2620 155 125
+tilepic 95 270 <SERV.CHARDEF.<DEF.<SRC.CTAG0.GORDIA>_GOREV<DLOCAL.GOREV>>.ICON>
+
+//LOCAL.BUTTONINDEX <EVAL <SRC.CTAG0.BUTTONINDEX>+<DLOCAL.GOREV>>
+//button 180 350 4005 4006 1 0 <DLOCAL.BUTTONINDEX>
+dtext 15 351 035 Görevi tamamladıktan sonra diğer 
+dtext 15 371 035 göreve otomatik geçecektir.
+
+[dialog d_q_craft]
+200,100
+F_DEF_DIALOG 0,50,245,240
+
+dtext 40 65 90 <serv.name> UO - Quest Menü
+
+dtext 46 100 70 Blacksmith & Tinker
+buttontileart 15 98 258 259 1 0 1 <SERV.ITEMDEF.i_ingot_iron.ID> 0 -14 3
+
+dtext 46 130 70 Tailor
+buttontileart 15 128 258 259 1 0 2 <SERV.ITEMDEF.i_sewing_kit.ID> 0 -14 3
+
+dtext 46 160 70 Carpenter & Bowcraft
+buttontileart 15 158 258 259 1 0 3 <SERV.ITEMDEF.i_saw.ID> 0 -2 3
+
+dtext 46 190 70 Alchemy
+buttontileart 15 188 258 259 1 0 4 <SERV.ITEMDEF.i_bottle_empty.ID> 0 -4 3
+
+dtext 46 220 <def.kirmizi> PVE
+buttontileart 15 218 258 259 1 0 5 <SERV.ITEMDEF.i_bag.ID> 0 -8 3
+
+dtext 46 250 035 Taming
+buttontileart 15 248 258 259 1 0 6 <SERV.ITEMDEF.i_pet_bird.ID> 0 -8 -10
+
+[dialog d_q_craft button]
+
+ON 1
+IF (<SRC.BLACKSMITHING> < 750) || (<SRC.TINKERING> < 750)
+SRC.SYSHATA En az 75.0 Blacksmithing ve Tinkering yeteneklerine sahip olmalısınız.
+RETURN 1
+ENDIF
+IF (<SRC.FINDID.i_blacksmith_cd>)
+local.temp = <SRC.FINDID.i_blacksmith_cd.timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+SRC.SYSHATA Blacksmith & Tinkering görevlerine tekrar başlamak için <dlocal.day> gün, <dlocal.minutes> dakika, <dlocal.seconds> saniye beklemelisiniz.
+RETURN 1
+ENDIF
+SRC.CTAG0.BUTTONINDEX 100
+SRC.CTAG0.GORDIA Blacksmith
+SDIALOG D_Q_CRAFT2
+
+ON 2
+IF (<SRC.TAILORING> < 750)
+SRC.SYSHATA En az 75.0 Tailoring yeteneğine sahip olmalısınız.
+RETURN 1
+ENDIF
+IF (<SRC.FINDID.i_tailor_cd>)
+local.temp = <SRC.FINDID.i_tailor_cd.timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+SRC.SYSHATA Tailor görevlerine tekrar başlamak için <dlocal.day> gün, <dlocal.minutes> dakika, <dlocal.seconds> saniye beklemelisiniz.
+RETURN 1
+ENDIF
+SRC.CTAG0.BUTTONINDEX 10
+SRC.CTAG0.GORDIA Tailor
+SDIALOG D_Q_CRAFT2
+
+ON 3
+IF (<SRC.CARPENTRY> < 750)
+SRC.SYSHATA En az 75.0 Carpentry yeteneğine sahip olmalısınız.
+RETURN 1
+ENDIF
+IF (<SRC.FINDID.i_carpenter_cd>)
+local.temp = <SRC.FINDID.i_carpenter_cd.timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+SRC.SYSHATA Carpentry görevlerine tekrar başlamak için <dlocal.day> gün, <dlocal.minutes> dakika, <dlocal.seconds> saniye beklemelisiniz.
+RETURN 1
+ENDIF
+SRC.CTAG0.BUTTONINDEX 1000
+SRC.CTAG0.GORDIA Carpenter
+	IF (<dSRC.TAG0.CARPENTERGOREV> > 20)
+	SRC.TAG0.CARPENTERGOREV 1
+	SERV.NEWITEM I_CARPENTER_CD
+	SRC.EQUIP <NEW>
+	RETURN 1
+	ENDIF
+
+SDIALOG D_Q_CRAFT2
+
+ON 4
+IF (<SRC.ALCHEMY> < 750)
+SRC.SYSHATA En az 75.0 Alchemy yeteneğine sahip olmalısınız.
+RETURN 1
+ENDIF
+IF (<SRC.FINDID.i_alchemy_cd>)
+local.temp = <SRC.FINDID.i_alchemy_cd.timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+SRC.SYSHATA Alchemy görevlerine tekrar başlamak için <dlocal.day> gün, <dlocal.minutes> dakika, <dlocal.seconds> saniye beklemelisiniz.
+RETURN 1
+ENDIF
+SRC.CTAG0.BUTTONINDEX 2000
+SRC.CTAG0.GORDIA Alchemy
+SDIALOG D_Q_CRAFT2
+
+ON 5
+IF (<SRC.FINDID.i_pve_cd>)
+local.temp = <SRC.FINDID.i_pve_cd.timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+SRC.SYSHATA PVE görevlerine tekrar başlamak için <dlocal.day> gün, <dlocal.minutes> dakika, <dlocal.seconds> saniye beklemelisiniz.
+RETURN 1
+ENDIF
+SRC.CTAG0.GORDIA PVE
+SRC.SDIALOG D_Q_PVE
+
+ON 6
+IF (<SRC.FINDID.i_tameq_cd>)
+local.temp = <SRC.FINDID.i_tameq_cd.timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+SRC.SYSHATA Taming görevlerine tekrar başlamak için <dlocal.day> gün, <dlocal.minutes> dakika, <dlocal.seconds> saniye beklemelisiniz.
+RETURN 1
+ENDIF
+SRC.CTAG0.GORDIA Tamer
+SRC.SDIALOG D_Q_TAME
+
+
+[dialog d_q_craft2]
+200,100
+F_DEF_DIALOG 0,50,245,340
+
+LOCAL.GOREV <DSRC.TAG0.<SRC.CTAG0.GORDIA>GOREV>
+
+dtext 30 65 90 <serv.name> UO - <SRC.CTAG0.GORDIA> Quest
+dtext 25 100 035 Görev Detayları:
+dtext 45 120 0481 - <dDEF.<SRC.CTAG0.GORDIA>_GOREV<DLOCAL.GOREV>_MIK> <SERV.ITEMDEF.<DEF.<SRC.CTAG0.GORDIA>_GOREV<DLOCAL.GOREV>>.NAME>
+
+dtext 25 150 035 Ödül:
+dtext 45 170 0481 - <F_DECIMAL <dDEF.<SRC.CTAG0.GORDIA>_GOREV<DLOCAL.GOREV>_PARA>> altın
+dtext 45 190 0481 - <dDEF.<SRC.CTAG0.GORDIA>_GOREV<DLOCAL.GOREV>_PUAN> craft puan
+
+resizepic 45 220 2620 155 125
+tilepic 95 270 <SERV.ITEMDEF.<DEF.<SRC.CTAG0.GORDIA>_GOREV<DLOCAL.GOREV>>.ID>
+
+LOCAL.BUTTONINDEX <EVAL <SRC.CTAG0.BUTTONINDEX>+<DLOCAL.GOREV>>
+button 180 350 4005 4006 1 0 <DLOCAL.BUTTONINDEX>
+dtext 85 351 035 Görevi kabul et
+
+[dialog d_q_craft2 button]
+ON 11 99
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF (<SRC.GOLD> < 1000)
+SRC.SYSHATA Karakterinizde 1.000 altın bulunmuyor.
+RETURN 1
+ENDIF
+SRC.GOLD -= 1000
+SERV.NEWITEM I_DEED_QUEST
+NEW.TAG0.QTOTAL <dDEF.TAILOR_GOREV<DSRC.TAG0.TAILORGOREV>_MIK>
+NEW.TAG0.GOREVITEM <DEF.TAILOR_GOREV<DSRC.TAG0.TAILORGOREV>>
+NEW.TAG0.GOREVID <DSRC.TAG0.TAILORGOREV>
+NEW.MORE1 <SRC.UID>
+NEW.TAG0.GORDIA tailor
+SRC.BOUNCE <NEW>
+
+ON 101 999
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF (<SRC.GOLD> < 1000)
+SRC.SYSHATA Karakterinizde 1.000 altın bulunmuyor.
+RETURN 1
+ENDIF
+SRC.GOLD -= 1000
+SERV.NEWITEM I_DEED_QUEST
+NEW.TAG0.QTOTAL <dDEF.BLACKSMITH_GOREV<DSRC.TAG0.BLACKSMITHGOREV>_MIK>
+NEW.TAG0.GOREVITEM <DEF.BLACKSMITH_GOREV<DSRC.TAG0.BLACKSMITHGOREV>>
+NEW.TAG0.GOREVID <DSRC.TAG0.BLACKSMITHGOREV>
+NEW.MORE1 <SRC.UID>
+NEW.TAG0.GORDIA blacksmith
+SRC.BOUNCE <NEW>
+
+ON 1001 1999
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF (<SRC.GOLD> < 1000)
+SRC.SYSHATA Karakterinizde 1.000 altın bulunmuyor.
+RETURN 1
+ENDIF
+SRC.GOLD -= 1000
+SERV.NEWITEM I_DEED_QUEST
+NEW.TAG0.QTOTAL <dDEF.CARPENTER_GOREV<DSRC.TAG0.CARPENTERGOREV>_MIK>
+NEW.TAG0.GOREVITEM <DEF.CARPENTER_GOREV<DSRC.TAG0.CARPENTERGOREV>>
+NEW.TAG0.GOREVID <DSRC.TAG0.CARPENTERGOREV>
+NEW.MORE1 <SRC.UID>
+NEW.TAG0.GORDIA carpenter
+SRC.BOUNCE <NEW>
+
+ON 2001 2999
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF (<SRC.GOLD> < 1000)
+SRC.SYSHATA Karakterinizde 1.000 altın bulunmuyor.
+RETURN 1
+ENDIF
+SRC.GOLD -= 1000
+SERV.NEWITEM I_DEED_QUEST
+NEW.TAG0.QTOTAL <dDEF.ALCHEMY_GOREV<DSRC.TAG0.ALCHEMYGOREV>_MIK>
+NEW.TAG0.GOREVITEM <DEF.ALCHEMY_GOREV<DSRC.TAG0.ALCHEMYGOREV>>
+NEW.TAG0.GOREVID <DSRC.TAG0.ALCHEMYGOREV>
+NEW.MORE1 <SRC.UID>
+NEW.TAG0.GORDIA alchemy
+SRC.BOUNCE <NEW>
+
+
+[ITEMDEF i_deed_quest]
+name craft quest deed
+id i_deed
+type t_script
+weight 1
+
+On=@Create
+color 100
+attr 04
+
+On=@Click
+message @100,,1 [<DMOREX>/<DTAG0.QTOTAL> <SERV.ITEMDEF.<TAG0.GOREVITEM>.NAME>]
+message @038a,,1 a craft quest deed
+return 1
+
+On=@Dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<TOPOBJ.uid> == <SRC.uid>)
+src.syshata Bunu kullanabilmeniz için üzerinizde olmalı.
+return 1
+elseif (<more1> == 00)
+more1 <src.uid>
+link <src.uid>
+return 1
+elseif !(strmatch('<more1>','<src.uid>')
+src.syshata Bu quest deed başkasına ait.
+return 1
+endif
+
+IF (<SRC.FINDID.i_<TAG0.GORDIA>_cd>)
+local.temp = <SRC.FINDID.i_<TAG0.GORDIA>_cd.timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+SRC.SYSHATA Bu göreve tekrar başlamak için <dlocal.day> gün, <dlocal.minutes> dakika, <dlocal.seconds> saniye beklemelisiniz.
+RETURN 1
+ENDIF
+
+IF !(<dTAG0.GOREVID>==<dSRC.TAG0.<TAG0.GORDIA>GOREV>)
+SRC.SYSHATA Şuanda başka bir <TAG0.GORDIA> görevi yapıyorsunuz.
+RETURN 1
+ENDIF
+
+target
+RETURN 1
+
+on=@targon_char
+target
+src.syshata Bunu ekleyemezsiniz.
+return 1
+
+On=@TargOn_Item
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+
+IF (<src.targ.topobj> != <src>)
+target
+src.syshata Ekleyeceğiniz eşya üzerinizde olmalıdır.
+RETURN 1
+ENDIF
+
+if !(<src.targ.baseid> == <TAG0.GOREVITEM>)
+src.syshata Sadece <SERV.ITEMDEF.<TAG0.GOREVITEM>.NAME> ekleyebilirsiniz.
+RETURN 1
+ENDIF
+
+IF (<dSRC.TARG.TAG0.CRAFTED> < 1)
+SRC.SYSHATA Sadece crafted eşyaları ekleyebilirsiniz.
+RETURN 1
+ENDIF
+
+IF (<SRC.FINDID.i_<TAG0.GORDIA>_cd>)
+local.temp = <SRC.FINDID.i_<TAG0.GORDIA>_cd.timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+SRC.SYSHATA Bu göreve tekrar başlamak için <dlocal.day> gün, <dlocal.minutes> dakika, <dlocal.seconds> saniye beklemelisiniz.
+RETURN 1
+ENDIF
+
+LOCAL.AMCHECK <EVAL <DMOREX>+<SRC.TARG.AMOUNT>>
+
+IF (<DLOCAL.AMCHECK> > <DTAG0.QTOTAL>)
+SRC.SYSHATA İstenilen miktardan fazlasını ekleyemezsiniz.
+RETURN 1
+ENDIF
+
+SRC.SYSNORM <dSRC.TARG.AMOUNT> adet <SERV.ITEMDEF.<TAG0.GOREVITEM>.NAME> eklendi.
+MOREX <EVAL <DMOREX>+<SRC.TARG.AMOUNT>>
+SRC.TARG.REMOVE
+
+IF (<DMOREX> >= <DTAG0.QTOTAL>)
+SRC.SYSYES Görevi başarıyla tamamladınız.
+SRC.SYSYES Ödülünüz bankanıza gönderildi.
+SRC.CEKYAZDIMDUELLO <dDEF.<TAG0.GORDIA>_GOREV<dSRC.TAG0.<TAG0.GORDIA>GOREV>_PARA>
+SRC.TAG0.CRAFTPUAN <EVAL (<SRC.TAG0.CRAFTPUAN>+<dDEF.<TAG0.GORDIA>_GOREV<dSRC.TAG0.<TAG0.GORDIA>GOREV>_PUAN>)>
+SRC.TAG0.<TAG0.GORDIA>GOREV <EVAL <SRC.TAG0.<TAG0.GORDIA>GOREV>+1>
+
+IF (strmatch(´<TAG0.GORDIA>´,´alchemy´)) || (strmatch(´<TAG0.GORDIA>´,´carpenter´))
+	IF (<SRC.TAG0.<TAG0.GORDIA>GOREV> > 20)
+	SRC.TAG0.<TAG0.GORDIA>GOREV 1
+	SERV.NEWITEM I_<TAG0.GORDIA>_CD
+	SRC.EQUIP <NEW>
+	ENDIF
+ELSE
+	IF (<SRC.TAG0.<TAG0.GORDIA>GOREV> > 40)
+	SRC.TAG0.<TAG0.GORDIA>GOREV 1
+	SERV.NEWITEM I_<TAG0.GORDIA>_CD
+	SRC.EQUIP <NEW>
+	ENDIF
+ENDIF
+
+REMOVE
+RETURN 1
+ELSE
+TARGET
+RETURN 1
+ENDIF
+
+RETURN 1
+
+[ITEMDEF i_tailor_cd]
+Id i_handr_1
+type t_eq_script
+name tailor CD
+
+On=@create
+timer 2592000
+attr attr_invis
+
+ON=@equip
+timer 2592000
+
+On=@timer
+remove
+return 1
+
+[ITEMDEF i_blacksmith_cd]
+Id i_handr_1
+type t_eq_script
+name BS CD
+
+On=@create
+timer 2592000
+attr attr_invis
+
+ON=@equip
+timer 2592000
+
+On=@timer
+remove
+return 1
+
+[ITEMDEF i_carpenter_cd]
+Id i_handr_1
+type t_eq_script
+name carp CD
+
+On=@create
+timer 2592000
+attr attr_invis
+
+ON=@equip
+timer 2592000
+
+On=@timer
+remove
+return 1
+
+[ITEMDEF i_alchemy_cd]
+Id i_handr_1
+type t_eq_script
+name alch CD
+
+On=@create
+timer 2592000
+attr attr_invis
+
+ON=@equip
+timer 2592000
+
+On=@timer
+remove
+return 1
+
+[ITEMDEF i_pve_cd]
+Id i_handr_1
+type t_eq_script
+name PVE CD
+
+On=@create
+timer 2592000
+attr attr_invis
+
+ON=@equip
+timer 2592000
+
+On=@timer
+CONT.TAG.PVEGOREV 1
+remove
+return 1
+
+[ITEMDEF i_tameq_cd]
+Id i_handr_1
+type t_eq_script
+name tameq CD
+
+On=@create
+timer 604800
+attr attr_invis
+
+ON=@equip
+timer 604800
+
+On=@timer
+CONT.TAG.TAMERGOREV 1
+remove
+return 1
+
+
+[plevel 1]
+puan
+
+[FUNCTION puan]
+
+if (<src.hits> < 1)
+SYSHATA Ölüyken kullanamazsınız.
+return 1
+endif
+
+LOCAL.ONLINEPUAN <eval (<src.account.totalconnecttime> / 60)>
+LOCAL.HARCADIPUAN <DSRC.ACCOUNT.TAG0.HARCADIPUAN>
+LOCAL.MEVCUTPUAN <EVAL <DLOCAL.ONLINEPUAN>-<DLOCAL.MEVCUTPUAN>>
+SRC.TAG.ONLINEPUAN <DLOCAL.MEVCUTPUAN>
+sdialog d_puanmenu
+
+
+
+[dialog d_puanmenu]
+50,50
+
+page 0
+
+
+F_DEF_DIALOG 30,40,420,160
+
+LOCAL.ONLINEPUAN <eval (<src.account.totalconnecttime> / 60)>
+LOCAL.HARCADIPUAN <DSRC.ACCOUNT.TAG0.HARCADIPUAN>
+LOCAL.MEVCUTPUAN <EVAL <DLOCAL.ONLINEPUAN>-<DLOCAL.HARCADIPUAN>>
+
+IF (<DLOCAL.MEVCUTPUAN> < 1)
+LOCAL.MEVCUTPUAN 0
+ENDIF
+
+SRC.TAG.ONLINEPUAN <DLOCAL.MEVCUTPUAN>
+
+dtext 190 50 95 <serv.name> Puan Menü
+//dtext 130 110 035 Mevcut Puan:
+//dtext 220 110 0481 132
+
+button 50 70 1102 1102 0 2 2
+dtext 74 77 <def.yesil> Taming
+dtext 65 50 <def.yesil> Puan: <DSRC.TAG0.TAMEPUAN>
+
+button 50 130 1102 1102 0 3 3
+dtext 74 137 <eval 0481> Online
+dtext 65 165 <eval 0481> Puan: <DLOCAL.MEVCUTPUAN>
+
+button 350 130 1102 1102 0 4 4
+dtext 370 137 <eval 035> Crafting
+dtext 365 165 <eval 035> Puan: <DSRC.TAG0.CRAFTPUAN>
+
+button 350 70 1102 1102 0 5 5
+dtext 382 77 <def.kirmizi> PvP
+dtext 365 50 <def.kirmizi> Puan: <DSRC.TAG0.PVPPUAN>
+
+button 200 100 1102 1102 0 7 7
+dtext 230 107 095 PvE
+dtext 210 135 095 Puan: <DSRC.TAG0.PVEPUAN>
+
+
+PAGE 2
+
+F_DEF_DIALOG 30,210,420,240
+
+dtext 71 220 <def.yesil> Random Shire
+dtext 360 220 <def.yesil> 100 Puan
+button 55 225 2103 2104 1 0 100
+
+dtext 71 240 <def.yesil> Random Must
+dtext 360 240 <def.yesil> 120 Puan
+button 55 245 2103 2104 1 0 101
+
+dtext 71 260 <def.yesil> Ranger Robe
+dtext 360 260 <def.yesil> 200 Puan
+button 55 265 2103 2104 1 0 102
+
+dtext 71 280 <def.yesil> Tameden Çıkarma Belgesi
+dtext 360 280 <def.yesil> 350 Puan
+button 55 285 2103 2104 1 0 103
+
+page 3
+
+F_DEF_DIALOG 30,210,420,240
+
+dtext 71 220 0481 Random +9 Silah
+dtext 360 220 0481 10 Puan
+button 55 225 2103 2104 1 0 104
+
+dtext 71 240 0481 Random Magical Mage Robe
+dtext 360 240 0481 15 Puan
+button 55 245 2103 2104 1 0 105
+
+dtext 71 260 0481 Ostard Egg
+dtext 360 260 0481 25 Puan
+button 55 265 2103 2104 1 0 106
+
+dtext 71 280 0481 Random Small House
+dtext 360 280 0481 45 Puan
+button 55 285 2103 2104 1 0 107
+
+dtext 71 300 0481 Random Ranger Set Parçası
+dtext 360 300 0481 50 Puan
+button 55 305 2103 2104 1 0 108
+
+dtext 71 320 0481 Random +15 Swordsmanship Silahı
+dtext 360 320 0481 75 Puan
+button 55 325 2103 2104 1 0 109
+
+dtext 71 340 0481 Random +15 Fencing Silahı
+dtext 360 340 0481 75 Puan
+button 55 345 2103 2104 1 0 110
+
+dtext 71 360 0481 Random +15 Macefighting Silahı
+dtext 360 360 0481 75 Puan
+button 55 365 2103 2104 1 0 111
+
+dtext 71 380 0481 Fame Karma Sıfırlama Deed
+dtext 360 380 0481 80 Puan
+button 55 385 2103 2104 1 0 112
+
+dtext 71 400 0481 Fame Karma 10.000 Deed
+dtext 360 400 0481 25 Puan
+button 55 405 2103 2104 1 0 113
+
+dtext 71 420 0481 Nightsight Bracelet
+dtext 360 420 0481 350 Puan
+button 55 425 2103 2104 1 0 114
+
+
+page 4
+
+F_DEF_DIALOG 30,210,420,240
+
+dtext 71 220 035 High Quality Carpenter Kit
+dtext 360 220 035 70 Puan
+button 55 225 2103 2104 1 0 115
+
+dtext 71 240 035 Random Craft Horse
+dtext 360 240 035 200 Puan
+button 55 245 2103 2104 1 0 116
+
+dtext 71 260 035 Gemi Hızlandırıcı
+dtext 360 260 035 200 Puan
+button 55 265 2103 2104 1 0 117
+
+dtext 71 280 035 Repair Tool (25 şarj)
+dtext 360 280 035 250 Puan
+button 55 285 2103 2104 1 0 118
+
+dtext 71 300 035 Dwarven Pickaxe
+dtext 360 300 035 50 Puan
+button 55 305 2103 2104 1 0 119
+
+dtext 71 320 035 High Quality Fish Pan
+dtext 360 320 035 50 Puan
+button 55 325 2103 2104 1 0 319
+
+dtext 71 340 035 Dye Crystal
+dtext 360 340 035 5 Puan
+button 55 345 2103 2104 1 0 320
+
+dtext 71 360 035 Craft Robe
+dtext 360 360 035 100 Puan
+button 55 365 2103 2104 1 0 321
+
+page 5
+
+F_DEF_DIALOG 30,210,420,240
+
+//dtext 71 220 <def.kirmizi> 50 Taming Puan Deed
+//dtext 360 220 <def.kirmizi> 25 Puan
+//button 55 225 2103 2104 1 0 120
+
+dtext 71 220 <def.kirmizi> Gladiator's Shield
+dtext 360 220 <def.kirmizi> 100 Puan
+button 55 225 2103 2104 1 0 121
+
+//dtext 71 260 <def.kirmizi> 50 Crafting Puan Deed
+//dtext 360 260 <def.kirmizi> 25 Puan
+//button 55 265 2103 2104 1 0 122
+
+dtext 71 240 <def.kirmizi> Silver Steed
+dtext 360 240 <def.kirmizi> 50 Puan
+button 55 245 2103 2104 1 0 123
+
+dtext 71 260 <def.kirmizi> Kiirin
+dtext 360 260 <def.kirmizi> 50 Puan
+button 55 265 2103 2104 1 0 124
+
+dtext 71 280 <def.kirmizi> Frost
+dtext 360 280 <def.kirmizi> 50 Puan
+button 55 285 2103 2104 1 0 125
+
+dtext 71 300 <def.kirmizi> Random Robe Crystal
+dtext 360 300 <def.kirmizi> 15 Puan
+button 55 305 2103 2104 1 0 126
+
+dtext 71 320 <def.kirmizi> Kırmızı Orc Helm (Sadece Orclar giyebilir)
+dtext 360 320 <def.kirmizi> 50 Puan
+button 55 325 2103 2104 1 0 127
+
+dtext 71 340 <def.kirmizi> Title: the Haradrim
+dtext 360 340 <def.kirmizi> 60 Puan
+button 55 345 2103 2104 1 0 128
+
+dtext 71 360 <def.kirmizi> Title: Defender of Helm's Deep
+dtext 360 360 <def.kirmizi> 60 Puan
+button 55 365 2103 2104 1 0 129
+
+dtext 71 380 <def.kirmizi> Title: Servant of The Dark Lord Sauron
+dtext 360 380 <def.kirmizi> 60 Puan
+button 55 385 2103 2104 1 0 130
+
+dtext 71 400 <def.kirmizi> Random Brutal Armor Parçası
+dtext 360 400 <def.kirmizi> 50 Puan
+button 55 405 2103 2104 1 0 134
+
+dtext 71 420 <def.kirmizi> Random Strider Armor Parçası
+dtext 360 420 <def.kirmizi> 50 Puan
+button 55 425 2103 2104 1 0 135
+
+button 415 420 <def.bno> 0 6 6 //ileri
+
+
+
+page 6
+
+
+F_DEF_DIALOG 30,210,420,240
+
+dtext 71 220 <def.kirmizi> Title: the Duelist
+dtext 360 220 <def.kirmizi> 60 Puan
+button 55 225 2103 2104 1 0 131
+
+dtext 71 240 <def.kirmizi> Title: the Faction Commander
+dtext 360 240 <def.kirmizi> 60 Puan
+button 55 245 2103 2104 1 0 132
+
+//dtext 71 260 <def.kirmizi> 50 PvE Puan Deed
+//dtext 360 260 <def.kirmizi> 50 Puan
+//button 55 265 2103 2104 1 0 133
+
+
+
+//dtext 71 260 <def.kirmizi> Frost
+//dtext 360 260 <def.kirmizi> 50 Puan
+//button 55 265 2103 2104 1 0 136
+
+//dtext 71 280 <def.kirmizi> Random Robe Crystal
+//dtext 360 280 <def.kirmizi> 15 Puan
+//button 55 285 2103 2104 1 0 137
+
+//dtext 71 300 <def.kirmizi> Kırmızı Orc Helm (Sadece Orclar giyebilir)
+//dtext 360 300 <def.kirmizi> 50 Puan
+//button 55 305 2103 2104 1 0 138
+
+//dtext 71 320 <def.kirmizi> Title: the Haradrim
+//dtext 360 320 <def.kirmizi> 60 Puan
+//button 55 325 2103 2104 1 0 139
+
+//dtext 71 340 <def.kirmizi> Title: Defender of Helm's Deep
+//dtext 360 340 <def.kirmizi> 60 Puan
+//button 55 345 2103 2104 1 0 140
+
+//dtext 71 360 <def.kirmizi> Title: Servant of The Dark Lord Sauron
+//dtext 360 360 <def.kirmizi> 60 Puan
+//button 55 365 2103 2104 1 0 141
+
+//button 115 360 <def.bno> 0 5 5 //geri
+button 38 420  4014 4015 0 5 5 //geri
+
+page 7
+
+F_DEF_DIALOG 30,210,420,240
+
+
+//dtext 71 220 095 50 PvP Puan Deed
+//dtext 360 220 095 50 Puan
+//button 55 225 2103 2104 1 0 142
+
+dtext 71 220 095 Shield of Rhun
+dtext 360 220 095 80 Puan
+button 55 225 2103 2104 1 0 143
+
+//dtext 71 260 095 50 Crafting Puan Deed
+//dtext 360 260 095 50 Puan
+//button 55 265 2103 2104 1 0 144
+
+dtext 71 240 095 Silver Steed
+dtext 360 240 095 60 Puan
+button 55 245 2103 2104 1 0 145
+
+dtext 71 260 095 Kiirin
+dtext 360 260 095 60 Puan
+button 55 265 2103 2104 1 0 146
+
+dtext 71 280 095 Frost
+dtext 360 280 095 60 Puan
+button 55 285 2103 2104 1 0 147
+
+//dtext 71 340 095 50 Tame Puan Deed
+//dtext 360 340 095 50 Puan
+//button 55 345 2103 2104 1 0 148
+
+dtext 71 300 095 Repair Tool (25 Şarj)
+dtext 360 300 095 30 Puan
+button 55 305 2103 2104 1 0 149
+
+dtext 71 320 095 Anduril Blade
+dtext 360 320 095 80 Puan
+button 55 325 2103 2104 1 0 150
+
+dtext 71 340 095 Title: the Marchwarden
+dtext 360 340 095 40 Puan
+button 55 345 2103 2104 1 0 151
+
+dtext 71 360 095 Title: the Mirkwood Archer
+dtext 360 360 095 40 Puan
+button 55 365 2103 2104 1 0 152
+
+
+[dialog d_puanmenu button]
+
+on=100
+//random shire
+if (<dsrc.tag.tamepuan> >= 100)
+src.animaldeed c_shire
+src.tag.tamepuan <EVAL <dSRC.TAG.TAMEPUAN>-100>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=101
+
+if (<dsrc.tag.tamepuan> >= 120)
+src.animaldeed c_a_must
+src.tag.tamepuan <EVAL <dSRC.TAG.TAMEPUAN>-120>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+on=102
+
+if (<dsrc.tag.tamepuan> >= 200)
+src.newitem i_robe_ranger
+src.new.bounce
+src.tag.tamepuan <EVAL <dSRC.TAG.TAMEPUAN>-200>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+on=103
+
+if (<dsrc.tag.tamepuan> >= 350)
+src.newitem i_tame_cikar
+src.new.bounce
+src.tag.tamepuan <EVAL <dSRC.TAG.TAMEPUAN>-350>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+on=104
+if (<dsrc.tag.onlinepuan> >= 10)
+serv.newitem RANDOM_WEAPON_FORCE
+src.new.bounce
+src.account.tag.harcadipuan <EVAL <dSRC.ACCOUNT.TAG.HARCADIPUAN>+10>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+on=105
+if (<dsrc.tag.onlinepuan> >= 15)
+
+DORAND 5
+serv.newitem i_tc_mr3
+serv.newitem i_tc_mr6
+serv.newitem i_tc_mr9
+serv.newitem i_tc_mr12
+serv.newitem i_tc_mr15
+ENDDO
+
+src.new.bounce
+src.account.tag.harcadipuan <EVAL <dSRC.ACCOUNT.TAG.HARCADIPUAN>+15>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+on=106
+if (<dsrc.tag.onlinepuan> >= 25)
+serv.newitem i_ostard_egg
+src.new.bounce
+src.account.tag.harcadipuan <EVAL <dSRC.ACCOUNT.TAG.HARCADIPUAN>+25>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+
+on=107
+if (<dsrc.tag.onlinepuan> >= 45)
+
+DORAND 13
+serv.newitem i_deed_house_stone_weather
+serv.newitem i_deed_house_wooden_red_small
+serv.newitem i_deed_house_stone_window_small
+serv.newitem i_deed_house_stone_sandplaster_small
+serv.newitem i_deed_house_stone_sand_small
+serv.newitem i_deed_house_stone_dungeon_small
+serv.newitem i_deed_house_stone_marble_small
+serv.newitem i_deed_house_stone_plaster_small
+serv.newitem i_deed_House_stone_small
+serv.newitem i_deed_House_stone_brick_small
+serv.newitem i_deed_House_stone_wood_small
+serv.newitem i_deed_House_wood_plaster_small
+serv.newitem i_deed_House_wood_thatched_small
+ENDDO
+src.new.bounce
+src.account.tag.harcadipuan <EVAL <dSRC.ACCOUNT.TAG.HARCADIPUAN>+45>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+
+on=108
+
+if (<dsrc.tag.onlinepuan> >= 50)
+
+DORAND 6
+serv.newitem i_ranger_tunic
+serv.newitem i_ranger_gorget
+serv.newitem i_ranger_legs
+serv.newitem i_ranger_cap
+serv.newitem i_ranger_sleeves
+serv.newitem i_ranger_gloves
+ENDDO
+
+src.new.bounce
+src.account.tag.harcadipuan <EVAL <dSRC.ACCOUNT.TAG.HARCADIPUAN>+50>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+
+
+
+on=109
+if (<dsrc.tag.onlinepuan> >= 75)
+
+DORAND 8
+serv.newitem i_sword_viking_vanq
+serv.newitem i_sword_long_vanq
+serv.newitem i_broadsword_vanq
+serv.newitem i_katana_vanq
+serv.newitem i_scimitar_vanq
+serv.newitem i_cutlass_vanq
+serv.newitem i_halberd_vanq
+serv.newitem i_bardiche_vanq
+ENDDO
+
+src.new.bounce
+src.account.tag.harcadipuan <EVAL <dSRC.ACCOUNT.TAG.HARCADIPUAN>+75>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+
+
+
+
+on=110
+if (<dsrc.tag.onlinepuan> >= 75)
+
+DORAND 4
+serv.newitem i_kryss_vanq
+serv.newitem i_spear_vanq
+serv.newitem i_war_fork_vanq
+serv.newitem i_spear_short_vanq
+ENDDO
+
+
+src.new.bounce
+src.account.tag.harcadipuan <EVAL <dSRC.ACCOUNT.TAG.HARCADIPUAN>+75>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+
+on=111
+if (<dsrc.tag.onlinepuan> >= 75)
+
+DORAND 8
+serv.newitem i_mace_vanq
+serv.newitem i_mace_War_vanq
+serv.newitem i_hammer_War_vanq
+serv.newitem i_hammer_pick_vanq
+serv.newitem i_axe_war_vanq
+serv.newitem i_tc_bs15
+serv.newitem i_tc_qs15
+serv.newitem i_maul_vanq
+ENDDO
+
+src.new.bounce
+src.account.tag.harcadipuan <EVAL <dSRC.ACCOUNT.TAG.HARCADIPUAN>+75>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+
+on=112
+if (<dsrc.tag.onlinepuan> >= 80)
+serv.newitem i_famekarma0
+src.new.bounce
+src.account.tag.harcadipuan <EVAL <dSRC.ACCOUNT.TAG.HARCADIPUAN>+80>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+on=113
+if (<dsrc.tag.onlinepuan> >= 25)
+serv.newitem i_famekarma10
+src.new.bounce
+src.account.tag.harcadipuan <EVAL <dSRC.ACCOUNT.TAG.HARCADIPUAN>+25>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+on=114
+if (<dsrc.tag.onlinepuan> >= 350)
+serv.newitem i_inlor_taki
+src.new.bounce
+SRC.NEW.timer 1209600
+src.account.tag.harcadipuan <EVAL <dSRC.ACCOUNT.TAG.HARCADIPUAN>+350>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+on=115
+if (<dsrc.tag.craftpuan> >= 70)
+serv.newitem i_saw_hq
+src.new.bounce
+src.tag.craftpuan <EVAL <dsrc.tag.craftpuan>-70>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+on=116
+if (<dsrc.tag.craftpuan> >= 200)
+src.animaldeed c_a_craft
+src.new.bounce
+src.tag.craftpuan <EVAL <dsrc.tag.craftpuan>-200>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+
+on=117
+if (<dsrc.tag.craftpuan> >= 200)
+	IF (<SRC.FINDIND.i_gemi_hiz>)
+	SRC.SYSHATA Zaten gemi hızlandırıcıya sahipsiniz.
+	RETURN 1
+	ENDIF
+serv.newitem i_gemi_hiz
+src.new.equip
+src.new.timer 1209600
+src.tag.craftpuan <EVAL <dsrc.tag.craftpuan>-200>
+src.sysnorm Gemi hızlandırıcı, karakteriniz üzerinizde 14 gün boyunca aktif olacaktır.
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+
+on=118
+if (<dsrc.tag.craftpuan> >= 250)
+serv.newitem i_repair_tool
+src.new.bounce
+src.tag.craftpuan <EVAL <dsrc.tag.craftpuan>-250>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=119
+if (<dsrc.tag.craftpuan> >= 50)
+serv.newitem i_pickaxe_dwarf
+src.new.bounce
+src.tag.craftpuan <EVAL <dsrc.tag.craftpuan>-50>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=120
+src.syshata Geçici bir süreliğine kapalıdır
+return 1
+if (<dsrc.tag.pvppuan> >= 25)
+serv.newitem i_deed_50tame
+src.new.bounce
+src.tag.pvppuan <EVAL <dsrc.tag.pvppuan>-25>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+on=121
+if (<dsrc.tag.pvppuan> >= 100)
+serv.newitem i_shield_pvp
+src.new.bounce
+src.tag.pvppuan <EVAL <dsrc.tag.pvppuan>-100>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+on=122
+src.syshata Geçici bir süreliğine kapalıdır
+return 1
+if (<dsrc.tag.pvppuan> >= 25)
+serv.newitem i_deed_50craft
+src.new.bounce
+src.tag.pvppuan <EVAL <dsrc.tag.pvppuan>-25>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=123
+if (<dsrc.tag.pvppuan> >= 50)
+src.animaldeed c_steed_silver
+src.new.bounce
+src.tag.pvppuan <EVAL <dsrc.tag.pvppuan>-50>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=124
+if (<dsrc.tag.pvppuan> >= 50)
+src.animaldeed c_m_kiirin
+src.new.bounce
+src.tag.pvppuan <EVAL <dsrc.tag.pvppuan>-50>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+on=125
+if (<dsrc.tag.pvppuan> >= 50)
+src.animaldeed c_m_frost
+src.new.bounce
+src.tag.pvppuan <EVAL <dsrc.tag.pvppuan>-50>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+on=126
+if (<dsrc.tag.pvppuan> >= 15)
+DORAND 4
+serv.newitem i_crystal_ice
+serv.newitem i_crystal_fire
+serv.newitem i_crystal_earth
+serv.newitem i_crystal_energy
+ENDDO
+src.new.bounce
+src.tag.pvppuan <EVAL <dsrc.tag.pvppuan>-15>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=127
+if (<dsrc.tag.pvppuan> >= 50)
+serv.newitem i_mask_orc_pk
+src.new.bounce
+src.tag.pvppuan <EVAL <dsrc.tag.pvppuan>-50>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=128
+if (<dsrc.tag.pvppuan> >= 60) && (<src.tag.haradrim> = 0)
+src.tag.haradrim 1
+src.title the Haradrim
+src.tag.pvppuan <EVAL <dsrc.tag.pvppuan>-60>
+src.sysyes Titleınız değiştirildi artık bu titleı istediğiniz zaman puan vermeden alabilirsiniz.
+else
+if (<src.tag.haradrim> = 1)
+src.title the Haradrim
+src.sysyes Titleınız değiştirildi.
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+endif
+
+on=129
+if (<dsrc.tag.pvppuan> >= 60) && (<src.tag.dhd> = 0)
+src.tag.dhd 1
+src.title Defender of Helm's Deep
+src.tag.pvppuan <EVAL <dsrc.tag.pvppuan>-60>
+src.sysyes Titleınız değiştirildi artık bu titleı istediğiniz zaman puan vermeden alabilirsiniz.
+else
+if (<src.tag.dhd> = 1)
+src.title Defender of Helm's Deep
+src.sysyes Titleınız değiştirildi.
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+endif
+
+
+on=130
+if (<dsrc.tag.pvppuan> >= 60) && (<src.tag.dls> = 0)
+src.tag.dls 1
+src.title Servant of The Dark Lord Sauron
+src.tag.pvppuan <EVAL <dsrc.tag.pvppuan>-60>
+src.sysyes Titleınız değiştirildi artık bu titleı istediğiniz zaman puan vermeden alabilirsiniz.
+else
+if (<src.tag.dls> = 1)
+src.title Servant of The Dark Lord Sauron
+src.sysyes Titleınız değiştirildi.
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+endif
+
+
+on=133
+src.syshata Geçici bir süreliğine kapalıdır
+//if (<dsrc.tag.pvppuan> >= 50)
+//serv.newitem i_deed_50pve
+//src.new.bounce
+//src.tag.pvppuan <EVAL <dsrc.tag.pvppuan>-50>
+//else
+//src.syshata Yeterli puanınız bulunmuyor.
+//endif
+
+on=134
+if (<dsrc.tag.pvppuan> >= 50)
+DORAND 6
+serv.newitem i_x_phoenix_leggings
+serv.newitem i_x_phoenix_gloves
+serv.newitem i_x_phoenix_sleeves
+serv.newitem i_x_phoenix_tunic
+serv.newitem i_x_phoenix_gorget
+serv.newitem i_x_phoenix_helm
+ENDDO
+src.new.bounce
+src.tag.pvppuan <EVAL <dsrc.tag.pvppuan>-50>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=135
+if (<dsrc.tag.pvppuan> >= 50)
+DORAND 5
+serv.newitem i_x_strider_sleeves
+serv.newitem i_x_strider_gloves
+serv.newitem i_x_strider_gorget
+serv.newitem i_x_strider_leggings
+serv.newitem i_x_strider_tunic
+ENDDO
+src.new.bounce
+src.tag.pvppuan <EVAL <dsrc.tag.pvppuan>-50>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+
+on=142
+src.syshata Geçici bir süreliğine kapalıdır
+//if (<dsrc.tag.pvepuan> >= 50)
+//serv.newitem i_deed_50pvp
+//src.new.bounce
+//src.tag.pvepuan <EVAL <dsrc.tag.pvepuan>-50>
+//else
+//src.syshata Yeterli puanınız bulunmuyor.
+//endif
+
+on=143
+if (<dsrc.tag.pvepuan> >= 80)
+serv.newitem i_shield_pve2
+src.new.bounce
+src.tag.pvepuan <EVAL <dsrc.tag.pvepuan>-80>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=144
+src.syshata Geçici bir süreliğine kapalıdır
+//if (<dsrc.tag.pvepuan> >= 50)
+//serv.newitem i_deed_50craft
+//src.new.bounce
+//src.tag.pvepuan <EVAL <dsrc.tag.pvepuan>-50>
+//else
+//src.syshata Yeterli puanınız bulunmuyor.
+//endif
+
+on=145
+if (<dsrc.tag.pvepuan> >= 60)
+src.animaldeed c_steed_silver
+src.new.bounce
+src.tag.pvepuan <EVAL <dsrc.tag.pvepuan>-60>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=146
+if (<dsrc.tag.pvepuan> >= 60)
+src.animaldeed c_m_kiirin
+src.new.bounce
+src.tag.pvepuan <EVAL <dsrc.tag.pvepuan>-60>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=147
+if (<dsrc.tag.pvepuan> >= 60)
+src.animaldeed c_m_frost
+src.new.bounce
+src.tag.pvepuan <EVAL <dsrc.tag.pvepuan>-60>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=148
+src.syshata Geçici bir süreliğine kapalıdır
+//if (<dsrc.tag.pvepuan> >= 50)
+//serv.newitem i_deed_50tame
+//src.new.bounce
+//src.tag.pvepuan <EVAL <dsrc.tag.pvepuan>-50>
+//else
+//src.syshata Yeterli puanınız bulunmuyor.
+//endif
+
+on=149
+if (<dsrc.tag.pvepuan> >= 30)
+serv.newitem i_repair_tool
+src.new.bounce
+src.tag.pvepuan <EVAL <dsrc.tag.pvepuan>-30>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=150
+if (<dsrc.tag.pvepuan> >= 80)
+serv.newitem i_anduril
+src.new.bounce
+src.tag.pvepuan <EVAL <dsrc.tag.pvepuan>-80>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=151 //Title: the Marchwarden
+if (<dsrc.tag.pvepuan> >= 40) && (<src.tag.mw> = 0)
+src.tag.mw 1
+src.title the Marchwarden
+src.tag.pvepuan <EVAL <dsrc.tag.pvepuan>-40>
+src.sysyes Titleınız değiştirildi artık bu titleı istediğiniz zaman puan vermeden alabilirsiniz.
+else
+if (<src.tag.mw> = 1)
+src.title the Marchwarden
+src.sysyes Titleınız değiştirildi.
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+endif
+
+
+on=152 //Title: the Mirkwood Archer
+if (<dsrc.tag.pvepuan> >= 40) && (<src.tag.ma> = 0)
+src.tag.ma 1
+src.title the Mirkwood Archer
+src.tag.pvepuan <EVAL <dsrc.tag.pvepuan>-40>
+src.sysyes Titleınız değiştirildi artık bu titleı istediğiniz zaman puan vermeden alabilirsiniz.
+else
+if (<src.tag.ma> = 1)
+src.title the Mirkwood Archer
+src.sysyes Titleınız değiştirildi.
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+endif
+
+
+on=319
+if (<dsrc.tag.craftpuan> >= 50)
+serv.newitem i_tava_balik2
+src.new.bounce
+src.tag.craftpuan <EVAL <dsrc.tag.craftpuan>-50>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=320
+if (<dsrc.tag.craftpuan> >= 5)
+serv.newitem i_dye_crystal
+src.new.bounce
+src.tag.craftpuan <EVAL <dsrc.tag.craftpuan>-5>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=321
+if (<dsrc.tag.craftpuan> >= 100)
+serv.newitem i_robe_craft
+src.new.bounce
+src.tag.craftpuan <EVAL <dsrc.tag.craftpuan>-100>
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+
+on=131
+if (<dsrc.tag.pvppuan> >= 60) && (<src.tag.td> = 0)
+src.tag.td 1
+src.title the Duelist
+src.tag.pvppuan <EVAL <dsrc.tag.pvppuan>-60>
+src.sysyes Titleınız değiştirildi artık bu titleı istediğiniz zaman puan vermeden alabilirsiniz.
+else
+if (<src.tag.td> = 1)
+src.title the Duelist
+src.sysyes Titleınız değiştirildi.
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+endif
+
+
+on=132
+if (<dsrc.tag.pvppuan> >= 60) && (<src.tag.tfc> = 0)
+src.tag.tfc 1
+src.title the Faction Commander
+src.tag.pvppuan <EVAL <dsrc.tag.pvppuan>-60>
+src.sysyes Titleınız değiştirildi artık bu titleı istediğiniz zaman puan vermeden alabilirsiniz.
+else
+if (<src.tag.tfc> = 1)
+src.title the Faction Commander
+src.sysyes Titleınız değiştirildi.
+else
+src.syshata Yeterli puanınız bulunmuyor.
+endif
+endif

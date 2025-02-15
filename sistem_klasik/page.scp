@@ -1,0 +1,182 @@
+﻿[PLEVEL 2]
+pg
+
+[FUNCTION pg]
+if !(<serv.gmpages>)
+src.sysmessage @07a1,,1 Bekleyen bildiri yok.
+else
+src.ctag0.page_index =
+dialogclose d_page_view
+if (<src.dctag0.page_handle>)
+src.ctag0.page_index = <eval <src.ctag0.page_handle>-1>
+else
+src.ctag0.page_index = 0
+endif
+dialog d_page_view 0 <src.dctag0.page_index>
+endif
+return 1
+
+[DIALOG d_page_view]
+20,50
+nomove
+resizepic 10 0 5054 450 350
+dtext 162 30 1152 <serv.name> Page Sistemi
+resizepic 30 262 5054 410 50
+src.ctag0.page_index = <dargv[0]>
+gumppic 80 80 <qval(<uid.<strarg <serv.gmpage.<dargv[0]>.reason>>.isonline>)?0939:0938>
+dhtmlgump 80 58 200 20 0 0 <def.bfont_white><eval <serv.gmpage.<dargv[0]>.time>/60> dk önce gönderildi. <qval(<serv.gmpage.<dargv[0]>.handled>)?<qval(<serv.gmpage.<dargv[0]>.handled> != <src>)?(<uid.<strarg <serv.gmpage.<dargv[0]>.handled>>.name> ilgileniyor.)>:>
+dtext 100 75 <qval(<uid.<strarg <serv.gmpage.<dargv[0]>.reason>>.isonline>)?040:38> <uid.<strarg <serv.gmpage.<dargv[0]>.reason>>.name> (<strarg <serv.gmpage.<dargv[0]>.reason>>)
+dhtmlgump 80 100 295 120 1 1 <streat <serv.gmpage.<dargv[0]>.reason>>
+
+dtext 200 230 50 <eval <argv[0]>+1> / <serv.gmpages>
+if !(<src.dctag0.page_handle>)
+if (<serv.gmpage.<eval <argv[0]>+1>.reason>)
+button 260 230 9903 9905 1 0 1
+endif
+if (<eval <argv[0]>+1> > 1)
+button 170 230 9909 9911 1 0 2
+endif
+endif
+button 60 276 0FA2 0Fa4 1 0 3
+dtext 95 276 1153 Sil
+button 130 276 0FA5 0FA7 1 0 4
+dtext 165 276 1153 Git
+button 200 276 0FAE 0FB0 1 0 5
+dtext 235 276 1153 Getir
+button 275 276 0FAB 0FAD 1 0 6
+dtext 310 276 1153 Mesaj
+button 360 276 0FA5 0FA7 1 0 7
+dtext 395 276 1153 Jail
+
+[DIALOG d_page_view BUTTON]
+ON=0
+src.ctag0.page_index =
+
+ON=1
+src.ctag0.page_index +=1
+sdialog d_page_view 0 <src.ctag0.page_index>
+
+ON=2
+src.ctag0.page_index -=1
+sdialog d_page_view 0 <src.ctag0.page_index>
+
+ON=3 6
+if (<serv.gmpage.<src.ctag0.page_index>.handled>) && (<serv.gmpage.<src.ctag0.page_index>.handled> != <src>)
+src.sysmessage Bu bildiri ile <uid.<eval <serv.gmpage.<src.ctag0.page_index>.handled>>.name> ilgileniyor.
+sdialog d_page_view 0 <src.ctag0.page_index>
+elif !((<dargn> = 3) || (<dargn> = 6)) && !(<uid.<strarg <serv.gmpage.<src.dctag0.page_index>.reason>>.isonline>)
+src.sysh_trk Bildiriyi yapan oyuncu oyunda degil.
+sdialog d_page_view 0 <src.ctag0.page_index>
+else
+if (<dargn> = 3)
+try gmpage.<src.dctag.page_index>.handle
+try gmpage.<src.dctag0.page_index>.d
+src.ctag0.page_handle=
+src.sys_trk Bildiri silindi.
+elif (<dargn> = 4)
+src.go <uid.<strarg <serv.gmpage.<src.dctag0.page_index>.reason>>.p>
+try gmpage.<src.ctag0.page_index>.handle
+src.ctag0.page_handle=<eval <src.ctag0.page_index>+1>
+elif (<dargn> = 5)
+try uid.<strarg <serv.gmpage.<src.dctag0.page_index>.reason>>.go <src.p>
+try gmpage.<src.ctag0.page_index>.handle
+src.ctag0.page_handle=<eval <src.dctag0.page_index>+1>
+elif (<dargn> = 6)
+src.ctag0.page_handle=<eval <src.dctag0.page_index>+1>
+try gmpage.<src.ctag0.page_index>.handle
+sdialog d_page_send_msg 0 <src.dctag0.page_index>
+endif
+src.ctag0.page_index=
+src.update
+endif
+
+ON=7
+IF (<SRC.UID>=<uid.<strarg <serv.gmpage.<src.dctag0.page_index>.reason>>>)
+SRC.SYSHATA Kendinizi jaile gönderemezsiniz.
+RETURN 1
+ENDIF
+
+LOCAL.OLDREF1 <REF1>
+REF1 <uid.<strarg <serv.gmpage.<src.dctag0.page_index>.reason>>>
+
+IF (0<REF1.tag.jailhakaret>)
+REF1.tag.jailhakaret=(<eval <REF1.tag.jailhakaret>> + 1)
+ELSE
+REF1.tag.jailhakaret=1
+ENDIF
+
+REF1.go jail8
+REF1.tag.jail 1
+REF1.tag.jaillenmis=1
+REF1.events +e_jail
+SERV.newitem i_jailcik
+NEW.timer=10800*<eval <REF1.tag.jailhakaret>>
+NEW.cont <REF1.uid>
+
+REF1 <LOCAL.ODLREF1>
+
+[DIALOG d_page_send_msg]
+20,50
+
+resizepic 50 50 5120 340 300
+//alphablack 60 60 320 280
+dtext 80 80 48 <uid.<strarg <serv.gmpage.<dargv[0]>.reason>>.name> (<strarg <serv.gmpage.<dargv[0]>.reason>>)
+dhtmlgump 80 100 280 70 1 1 <streat <serv.gmpage.<dargv[0]>.reason>>
+dtext 80 170 50 Göndermek istediğiniz cevap;
+resizepic 80 190 3000 280 105
+dtextentry 85 195 260 100 1153 0 <var.blank>
+button 80 310 4005 4007 1 0 1
+dtext 115 310 50 Gönder
+
+[DIALOG d_page_send_msg BUTTON]
+ON=0
+src.pg
+
+ON=1
+local.pg=<eval <src.ctag0.page_handle>-1>
+ref1=<strarg <serv.gmpage.<dlocal.pg>.reason>>
+ref1.tag0.page_msg = <streat <serv.rtime>> <src> <argtxt[0]>
+if (<ref1.isonline>)
+trysrc <ref1> dialog d_page_msg
+else
+ref1.events +e_pg_msg
+endif
+src.sysyes Mesajınız gönderildi.
+try gmpage.<dlocal.pg>.d
+src.ctag0.page_handle=
+
+[DIALOG d_page_msg]
+0,20
+NOMOVE
+NOCLOSE
+
+page 1
+button 15 30 30 30 0 2 2
+dtext 15 60 48 Yetkili cevabı!
+
+page 2
+F_DEF_DIALOG 50,50,312,190
+
+dtext 65 60 48 Yetkili Cevabı// -  Tarih: <strarg <src.tag0.page_msg>>
+dhtmlgump 65 85 280 120 1 1 <streat <streat <src.tag0.page_msg>>>
+button 75 206 4017 4019 1 0 0
+dtext 105 209 33 Kapat
+
+[DIALOG d_page_msg BUTTON]
+ON=0
+src.tag0.page_msg=
+
+[EVENTS e_pg_msg]
+ON=@login
+src.sdialog d_page_msg
+src.events -e_pg_msg
+
+[function page_info]
+if (<account.plevel> > 1)
+sysmessageua 048,0,0,trk <args>
+endif
+
+
+
+
+[EOF]

@@ -1,0 +1,346 @@
+﻿//------------------
+// MAGERY SYSTEM
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+[plevel 1]
+runic
+
+[function runic]
+IF (<HITS> < 1)
+RETURN 1
+ENDIF
+
+IF (<ISEVENT.E_IBRANICE>)
+SYSNORM Runic büyü sözleri kapatıldı.
+EVENTS -E_IBRANICE
+RETURN 1
+ENDIF
+
+IF !((<src.magery> >= 98.0) && (<src.meditation> >= 98.0) && (<src.evaluatingintel> >= 98.0))	
+syshata Runic büyü sözleri için 98.0 Magery, 98.0 Meditation, 98.0 Eval. Intel gereklidir.
+RETURN 1
+ENDIF
+
+IF ((<src.tactics> > 30.0) || (<src.parrying> > 30.0) || (<src.wrestling> > 30.0) || (<src.swordsmanship> > 30.0) || (<src.fencing> > 30.0) || (<src.macefighting> > 30.0) || (<src.archery> > 30.0))
+syshata Runic büyü sözleri için combat yetenekleriniz en fazla 30.0 olmalıdır.
+RETURN 1
+ENDIF
+
+sysnorm Runic büyü sözleri açıldı.
+events +e_ibranice
+
+[events e_ibranice]
+
+[function spell_say]
+if (<account.plevel> < 2)
+if (<isevent.e_ibranice>)
+	if ((<src.tactics> > 30.0) || (<src.parrying> > 30.0) || (<src.wrestling> > 30.0) || (<src.swordsmanship> > 30.0) || (<src.fencing> > 30.0) || (<src.macefighting> > 30.0) || (<src.archery> > 30.0))
+	events -e_ibranice
+	syshata Runic büyü sözleri kapatıldı.
+	src.say @0790 <args>
+	return 1
+	endif
+	if !((<src.magery> >= 98.0) && (<src.meditation> >= 98.0) && (<src.evaluatingintel> >= 98.0))	
+	events -e_ibranice
+	syshata Runic büyü sözleri kapatıldı.
+	src.say @0790 <args>
+	return 1
+	endif
+	src.say @0790,8 <STRTOUPPER <args>>
+else
+	src.say @0790 <args>
+endif
+endif
+
+[function mgabort]
+tag.nomovetill
+effect 3,i_fx_smoke_small,3,40,1
+sound 92
+if (<mana> > 8)
+	mana (<mana> - {5 8})
+else
+	mana 1
+endif
+
+[function f_fizzle]
+if (<findid.i_spdelay_NEW>)
+	findid.i_spdelay_NEW.remove
+endif
+tag.nomovetill
+effect 3,i_fx_smoke_small,3,40,1
+sound 92
+if (<mana> > 8)
+	mana (<mana> - {5 8})
+else
+	mana 1
+endif
+skill fail
+
+//------------------
+// freezetime control functionz
+//------------------
+
+[itemdef i_spdelay_NEW] // bunnar adamda kaliodu (timer -1) fixlendi uzulmeyin
+name=magery delay 
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+if (<src.body> == c_man)
+	src.body c_man_nomove
+	src.obody c_man
+	morex = 1 // erkek icin
+	name magery delay (man)
+elseif (<src.body> == c_woman)
+	src.body c_woman_nomove
+	src.obody c_woman
+	morex = 2 // bayan icin
+	name magery delay (woman)
+else
+	cont.flags <cont.flags>|04 // paralarim lan adami uniseksmi$
+	name magery delay (unicex)
+	morex 3 //unisix icin
+endif
+
+if (<more1>)
+	timer <more1>
+endif
+
+On=@UnEquip
+if !(<cont.flags>&statf_dead)
+            if ((<cont.body> == c_harrower) || (<cont.body> == c_Wailing_Banshee) || (<cont.body> == c_Moloch) || (<cont.body> == c_liche))
+            cont.flags <cont.flags>&~04
+	    else
+	    cont.body <cont.obody>
+            endif
+endif
+
+cont.flags <cont.flags>&~04
+cont.TAG.NoMoveTill=
+
+on=@timer
+if !(<cont.flags>&statf_dead)
+            if ((<cont.body> == c_harrower) || (<cont.body> == c_Wailing_Banshee) || (<cont.body> == c_Moloch) || (<cont.body> == c_liche))
+            cont.flags <cont.flags>&~04
+	    else
+	    cont.body <cont.obody>
+            endif
+endif
+
+cont.flags <cont.flags>&~04
+cont.TAG.NoMoveTill=
+remove
+return 1
+
+[function sd]
+//local.args <eval <args>*15>
+//if (<tag0.nomovetill> < <eval <serv.time>+<local.args>>)
+//  tag.nomovetill <eval <serv.time>+<local.args>>
+//endif
+
+if !(<findid.i_spdelay_NEW>)
+	var.acct <act>
+	newitem i_spdelay_NEW
+	act.more1 <args>
+	act.timer <args>
+	act.equip
+	act <var.acct>
+else
+	findid.i_spdelay_NEW.more1 <args>
+	findid.i_spdelay_NEW.timer <args>
+endif
+
+[function spellcheck_act]
+if (<act.flags>&statf_dead)
+	f_fizzle
+	return 1
+endif
+
+
+//------------------
+// freeze body's
+//------------------
+
+[chardef c_man_nomove] 
+id c_man 
+can mt_usehands // newly added
+foodtype 15 t_food, t_fruit
+
+On=@GetHit 
+body c_man
+obody c_man
+
+[chardef c_man_nbl_nomove] 
+id c_man 
+can mt_usehands // newly added
+foodtype 15 t_food, t_fruit
+
+On=@GetHit
+body c_man_nbl
+obody c_man_nbl
+
+[chardef c_woman_nomove] 
+id c_woman 
+can mt_usehands|mt_female
+foodtype 15 t_food, t_fruit
+
+On=@GetHit
+if !(<src.uid>==<uid>)
+	body c_woman
+	obody c_woman
+endif
+
+//------------------
+// poison functionz
+//------------------
+
+[function psg]
+if ((<skilllock[30]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<POISONING> < 100.0))
+POISONING += 1
+endif
+
+//------------------
+// spell: explosion
+//------------------
+
+[itemdef i_spelleffect_explosion]
+name=[explosion spelleffect]
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+cont.sayu explosion
+timer 2
+
+On=@Timer
+cont.effect 3,i_fx_explode,6,15,1
+cont.sfx snd_spell_explosion
+
+if (<cont.hitpoints> > 32)
+	cont.hits=(<cont.hits> - {25 30})
+	cont.damage 1
+else
+	cont.hits=0
+endif
+
+attr attr_decay
+remove
+return 1
+
+//------------------
+// spell: polymorph
+//------------------
+
+[function plym]
+if (<findid.i_pre_morph>)
+	findid.i_pre_morph.remove
+	f_fizzle
+endif
+
+if !(<findid.i_morpher>)
+	newitem i_pre_morph
+	act.more <args>
+	act.equip
+	newitem i_morpher
+	act.more <body>
+	act.equip
+else
+	findid.i_morpher.timer {285 320}
+	newitem i_pre_morph
+	act.more <args>
+	act.equip
+endif
+
+[itemdef i_pre_morph]
+name=[casting polymorph]
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+timer 4
+cont.spell_say Vas Ylem Rel
+cont.anim 17
+cont.sd 3
+cont.events +e_breakpoly
+
+On=@UnEquip
+cont.events -e_breakpoly
+cont.consume 1 i_reag_spider_silk
+cont.consume 1 i_reag_blood_moss
+cont.consume 1 i_reag_mandrake_root
+cont.consume 1 i_reag_sulfur_ash
+
+On=@Timer
+attr attr_decay
+if (<cont.mana> < 40)
+	cont.f_fizzle
+else
+	cont.mana (<cont.mana> - 40)
+	cont.sfx snd_spell_polymorph
+	cont.body <more>
+	cont.obody <more>
+	cont.update
+endif
+remove
+return 1
+
+[itemdef i_morpher]
+name=Polymorph
+id=i_rune_polymorph
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+timer {285 320}
+cont.events +e_poly
+
+On=@UnEquip
+cont.events -e_poly
+cont.body <more>
+cont.update
+
+On=@Timer
+attr attr_decay
+remove
+return 1
+
+[events e_poly]
+On=@Death
+findid.i_morpher.remove
+
+[events e_breakpoly]
+On=@SpellCast
+findid.i_pre_morph.remove
+findid.i_morpher.remove
+f_fizzle
+
+On=@GetHit
+findid.i_pre_morph.remove
+findid.i_morpher.remove
+f_fizzle
+
+On=@Hit
+findid.i_pre_morph.remove
+findid.i_morpher.remove
+f_fizzle
+
+On=@Death
+findid.i_pre_morph.remove
+findid.i_morpher.remove
+
+On=@SkillStart
+findid.i_pre_morph.remove
+findid.i_morpher.remove
+f_fizzle
+
+[EOF]

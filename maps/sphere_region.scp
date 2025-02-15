@@ -1,0 +1,504 @@
+﻿//------------------
+// REGION 
+//------------------
+// Rave UO SHARD  
+// KODLAYAN: Lexis
+//------------------
+
+[FUNCTION F_SHIPSTOP]
+FORITEMS 50
+if (<type> == t_Ship) && (<MORE> == <SRC.UID>)
+SHIPSTOP
+endif
+ENDFOR
+
+[regiontype r_gemi]
+on=@exit
+SRC.F_SHIPSTOP
+
+[REGIONRESOURCE mr_nothing]
+SKILL=0.0,80.0
+REGEN=1
+
+[REGIONRESOURCE mr_shoes]
+SKILL=1.0,30.0
+AMOUNT=1,2
+REAP={i_boots_calf i_shoes_plain i_sandals i_boots_thigh}
+REGEN=60*15*10
+
+[REGIONRESOURCE mr_fish1]
+SKILL=0.1
+SKILL=100.0
+skill=0.1,100.0
+AMOUNT=6,8
+AMOUNT=6
+AMOUNT=8
+REAP=i_fish_big_1
+REGEN=30
+
+[REGIONRESOURCE mr_fish2]
+SKILL=0.1
+SKILL=100.0
+skill=0.1,100.0
+AMOUNT=8,10
+AMOUNT=8
+AMOUNT=10
+REAP=i_fish_big_2
+REGEN=30
+
+[REGIONRESOURCE mr_fish3]
+SKILL=0.1
+SKILL=100.0
+skill=0.1,100.0
+AMOUNT=8,12
+AMOUNT=8
+AMOUNT=12
+REAP=i_fish_big_3
+REGEN=30
+
+[REGIONRESOURCE mr_fish4]
+SKILL=0.1
+SKILL=100.0
+skill=0.1,100.0
+AMOUNT=8,14
+AMOUNT=8
+AMOUNT=14
+REAP=i_fish_big_4
+REGEN=30
+
+[REGIONRESOURCE mr_fishx]
+SKILL=1.0,100.0
+AMOUNT=13,15
+REAP=i_fish_big_1
+REGEN=44*60*10
+   
+//Sise
+[REGIONRESOURCE mr_bottle_define]
+skill=90.0,100.0
+amount=1
+REAP=i_bottle_define
+REGEN=80*100*70
+
+//Kutu
+[REGIONRESOURCE mr_cont_define]
+skill=90.0,100.0
+amount=1
+REAP=i_cont_define
+REGEN=60*10
+
+[REGIONRESOURCE mr_tree]
+SKILL=0.1
+SKILL=100.0
+SKILL=0.1,100.0
+AMOUNT=10,20
+AMOUNT=40
+AMOUNT=50
+REAP=i_log
+REGEN=180
+
+[REGIONRESOURCE mr_grass]
+AMOUNT=9,30
+REGEN=120
+REAP=i_hay_sheaf
+
+//[REGIONRESOURCE mr_granite1]
+//SKILL=90.0,100.0
+//AMOUNT=5
+//REAP=i_ore_iron
+//REGEN=60*10
+
+//[REGIONRESOURCE mr_granite2]
+//SKILL=90.0,100.0
+//AMOUNT=5
+//REAP=i_ore_iron
+//REGEN=60*10
+
+
+////////////////////////////////Defaultlar
+[REGIONTYPE r_default]
+// Unclaimed regions.
+ON=@ENTER
+	SRC.MUSIC=midi_britain1,midi_ForestA,midi_JungleA,midi_MountainA,midi_Plains,midi_Victory
+
+ON=@CLIPERIODIC
+	SRC.MUSIC=midi_britain1,midi_ForestA,midi_JungleA,midi_MountainA,midi_Plains,midi_Victory
+
+
+[REGIONTYPE r_default_rock t_rock]
+//RESOURCES=30.0 mr_nothing
+RESOURCES=30.0 mr_iron
+RESOURCES=15.5 mr_dull_copper
+RESOURCES=12.0 mr_copper
+RESOURCES=10.0 mr_bronze
+RESOURCES=8.0 mr_gold
+RESOURCES=7.0 mr_shadow
+RESOURCES=7.0 mr_agapite
+//RESOURCES=7.0 mr_granite1
+//RESOURCES=7.0 mr_granite2
+RESOURCES=7.0 mr_silver
+RESOURCES=6.0 mr_verite
+RESOURCES=5.5 mr_mytheril
+RESOURCES=5.5 mr_valorite
+RESOURCES=4.0 mr_bloodrock
+RESOURCES=2.5 mr_blackrock
+RESOURCES=3.0 mr_cont_define
+
+[REGIONTYPE r_default_water t_water]
+RESOURCES=4.0 mr_shoes
+RESOURCES=23.0 mr_fish1
+RESOURCES=23.0 mr_fish2
+RESOURCES=23.0 mr_fish3
+RESOURCES=23.0 mr_fish4
+RESOURCES=4.0 mr_fishx
+RESOURCES=2.0 mr_bottle_define
+
+[REGIONTYPE r_default_tree t_tree]
+// All tree produce wood by default.
+RESOURCES=90.0 mr_tree
+
+
+[REGIONTYPE r_default_grass t_grass]
+// All grass can be eaten by default.
+RESOURCES=1.0 mr_grass
+
+[REGIONTYPE r_water t_water]
+RESOURCES=4.0 mr_shoes
+RESOURCES=23.0 mr_fish1
+RESOURCES=23.0 mr_fish2
+RESOURCES=23.0 mr_fish3
+RESOURCES=23.0 mr_fish4
+RESOURCES=4.0 mr_fishx
+RESOURCES=2.0 mr_bottle_define
+
+ON=@REGPERIODIC
+	src.SFX={025,1,026,1,027,1,010,1,011,1,012,1,013,1}
+// mining - iron
+
+[REGIONTYPE r_brit t_rock]
+RESOURCES=30.0 mr_nothing
+RESOURCES=60.0 mr_iron
+RESOURCES=3.0 mr_shadow
+
+ON=@Enter
+SRC.MUSIC=midi_britain1,midi_britain2
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_britain1,midi_britain2
+
+[REGIONTYPE r_brit_castle]
+ON=@Enter
+SRC.MUSIC=midi_LBCastle
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_LBCastle
+
+[REGIONTYPE r_guard_tower]
+ON=@Enter
+SRC.MUSIC=midi_ForestA
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_ForestA
+
+[REGIONTYPE r_black_castle]
+ON=@Enter
+SRC.MUSIC=midi_BtCastle
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_BtCastle
+
+[REGIONTYPE r_bucs_den]
+RESOURCES=r_default_rock, r_default_water, r_default_tree
+
+[REGIONTYPE r_spooky t_rock]
+RESOURCES=64.0 mr_nothing
+RESOURCES=30.0 mr_iron
+RESOURCES=6.0 mr_shadow
+
+ON=@Enter
+SRC.MUSIC=midi_Approach
+ON=@CliPeriodic
+SRC.MUSIC=midi_Approach
+
+[REGIONTYPE r_dungeon t_rock]
+RESOURCES=64.0 mr_nothing
+RESOURCES=30.0 mr_iron
+RESOURCES=6.0 mr_shadow
+
+ON=@RegPeriodic
+SRC.SFX={021f,1,0243,1,0244,1,0245,1}
+
+[REGIONTYPE r_plains]
+// Plains night and day.
+ON=@RegPeriodic
+SRC.SFX={0a,1,0b,1}
+
+[REGIONTYPE r_forests]
+// Forest Day and night.
+
+ON=@RegPeriodic
+IF <SRC.sector.ISNIGHTTIME>
+SRC.SFX={00,2,01,2,02,2,07d,1}
+ELSE
+SRC.SFX={08,10,09,10,0219,1,07d,1}
+ENDIF
+
+[REGIONTYPE r_jungle]
+ON=@RegPeriodic
+IF <SRC.sector.ISNIGHTTIME>
+SRC.SFX={0c,2,0d,2,0b3,1}
+ELSE
+SRC.SFX={03,2,04,2,05,2,0b3,1}
+ENDIF
+
+[REGIONTYPE r_swamp t_rock]
+ON=@RegPeriodic
+SRC.SFX={0e,10,0f,10,022,1,023,1,024,1,0267,1}
+
+
+//------------------
+//REGION EVENTLARI
+//------------------
+
+// cities
+[REGIONTYPE r_cove]
+ON=@Enter
+SRC.MUSIC=midi_cove
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_cove
+
+
+[REGIONTYPE r_jhelom]
+ON=@Enter
+SRC.MUSIC=midi_jhelom
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_jhelom
+
+[REGIONTYPE r_magincia]
+ON=@Enter
+SRC.MUSIC=midi_magincia
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_magincia
+
+[REGIONTYPE r_minoc]
+ON=@Enter
+SRC.MUSIC=midi_minoc
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_minoc
+
+[REGIONTYPE r_moonglow]
+ON=@Enter
+SRC.MUSIC=midi_moonglow
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_moonglow
+
+
+[REGIONTYPE r_ocllo]
+ON=@Enter
+SRC.MUSIC=midi_ocllo
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_ocllo
+
+[REGIONTYPE r_serpents]
+ON=@Enter
+SRC.MUSIC=midi_serpents
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_serpents
+
+[REGIONTYPE r_skarabra]
+ON=@Enter
+SRC.MUSIC=midi_skarabra
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_skarabra
+
+[REGIONTYPE r_trinsic]
+ON=@Enter
+SRC.MUSIC=midi_trinsic
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_trinsic
+
+[REGIONTYPE r_vesper]
+ON=@Enter
+SRC.MUSIC=midi_vesper
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_vesper
+
+[REGIONTYPE r_wind]
+ON=@Enter
+SRC.MUSIC=midi_wind
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_wind
+
+[REGIONTYPE r_yew]
+ON=@Enter
+SRC.MUSIC=midi_yew
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_yew
+
+[REGIONTYPE r_green]
+ON=@Enter
+src.sysmessage hosgledin baps
+SRC.MUSIC=midi_tavern01,midi_tavern02,midi_tavern03,midi_tavern04,midi_samlethe
+
+ON=@CliPeriodic
+SRC.MUSIC=midi_tavern01,midi_tavern02,midi_tavern03,midi_tavern04,midi_samlethe
+
+// chaos & order
+[REGIONTYPE r_lbcastle]
+
+[REGIONTYPE r_btcastle]
+
+[REGIONTYPE r_papua]
+
+[REGIONTYPE r_events_jail]
+On=@Enter
+if (<src.findid.i_jailcik>) 
+src.events +e_jail
+src.events -e_house
+endif
+
+[regiontype r_duello_alan]
+On=@Enter
+if !(<src.npc>)
+	src.events +e_safes
+	if (<src.findid.i_rune_poison>)
+		src.findid.i_rune_poison.remove
+	endif
+endif
+
+On=@Exit
+src.events -e_safes
+
+[regiontype r_young_alan]
+On=@Enter
+if (<src.isplayer>)
+	src.events +e_young
+endif
+
+On=@Exit
+src.events -e_young
+
+[regiontype r_gzhp]
+On=@Enter
+if (<src.isplayer>) && !(<src.isgm>)
+	if !(<src.flags> & statf_dead)
+		IF (<SRC.HITS> < 35)
+			SRC.MOVEBACK
+			SRC.SYSHATA Canınız düşük iken şehre giremezsiniz.
+			RETURN 1
+		endif
+	ENDIF
+endif
+
+[regiontype r_orc]
+On=@Enter
+if (<src.isplayer>) && !(<src.isgm>)
+	IF !(<dSRC.ISPK>)
+		SRC.MOVEBACK
+		SRC.SYSHATA Sadece PK karakterler girebilir.
+		RETURN 1
+	ELSE
+
+	if !(<src.flags> & statf_dead)
+		IF (<SRC.HITS> < 35)
+			SRC.MOVEBACK
+			SRC.SYSHATA Canınız düşük iken şehre giremezsiniz.
+			RETURN 1
+		endif
+	ENDIF
+
+	ENDIF
+endif
+
+[regiontype r_isengard]
+On=@Enter
+if (<src.isplayer>) && !(<src.isgm>)
+	IF !(<dSRC.ISPK>)
+		SRC.MOVEBACK
+		SRC.SYSHATA Sadece PK karakterler girebilir.
+		RETURN 1
+	ELSE
+
+	if !(<src.flags> & statf_dead)
+		IF (<SRC.HITS> < 35)
+			SRC.MOVEBACK
+			SRC.SYSHATA Canınız düşük iken şehre giremezsiniz.
+			RETURN 1
+		endif
+	ENDIF
+
+	ENDIF
+endif
+
+
+[regiontype r_events_pazar]
+On=@Enter
+
+if !(<src.npc>)
+	src.events +e_pazar
+	if (<src.findid.i_rune_poison>)
+		src.findid.i_rune_poison.remove
+	endif
+endif
+
+On=@Exit
+src.events -e_pazar
+
+
+[events r_greenacres]
+
+[regiontype r_house_system]
+On=@Enter
+//IF (<SRC.HITS> < 35)
+//SRC.SYSHATA Canınız düşük iken eve giremezsiniz.
+//RETURN 1
+//ENDIF
+if (<src.findid.i_rune_summon_creature>)
+src.remove
+endif
+
+if (<src.isplayer>)
+	src.events +e_house
+endif
+
+if (<src.isevent.e_x_breakspell>)   //// rune book fix........
+	src.FINDID.i_rb_delay.REMOVE
+	src.FINDID.i_rb_delay2.REMOVE
+	src.EVENTS -e_x_breakspell
+	src.f_fizzle
+        src.syshata Evde recall ve gate büyülerini kullanamazsınız.
+ENDIF
+
+on=@step
+if (<src.findid.i_rune_summon_creature>)
+src.remove
+endif
+
+if (<src.isevent.e_x_breakspell>)   //// rune book fix........
+	src.FINDID.i_rb_delay.REMOVE
+	src.FINDID.i_rb_delay2.REMOVE
+	src.EVENTS -e_x_breakspell
+	src.f_fizzle
+        src.syshata Evde recall ve gate büyülerini kullanamazsınız.
+ENDIF
+
+On=@Exit
+if (<src.isevent.e_house>)
+	src.events -e_house
+endif
+
+[events e_pazar]
+
+
+[EOF]

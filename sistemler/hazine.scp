@@ -1,0 +1,503 @@
+﻿[Function F_CHEST_PLACE]
+FOR 1000
+Local.X=<R5000> // <EVAL RAND(1883,1937)>//<R5000> // 1649 2769
+Local.Y=<R4000> // <EVAL RAND(2134,2063)>//<R4000> // 1627 2777
+Args=<dLocal.X>,<dLocal.Y>,0,0
+IF !((<UID.<Serv.Map(<Args>).Region.UID>.Type> == T_Multi) || (<UID.<Serv.Map(<Args>).Region.UID>.Type> == T_Ship) || (<UID.<Serv.Map(<Args>).Region.UID>.Type> == T_Multi_Custom))
+IF !((STRMATCH(*CAMP*, <Serv.Map(<Args>).REGION.NAME>)) || (STRMATCH(*Wilderness*, <Serv.Map(<Args>).REGION.NAME>)) || (STRMATCH(*MOONGATE*, <Serv.Map(<Args>).REGION.NAME>)) || (STRMATCH(*MAZE*, <Serv.Map(<Args>).REGION.NAME>)) || (STRMATCH(*MORDOR*, <Serv.Map(<Args>).REGION.NAME>)) || (STRMATCH(*GRAVEYARD*, <Serv.Map(<Args>).REGION.NAME>)) || (STRMATCH(*CEMETARY*, <Serv.Map(<Args>).REGION.NAME>)))
+IF ((<Serv.Map(<Args>).Type> == T_Dirt) || (<Serv.Map(<Args>).Type> == T_Forest) || (<Serv.Map(<Args>).Type> == T_Grass) || (<Serv.Map(<Args>).Type> == T_Jungle)  || (<Serv.Map(<Args>).Type> == T_Snow) || (<Serv.Map(<Args>).Type> == T_Sand))
+IF !(<Serv.Map(<Args>).Region.Flags>&Region_Flag_Guarded|Region_Flag_Safe|Region_Flag_UnderGround|region_flag_nobuilding)
+IF !((<Serv.Map(<Args>).IsNearType T_multi 10>) || (<Serv.Map(<Args>).IsNearType T_foliage 3>) || (<Serv.Map(<Args>).IsNearType T_Normal 3>) || (<Serv.Map(<Args>).IsNearType T_Rock 2>) || (<Serv.Map(<Args>).IsNearType T_Wall 10>) || (<Serv.Map(<Args>).IsNearType T_Water 10>))
+IF !(<Serv.Map(<Args>).IsNearType T_Tree 2>)
+
+Serv.Newitem i_memory
+new.attr attr_invis
+New.P <Args>
+New.Fix
+Args <New.P>
+IF (<dNEW.F_SPAWN_CHECK>)
+New.Remove
+ELSE
+New.Remove
+SERV.NEWITEM I_HAZINE7
+NEW.ATTR ATTR_STATIC
+NEW.P <ARGS>
+NEW.UPDATE
+NEW.NAME world chest
+IF (RAND(50)==1)
+TRY F_CHEST_SET <NEW.UID>
+ENDIF
+//go <Args>
+return <Args>
+ENDIF
+Endif
+Endif
+Endif
+Endif
+Endif
+ENDIF
+ENDFOR
+
+[FUNCTION F_CHEST_SET]
+DORAND 5
+serv.newitem I_BOW_P
+serv.newitem I_FISHING_POLE_P
+serv.newitem I_STAFF_TAMING_P
+serv.newitem I_HATCHET_P
+serv.newitem I_PICKAXE_P
+ENDDO
+NEW.TIMER 259200
+NEW.CONT <ARGS>
+NEW.UPDATE
+
+
+
+
+
+[plevel 1]
+map
+
+[FUNCTION MAP]
+SYSYES Bulunduğunuz bölge: <REGION.NAME> [<P.X>,<P.Y>]
+SYSNORM Bağlantı programından haritaya ulaşabilirsiniz.
+return 1
+
+[ITEMDEF i_hazine_kasa]
+NAME=treaure chest
+ID=i_chest_metal_brass
+WEIGHT=3
+type=t_container
+
+on=@create
+color 0846
+attr attr_static
+
+on=@dclick
+if (<eval <tag.acik>> == 1)
+return 0
+else
+src.syshata Bu kasayı sadece lockpick ile açabilirsiniz.
+return 1
+endif
+
+[itemdef i_cont_define]
+NAME=treasure box
+DEFNAME=i_cont_define
+ID=i_box_brass
+TYPE=t_script
+SKILLMAKE MINING 100.0
+weight 1
+value 0
+
+ON=@CREATE
+COLOR 070d
+
+ON=@CLICK
+message @038a,,1 a treasure box
+return 1
+
+ON=@DCLICK
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid>==<src.uid>)
+src.syshata Bunu kullanabilmeniz için çantanızda olmalıdır.
+return 1
+endif
+
+SRC.SAY_TRK * kutuyu kırar *
+SERV.newitem i_map_of_treasure
+src.new.bounce
+IF !((strmatch(´<SRC.TAG0.IRK>´,´Elf´))
+TRY NEW.f_treasure_selection
+ELSE
+TRY NEW.f_treasure_selection_elf
+ENDIF
+src.sysyes Bilinmeyen bir kağıt parçası çıktı.
+remove
+return 1
+
+[itemdef i_bottle_define]
+NAME=sos bottle
+DEFNAME=i_bottle_define
+ID=i_bottle
+TYPE=t_script
+weight 1
+value 0
+
+ON=@CREATE
+COLOR 070d
+
+ON=@CLICK
+message @038a,,1 a sos bottle
+return 1
+
+on=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid>==<src.uid>)
+src.syshata Bunu kullanabilmeniz için çantanızda olmalıdır.
+return 1
+endif
+
+SRC.SAY_TRK * şişeyi kırar *
+SERV.newitem i_map_of_treasure
+src.new.bounce
+IF !((strmatch(´<SRC.TAG0.IRK>´,´Elf´))
+TRY NEW.f_treasure_selection
+ELSE
+TRY NEW.f_treasure_selection_elf
+ENDIF
+src.sysyes Bilinmeyen bir kağıt parçası çıktı.
+remove
+return 1
+
+[itemdef i_map_of_treasure]
+NAME=treasure map
+ID=i_map_rolled
+value 0
+TYPE=t_normal
+WEIGHT=3
+
+ON=@Create
+tag.status=açılmamış
+color=06aa
+
+on=@click
+message @03a,,1 [<tag.status>]
+message @038a,,1 a <name>
+return 1
+
+on=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<topobj.uid>==<src.uid>)
+src.syshata Bunu sadece çantanızdayken kullanabilirsiniz.
+return 1
+elif (<src.cartography> < 98.0)
+src.syshata Haritayı okuyabilmek için 98.0 Cartography yeteneğiniz olmalıdır.
+return 1
+elif (<more1>)
+src.syshata Bu hazine daha önce bulunmuş.
+src.arrowquest
+remove
+return 1
+endif
+
+if (<dmore2>)
+	IF !(<TAG.MOREP>==<SRC.UID>)
+	src.syshata Bu harita başkası tarafından açılmış.
+	ELIF !(<SRC.DISTANCE <eval <morex>>,<eval <morey>>> <= 5)
+		SRC.ARROWQUEST <morex>,<morey>
+		SRC.SYSNORM Connector map eklentisine koordinatı girerek hazine konumuna ulaşabilirsiniz.
+		SRC.SYSYES Hazine konumu: <serv.map(<eval <morex>>,<eval <morey>>,0).region.name> [<dmorex>,<dmorey>]
+	ELIF !(<SRC.FINDID.I_SHOVEL>)
+		SRC.SYSHATA Hazineyi çıkarabilmek için shovel gereklidir.
+	ELSE
+		SRC.SYSHATA Hazine koruyucuları 5 saniye içerisinde ortaya çıkacak!
+		SRC.ARROWQUEST
+		SRC.CTAG0.HAZINEP <morex>,<morey>
+		SRC.TIMERF 5, SRC.F_HAZINE_CIKAR <DTAG0.HLEVEL>
+		REMOVE
+	ENDIF
+return 1
+endif
+
+IF !(RAND(3))
+MORE2=1
+TAG.MOREP <SRC.UID>
+src.sysyes Haritada hazinenin yerini buldunuz.
+tag.status=açılmış
+dispid=i_map
+attr=attr_newbie
+update
+ELSE
+src.syshata Haritada hazinenin yerini bulamadınız.
+ENDIF
+RETURN 1
+
+
+[DEFNAME HLEVEL]
+HLEVEL1 0840
+HLEVEL2 084A
+HLEVEL3 0846
+
+[function f_treasure_selection]
+MOREP=<F_SPAWN_PLACE>
+TAG0.HLEVEL <EVAL RAND(1,3)>
+COLOR <dDEF.HLEVEL<dTAG0.HLEVEL>>
+NAME <name> [level <dTAG0.HLEVEL>]
+UPDATE
+
+[function f_treasure_selection_elf]
+MOREP=<F_SPAWN_PLACE>
+DORAND 5
+TAG0.HLEVEL 1
+TAG0.HLEVEL 2
+TAG0.HLEVEL 2
+TAG0.HLEVEL 3
+TAG0.HLEVEL 3
+ENDDO
+COLOR <dDEF.HLEVEL<dTAG0.HLEVEL>>
+NAME <name> [level <dTAG0.HLEVEL>]
+UPDATE
+
+[FUNCTION F_HAZINE_CIKAR]
+LOCAL.P <SRC.CTAG0.HAZINEP>
+
+DORAND 2
+TRYSRV serv.newnpc C_M_BALRON
+TRYSRV serv.newnpc C_WYRM_ANCIENT
+ENDDO
+new.p=<LOCAL.P>
+new.fix
+new.home=<new.p>
+NEW.TAG0.HLEVEL <dARGS>
+NEW.TAG0.HAZINEOWNER <SRC.UID>
+new.homedist 3
+new.events +e_treasure_chest
+new.removetimer <EVAL 60*30>
+
+DORAND 2
+TRYSRV serv.newnpc C_ROTTING
+TRYSRV serv.newnpc C_M_KRAKEN
+ENDDO
+new.p=<LOCAL.P>
+new.fix
+new.home=<new.p>
+NEW.TAG0.HLEVEL <dARGS>
+new.homedist 3
+new.removetimer <EVAL 60*30>
+
+DORAND 2
+TRYSRV serv.newnpc C_ROTTING
+TRYSRV serv.newnpc C_M_KRAKEN
+ENDDO
+new.p=<LOCAL.P>
+new.fix
+new.home=<new.p>
+NEW.TAG0.HLEVEL <dARGS>
+new.homedist 3
+new.removetimer <EVAL 60*30>
+
+DORAND 3
+TRYSRV serv.newnpc C_GAZER
+TRYSRV serv.newnpc C_HARPY
+TRYSRV serv.newnpc C_LICHE_ANCIENT
+ENDDO
+new.p=<LOCAL.P>
+new.fix
+new.home=<new.p>
+NEW.TAG0.HLEVEL <dARGS>
+new.homedist 3
+new.removetimer <EVAL 60*30>
+
+DORAND 3
+TRYSRV serv.newnpc C_GAZER
+TRYSRV serv.newnpc C_HARPY
+TRYSRV serv.newnpc C_LICHE_ANCIENT
+ENDDO
+new.p=<LOCAL.P>
+new.fix
+new.home=<new.p>
+NEW.TAG0.HLEVEL <dARGS>
+new.homedist 3
+new.removetimer <EVAL 60*30>
+
+DORAND 3
+TRYSRV serv.newnpc C_GAZER
+TRYSRV serv.newnpc C_HARPY
+TRYSRV serv.newnpc C_LICHE_ANCIENT
+ENDDO
+new.p=<LOCAL.P>
+new.fix
+new.home=<new.p>
+NEW.TAG0.HLEVEL <dARGS>
+new.homedist 3
+new.removetimer <EVAL 60*30>
+
+SRC.CTAG0.HAZINEP
+src.arrowquest
+
+[DIALOG d_treasure_map] 
+30,50
+PAGE 0
+resizepic 0 0 5054 830 627
+
+gumppic 8 8 45
+tilepichue <EVAL (0+((<SRC.P.X>*230)/1337)-3)> <EVAL (0+((<SRC.P.Y>*160)/1067)-30)> <SRC.ICON> <EVAL 035>//2361
+dtext <EVAL (28+((<SRC.P.X>*230)/1337))> <EVAL (3+((<SRC.P.Y>*160)/1067))> 0481 <SRC.NAME>
+
+tilepichue <EVAL (7+((<eval <morex>>*230)/1337))> <EVAL (16+((<eval <morey>>*230)/1067))> <SERV.ITEMDEF.i_chest_metal.ID> <eval <COLOR>>
+
+gumppic 15 600 9009
+dtext 30 597 0481 Hazine konumu: 
+dtext 135 597 70 <serv.map(<eval <morex>>,<eval <morey>>,0).region.name> [<eval <morex>>,<eval <morey>>]
+
+//////////////////
+
+[events e_treasure_chest]
+ON=@DEATHCORPSE
+LOCAL.HLEVEL <dTAG0.HLEVEL>
+serv.newitem i_hazine_kasa
+LOCAL.KASA <NEW.UID>
+NEW.COLOR <dDEF.HLEVEL<dTAG0.HLEVEL>>
+new.attr=attr_decay|attr_move_never
+new.p=<argo.p>
+NEW.Z <ARGO.P.Z>
+NEW.FIX
+new.timer=360
+
+SERV.NEWITEM I_POTION_HEALGREAT
+NEW.AMOUNT {3 7}
+new.cont <local.kasa>
+SERV.NEWITEM I_POTION_CUREGREAT
+NEW.AMOUNT {3 7}
+new.cont <local.kasa>
+
+IF (<DLOCAL.HLEVEL> == 3)
+
+	IF (rand(4) == 1)
+		serv.newitem tc_crystal
+		new.cont <local.kasa>
+	ENDIF
+
+	IF (rand(4) == 1)
+		serv.newitem i_ostard_egg
+		new.cont <local.kasa>
+	ENDIF
+
+	IF (rand(2) == 1)
+		SERV.NEWITEM RANDOM_WEAPON_VANQ
+		new.cont <local.kasa>
+	ENDIF
+
+		serv.newitem tc_mr
+		new.cont <local.kasa>
+
+	IF (rand(3) == 1)
+		serv.newitem tc_stud
+		new.cont <local.kasa>
+	ENDIF
+
+	IF (rand(2) == 1)
+		serv.newitem tc_shield
+		new.cont <local.kasa>
+	ENDIF
+
+	IF (rand(2) == 1)
+		serv.newitem tc_plate
+		new.cont <local.kasa>
+	ENDIF
+
+	serv.newitem i_gold
+	new.amount {40000 60000}
+	new.cont <local.kasa>
+
+ELSEIF (<DLOCAL.HLEVEL> == 2)
+
+
+	IF (rand(5) == 1)
+		serv.newitem i_ostard_egg
+		new.cont <local.kasa>
+	ENDIF
+
+
+	IF (rand(5) == 1)
+		serv.newitem tc_crystal
+		new.cont <local.kasa>
+	ENDIF
+
+	IF (rand(2) == 1)
+		serv.newitem RANDOM_WEAPON_POWER
+		new.cont <local.kasa>
+	ENDIF
+
+		serv.newitem tc_mr
+		new.cont <local.kasa>
+
+	IF (rand(4) == 1)
+		serv.newitem tc_stud
+		new.cont <local.kasa>
+	ENDIF
+
+	IF (rand(3) == 1)
+		serv.newitem tc_shield
+		new.cont <local.kasa>
+	ENDIF
+
+	IF (rand(3) == 1)
+		serv.newitem tc_plate
+		new.cont <local.kasa>
+	ENDIF
+
+	serv.newitem i_gold
+	new.amount {20000 40000}
+	new.cont <local.kasa>
+
+ELSE
+
+
+	IF (rand(6) == 1)
+		serv.newitem i_ostard_egg
+		new.cont <local.kasa>
+	ENDIF
+
+
+	IF (rand(6) == 1)
+		serv.newitem tc_crystal
+		new.cont <local.kasa>
+	ENDIF
+
+		serv.newitem RANDOM_WEAPON_FORCE
+		new.cont <local.kasa>
+
+		serv.newitem tc_mr
+		new.cont <local.kasa>
+
+	IF (rand(5) == 1)
+		serv.newitem tc_stud
+		new.cont <local.kasa>
+	ENDIF
+
+	IF (rand(3) == 1)
+		serv.newitem tc_shield
+		new.cont <local.kasa>
+	ENDIF
+
+	IF (rand(3) == 1)
+		serv.newitem tc_plate
+		new.cont <local.kasa>
+	ENDIF
+
+	serv.newitem i_gold
+	new.amount {10000 20000}
+	new.cont <local.kasa>
+
+ENDIF
+
+if (<DB.connected>)
+db.query insert into sonolaylar (id, date, type, char1, char1uid, char2, char2uid, region, blabla) VALUES ('', '<F_DATE> <F_HOUR>:<F_MINUTE>', 'treasure', '<addslashes <UID.<TAG0.HAZINEOWNER>.FULLNAME>>', '<dTAG0.HAZINEOWNER>', '', '', '<addslashes <REGION.NAME>>', '')
+endif
+
+try uid.<argo.uid>.move nw 4
+//try uid.<argo.uid>.empty
+//try uid.<argo.uid>.remove
+
+///////////////////
+
+[FUNCTION removetimer]
+SERV.NEWITEM i_removetimer_mem
+EQUIP <NEW>
+NEW.TIMER=<ARGN1>
+
+[ITEMDEF i_removetimer_mem]
+ID=i_memory
+NAME=remove timer
+TYPE=t_eq_script
+
+ON=@Timer
+cont.remove
+return 1

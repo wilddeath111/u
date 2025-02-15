@@ -1,0 +1,114 @@
+﻿[plevel 1]
+unvansec
+titlesec
+
+[function titlesec]
+IF (<SRC.HITS> < 1)
+	SYSHATA Ölüyken kullanamazsınız.
+	RETURN 1
+ENDIF
+
+sdialog d_title
+
+[Function unvansec]
+TITLESEC
+
+
+[dialog D_TITLE]
+-150,20
+
+LOCAL.RESIZE 110
+
+FOR X 0 48
+IF (<SRC.<SERV.SKILL.<DLOCAL.X>.NAME>> > 980)
+LOCAL.ELEM <DLOCAL.ELEM>+1
+ENDIF
+ENDFOR
+
+IF !((<ISEMPTY <SRC.TAG0.IRK>>) || (<ISNUM <SRC.TAG0.IRK>>))
+LOCAL.ELEM <DLOCAL.ELEM>+1
+ENDIF
+
+LOCAL.ELEM <EVAL <DLOCAL.ELEM>>-1
+
+IF !(<DLOCAL.ELEM>)
+resizepic 240 25 5100 270 <DLOCAL.RESIZE>
+ELSE
+LOCAL.ELEM <EVAL <DLOCAL.ELEM>*20>
+resizepic 240 25 5100 270 <EVAL <DLOCAL.RESIZE>+<DLOCAL.ELEM>>
+ENDIF
+
+dtext 260 45 035 <serv.name> Title Seçme Ekranı
+gumppictiled 248 70 256 1 2417
+
+IF !((<ISEMPTY <SRC.TAG0.IRK>>) || (<ISNUM <SRC.TAG0.IRK>>))
+dtext 290 80 1152 Irk Title [The <src.tag0.irk>] // [<SERV.SKILL.<DLOCAL.X>.TITLE>]
+button 260 78 4005 4006 1 0 50
+ENDIF
+
+LOCAL.SAY 1
+
+FOR X 0 48
+IF (<SRC.<SERV.SKILL.<DLOCAL.X>.NAME>> > 980)
+	LOCAL.FIX 1
+	LOCAL.SAY ++
+	LOCAL.Y <EVAL (58+<EVAL <DLOCAL.SAY>*20>)>
+	LOCAL.TITLE <SERV.SKILL.<DLOCAL.X>.TITLE>
+	FOR s 1 <eval (strlen(<SERV.SKILL.<DLOCAL.X>.TITLE>))-1>
+	IF (strmatch('%','<strsub <eval <local.s>> 1 <SERV.SKILL.<DLOCAL.X>.TITLE>>'))
+	LOCAL.TITLE <F_EXPLODE <EXPLODE %,<SERV.SKILL.<DLOCAL.X>.TITLE>>><SRC.sex man/woman>
+	ENDIF
+ENDFOR
+
+	dtext 290 <EVAL <DLOCAL.Y>+2> 1152 <SERV.SKILL.<DLOCAL.X>.NAME> [<LOCAL.TITLE>] // [<SERV.SKILL.<DLOCAL.X>.TITLE>]
+//	dtext 360 <EVAL <DLOCAL.Y>+2> 1152 - <SERV.SKILL.<DLOCAL.X>.TITLE>
+	button 260 <DLOCAL.Y> 4005 4006 1 0 <eval <DLOCAL.X>+1>
+ENDIF
+ENDFOR
+
+//IF !(<DLOCAL.FIX>)
+//dtext 260 108 33 Grandmaster seviyesinde skill
+//dtext 260 128 33 bulunmuyor.
+//ENDIF
+
+//dtext 610 <DLOCAL.Y> 035 Vazgeç
+//button 578 <eval <DLOCAL.Y>-2> 4005 4006 1 0 1
+
+[Dialog D_TITLE button]
+
+ONBUTTON 1 49
+LOCAL.ARGN <EVAL <DARGN>-1>
+IF (<SRC.HITS> < 1)
+SRC.SYSHATA Ölüyken kullanamazsınız.
+RETURN 1
+ENDIF
+LOCAL.TITLE <SERV.SKILL.<DLOCAL.ARGN>.TITLE>
+
+IF (<SRC.<SERV.SKILL.<DLOCAL.ARGN>.NAME>> > 97.9)
+FOR s 1 <eval (strlen(<SERV.SKILL.<DLOCAL.ARGN>.TITLE>))-1>
+IF (strmatch('%','<strsub <eval <local.s>> 1 <SERV.SKILL.<DLOCAL.ARGN>.TITLE>>'))
+LOCAL.TITLE <F_EXPLODE <EXPLODE %,<SERV.SKILL.<DLOCAL.ARGN>.TITLE>>><SRC.sex man/woman>
+ENDIF
+ENDFOR
+
+SRC.SYSYES Ünvanınız başarıyla değiştirilmiştir.
+
+//SRC.TITLE Grandmaster <SERV.SKILL.<DLOCAL.ARGN>.TITLE>
+SRC.TITLE Grandmaster <LOCAL.TITLE>
+SRC.TAG0.TITLE <LOCAL.TITLE>
+
+ELSE
+
+SRC.SYSHATA Seçtiğiniz skill 98.0'ın altındadır.
+
+ENDIF
+
+ONBUTTON 50
+IF (<SRC.HITS> < 1)
+SRC.SYSHATA Ölüyken kullanamazsınız.
+RETURN 1
+ENDIF
+SRC.SYSYES Ünvanınız başarıyla değiştirilmiştir.
+
+SRC.TITLE The <src.tag0.irk>
+SRC.TAG0.TITLE The <src.tag0.irk>

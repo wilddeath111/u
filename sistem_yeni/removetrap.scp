@@ -1,0 +1,172 @@
+
+[ITEMDEF i_rt_aparat]
+DEFNAME=i_rt_aparat
+id i_axel
+name trap remover
+TYPE=T_normal
+FLIP=1
+RESOURCES=1 i_ingot_iron
+VALUE=19
+WEIGHT=1
+
+on=@create
+color 07a1
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+ON=@dclick 
+target
+src.sysnorm Hangi kasadaki tuzağı çözeceksiniz?
+return 1
+
+on=@targon_char
+RETURN 1
+
+on=@targon_GROUND
+RETURN 1
+
+on=@targon_item //eklenecek adam hide ise invis ise 
+if (<src.targ.tag.trapped> == 1)  //tuzaklı kasa
+	if (<src.targ.distance> > 2) //distance check
+		src.syshata Kasaya çok uzaktasınız.
+		return 1
+	endif
+	if (strmatch(*_cont*,'<src.targ.baseid>'))
+		if (<src.removetrap> > 98.0)
+			src.sayua 070d,6,6,0 *tuzağı çözer*
+			src.sysyes Kasa'nın tuzağını başarıyla etkisiz hale getirdiniz.
+			src.sound 242
+			SRC.CONSUME 1 i_rt_aparat
+			src.targ.tag.trapped 2
+			return 1
+		else
+			src.syshata Bunun için 98.0 Removetrap yeteneği gerekmektedir.
+			return 1
+			endif
+	endif
+
+if (<src.removetrap><30.0) //acilma randlari
+	IF RAND(2)==1
+		src.syshata Tuzağı çözmeye çalışırken aparat kırıldı.
+		SRC.CONSUME 1 i_rt_aparat
+		src.sound 242
+		return 1
+	endif
+elseif (<src.removetrap><40.0)
+	IF RAND(2)==1
+		src.syshata Tuzağı çözmeye çalışırken aparat kırıldı.
+		SRC.CONSUME 1 i_rt_aparat
+		src.sound 242
+		return 1
+	endif
+elseif (<src.removetrap><50.0)
+	IF RAND(2)==1
+		SRC.CONSUME 1 i_rt_aparat
+		src.sound 242
+		src.syshata Tuzağı çözmeye çalışırken aparat kırıldı.
+		return 1
+	endif
+elseif (<src.removetrap><60.0)
+	IF RAND(4)==1
+		SRC.CONSUME 1 i_rt_aparat
+		src.sound 242
+		src.syshata Tuzağı çözmeye çalışırken aparat kırıldı.
+		return 1
+	endif
+elseif (<src.removetrap><70.0)
+	IF RAND(6)==1
+		src.sound 242
+		SRC.CONSUME 1 i_rt_aparat
+		src.syshata Tuzağı çözmeye çalışırken aparat kırıldı.
+		return 1
+	endif
+elseif (<src.removetrap><80.0)
+	IF RAND(8)==1
+		src.sound 242
+		SRC.CONSUME 1 i_rt_aparat
+		src.syshata Tuzağı çözmeye çalışırken aparat kırıldı.
+		return 1
+	endif
+elseif (<src.removetrap><90.0)
+	IF RAND(10)==1
+		src.sound 242
+		src.syshata Tuzağı çözmeye çalışırken aparat kırıldı.
+		SRC.CONSUME 1 i_rt_aparat
+		return 1
+	endif
+elseif (<src.removetrap><98.0)
+	IF RAND(15)==1
+		src.syshata Tuzağı çözmeye çalışırken aparat kırıldı.
+		src.sound 242
+		SRC.CONSUME 1 i_rt_aparat
+		return 1
+	endif
+endif
+
+
+//kasayi ac
+src.sayua 070d,6,6,0 *tuzağı çözer*
+src.gaintpskill
+if !(strmatch(*_cont*,'<src.targ.baseid>'))
+src.targ.timer 60*2
+endif
+src.targ.tag.trapped 2
+
+else
+	src.syshata Trap Remover'ı bunun üzerinde kullanamazsınız.
+endif
+return 1
+
+[plevel 1]
+TrapCoz
+
+[function trapcoz]
+if (<src.removetrap> < 1000)
+	src.syshata Bu özelliği kullanabilmek için 100.0 RemoveTrap yeteneğine ihtiyacınız bulunmaktadır.
+	return 1
+endif
+if (<src.tag0.kullandim> == 1
+	src.syshata Bu özelliği her 5 dakikada bir kullanabilirsiniz.
+	return 1
+else
+	foritems 0
+		if (<baseid> == i_fx_field_paralyze)
+			local.pfield 1
+		endif
+	endfor
+	foritems 1
+		if (<type> == t_spell)
+			local.traps ++
+		endif
+	endfor
+	if (<src.flags>&statf_dead|statf_freeze|statf_stone) && (<dlocal.pfield> < 1)
+		src.syshata Şuanki durumunuzda bu özellikten yararlanamazsınız !
+		return 1
+	endif
+	if (<dlocal.traps> >= 1)
+		foritems 1
+			if (<type> == t_spell)
+				remove
+			endif
+		endfor
+		src.sayua 070d,6,6,0 *büyülü enerji tuzaklarını kaldırır*
+		if (<dlocal.pfield> = 1)
+			if (<src.findlayer(2).baseid> == i_shield_pve2)
+				src.findlayer(2).unequip
+			endif
+		src.damage 1 <src.uid>
+		endif
+		src.tag.kullandim 1
+		timerf 300,src.tag.kullandim 0
+	else
+		src.syshata Çevrenizde tuzak bulunmuyor.
+		return 1
+	endif
+endif

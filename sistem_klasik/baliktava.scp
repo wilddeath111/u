@@ -1,0 +1,95 @@
+﻿//------------------
+// BALIK TAVASI
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+
+[itemdef 097f]
+Name=high quality fish pan
+Defname=i_tava_balik2
+weight=6
+TYPE=t_script
+VALUE=15000
+
+ON=@CREATE
+COLOR=084a
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 <NAME>
+ENDIF
+RETURN 1
+
+
+ON=@DCLICK
+IF (<DISTANCE> > 2)
+	SRC.SYSHATA Yeterince yakın değilsiniz.
+ELSEIF (<DSRC.CTAG.BALIK>)
+	src.syshata Tavayı kullanabilmek için biraz beklemelisiniz.
+//elseif (<SRC.COOKING> < 75.0)
+//	src.syshata Tavayı kullanabilmek için 75.0 Cooking yeteneğine sahip olmalısınız.
+else
+	IF (<SRC.RESTEST 250 i_fish_cut_raw>)
+	SRC.CONSUME=250 i_fish_cut_raw
+	SRC.NEWITEM=i_fish_cut_cooked
+	SRC.ACT.AMOUNT 250
+	SRC.ACT.BOUNCE
+//	SRC.CTAG.BALIK 1
+//	SRC.TIMERF 1,SRC.CTAG.BALIK
+	ELSE 
+	SRC.syshata Çantanızda 250 dilim balık bulunmuyor.
+	endif
+endif
+return 1
+
+
+
+[itemdef=i_tava_balik]
+Name=balik tavasi
+Defname=i_tava_balik
+id=i_moulding_board
+weight=6
+TYPE=t_script
+RESOURCES=16 i_log
+SKILLMAKE=Carpentry 100.0
+VALUE=15000
+
+ON=@CREATE
+COLOR=0
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+ON=@DCLICK
+IF (<DISTANCE> > 2)
+	SRC.SYSHATA Yeterince yakın değilsiniz.
+ELSEIF (<DSRC.CTAG.BALIK>)
+	src.syshata Tavayı kullanabilmek için biraz beklemelisiniz.
+//elseif (<SRC.COOKING> < 75.0)
+//	src.syshata Tavayı kullanabilmek için 75.0 Cooking yeteneğine sahip olmalısınız.
+else
+	IF (<SRC.RESTEST 50 i_fish_cut_raw>)
+	SRC.CONSUME=50 i_fish_cut_raw
+	SRC.NEWITEM=i_fish_cut_cooked
+	SRC.ACT.AMOUNT 50
+	SRC.ACT.BOUNCE
+//	SRC.CTAG.BALIK 1
+//	SRC.TIMERF 1,SRC.CTAG.BALIK
+	ELSE 
+	SRC.syshata Çantanızda 50 dilim balık bulunmuyor.
+	endif
+endif
+return 1
+
+
+[EOF]

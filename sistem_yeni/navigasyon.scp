@@ -1,0 +1,228 @@
+﻿[DEFNAME navigation_options]
+nav_vend_1 c_h_cook
+nav_vend_1_name Cooker
+nav_vend_2 c_h_tailor
+nav_vend_2_name Tailor
+nav_vend_3 c_h_tinker
+nav_vend_3_name Tinker
+nav_vend_4 c_h_butcher
+nav_vend_4_name Butcher
+nav_vend_5 c_h_healer
+nav_vend_5_name Healer
+nav_vend_6 c_h_mageshop
+nav_vend_6_name Mage
+nav_vend_7 c_h_carpenter
+nav_vend_7_name Carpenter
+nav_vend_8 c_h_BANKER
+nav_vend_8_name Banker
+nav_vend_9 c_h_innkeeper
+nav_vend_9_name Innkeeper
+nav_vend_10 c_h_shipwright
+nav_vend_10_name Shipwright
+nav_vend_11 c_h_animaltrainer
+nav_vend_11_name Animal Trainer
+nav_vend_12 c_h_provis
+nav_vend_12_name Provisioner
+nav_vend_13 c_h_bard
+nav_vend_13_name Bard
+nav_vend_14 c_h_bowyer
+nav_vend_14_name Bowyer
+nav_vend_15 c_h_armorer
+nav_vend_15_name Armorer
+nav_vend_16 c_h_jeweler
+nav_vend_16_name Jeweler
+nav_vend_17 c_h_tavernkeeper
+nav_vend_17_name Tavernkeeper
+nav_vend_18 c_h_blacksmith
+nav_vend_18_name Blacksmith //0bc8
+
+nav_vend_20 c_h_teacher
+nav_vend_20_name Teacher
+nav_vend_21 c_dummy
+nav_vend_21_name Skill Dummy
+nav_vend_22 c_tuccar
+nav_vend_22_name Merchant
+
+
+[PLEVEL 1]
+NAVIGASYON
+
+[FUNCTION NAVIGASYON]
+IF (<SRC.FINDID.I_NAVIGASYON>)
+SRC.SYSNORM Mevcut navigasyon işleminiz iptal edildi.
+SRC.FINDID.I_NAVIGASYON.REMOVE
+SRC.ARROWQUEST
+ENDIF
+
+SDIALOG D_NAVIGASYON
+
+[DIALOG d_navigasyon]
+110,35  
+page 0
+dtext 250 10 55 Ev Sistemi
+
+F_DEF_DIALOG 0,0,420,382
+
+//resizepic 10 10 3000 400 30
+dtext 140 15 55 <serv.name> Navigasyon Sistemi
+
+//resizepic 10 41 3000 400 30
+dtext 15 45 <def.yrenk> Bulmak istediğiniz vendor veya bölgeyi aşağıdan seçebilirsiniz.
+
+//resizepic 10 72 3000 400 300
+
+button 30 80 <def.bno> 1 0 1
+tilepic 50 80 2980
+button 90 80 <def.bno> 1 0 2
+tilepic 110 80 2982
+button 150 80 <def.bno> 1 0 3
+tilepic 170 80 2984
+button 210 80 <def.bno> 1 0 4
+tilepic 230 80 2986
+button 270 80 <def.bno> 1 0 5
+tilepic 290 80 2988
+button 330 80 <def.bno> 1 0 6
+tilepic 350 80 2990
+button 30 140 <def.bno> 1 0 7
+tilepic 50 140 2992
+button 90 140 <def.bno> 1 0 8
+tilepic 110 140 0c0c
+button 150 140 <def.bno> 1 0 9
+tilepic 170 140 2996
+button 210 140 <def.bno> 1 0 10
+tilepic 230 140 2998
+button 270 140 <def.bno> 1 0 11
+tilepic 290 140 3000
+button 330 140 <def.bno> 1 0 12
+tilepic 350 140 0bcc
+button 30 200 <def.bno> 1 0 13
+tilepic 50 200 3004
+button 90 200 <def.bno> 1 0 14
+tilepic 110 200 3006
+button 150 200 <def.bno> 1 0 15
+tilepic 170 200 3008
+button 210 200 <def.bno> 1 0 16
+tilepic 230 200 3010
+button 270 200 <def.bno> 1 0 17
+tilepic 290 200 3012
+button 330 200 <def.bno> 1 0 18
+tilepic 350 200 0bc8
+//button 30 260 <def.bno> 1 0 19
+//tilepic 50 260 0c0c
+
+button 30 260 <def.bno> 1 0 20
+dtext 60 262 70 Teacher
+button 30 280 <def.bno> 1 0 22
+dtext 60 282 70 Merchant
+button 30 300 <def.bno> 1 0 21
+dtext 60 302 70 Skill Dummy
+button 30 320 <def.bno> 1 0 101
+dtext 60 322 100 Moongate
+button 30 340 <def.bno> 1 0 102
+dtext 60 342 35 Rohan Köprü (action bölgesi)
+
+
+button 280 340 <def.bno> 1 0 0
+dtext 310 342 <def.yrenk> Kapat
+
+
+[DIALOG d_navigasyon button]
+
+ON=1 100
+IF (<ISEMPTY <DEF.NAV_VEND_<dARGN>>>)
+SRC.SYSHATA Sistemde bir sorun meydana geldi. Lütfen page atınız.
+RETURN 1
+ENDIF
+
+FORCHARS 250
+IF ((<ID>==<DEF.NAV_VEND_<dARGN>>) || (<ID>==<DEF.NAV_VEND_<dARGN>>_F))
+SRC.ARROWQUEST <P.X>,<P.Y>,<P.Z>
+SRC.SYSYES En yakın <DEF.NAV_VEND_<dARGN>_NAME> için oku takip edin.
+SRC.SYSYES İptal etmek için tekrar .navigasyon yazabilirsiniz.
+SERV.NEWITEM I_NAVIGASYON
+SRC.NEW.TAG0.NAVUID <UID>
+SRC.EQUIP <NEW>
+SRC.TIMERF 1200, SRC.F_NAV_CANCEL
+RETURN 1
+ENDIF
+ENDFOR
+
+SRC.SYSHATA Bu bölgede <DEF.NAV_VEND_<dARGN>_NAME> bulunmuyor.
+
+ON=101
+FORITEMS 250
+IF (<BASEID>==I_TRAVGATE)
+SRC.ARROWQUEST <P.X>,<P.Y>,<P.Z>
+SRC.SYSYES Oku takip ederek en yakın moongate noktasına gidebilirsiniz.
+SRC.SYSYES İptal etmek için tekrar .navigasyon yazabilirsiniz.
+SERV.NEWITEM I_NAVIGASYON
+SRC.NEW.TAG0.NAVUID <UID>
+SRC.EQUIP <NEW>
+SRC.TIMERF 1200, SRC.F_NAV_CANCEL
+RETURN 1
+ENDIF
+ENDFOR
+
+SRC.SYSHATA Bu bölgede size yakın bir moongate bulunmuyor.
+
+ON=102
+FORINSTANCES I_ROHANKOPRU
+SRC.ARROWQUEST <P.X>,<P.Y>,<P.Z>
+SRC.SYSYES Oku takip ederek Rohan köprü bölgesine gidebilirsiniz.
+SRC.SYSYES İptal etmek için tekrar .navigasyon yazabilirsiniz.
+SERV.NEWITEM I_NAVIGASYON
+SRC.NEW.TAG0.NAVUID <UID>
+SRC.EQUIP <NEW>
+SRC.TIMERF 1200, SRC.F_NAV_CANCEL
+RETURN 1
+ENDFOR
+
+[itemdef i_rohankopru]
+name=rohan kopru item
+id=i_crystal_red
+type=t_script
+
+ON=@create
+attr=attr_move_never|attr_can_decay|attr_invis
+color 0810
+
+ON=@timer
+return 1
+
+ON=@dclick
+return 1
+
+[FUNCTION F_NAV_CANCEL]
+IF (<SRC.FINDID.I_NAVIGASYON>)
+SRC.SYSNORM 20 dakika boyunca gösterilen bölgeye ulaşmadığınız için navigasyon işlemi iptal edildi.
+SRC.FINDID.I_NAVIGASYON.REMOVE
+SRC.ARROWQUEST
+ENDIF
+
+[itemdef I_NAVIGASYON] 
+id=i_memory 
+type=t_eq_script 
+name=res timer 
+on=@create 
+attr attr_newbie 
+attr attr_decay 
+
+on=@equip 
+timer 1
+
+ON=@TIMER
+IF (<dCONT.DISTANCE <TAG0.NAVUID>> < 7)
+CONT.SYSYES Gösterilen bölgeye ulaştınız.
+CONT.ARROWQUEST
+IF !((<UID.<TAG0.NAVUID>.BASEID>==I_TRAVGATE) || (<UID.<TAG0.NAVUID>.BASEID>==I_ROHANKOPRU))
+TRY UID.<TAG0.NAVUID>.SAY @0481,,1 Merhaba <CONT.FULLNAME>!
+TRY UID.<TAG0.NAVUID>.SAY @0481,,1 Sanırım beni arıyorsun.
+TRY UID.<TAG0.NAVUID>.FACE <CONT>
+ENDIF
+REMOVE
+RETURN 1
+ENDIF
+TIMER 1
+RETURN 1
+
+

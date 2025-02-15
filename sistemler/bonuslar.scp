@@ -1,0 +1,330 @@
+﻿[function dropstam]
+if (<stamina> > 12)
+	stamina (<stamina> - {10 12})
+elseif (<stamina> > 0)
+	stamina 0
+endif
+
+[function stambow]
+if (<stamina> > 5)
+	stamina (<stamina> - {2 4})
+elseif (<stamina> > 0)
+	stamina 0
+endif
+
+[PLEVEL 1] 
+stun
+
+[function stun] 
+if (<isevent.e_stun>) 
+src.sysnorm Stun bonusu kapatıldı.
+events -e_stun
+events -e_stun
+events -e_stun
+elseif ((<wrestling> > 98.0) && (<tactics> > 98.0) && !(<isevent.e_stun>)) 
+src.sysnorm Stun bonusu açıldı.
+skill fail
+events +e_stun
+else 
+src.syshata Stun kullanabilmek için 98.1 Wrestling, 98.1 Tactics yeteneklerine ihtiyaciniz var.
+endif 
+
+
+
+[events e_stun] 
+ON=@HIT
+IF !((<SRC.GM>) || (<SRC.NPC>))
+if !(<findlayer(1)> || <findlayer(2)>)
+IF ((<wrestling> >= 98.0) || (<tactics> >= 98.0)) 
+	if (rand(450) <= <eval (<anatomy> / 40)>) && !(<src.findid.i_mem_frozen>)  
+		src.skill fail
+		local.act <src.act.uid>
+		src.newitem i_parablow
+		src.act.equip
+		src.act <local.act>
+		src.say_trk *sersemler*
+		return 1
+	endif
+else
+events -e_stun
+syshata Stun kullanabilmek için 98.1 Wrestling, 98.1 Tactics yeteneklerine ihtiyaciniz var.
+endif
+endif
+ENDIF
+
+[itemdef i_mem_frozen] 
+name=frozen memory 
+id=i_memory 
+type=t_eq_script 
+layer=layer_special 
+
+on=@create 
+attr=attr_decay | attr_newbie 
+
+on=@equip 
+timer=3
+SRC.FLAGS=<SRC.FLAGS>|04 
+
+on=@timer 
+cont.flags=<cont.FLAGS>&~04 
+remove 
+return 1 
+
+[events e_spear]							
+On=@Hit
+if (<src.flags>&statf_stone) || (<src.region.safe>)
+	return 0
+elseif (<findlayer(2).type> == t_weapon_fence) && (<fencing> >= 98.0)
+	if (rand(300) <= <eval (<anatomy> / 40)>) && !(<src.findid.i_parablow>)
+		src.skill fail
+		local.act <src.act.uid>
+		src.newitem i_parablow
+		src.act.equip
+		src.act <local.act>
+		src.say_trk *paradarbe alır*
+		return 1
+	endif
+endif
+
+[events e_parablow]
+On=@GetHit 
+findid.i_parablow.remove
+
+On=@Death
+findid.i_parablow.remove
+
+[itemdef i_parablow]
+name=parablow
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+src.flags <src.flags>|04
+src.events +e_parablow
+timer 3
+
+On=@UnEquip
+cont.events -e_parablow
+if !(<cont.flags>&statf_dead)
+	cont.flags <cont.flags>&~04
+endif
+
+On=@Timer
+attr attr_decay
+remove
+return 1
+
+
+[events e_dismount]
+On=@Hit
+if (<src.flags>&statf_stone) || (<src.region.safe>)
+	return 0
+elseif !(<src.isplayer>)
+	return 0
+elseif (((<findlayer(2).type> == t_weapon_sword) && (<swordsmanship> >= 98.0)) || ((<findlayer(2).type> == T_WEAPON_MACE_STAFF) && (<macefighting> >= 98.0)) || ((<findlayer(2).type> == t_weapon_fence) && (<fencing> >= 98.0)))
+
+	if (rand(300) <= <eval (<anatomy> / 40)>)
+		src.skill fail
+		local.act <src.act.uid>
+		src.newitem i_yattara
+		src.act.equip
+		src.act <local.act>
+		return 1
+	endif
+
+elseif  ((<findlayer(2).type> == T_WEAPON_XBOW) && (<archery> >= 98.0))
+
+IF (<FINDLAYER.25>)
+	if (rand(300) <= <eval (<anatomy> / 40)>)
+		src.skill fail
+		local.act <src.act.uid>
+		src.newitem i_yattara
+		src.act.equip
+		src.act <local.act>
+		return 1
+	endif
+ELSE
+	if (rand(75) <= <eval (<anatomy> / 40)>)
+		src.skill fail
+		local.act <src.act.uid>
+		src.newitem i_yattara
+		src.act.equip
+		src.act <local.act>
+		return 1
+	endif
+ENDIF
+
+
+endif
+
+[events e_yattara] ////////////////eger elemanimiz yatarsaaaaaaaaaaa
+On=@GetHit
+findid.i_yattara.remove
+
+On=@Death
+findid.i_yattara.remove
+
+[itemdef i_yattara]
+name=atdusur
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+timer 1
+if (<src.findlayer(layer_horse).id> > 0)
+IF (rand(75) >= <eval (<src.animallore> / 20)>)
+SRC.dclick
+src.say_trk  *binekten düşer*
+RETURN 1
+ENDIF
+ENDIF
+
+On=@UnEquip
+timer 1
+cont.events -e_yattara
+if !(<cont.flags>&statf_dead)
+	cont.flags <cont.flags>&~04
+endif
+
+On=@Timer
+attr attr_decay
+remove
+return 1
+
+
+[function disarm]
+if (<isevent.e_disarm>)
+	sysnorm Disarm bonusu kapatıldı.
+	events -e_disarm
+elseif ((<wrestling> > 97.9) && (<armslore> > 97.9))
+	sysnorm Disarm bonusu açıldı.
+	events +e_disarm
+else
+	syshata Disarm kullanabilmek için 98.0 Wrestling, 98.0 Arms Lore yeteneklerine ihtiyacınız var.
+endif
+
+[events e_disarm] 
+On=@Hit
+IF !((<SRC.GM>) || (<SRC.NPC>))
+if ((<wrestling> < 98.0) || (<armslore> < 98.0))
+	syshata Disarm kullanabilmek için 98.0 Wrestling, 98.0 Arms Lore yeteneklerine ihtiyacınız var.
+	events -e_disarm
+elseif !(<findlayer(1)> || <findlayer(2)>) 
+	if (rand(5) == 1)
+		if (<src.findlayer(1)> || <src.findlayer(2)>)
+			src.findlayer(1).unequip
+			if (<src.findlayer(2)>)
+				src.findlayer(2).unequip
+			endif
+			src.say_trk * silahsizlandırılır *
+		endif
+	endif 
+endif
+ENDIF
+
+[events e_bleeding]			
+On=@Hit
+if (<src.flags>&statf_stone) || (<src.region.safe>)
+	return 0
+elseif (<findlayer(1).type> == t_weapon_sword) && (<swordsmanship> >= 98.0) && !(<src.id> == c_dummy)
+	if (rand(350) <= <eval (<tactics> / 20)>) && !(<src.findid.i_bleeding>) && !(<src.findid.i_bleeding2>)
+		src.damage {3 5}
+		src.hits (<src.hits> - 8)
+		src.skill fail
+		local.act <src.act.uid>
+		src.newitem i_bleeding
+		src.act.equip
+		src.newitem i_bleeding2
+		src.act.equip
+		src.act <local.act>
+		src.say_trk *ölümcül yara alır*
+		return 1
+	endif
+endif
+
+[events e_bleed]
+On=@Death
+findid.i_bleeding.remove
+
+[itemdef i_bleeding]
+name=osman aga bleed
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+src.events +e_bleed
+timer 5
+
+On=@UnEquip
+cont.events -e_bleed
+
+On=@Timer
+timer 5
+cont.say_trk *kan kaybeder*
+cont.damage {2 4}
+cont.hits (<cont.hits> - 5)
+attr attr_decay
+return 1
+
+[itemdef i_bleeding2]
+name=Editin Osman Aga
+id=i_gold
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Equip
+src.events +e_bleed
+timer 31
+
+On=@UnEquip
+cont.events -e_bleed
+if !(<cont.flags>&statf_dead)
+endif
+
+On=@Timer
+cont.findid.i_bleeding.remove
+attr attr_decay
+remove
+return 1
+
+[ITEMDEF i_potion_bleed]///////////Bleed Potion
+ID=i_bottle_ORANGE
+TYPE=T_POTION
+NAME=Bleed Potion
+TDATA1=i_bottle_empty
+
+RESOURCES=7 i_reag_ginseng, i_bottle_EMPTY, 8 i_reag_nightshade
+SKILLMAKE=ALCHEMY 85.1
+
+ON=@Create
+COLOR=060
+MORE1=s_Cure
+MORE2=40.1
+
+ON=@DClick
+//if !(rand(5) == 1)
+if (<src.findid.i_bleeding>)
+		src.findid.i_bleeding.remove
+		src.effect snd_spell_poison
+		src.effect 3,0376a,2,10,1
+		src.sayua *yarasını tedavi eder*
+		src.newitem i_bottle_empty
+		src.bounce <new>
+		src.consume 1 i_potion_bleed
+		return 1
+//	else
+//		src.sms Potion heba oldu.
+//		remove
+//		src.act i_bottle_empty
+//		return 1
+	endif
+//endif
+	
+[eof]

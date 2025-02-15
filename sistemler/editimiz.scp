@@ -1,0 +1,80 @@
+[ITEMDEF i_basket_roxside]
+ID i_basket_square
+DEFNAME=i_basket_roxside
+TYPE=T_CONTAINER
+TDATA2=03f
+RESOURCES=5 I_STRAW
+FLIP=0
+WEIGHT=0
+
+on=@create
+attr 04
+tag.gizlenewbie 1
+
+on=@dclick
+if (<link> == <src.uid>)
+src.sdialog d_roxside_editimiz
+endif
+
+[dialog d_roxside_editimiz]
+100,300
+resizepic 0 0 5054 630 340
+checkertrans 5 5 620 330
+dhtmlgump 50 15 140 55 0 0 <def.bfont_black>Binek Kodu
+dhtmlgump 50 165 140 55 0 0 <def.bfont_black>ARGO Komutları
+dhtmlgump 50 65 170 55 0 0 <def.bfont_black>Item Kodu
+dhtmlgump 50 115 140 55 0 0 <def.bfont_black>Self/SRC Kodu
+resizepic 50 36 3000 550 25
+resizepic 50 139 3000 410 25
+resizepic 470 139 3000 130 25
+resizepic 50 190 3000 410 25
+resizepic 470 190 3000 130 25
+resizepic 50 89 3000 550 25
+button 15 38 1153 1155 1 0 5
+button 15 90 1153 1155 1 0 1
+button 15 140 1153 1155 1 0 6
+button 15 190 1153 1155 1 0 9
+textentry 50 39 6000 20 1152 3 0
+textentry 50 89 6000 20 1152 4 1
+textentry 50 139 6000 20 1152 5 2
+textentry 480 139 6000 20 1152 6 3
+textentry 50 190 6000 20 1152 8 5
+textentry 480 190 6000 20 1152 7 4
+dtext 20 230 1153 Efenim edit menümüze hoş geldiniz, Binek Kodu kısmı bineği direk çıkartıp karaktere linkler. 
+dtext 20 250 1153 İtem kısmına eşya baseid'si yazılmalı örn: i_katana_vanq gibi direk karakterin çantasına çeker.
+dtext 20 270 1153 Self/SRC ise direk karaktere uygulanır. Örn; ilk boşluğa hits 2. boşluğa 100 yazarsanız hp 100 olur.
+dtext 20 290 1153 Argo ise SRC'nin aksine target verir yazılan komutu targete uygular. 
+dtext 20 310 1153 Aksiyonu uçuruyoruz Isengardı omuzluyoruz hayde bre pehlevan :) 
+[dialog d_roxside_editimiz text]
+>
+>
+>
+>
+>
+>
+
+[dialog d_roxside_editimiz button]
+on=5
+src.newnpc <argtxt[3]>
+	src.act.newitem i_memory
+	src.act.act.attr 04
+	src.act.act.more1 04
+	src.act.act.more2 <serv.time>
+	src.act.act.morep <src.act.p>
+	src.act.act.color memory_ipet
+	src.act.act.timer -1
+	src.act.act.link <src.uid>
+	src.act.act.cont <src.act.uid>
+	src.act.flags <src.act.flags>&statf_pet
+	src.act.update
+on=1
+serv.newitem <argtxt[4]>
+src.bounce <new>
+on=6
+src.<argtxt[5]> <argtxt[6]>
+on=9
+src.tag.dg5cs <argtxt[8]>
+src.tag.dg6cs <argtxt[7]>
+src.targetf _sdkfghsdfg
+[function _sdkfghsdfg]
+argo.<src.tag.dg5cs> <src.dtag.dg6cs>

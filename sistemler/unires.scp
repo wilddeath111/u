@@ -1,0 +1,518 @@
+﻿//------------------
+// UNICORN RES
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+[plevel 1]
+frost
+
+[function frost]
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+
+IF !((<SRC.FINDID.I_MT_HORSE_BROWN_LT>) && (<src.findlayer(layer_horse).id> > 0))
+SRC.SYSHATA Altınızda Frost bulunmuyor.
+RETURN 1
+ENDIF
+
+IF !(<UID.<SRC.FINDID.I_MT_HORSE_BROWN_LT.MORE2>.ID> == c_m_frost)
+SRC.SYSHATA Altınızda Frost bulunmuyor.
+RETURN 1
+ENDIF
+
+if (<src.findid.i_c_frost>)
+local.temp = <src.findid.i_c_frost.timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+src.syshata Tekrar kullanmak için <dlocal.minutes> dakika, <dlocal.seconds> saniye beklemelisiniz.
+return 1
+endif
+
+FORCHARS 30
+IF (<FLAGS> & statf_invisible) || (<FLAGS> & statf_hidden)
+IF !(<UID>==<SRC.UID>)
+FINDID.i_rune_INVISIBILITY.REMOVE
+FLAGS &= ~statf_invisible
+FLAGS &= ~statf_hidden
+FIX
+EFFECT=3,0375A,6,50
+SRC.SYSYES <FULLNAME> görünür hale geldi.
+ENDIF
+ENDIF
+ENDFOR
+
+src.say_trk * Frost Detect Hidden *
+
+serv.newitem i_c_frost
+new.equip
+
+
+[ITEMDEF i_c_frost]
+Id i_handr_1
+type t_eq_script
+name frost detect
+
+On=@create
+timer 900
+attr attr_invis
+
+ON=@equip
+timer 900
+
+On=@timer
+remove
+return 1
+
+[plevel 1]
+ember
+
+[function ember]
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+
+IF !((<SRC.FINDID.I_MT_HORSE_BROWN_DK>) && (<src.findlayer(layer_horse).id> > 0))
+SRC.SYSHATA Altınızda Ember bulunmuyor.
+RETURN 1
+ENDIF
+
+IF !(<UID.<SRC.FINDID.I_MT_HORSE_BROWN_DK.MORE2>.ID> == c_a_ember)
+SRC.SYSHATA Altınızda Ember bulunmuyor.
+RETURN 1
+ENDIF
+
+if (<src.findid.i_c_ember>)
+local.temp = <src.findid.i_c_ember.timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+src.syshata Tekrar kullanmak için <dlocal.minutes> dakika, <dlocal.seconds> saniye beklemelisiniz.
+return 1
+endif
+
+IF !(<SRC.FINDID.I_RUNE_POISON>)
+src.syshata Zehir etkisi altında değilsiniz.
+RETURN 1
+ENDIF
+
+SRC.FINDID.I_RUNE_POISON.REMOVE
+SRC.POISON 0
+src.EFFECT=3,0375A,6,50
+src.say_trk * Ember Cure *
+SRC.sound snd_SPELL_CURE
+
+serv.newitem i_c_ember
+new.equip
+
+
+[ITEMDEF i_c_ember]
+Id i_handr_1
+type t_eq_script
+name ember cure
+
+On=@create
+timer 900
+attr attr_invis
+
+ON=@equip
+timer 900
+
+On=@timer
+remove
+return 1
+
+
+[plevel 1]
+haze
+
+[function haze]
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+
+IF !((<SRC.FINDID.I_MT_HORSE_BROWN_DK>) && (<src.findlayer(layer_horse).id> > 0))
+SRC.SYSHATA Altınızda Haze bulunmuyor.
+RETURN 1
+ENDIF
+
+IF !(<UID.<SRC.FINDID.I_MT_HORSE_BROWN_DK.MORE2>.ID> == c_a_haze)
+SRC.SYSHATA Altınızda Haze bulunmuyor.
+RETURN 1
+ENDIF
+
+if (<src.findid.i_c_haze>)
+local.temp = <src.findid.i_c_haze.timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+src.syshata Tekrar kullanmak için <dlocal.minutes> dakika, <dlocal.seconds> saniye beklemelisiniz.
+return 1
+endif
+
+foritems 10
+	if (<attr>&attr_magic)
+		if (<type> == t_magic) || (<type> == t_spell)
+			remove
+		endif
+	endif
+endfor
+
+src.say_trk * Haze Field Remove *
+SRC.sound snd_SPELL_MASS_DISPEL
+
+serv.newitem i_c_haze
+new.equip
+
+
+[ITEMDEF i_c_haze]
+Id i_handr_1
+type t_eq_script
+name haze field
+
+On=@create
+timer 900
+attr attr_invis
+
+ON=@equip
+timer 900
+
+On=@timer
+remove
+return 1
+
+
+[plevel 1]
+steedball
+
+[function steedball]
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+
+IF !((<SRC.FINDID.I_MT_HORSE_BROWN_LT>) && (<src.findlayer(layer_horse).id> > 0))
+SRC.SYSHATA Altınızda Silver Steed bulunmuyor.
+RETURN 1
+ENDIF
+
+IF !(<UID.<SRC.FINDID.I_MT_HORSE_BROWN_LT.MORE2>.ID> == c_steed_silver)
+SRC.SYSHATA Altınızda Silver Steed bulunmuyor.
+RETURN 1
+ENDIF
+
+if (<src.findid.i_c_fire>)
+local.temp = <src.findid.i_c_fire.timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+src.syshata Tekrar kullanmak için <dlocal.minutes> dakika, <dlocal.seconds> saniye beklemelisiniz.
+return 1
+endif
+
+serv.newitem i_c_fire
+new.equip
+
+[ITEMDEF i_c_fire]
+Id i_handr_1
+type t_eq_script
+name steedfire
+
+On=@create
+timer 300
+attr attr_invis
+
+ON=@equip
+target
+return 1
+
+ON=@TARGON_CANCEL
+REMOVE
+RETURN 1
+
+ON=@TARGON_ITEM
+REMOVE
+RETURN 1
+
+ON=@TARGON_CHAR
+IF (<SRC.HITS> < 1)
+REMOVE
+RETURN 1
+ENDIF
+
+IF !((<SRC.FINDID.I_MT_HORSE_BROWN_LT>) && (<src.findlayer(layer_horse).id> > 0))
+SRC.SYSHATA Altınızda Silver Steed bulunmuyor.
+REMOVE
+RETURN 1
+ENDIF
+
+IF !(<UID.<SRC.FINDID.I_MT_HORSE_BROWN_LT.MORE2>.ID> == c_steed_silver)
+SRC.SYSHATA Altınızda Silver Steed bulunmuyor.
+REMOVE
+RETURN 1
+ENDIF
+
+IF !(<SRC.CANSEELOS <SRC.TARG>>)
+SRC.SYSHATA Hedefi göremiyorsunuz.
+REMOVE
+RETURN 1
+ENDIF
+
+IF (strmatch('<src.action>','skill_magery'))
+src.f_fizzle
+endif
+
+if (<src.findid.i_rb_delay2>)
+src.findid.i_rb_delay2.remove
+endif
+if (<src.findid.i_rb_delay>)
+src.findid.i_rb_delay.remove
+endif
+
+src.say_trk * Steedball *
+src.anim 10
+src.targ.green_fireball <SRC.uid>
+SRC.TARG.DAMAGE 10 <DEF.dam_magic> <SRC.UID>
+SRC.sound snd_SPELL_FIREBALL
+
+timer 300
+return 1
+
+On=@timer
+remove
+return 1
+
+[function green_fireball]
+trysrc <UID.<ARGN1>.UID> effect 0,i_fx_fireball,7,0,1,400,0
+
+
+[plevel 1]
+kirgate
+
+[function kirgate]
+if (<src.findid.i_c_gate>)
+local.temp = <src.findid.i_c_gate.timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+src.syshata Tekrar kullanmak için <dlocal.minutes> dakika, <dlocal.seconds> saniye beklemelisiniz.
+return 1
+endif
+
+serv.newitem i_c_gate
+new.equip
+
+[ITEMDEF i_c_gate]
+Id i_handr_1
+type t_eq_script
+name kirgate
+
+On=@create
+timer 900
+attr attr_invis
+
+ON=@equip
+target
+SRC.SYSNORM Gate açmak için bineği, lokasyon kaydetmek için rune marker'ı seçin.
+return 1
+
+ON=@TARGON_CANCEL
+REMOVE
+RETURN 1
+
+ON=@TARGON_ITEM
+IF !(<SRC.TARG.BASEID>==I_RUNE_MARKER)
+SRC.SYSHATA Sadece rune marker seçebilirsiniz.
+remove
+RETURN 1
+ENDIF
+
+IF !(<SRC.TARG.TOPOBJ.UID>==<SRC.UID>)
+SRC.SYSHATA Kaydedeceğiniz rune üzerinizde olmalıdır.
+remove
+RETURN 1
+ENDIF
+
+IF !(<dSRC.TARG.MOREX> > 0)
+SRC.SYSHATA Boş rune seçemezsiniz.
+remove
+RETURN 1
+ENDIF
+
+SRC.TAG0.KIRGATEX <SRC.TARG.MOREX>
+SRC.TAG0.KIRGATEY <SRC.TARG.MOREY>
+SRC.TAG0.KIRGATEZ <SRC.TARG.MOREZ>
+
+SRC.SYSYES Kiirin gate lokasyonu kaydedildi.
+
+REMOVE
+RETURN 1
+
+
+ON=@TARGON_CHAR
+if !(<src.targ.id> == c_m_kiirin)
+src.syshata Bu bir Kiirin degil.
+remove
+return 1
+elseif !(<src.targ.memoryfindtype.(memory_ipet|memory_guard).link> == <src.uid>)
+src.syshata Kiirin size ait degil.
+remove
+return 1
+elseif !(<dsrc.tag.kirgatex>)
+src.syshata Kayıtlı Kiirin gate lokasyonunuz yok.
+remove
+return 1
+elseif (<src.targ.distance> > 5)
+src.syshata Kiirin çok uzakta.
+remove
+return 1
+else
+src.targ.say @0790 Vas Rel Por
+src.targ.anim 17
+
+SERV.NEWITEM i_kir_gate
+NEW.P <SRC.TARG.P>
+NEW.TAG0.KIRGATE 1
+NEW.MOREP <dSRC.TAG0.KIRGATEX>,<dSRC.TAG0.KIRGATEY>,<dSRC.TAG0.KIRGATEZ>
+NEW.TIMER 15
+NEW.UPDATE
+timer 900
+return 1
+endif
+
+On=@timer
+remove
+return 1
+
+[ITEMDEF i_kir_gate]
+ID=i_moongate_black
+RESOURCES=i_scroll_gate_travel
+TYPE=t_telepad
+NAME=Gate
+CATEGORY=Provisions - Alchemy & Magic
+SUBSECTION=Moongates
+DESCRIPTION=RB Gate
+
+On=@Create
+more1 5
+attr 010
+
+On=@DClick
+if !(<src.flags>&statf_stone)
+	if (<distance> > 3)
+		src.syshata Gate'e ulaşamıyorsunuz.
+	endif
+	if (<src.isevent.e_ticaret>)
+		src.syshata Ticaretteyken bunu yapamazsınız.
+		return 1
+	endif
+
+dialogclose d_gatetravel
+dialog d_gatetravel
+		
+endif
+return 1
+
+ON=@Step
+IF !(<SRC.ISPLAYER>)
+RETURN 1
+ENDIF
+if !(<src.flags>&statf_stone)
+	if (<distance> > 3)
+		src.syshata Gate'e ulaşamıyorsunuz.
+	endif
+	if (<src.isevent.e_ticaret>)
+		src.syshata Ticaretteyken bunu yapamazsınız.
+		return 1
+	endif
+
+dialogclose d_gatetravel
+dialog d_gatetravel
+		
+endif
+return 1
+
+On=@Click
+message @0481,,1 Kiirin Gate
+return 1
+
+On=@Timer
+remove
+return 1
+
+[plevel 1]
+unires
+
+[function unires]
+if !(<src.hits> < 1)
+src.syshata Bunu yalnızca ölü iken kullanabilirsiniz.
+return 1
+endif
+
+if (<src.findid.i_c_res>)
+local.temp = <src.findid.i_c_res.timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+src.syshata Tekrar kullanmak için <dlocal.minutes> dakika, <dlocal.seconds> saniye beklemelisiniz.
+return 1
+endif
+
+FORCHARS 5
+IF (<ID>==C_M_UNICORN)
+IF !((strmatch(´<memoryfindtype.memory_ipet.link.fullname>´,´0´)) || (strmatch(´<memoryfindtype.memory_ipet.link.fullname>´,´´)) || (strmatch(´<memoryfindtype.memory_ipet.link.fullname>´,´ ´)))
+IF (<memoryfindtype.memory_ipet.link.uid>==<SRC.UID>)
+say @0790 Kal In Vas Mani
+anim 5
+src.EFFECT=3,0375A,6,50
+src.sound 509
+src.resurrect
+src.say_trk *Unicorn Resurrect*
+FACE <SRC>
+serv.newitem i_c_res
+new.equip
+RETURN 1
+ENDIF
+ENDIF
+ENDIF
+ENDFOR
+
+SRC.SYSHATA Etrafınızda size ait bir Unicorn bulunmuyor.
+
+[ITEMDEF i_c_res]
+Id i_handr_1
+type t_eq_script
+name unires
+
+On=@create
+timer 1800
+attr attr_invis
+
+ON=@equip
+timer 1800
+
+On=@timer
+remove
+return 1
+
+[EOF]

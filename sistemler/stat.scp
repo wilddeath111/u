@@ -1,0 +1,283 @@
+﻿//------------------
+// STAT SYSTEM
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+[function stat]
+if (<flags>&statf_dead)
+syshata Bu işlemi ölü iken yapamazsınız.
+return 1
+endif
+if (<findlayer(32)> || <findlayer(44)> || <findlayer(47)>)
+syshata Statlarınızı etkileyen bir büyünün etkisi altındayken bu seçeneği kullanamazsınız.
+return 1
+endif
+
+stchk
+sdialog d_stat
+
+[function stchk]
+if !(<findlayer(32)> || <findlayer(44)> || <findlayer(47)>)
+	if (<dex>!=<maxstam>)
+	maxstam
+	endif
+	if (<int>!=<maxmana>)
+	maxmana
+	endif
+	if (<str>!=<maxhits>)
+	maxhits
+	endif
+	if (<str> > 100)
+		modstr
+		str 100
+	elseif (<dex> > 100)
+		moddex
+		dex 100
+	elseif (<int> > 100)
+		modint
+		int 100
+	endif
+endif
+
+// Gump
+
+[dialog d_stat]
+100,100
+
+F_DEF_DIALOG 0,0,350,290
+
+dtext 25 20 035 Statlarınızınn toplamı <skillclass.statsum>'den
+dtext 25 35 035 fazla olduğunda otomatik olarak düşmesini
+dtext 25 50 035 istediğiniz statı seçin.
+//text 15 165 0 3
+	button 55 83 1210 1210 1 0 1 // STR
+	text 60 80 <eval 0481> 4
+	button 55 103 1210 1210 1 0 3 // INT
+	text 60 100 <eval 0481> 6
+	button 55 123 1210 1210 1 0 2 // DEX
+	text 60 120 <eval 0481> 5
+
+	dtext 25 150 035 Tek tek düşürmek istediğiniz statı seçin.
+
+	button 25 250 <def.bno> 1 0 4 // Koru
+	text 40 252 35 7
+
+tilepichue 280 70 4825 <eval 0846>
+//tilepichue 296 247 <SERV.ITEMDEF.i_drum.ID> <eval 07d1>
+//tilepichue 236 252 <SERV.ITEMDEF.i_lute.ID> <eval 0846>
+//tilepichue 256 247 <SERV.ITEMDEF.i_lyre.ID> <eval 084a>
+button 55 183 1210 1210 1 0 5
+button 55 203 1210 1210 1 0 6
+button 55 223 1210 1210 1 0 7
+text 60 180 <eval 0481> 8
+text 60 200 <eval 0481> 9
+text 60 220 <eval 0481> 10
+
+[dialog d_stat text]
+Statlarınızınn toplamı <skillclass.statsum>'den
+fazla olduğunda otomatik olarak düşmesini
+istediğiniz statı seçin.
+Menu acilis komutu .stat
+  Strength
+  Dexterity
+  Intelligence
+  Statlarımı koru
+  Strength (-1)
+  Intelligence (-1)
+  Dexterity (-1)
+
+[dialog d_stat button]
+On=1
+if (<flags>&statf_dead)
+syshata Bu işlemi ölü iken yapamazsınız.
+return 1
+endif
+if (<findlayer(32)> || <findlayer(44)> || <findlayer(47)>)
+syshata Statlarınızı etkileyen bir büyünün etkisi altındayken bu seçeneği kullanamazsınız.
+return 1
+endif
+sysnorm Strength'inizi düşüşe aldınız.
+statlock[str] 1
+statlock[dex] 0
+statlock[int] 0
+events +e_str
+events -e_dex
+events -e_int
+events -e_spr
+update
+
+On=2
+if (<flags>&statf_dead)
+syshata Bu işlemi ölü iken yapamazsınız.
+return 1
+endif
+if (<findlayer(32)> || <findlayer(44)> || <findlayer(47)>)
+syshata Statlarınızı etkileyen bir büyünün etkisi altındayken bu seçeneği kullanamazsınız.
+return 1
+endif
+sysnorm Dexterity'inizi düşüşe aldınız.
+statlock[str] 0
+statlock[int] 0
+statlock[dex] 1
+events -e_str
+events +e_dex
+events -e_int
+events -e_spr
+update
+
+On=3
+if (<flags>&statf_dead)
+syshata Bu işlemi ölü iken yapamazsınız.
+return 1
+endif
+if (<findlayer(32)> || <findlayer(44)> || <findlayer(47)>)
+syshata Statlarınızı etkileyen bir büyünün etkisi altındayken bu seçeneği kullanamazsınız.
+return 1
+endif
+sysmessage @0481,,1 Intelligence'inizi düşüşe aldınız.
+statlock[int] 1
+statlock[str] 0
+statlock[dex] 0
+events -e_str
+events -e_dex
+events +e_int
+events -e_spr
+update
+
+On=4
+if (<flags>&statf_dead)
+syshata Bu işlemi ölü iken yapamazsınız.
+return 1
+endif
+if (<findlayer(32)> || <findlayer(44)> || <findlayer(47)>)
+syshata Statlarınızı etkileyen bir büyünün etkisi altındayken bu seçeneği kullanamazsınız.
+return 1
+endif
+
+if (strmatch('<eval(<str>+<int>+<dex>)>','<skillclass.statsum>'))
+	sysnorm Statlarınız korumaya alındı.
+	tag0.ostr <str>
+	tag0.odex <dex>
+	tag0.oint <int>
+	statlock[str] 2
+	statlock[dex] 2
+	statlock[int] 2
+	events -e_str
+	events -e_dex
+	events -e_int
+	events +e_spr
+	update
+else
+	syshata Bu seçeneği kullanabilmeniz için stat toplamınızın <skillclass.statsum> olması gerekiyor.
+	sdialog d_stat
+endif
+
+on=5
+if (<str> > 20)
+str -=1
+sdialog d_stat
+else
+syshata Daha fazla düşüremezsiniz.
+endif
+
+On=6
+if (<int> > 20)
+int -=1
+sdialog d_stat
+else
+syshata Daha fazla düşüremezsiniz.
+endif
+
+on=7
+if (<dex> > 20)
+dex -=1
+sdialog d_stat
+else
+syshata Daha fazla düşüremezsiniz.
+endif
+
+
+// Eventz
+
+[events e_spr]
+On=@SkillStart
+if !(<findlayer(32)> || <findlayer(44)> || <findlayer(47)>)
+	modstr
+	moddex
+	modint
+	str <tag.ostr>
+	int <tag.oint>
+	dex <tag.odex>
+endif
+
+On=@EnvironChange
+if !(<findlayer(32)> || <findlayer(44)> || <findlayer(47)>)
+	if !(<eval (<str> + <int> + <dex>)> == <skillclass.statsum>)
+	events -e_spr
+	syshata Stat'larınız artık korunmuyor.
+	tag.ostr
+	tag.oint
+	tag.odex
+	statlock[str] 0
+	statlock[dex] 0
+	statlock[int] 0
+	update
+	endif
+endif
+
+[events e_str]
+On=@SkillStart
+if !(<findlayer(32)> || <findlayer(44)> || <findlayer(47)>)
+	if (<eval (<str> + <int> + <dex>)> > <skillclass.statsum>)
+		statcapstr
+	endif
+endif
+
+[events e_dex]
+On=@SkillStart
+if !(<findlayer(32)> || <findlayer(44)> || <findlayer(47)>)
+	if (<eval (<str> + <int> + <dex>)> > <skillclass.statsum>)
+		statcapdex
+	endif
+endif
+
+[events e_int]
+On=@SkillStart
+if !(<findlayer(32)> || <findlayer(44)> || <findlayer(47)>)
+	if (<eval (<str> + <int> + <dex>)> > <skillclass.statsum>)
+		statcapint
+	endif
+endif
+
+// Functionz
+
+[function statcapstr]
+if (<str> > 25)
+	modstr
+	str -=1
+	if (<eval (<str> + <int> + <dex>)> > <skillclass.statsum>)
+		statcapstr
+	endif
+endif
+
+[function statcapdex]
+if (<dex> > 25)
+	moddex
+	dex -=1
+	if (<eval (<str> + <int> + <dex>)> > <skillclass.statsum>)
+		statcapdex
+	endif
+endif
+
+[function statcapint]
+if (<int> > 25)
+	modint
+	int -=1
+	if (<eval (<str> + <int> + <dex>)> > <skillclass.statsum>)
+		statcapint
+	endif
+endif
+
+[EOF]

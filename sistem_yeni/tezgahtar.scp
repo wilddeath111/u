@@ -1,0 +1,913 @@
+﻿[CHARDEF c_tezgahtar2] 
+DEFNAME=c_tezgahtar2
+ID C_MAN
+NAME=#NAMES_HUMANMALE the Tezgahtar
+can mt_nonmover
+
+ON=@CREATE
+TITLE=PV Master
+SPEECHCOLOR=0189
+NPC=brain_vendor
+COLOR=colors_skin
+STR=9500
+DEX={71 85}
+INT={186 300}
+taming 9900
+invul 1
+
+itemnewbie i_hair_long
+color 01
+ITEMNEWBIE I_pants_long
+color 01
+itemnewbie i_shirt_plain
+color 01
+itemnewbie i_boots_calf
+color 01
+itemnewbie i_studded_gloves
+color 01
+
+on=@gethit
+hit <str>
+return 1
+
+on=@click
+message @100 [Tezgahtar]
+message @0481 <name>
+food 500
+stam 0
+return 1
+
+//on=@environchange
+//say @0481,,1 Hemen arama yaparak istediğin eşyayı satın alabilirsin!
+
+on=@dclick
+if !(<distance> < 4)
+src.syshata Çok uzaktasınız.
+ELSE
+SRC.TAG0.vend_s_p_1 0
+SRC.TAG0.vend_s_p_2 15000000
+SRC.TAG0.vend_s_m_1 0
+SRC.TAG0.vend_s_m_2 15
+SRC.TAG0.vend_s_d_1 0
+SRC.TAG0.vend_s_d_2 99
+IF ((<ISEMPTY <SRC.TAG0.vend_s_search>>) || (<ISNUM <SRC.TAG0.vend_s_search>>))
+SRC.TAG0.vend_s_search katana
+ENDIF
+IF ((<ISEMPTY <SRC.TAG0.vend_s_search2>>) || (<ISNUM <SRC.TAG0.vend_s_search2>>))
+SRC.TAG0.vend_s_search2 mustang
+ENDIF
+IF ((<ISEMPTY <SRC.TAG0.vend_s_search3>>) || (<ISNUM <SRC.TAG0.vend_s_search3>>))
+SRC.TAG0.vend_s_search3 ingot
+ENDIF
+IF (<dSRC.CTAG0.VEND_TOP>)
+FOR X 1 <dSRC.CTAG0.VEND_TOP>
+TRY SRC.CTAG0.VEND_UID<DLOCAL.X>
+ENDFOR
+ENDIF
+SRC.CTAG0.VEND_TOP
+SRC.CTAG0.VENDMASTER <UID>
+SRC.CTAG0.SEARCHHASAR
+SRC.sdialog d_pv_shared_weap
+endif
+return 1
+
+[dialog D_PV_WEB2] 
+0,0 
+F_DEF_DIALOG 200,175,320,150
+dtext 225 185 035 <serv.name> - Player Vendor Arama
+
+resizepic 295 220 2620 200 40 // pin giriş
+dtextentry 305 230 175 15 0481 1 // pin giriş
+
+dtext 230 230 90 Eşya adı:
+
+dtext 420 267 035 Ara
+button 450 265 4005 4007 1 0 1 
+
+dtext 220 290 0481 * Web sayfasına bağlanarak arama yapar.
+
+[dialog D_PV_WEB2 button]
+ON 1
+if (strlen(<argtxt[1]>) < 3)
+src.syshata En az 3 karakter girmelisiniz.
+RETURN 1
+ENDIF
+
+if (<ISNUM <argtxt[1]>>)
+src.syshata Sadece rakam kullanamazsınız.
+RETURN 1
+ENDIF
+
+SRC.WEBLINK www.uo.com/vendorsearch.php?s=<argtxt[1]>
+SRC.SYSNORM Arama sonuçlarına yönlendiriliyorsunuz.
+
+
+
+[CHARDEF c_player_v_shared]
+DEFNAME=C_PLAYER_V_SHARED
+ID C_MAN
+NAME=#NAMES_HUMANMALE the Tezgahtar
+can mt_nonmover
+
+ON=@CREATE
+TITLE=PV Master
+SPEECHCOLOR=0189
+NPC=brain_vendor
+COLOR=colors_skin
+STR=9500
+DEX={71 85}
+INT={186 300}
+taming 9900
+invul 1
+
+itemnewbie i_hair_long
+color 01
+ITEMNEWBIE I_pants_long
+color 01
+itemnewbie i_shirt_plain
+color 01
+itemnewbie i_boots_calf
+color 01
+itemnewbie i_studded_gloves
+color 01
+
+on=@gethit
+hit <str>
+return 1
+
+on=@click
+message @100,,1 [Tezgahtar]
+message @0481,,1 <name>
+food 500
+stam 0
+return 1
+
+//on=@environchange
+//say @0481,,1 Hemen arama yaparak istediğin eşyayı satın alabilirsin!
+
+on=@dclick
+if !(<distance> < 4)
+src.syshata Çok uzaktasınız.
+ELSE
+SRC.TAG0.vend_s_p_1 0
+SRC.TAG0.vend_s_p_2 15000000
+SRC.TAG0.vend_s_m_1 0
+SRC.TAG0.vend_s_m_2 15
+SRC.TAG0.vend_s_d_1 0
+SRC.TAG0.vend_s_d_2 99
+IF ((<ISEMPTY <SRC.TAG0.vend_s_search>>) || (<ISNUM <SRC.TAG0.vend_s_search>>))
+SRC.TAG0.vend_s_search katana
+ENDIF
+IF ((<ISEMPTY <SRC.TAG0.vend_s_search2>>) || (<ISNUM <SRC.TAG0.vend_s_search2>>))
+SRC.TAG0.vend_s_search2 mustang
+ENDIF
+IF ((<ISEMPTY <SRC.TAG0.vend_s_search3>>) || (<ISNUM <SRC.TAG0.vend_s_search3>>))
+SRC.TAG0.vend_s_search3 ingot
+ENDIF
+IF (<dSRC.CTAG0.VEND_TOP>)
+FOR X 1 <dSRC.CTAG0.VEND_TOP>
+TRY SRC.CTAG0.VEND_UID<DLOCAL.X>
+ENDFOR
+ENDIF
+SRC.CTAG0.VEND_TOP
+SRC.CTAG0.VENDMASTER <UID>
+SRC.CTAG0.SEARCHHASAR
+SRC.sdialog d_pv_shared_weap
+endif
+return 1
+
+
+[dialog d_pv_shared_weap]
+30,30
+page 0
+F_DEF_DIALOG 50,20,640,460
+resizepic 60 50 2620 619 40
+
+dtext 250 30 0481 <serv.name> UO - Player Vendor Arama
+
+dtext 140 59 <def.kirmizi> Silah, Armor, Kıyafet
+button 110 58 4006 4007 20 0 990
+
+dtext 380 59 73 Binek, Hayvan
+button 350 58 4005 4007 20 0 991
+
+dtext 530 59 73 Diğer
+button 500 58 4005 4007 20 0 992
+
+dtext 87 102 1153 Isim:
+resizepic 135 95 2620 210 34
+dtextentry 144 103 195 25 1153 1 <SRC.TAG0.vend_s_search>
+
+dtext 80 142 1153 Fiyat:
+resizepic 135 135 2620 100 34
+dtextentry 142 143 80 25 1153 2 <eval <SRC.TAG0.vend_s_p_1>>
+resizepic 240 135 2620 105 34
+dtextentry 247 143 90 25 1153 3 <eval <SRC.TAG0.vend_s_p_2>>
+
+dtext 365 102 1153 Magical:
+radio 420 97 9728 9730 <qval (<dSRC.CTAG0.LOCALMAGICAL>==3)?1:0> 101
+dtext 450 102 035 +3
+radio 470 97 9728 9730 <qval (<dSRC.CTAG0.LOCALMAGICAL>==6)?1:0> 102
+dtext 500 102 035 +6
+radio 520 97 9728 9730 <qval (<dSRC.CTAG0.LOCALMAGICAL>==9)?1:0> 103
+dtext 550 102 035 +9
+radio 570 97 9728 9730 <qval (<dSRC.CTAG0.LOCALMAGICAL>==12)?1:0> 104
+dtext 600 102 035 +12
+radio 625 97 9728 9730 <qval (<dSRC.CTAG0.LOCALMAGICAL>==15)?1:0> 105
+dtext 655 102 035 +15
+
+//resizepic 455 95 2620 45 34
+//dtextentry 462 103 30 25 1153 4 <eval <SRC.TAG0.vend_s_m_1>>
+//dtext 505 102 1153 -
+//resizepic 520 95 2620 45 34
+//dtextentry 527 103 30 25 1153 5 <eval <SRC.TAG0.vend_s_m_2>>
+
+dtext 365 142 1153 Hasar:
+IF (<DSRC.CTAG0.SEARCHHASAR> > 0)
+button 420 137 9728 9730 20 0 201
+dtext 450 142 035 hasarsız
+button 510 137 9730 9730 20 0 202
+dtext 540 142 035 hasarlı
+ELSE
+button 420 137 9730 9730 20 0 201
+dtext 450 142 035 hasarsız
+button 510 137 9728 9730 20 0 202
+dtext 540 142 035 hasarlı
+ENDIF
+
+dtext 450 102 035 +3
+//resizepic 425 135 2620 45 34
+//dtextentry 432 143 30 25 1153 6 <eval <SRC.TAG0.vend_s_d_1>>
+//dtext 475 142 1153 -
+//resizepic 490 135 2620 45 34
+//dtextentry 497 143 30 25 1153 7 <eval <SRC.TAG0.vend_s_d_2>>
+
+button 605 143 4015 4016 20 0 1000
+dtext 635 145 0481 Listele
+
+
+dtext 85 180 55 İSİM
+dtext 205 180 55 BÜYÜ
+dtext 260 180 55 HASAR
+dtext 340 180 55 FİYAT
+dtext 450 180 55 SATICI
+dtext 620 180 55 SATIN AL
+
+gumppictiled 58 200 625 1 2417
+
+IF (<dSRC.CTAG0.VEND_TOP>)
+LOCAL.AUMENTAR=0
+LOCAL.PAGE=1
+PAGE 1
+FOR X 1 <dSRC.CTAG0.VEND_TOP>
+	IF (<DLOCAL.AUMENTAR> > 11)
+		LOCAL.AUMENTAR=0
+		button 650 445 4005 4007 0 <EVAL <LOCAL.PAGE>+1> 1
+		DTEXT 565 447 0481 Sonraki sayfa
+		LOCAL.PAGE += 1
+		PAGE <EVAL <LOCAL.PAGE>>
+		button 65 445 4014 4016 0 <EVAL <LOCAL.PAGE>-1> 1
+		DTEXT 95 447 0481 Önceki sayfa
+	ENDIF
+LOCAL.AUMENTAR += 1
+
+dtext 60 <EVAL (<DLOCAL.AUMENTAR>*20)+180> <qval (<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>)?<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>:<EVAL 0481>> <STRTRIM <qval (<UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.attr>&attr_magic)?magical:> <STRSUB 0 20 <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.NAME>>>
+dtext 210 <EVAL (<DLOCAL.AUMENTAR>*20)+180> <qval (<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>)?<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>:<EVAL 0481>> <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.F_MAGICSHOW2>
+dtext 255 <EVAL (<DLOCAL.AUMENTAR>*20)+180> <qval (<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>)?<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>:<EVAL 0481>> %<eval (100 - ((<UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.more1l> * 100) / <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.more1h>))> eski
+dtext 330 <EVAL (<DLOCAL.AUMENTAR>*20)+180> <qval (<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>)?<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>:<EVAL 0481>> <STRSUB 0 20 <F_DECIMAL <dUID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.PRICE>>> gp
+dtext 430 <EVAL (<DLOCAL.AUMENTAR>*20)+180> <qval (<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>)?<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>:<EVAL 0481>> <STRSUB 0 22 <UID.<UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.TOPOBJ.UID>.memoryfindtype.memory_ipet.link.fullname>>
+button 630 <EVAL (<DLOCAL.AUMENTAR>*20)+178> 4005 4007 20 0 <EVAL <DLOCAL.X>+10000>
+gumppictiled 58 <EVAL (<DLOCAL.AUMENTAR>*20)+200> 625 1 2417
+ENDFOR
+ELSEIF (<dSRC.CTAG0.VEND_SEARCHK>)
+dtext 150 220 1100 "Silah, Armor, Kıyafet" kategorisinde bu kriterlerde satılık bir eşya bulunamadı.
+ENDIF
+SRC.CTAG0.VEND_SEARCHK
+SRC.CTAG0.LOCALMAGICAL
+src.ctag0.LOCALSAY
+	
+[dialog d_pv_shared_weap button]
+ON 0
+SRC.CTAG0.LOCALMAGICAL
+
+ON 990
+SRC.CTAG0.VEND_TOP
+SRC.CTAG0.LOCALMAGICAL
+src.ctag0.LOCALSAY
+SRC.SDIALOG d_pv_shared_weap
+
+ON 991
+SRC.CTAG0.VEND_TOP
+SRC.CTAG0.LOCALMAGICAL
+src.ctag0.LOCALSAY
+SRC.SDIALOG d_pv_shared_mount
+
+on 992
+SRC.CTAG0.VEND_TOP
+SRC.CTAG0.LOCALMAGICAL
+src.ctag0.LOCALSAY
+SRC.SDIALOG d_pv_shared_other
+
+ON 201
+IF (<argchk[101]>)
+src.ctag0.localmagical 3
+ELSEIF (<argchk[102]>)
+src.ctag0.localmagical 6
+ELSEIF (<argchk[103]>)
+src.ctag0.localmagical 9
+ELSEIF (<argchk[104]>)
+src.ctag0.localmagical 12
+ELSEIF (<argchk[105]>)
+src.ctag0.localmagical 15
+ENDIF
+src.ctag0.LOCALSAY
+SRC.CTAG0.SEARCHHASAR
+SRC.SDIALOG d_pv_shared_weap
+
+ON 202
+IF (<argchk[101]>)
+src.ctag0.localmagical 3
+ELSEIF (<argchk[102]>)
+src.ctag0.localmagical 6
+ELSEIF (<argchk[103]>)
+src.ctag0.localmagical 9
+ELSEIF (<argchk[104]>)
+src.ctag0.localmagical 12
+ELSEIF (<argchk[105]>)
+src.ctag0.localmagical 15
+ENDIF
+src.ctag0.LOCALSAY
+SRC.CTAG0.SEARCHHASAR 1
+SRC.SDIALOG d_pv_shared_weap
+
+
+ON 10000 999999999999999
+LOCAL.ARGN <EVAL <DARGN>-10000>
+LOCAL.REF66 <REF66>
+REF66 <UID.<SRC.CTAG0.VEND_UID<DLOCAL.ARGN>>>
+
+IF !(<UID.<SRC.CTAG0.VENDMASTER>.DISTANCE> < 4)
+SRC.SYSHATA Vendor master'dan uzaktasınız.
+RETURN 1
+ENDIF
+
+if !(<dREF66.topobj.ISPV>)
+	SRC.SYSHATA <REF66.NAME>, player vendor'un çantasında değil.
+	RETURN 1
+elseif (<REF66.topobj.memoryfindtype.memory_ipet.link>==<SRC.UID>)
+	SRC.SYSHATA Kendi vendorunuzdan alışveriş yapamazsınız.
+	return 1
+elseif (strmatch('<REF66.price>',''))
+	SRC.SYSHATA <REF66.NAME> satılık değil.
+	RETURN 1
+elseif (<REF66.price> <= 0)
+	SRC.SYSHATA <REF66.NAME> satılık değil.
+	RETURN 1
+elseif (<src.bankbalance> < <REF66.price>)
+	SRC.SYSHATA Bankanızın en üst kısmında <f_decimal <DREF66.price>> altınınız bulunmuyor.
+	RETURN 1
+else
+	src.ctag0.pvx = <REF66.topobj.uid>
+	src.ctag0.pvprc = <REF66.price>
+	TRY REF66.sdialog d_pv_buy2
+endif
+SRC.CTAG0.LOCALMAGICAL
+src.ctag0.LOCALSAY
+REF66 <LOCAL.REF66>
+
+on=1000
+src.ctag0.LOCALSAY
+if (strlen(<argtxt[1]>) < 3)
+src.syshata En az 3 karakter girmelisiniz.
+SRC.SDIALOG d_pv_shared_weap
+SRC.CTAG0.LOCALMAGICAL
+return 1
+elseif (strmatch('<argtxt[2]>','')||(strmatch('<argtxt[3]>','') //||(strmatch('<argtxt[4]>','')||(strmatch('<argtxt[5]>','')||(strmatch('<argtxt[6]>','')||(strmatch('<argtxt[7]>','')
+src.syshata Kutucukları boş bırakamazsınız.
+SRC.SDIALOG d_pv_shared_weap
+SRC.CTAG0.LOCALMAGICAL
+return 1
+elseif (<argtxt[2]> < 0)||(<argtxt[3]> < 0) //||(<argtxt[4]> < 0)||(<argtxt[5]> < 0)||(<argtxt[6]> < 0)||(<argtxt[7]> < 0)
+src.syshata En düşük değer 0 girebilirsiniz.
+SRC.SDIALOG d_pv_shared_weap
+SRC.CTAG0.LOCALMAGICAL
+return 1
+elseif (<dargtxt[3]> > 15000000)
+src.syshata En büyük değer <f_decimal 15000000> girebilirsiniz.
+SRC.SDIALOG d_pv_shared_weap
+SRC.CTAG0.LOCALMAGICAL
+SRC.TAG0.vend_s_p_2 15000000
+return 1
+endif
+
+IF (<argchk[101]>)
+local.magical 3
+ELSEIF (<argchk[102]>)
+local.magical 6
+ELSEIF (<argchk[103]>)
+local.magical 9
+ELSEIF (<argchk[104]>)
+local.magical 12
+ELSEIF (<argchk[105]>)
+local.magical 15
+ENDIF
+
+IF (<argchk[101]>)
+src.ctag0.localmagical 3
+ELSEIF (<argchk[102]>)
+src.ctag0.localmagical 6
+ELSEIF (<argchk[103]>)
+src.ctag0.localmagical 9
+ELSEIF (<argchk[104]>)
+src.ctag0.localmagical 12
+ELSEIF (<argchk[105]>)
+src.ctag0.localmagical 15
+ENDIF
+
+IF (<DSRC.CTAG0.SEARCHHASAR> > 0)
+local.hasar1 1
+local.hasar2 99
+ELSEIF
+local.hasar1 0
+local.hasar2 0
+ENDIF
+
+forchars 65000
+if (<DISPV>)
+TRY F_VENDSEARCH Silah,<SRC.UID>,<argtxt[1]>,<argtxt[2]>,<argtxt[3]>,<dlocal.magical>,<dlocal.hasar1>,<dlocal.hasar2>
+endif
+endfor
+
+SRC.TAG0.vend_s_search <argtxt[1]>
+SRC.TAG0.vend_s_p_1 <argtxt[2]>
+SRC.TAG0.vend_s_p_2 <argtxt[3]>
+
+//SRC.TAG0.vend_s_m_1 <argtxt[4]>
+//SRC.TAG0.vend_s_m_2 <argtxt[5]>
+//SRC.TAG0.vend_s_d_1 <argtxt[6]>
+//SRC.TAG0.vend_s_d_2 <argtxt[7]>
+src.ctag0.LOCALSAY
+SRC.sdialog d_pv_shared_weap
+
+//////////// BİNEK
+
+[dialog d_pv_shared_mount]
+30,30
+page 0
+F_DEF_DIALOG 50,20,640,460
+resizepic 60 50 2620 619 40
+
+dtext 250 30 0481 <serv.name> UO - Player Vendor Arama
+
+dtext 140 59 73 Silah, Armor, Kıyafet
+button 110 58 4005 4007 20 0 990
+
+dtext 380 59 <def.kirmizi> Binek, Hayvan
+button 350 58 4006 4007 20 0 991
+
+dtext 530 59 73 Diğer
+button 500 58 4005 4007 20 0 992
+
+dtext 117 102 1153 Isim :
+resizepic 165 95 2620 210 34
+dtextentry 174 103 195 25 1153 1 <SRC.TAG0.vend_s_search2>
+
+dtext 110 142 1153 Fiyat :
+resizepic 165 135 2620 100 34
+dtextentry 172 143 80 25 1153 2 <eval <SRC.TAG0.vend_s_p_1>>
+resizepic 270 135 2620 105 34
+dtextentry 277 143 90 25 1153 3 <eval <SRC.TAG0.vend_s_p_2>>
+
+button 575 143 4015 4016 20 0 1000
+dtext 605 145 0481 Listele
+
+dtext 125 180 55 İSİM
+//dtext 205 180 55 SİMGE
+dtext 260 180 55 STR-DEX
+dtext 340 180 55 FİYAT
+dtext 450 180 55 SATICI
+dtext 620 180 55 SATIN AL
+
+gumppictiled 58 200 625 1 2417
+
+IF (<dSRC.CTAG0.VEND_TOP>)
+LOCAL.AUMENTAR=0
+LOCAL.PAGE=1
+PAGE 1
+FOR X 1 <dSRC.CTAG0.VEND_TOP>
+	IF (<DLOCAL.AUMENTAR> > 3)
+		LOCAL.AUMENTAR=0
+		button 650 445 4005 4007 0 <EVAL <LOCAL.PAGE>+1> 1
+		DTEXT 565 447 0481 Sonraki sayfa
+		LOCAL.PAGE += 1
+		PAGE <EVAL <LOCAL.PAGE>>
+		button 65 445 4014 4016 0 <EVAL <LOCAL.PAGE>-1> 1
+		DTEXT 95 447 0481 Önceki sayfa
+	ENDIF
+
+LOCAL.AUMENTAR += 1
+dtext 120 <EVAL (<DLOCAL.AUMENTAR>*50)+165> <qval (<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>)?<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>:<EVAL 0481>> <STRSUB 0 20 <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.NAME>>
+tilepichue 60 <EVAL (<DLOCAL.AUMENTAR>*50)+155> <SERV.CHARDEF.<UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.TAG.TRADE_ID>.ICON> <EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>
+dtext 255 <EVAL (<DLOCAL.AUMENTAR>*50)+165> <qval (<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>)?<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>:<EVAL 0481>> <dUID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.tag.trade_str>-<dUID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.tag.trade_DEX>
+dtext 330 <EVAL (<DLOCAL.AUMENTAR>*50)+165> <qval (<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>)?<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>:<EVAL 0481>> <F_DECIMAL <STRSUB 0 20 <dUID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.PRICE>>> gp
+dtext 430 <EVAL (<DLOCAL.AUMENTAR>*50)+165> <qval (<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>)?<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>:<EVAL 0481>> <STRSUB 0 22 <UID.<UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.TOPOBJ.UID>.memoryfindtype.memory_ipet.link.fullname>>
+button 630 <EVAL (<DLOCAL.AUMENTAR>*50)+163> 4005 4007 20 0 <EVAL <DLOCAL.X>+10000>
+gumppictiled 58 <EVAL (<DLOCAL.AUMENTAR>*50)+200> 625 1 2417
+ENDFOR
+ELSEIF (<dSRC.CTAG0.VEND_SEARCHK>)
+dtext 200 220 1100 "Binek" kategorisinde bu isimde satılık bir eşya bulunamadı.
+ENDIF
+SRC.CTAG0.VEND_SEARCHK
+src.ctag0.LOCALSAY
+
+[dialog d_pv_shared_mount button]
+ON 990
+SRC.CTAG0.SEARCHHASAR
+SRC.CTAG0.VEND_TOP
+src.ctag0.LOCALSAY
+SRC.SDIALOG d_pv_shared_weap
+
+ON 991
+src.ctag0.LOCALSAY
+SRC.CTAG0.VEND_TOP
+SRC.SDIALOG d_pv_shared_mount
+
+on 992
+SRC.CTAG0.VEND_TOP
+src.ctag0.LOCALSAY
+SRC.SDIALOG d_pv_shared_other
+
+ON 10000 999999999999999
+LOCAL.ARGN <EVAL <DARGN>-10000>
+LOCAL.REF66 <REF66>
+REF66 <UID.<SRC.CTAG0.VEND_UID<DLOCAL.ARGN>>>
+
+IF !(<UID.<SRC.CTAG0.VENDMASTER>.DISTANCE> < 4)
+SRC.SYSHATA Vendor master'dan uzaktasınız.
+RETURN 1
+ENDIF
+
+if !(<DREF66.topobj.ISPV>)
+	SRC.SYSHATA <REF66.NAME>, player vendor'un çantasında değil.
+	RETURN 1
+elseif (<REF66.topobj.memoryfindtype.memory_ipet.link>==<SRC.UID>)
+	SRC.SYSHATA Kendi vendorunuzdan alışveriş yapamazsınız.
+	return 1
+elseif (strmatch('<REF66.price>',''))
+	SRC.SYSHATA <REF66.NAME> satılık değil.
+	RETURN 1
+elseif (<REF66.price> <= 0)
+	SRC.SYSHATA <REF66.NAME> satılık değil.
+	RETURN 1
+elseif (<src.bankbalance> < <REF66.price>)
+	SRC.SYSHATA Bankanızın en üst kısmında <f_decimal <DREF66.price>> altınınız bulunmuyor.
+	RETURN 1
+else
+	src.ctag0.esyatur 
+	src.ctag0.pvx = <REF66.topobj.uid>
+	src.ctag0.pvprc = <REF66.price>
+	TRY REF66.sdialog d_pv_buy2
+endif
+
+REF66 <LOCAL.REF66>
+src.ctag0.LOCALSAY
+
+on=1000
+src.ctag0.LOCALSAY
+if (strlen(<argtxt[1]>) < 3)
+src.syshata En az 3 karakter girmelisiniz.
+SRC.SDIALOG d_pv_shared_mount
+return 1
+elseif (strmatch('<argtxt[2]>','')||(strmatch('<argtxt[3]>','')
+src.syshata Kutucukları boş bırakamazsınız.
+SRC.SDIALOG d_pv_shared_mount
+return 1
+elseif (<argtxt[2]> < 0)||(<argtxt[3]> < 0)
+src.syshata En düşük değer 0 girebilirsiniz.
+SRC.SDIALOG d_pv_shared_mount
+return 1
+elseif (<dargtxt[3]> > 15000000)
+src.syshata En büyük değer <f_decimal 15000000> girebilirsiniz.
+SRC.SDIALOG d_pv_shared_mount
+SRC.TAG0.vend_s_p_2 15000000
+return 1
+endif
+
+forchars 65000
+if (<DISPV>)
+TRY F_VENDSEARCH Binek,<SRC.UID>,<argtxt[1]>,<argtxt[2]>,<argtxt[3]>
+endif
+endfor
+
+SRC.TAG0.vend_s_search2 <argtxt[1]>
+SRC.TAG0.vend_s_p_1 <argtxt[2]>
+SRC.TAG0.vend_s_p_2 <argtxt[3]>
+
+src.ctag0.LOCALSAY
+SRC.SDIALOG d_pv_shared_mount
+
+
+/////DİĞER
+
+[dialog d_pv_shared_other]
+30,30
+page 0
+F_DEF_DIALOG 50,20,640,460
+resizepic 60 50 2620 619 40
+
+dtext 250 30 0481 <serv.name> UO - Player Vendor Arama
+
+dtext 140 59 73 Silah, Armor, Kıyafet
+button 110 58 4005 4007 20 0 990
+
+dtext 380 59 73 Binek, Hayvan
+button 350 58 4005 4007 20 0 991
+
+dtext 530 59 <def.kirmizi> Diğer
+button 500 58 4006 4007 20 0 992
+
+dtext 117 102 1153 Isim :
+resizepic 165 95 2620 210 34
+dtextentry 174 103 195 25 1153 1 <SRC.TAG0.vend_s_search3>
+
+dtext 110 142 1153 Fiyat :
+resizepic 165 135 2620 100 34
+dtextentry 172 143 80 25 1153 2 <eval <SRC.TAG0.vend_s_p_1>>
+resizepic 270 135 2620 105 34
+dtextentry 277 143 90 25 1153 3 <eval <SRC.TAG0.vend_s_p_2>>
+
+button 575 143 4015 4016 20 0 1000
+dtext 605 145 0481 Listele
+
+dtext 85 180 55 İSİM
+
+dtext 260 180 55 MİKTAR
+dtext 340 180 55 FİYAT
+dtext 450 180 55 SATICI
+dtext 620 180 55 SATIN AL
+
+gumppictiled 58 200 625 1 2417
+
+IF (<dSRC.CTAG0.VEND_TOP>)
+LOCAL.AUMENTAR=0
+LOCAL.PAGE=1
+PAGE 1
+FOR X 1 <dSRC.CTAG0.VEND_TOP>
+	IF (<DLOCAL.AUMENTAR> > 11)
+		LOCAL.AUMENTAR=0
+		button 650 445 4005 4007 0 <EVAL <LOCAL.PAGE>+1> 1
+		DTEXT 565 447 0481 Sonraki sayfa
+		LOCAL.PAGE += 1
+		PAGE <EVAL <LOCAL.PAGE>>
+		button 65 445 4014 4016 0 <EVAL <LOCAL.PAGE>-1> 1
+		DTEXT 95 447 0481 Önceki sayfa
+	ENDIF
+LOCAL.AUMENTAR += 1
+
+dtext 60 <EVAL (<DLOCAL.AUMENTAR>*20)+180> <qval (<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>)?<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>:<EVAL 0481>> <STRSUB 0 31 <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.NAME>>
+dtext 260 <EVAL (<DLOCAL.AUMENTAR>*20)+180> <qval (<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>)?<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>:<EVAL 0481>> <qval (<UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.BASEID> == i_keg_potion)?<dUID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.MOREX>:<dUID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.AMOUNT>>
+dtext 330 <EVAL (<DLOCAL.AUMENTAR>*20)+180> <qval (<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>)?<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>:<EVAL 0481>> <F_DECIMAL <STRSUB 0 20 <dUID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.PRICE>>> gp
+dtext 430 <EVAL (<DLOCAL.AUMENTAR>*20)+180> <qval (<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>)?<EVAL <UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.COLOR>>:<EVAL 0481>> <STRSUB 0 22 <UID.<UID.<SRC.CTAG0.VEND_UID<DLOCAL.X>>.TOPOBJ.UID>.memoryfindtype.memory_ipet.link.fullname>>
+button 630 <EVAL (<DLOCAL.AUMENTAR>*20)+178> 4005 4007 20 0 <EVAL <DLOCAL.X>+10000>
+gumppictiled 58 <EVAL (<DLOCAL.AUMENTAR>*20)+200> 625 1 2417
+ENDFOR
+ELSEIF (<dSRC.CTAG0.VEND_SEARCHK>)
+dtext 200 220 1100 "Diğer" kategorisinde bu isimde satılık bir eşya bulunamadı.
+ENDIF
+SRC.CTAG0.VEND_SEARCHK
+src.ctag0.LOCALSAY
+	
+[dialog d_pv_shared_other button]
+on 0
+src.ctag0.LOCALSAY
+
+ON 990
+SRC.CTAG0.VEND_TOP
+SRC.CTAG0.SEARCHHASAR
+src.ctag0.LOCALSAY
+SRC.SDIALOG d_pv_shared_weap
+
+ON 991
+SRC.CTAG0.VEND_TOP
+src.ctag0.LOCALSAY
+SRC.SDIALOG d_pv_shared_mount
+
+on 992
+SRC.CTAG0.VEND_TOP
+src.ctag0.LOCALSAY
+SRC.SDIALOG d_pv_shared_other
+
+ON 10000 999999999999999
+LOCAL.ARGN <EVAL <DARGN>-10000>
+LOCAL.REF66 <REF66>
+REF66 <UID.<SRC.CTAG0.VEND_UID<DLOCAL.ARGN>>>
+
+IF !(<UID.<SRC.CTAG0.VENDMASTER>.DISTANCE> < 4)
+SRC.SYSHATA Vendor master'dan uzaktasınız.
+RETURN 1
+ENDIF
+
+if !(<DREF66.topobj.ISPV>)
+	SRC.SYSHATA <REF66.NAME>, player vendor'un çantasında değil.
+	RETURN 1
+elseif (<REF66.topobj.memoryfindtype.memory_ipet.link>==<SRC.UID>)
+	SRC.SYSHATA Kendi vendorunuzdan alışveriş yapamazsınız.
+	return 1
+elseif (strmatch('<REF66.price>',''))
+	SRC.SYSHATA <REF66.NAME> satılık değil.
+	RETURN 1
+elseif (<REF66.price> <= 0)
+	SRC.SYSHATA <REF66.NAME> satılık değil.
+	RETURN 1
+elseif (<src.bankbalance> < <REF66.price>)
+	SRC.SYSHATA Bankanızın en üst kısmında <f_decimal <DREF66.price>> altınınız bulunmuyor.
+	RETURN 1
+else
+	src.ctag0.pvx = <REF66.topobj.uid>
+	src.ctag0.pvprc = <REF66.price>
+	TRY REF66.sdialog d_pv_buy2
+endif
+
+REF66 <LOCAL.REF66>
+src.ctag0.LOCALSAY
+
+on=1000
+src.ctag0.LOCALSAY
+if (strlen(<argtxt[1]>) < 3)
+src.syshata En az 3 karakter girmelisiniz.
+SRC.SDIALOG d_pv_shared_other
+return 1
+elseif (strmatch('<argtxt[2]>','')||(strmatch('<argtxt[3]>','')
+src.syshata Kutucukları boş bırakamazsınız.
+SRC.SDIALOG d_pv_shared_other
+return 1
+elseif (<argtxt[2]> < 0)||(<argtxt[3]> < 0)
+src.syshata En düşük değer 0 girebilirsiniz.
+SRC.SDIALOG d_pv_shared_other
+return 1
+elseif (<dargtxt[3]> > 15000000)
+src.syshata En büyük değer <f_decimal 15000000> girebilirsiniz.
+SRC.SDIALOG d_pv_shared_other
+SRC.TAG0.vend_s_p_2 15000000
+return 1
+endif
+
+forchars 65000
+if (<DISPV>)
+TRY F_VENDSEARCH Diger,<SRC.UID>,<argtxt[1]>,<argtxt[2]>,<argtxt[3]>
+endif
+endfor
+
+SRC.TAG0.vend_s_search3 <argtxt[1]>
+SRC.TAG0.vend_s_p_1 <argtxt[2]>
+SRC.TAG0.vend_s_p_2 <argtxt[3]>
+
+src.ctag0.LOCALSAY
+SRC.SDIALOG d_pv_shared_other
+
+
+//////////// FUNCS
+
+
+[FUNCTION F_VENDSEARCH]
+LOCAL.OLDREF77 <REF77>
+
+IF (strmatch('<ARGV[0]>','Silah'))
+	REF77 <UID.<ARGV[1]>>
+		FORCONT <FINDLAYER.21.UID> 10 // 10 - how many subcontainers the function goes through, if set 0, it affects only items in container with UID
+			IF !(<Dsrc.ctag0.LOCALSAY> > 90)
+			if ((<type> == t_armor) || (<type> == t_armor_leather) || (<type> == t_shield) || (<type> == t_clothing) || (<type> == t_weapon_sword) || (<type> == t_weapon_fence) || (<type> == t_weapon_mace_staff) || (<type> == t_weapon_mace_smith) || (<type> == t_weapon_mace_pick) || (<type> == t_weapon_bow) || (<type> == t_weapon_xbow) || (<type> == t_weapon_axe) || (<type> == t_weapon_mace_sharp))
+				IF (<dPRICE> > 0) && (STRMATCH(*<ARGV[2]>*, <NAME>)) && ((<dARGV[3]> <= <dPRICE>) && (<dARGV[4]> >= <dPRICE>)) && (<dARGV[5]> == <dF_MAGICSHOW3>) && ((<eval (100 - ((<more1l> * 100) / <more1h>))> >= <dARGV[6]>) && (<eval (100 - ((<more1l> * 100) / <more1h>))> <= <dARGV[7]>))
+					src.ctag0.LOCALSAY ++
+					TRY REF77.CTAG0.VEND_UID<Dsrc.ctag0.LOCALSAY> <UID>
+    			ENDIF
+			elseif (<baseid>==i_bag_armor)
+				IF (<dPRICE> > 0) && (STRMATCH(*<ARGV[2]>*, <NAME>)) && ((<dARGV[3]> <= <dPRICE>) && (<dARGV[4]> >= <dPRICE>)) 
+					src.ctag0.LOCALSAY ++
+					TRY REF77.CTAG0.VEND_UID<Dsrc.ctag0.LOCALSAY> <UID>
+				ENDIF
+			endif
+			ENDIF
+		ENDFOR
+	TRY REF77.CTAG0.VEND_TOP <Dsrc.ctag0.LOCALSAY>
+	TRY REF77.CTAG0.VEND_SEARCHK 1
+ENDIF
+
+IF (strmatch('<ARGV[0]>','Binek'))
+	REF77 <UID.<ARGV[1]>>
+		FORCONT <FINDLAYER.21.UID> 10 // 10 - how many subcontainers the function goes through, if set 0, it affects only items in container with UID
+			IF !(<Dsrc.ctag0.LOCALSAY> > 90)
+			if (<type> == t_animaldeed)
+				IF (<dPRICE> > 0) && ((STRMATCH(*<ARGV[2]>*, <NAME>)) || (STRMATCH(*<ARGV[2]>*, <TAG.TRADE>)) || (STRMATCH(*<ARGV[2]>*, <TAG.TRADE_NAME>))) && ((<dARGV[3]> <= <dPRICE>) && (<dARGV[4]> >= <dPRICE>))
+					src.ctag0.LOCALSAY ++
+					TRY REF77.CTAG0.VEND_UID<Dsrc.ctag0.LOCALSAY> <UID>
+    				ENDIF
+			endif
+			ENDIF
+		ENDFOR
+	TRY REF77.CTAG0.VEND_TOP <Dsrc.ctag0.LOCALSAY>
+	TRY REF77.CTAG0.VEND_SEARCHK 1
+ENDIF
+
+IF (strmatch('<ARGV[0]>','Diger'))
+	REF77 <UID.<ARGV[1]>>
+		FORCONT <FINDLAYER.21.UID> 10 // 10 - how many subcontainers the function goes through, if set 0, it affects only items in container with UID
+			IF !(<Dsrc.ctag0.LOCALSAY> > 90)
+			if !((<type> == t_animaldeed) || (<type> == t_armor) || (<type> == t_armor_leather) || (<type> == t_shield) || (<type> == t_clothing) || (<type> == t_weapon_sword) || (<type> == t_weapon_fence) || (<type> == t_weapon_mace_staff) || (<type> == t_weapon_mace_smith) || (<type> == t_weapon_mace_pick) || (<type> == t_weapon_bow) || (<type> == t_weapon_xbow) || (<type> == t_weapon_axe) || (<type> == t_weapon_mace_sharp))
+				IF (<dPRICE> > 0) && (STRMATCH(*<ARGV[2]>*, <NAME>)) && ((<dARGV[3]> <= <dPRICE>) && (<dARGV[4]> >= <dPRICE>)) 
+					src.ctag0.LOCALSAY ++
+					TRY REF77.CTAG0.VEND_UID<Dsrc.ctag0.LOCALSAY> <UID>
+    				ENDIF
+			endif
+			ENDIF
+		ENDFOR
+	TRY REF77.CTAG0.VEND_TOP <Dsrc.ctag0.LOCALSAY>
+	TRY REF77.CTAG0.VEND_SEARCHK 1
+ENDIF
+
+REF77 <LOCAL.OLDREF77>
+
+
+[dialog d_pv_buy2]
+300,200
+
+F_DEF_DIALOG 0,0,370,200
+
+resizepic 215 15 2620 135 170 // resim bg
+tilepichue 273 65 <serv.itemdef.<ID>.id> <dcolor>
+
+dtext 15 15 60 Eşya: <STRTRIM <qval (<attr>&attr_magic)?magical:> <STRSUB 0 26 <NAME>>>
+dtext 15 35 60 Adet: <qval (<BASEID> == i_keg_potion)?<MOREX>:<AMOUNT>>
+dtext 15 55 60 Fiyat: <f_decimal <price>> altın
+if ((<type> == t_armor) || (<type> == t_armor_leather) || (<type> == t_shield) || (<type> == t_clothing) || (<type> == t_weapon_sword) || (<type> == t_weapon_fence) || (<type> == t_weapon_mace_staff) || (<type> == t_weapon_mace_smith) || (<type> == t_weapon_mace_pick) || (<type> == t_weapon_bow) || (<type> == t_weapon_xbow) || (<type> == t_weapon_axe) || (<type> == t_weapon_mace_sharp))
+dtext 15 75 60 Hasar: %<eval (100 - ((<more1l> * 100) / <more1h>))> eski
+dtext 15 95 60 Büyü: <F_MAGICSHOW2>
+endif
+
+radio 20 125 210 211 0 1
+dtext 42 124 0481 Bankaya gönder
+
+button 20 155 <def.bno> 1 0 1
+button 120 155 <def.bno> 1 0 0
+dtext 50 157 <def.YESIL> Satın al
+dtext 150 157 <def.KIRMIZI> Vazgeç
+
+[dialog d_pv_buy2 button]
+On=1
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF !(<UID.<SRC.CTAG0.VENDMASTER>.DISTANCE> < 4)
+SRC.SYSHATA Vendor master'dan uzaktasınız.
+RETURN 1
+ENDIF
+if (strmatch('<price>',''))
+	src.sysh_trk Bu eşya satılık değil.
+elseif (<price> <= 0)
+	src.sysh_trk Bu eşya satılık değil.
+elseif !(<src.ctag0.pvx> == <topobj.uid>)
+        src.sysh_trk Eşya vendorun çantasında değil.
+        return 1
+elseif !(<src.ctag0.pvprc> == <price>)
+        src.sysh_trk Eşyanın fiyatı satın alma işlemi sırasında değiştirildi. 
+        src.sysh_trk Lütfen tekrar kontrol ediniz. 
+        return 1
+elseif (<topobj.memoryfindtype.memory_ipet.link>==<SRC.UID>)
+	SRC.SYSHATA Kendi vendorunuzdan alışveriş yapamazsınız.
+	return 1
+elseif (<src.bankbalance> >= <price>)
+	IF (<DTAG0.SLOTNO>) 
+	REF51 <UID.<TOPOBJ.UID>.TAG0.SIGN>
+	TRY UID.<TOPOBJ.UID>.TAG.REYONSLOT<DTAG0.SLOTNO>
+	TRY UID.<REF51.TAG0.SLOTGEM<DTAG0.SLOTNO>>.ID I_WORLDGEM_REYON
+	TRY UID.<REF51.TAG0.SLOTGEM<DTAG0.SLOTNO>>.ATTR 010|ATTR_INVIS
+	TRY UID.<REF51.TAG0.SLOTGEM<DTAG0.SLOTNO>>.COLOR
+	TRY UID.<REF51.TAG0.SLOTGEM<DTAG0.SLOTNO>>.TAG.PRICE
+	TRY UID.<REF51.TAG0.SLOTGEM<DTAG0.SLOTNO>>.AMOUNT 1
+	TRY UID.<REF51.TAG0.SLOTGEM<DTAG0.SLOTNO>>.UPDATE
+	TAG0.SLOTNO
+	ENDIF
+	src.gold -= <eval <price>>
+	IF (<TOPOBJ.TAG0.HOUSEVENDDO> > 0)
+	topobj.findlayer(29).more1 (<topobj.findlayer(29).more1> + <price>)
+	ELSE
+	topobj.findlayer(29).tag0.para (<topobj.findlayer(29).tag0.para> + <price>)
+	ENDIF
+	src.sysyes <name> isimli eşyayı <f_decimal <price>> altın karşılığında satın aldınız.
+	TRY UID.<topobj.uid>.memoryfindtype.memory_ipet.link.SYSYES <name> isimli eşya <f_decimal <price>> altın karşılığında satıldı.
+		IF (<argchk[1]>)	
+		cont <src.findlayer(29).uid>
+		ELSE
+		cont <src.findlayer(21).uid>
+		ENDIF
+	price 0
+	update
+	if ((<baseid> == i_fs) || (<baseid> == i_spellbook) || (<baseid> == i_rune_book) || (<baseid> == i_magic_reg30) || (<baseid> == i_magic_reg60) || (<baseid> == i_magic_reg90))
+		attr <attr>|attr_newbie
+	endif
+	IF (<dTAG0.NEWBIE>)
+	ATTR=<ATTR>|attr_newbie
+	ENDIF
+else
+	src.sysh_trk Bankanızın en üst kısmında bunu alacak kadar altın yok.
+endif

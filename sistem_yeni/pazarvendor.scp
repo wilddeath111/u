@@ -1,0 +1,1836 @@
+﻿[FUNCTION VENDKUR3] // bina giriş kısmı için
+SERV.NEWITEM 0b9d
+NEW.ATTR 010
+NEW.P <P>
+NEW.NUDGEDOWN 4
+NEW.UPDATE
+
+SERV.NEWITEM i_vendor_kira
+NEW.ATTR 010
+NEW.P <P>
+NEW.NUDGEUP 11
+NEW.FLIP
+NEW.UPDATE
+
+TARGETF F_VENDKUR3 <NEW.UID>
+SYSNORM Vendor konumunu için kendinizi seçin.
+
+[FUNCTION F_VENDKUR3]
+TRY UID.<ARGS>.TAG.VENDP <P>
+TRY UID.<ARGS>.TAG.VENDPX <P.X>
+TRY UID.<ARGS>.TAG.VENDPY <P.Y>
+TRY UID.<ARGS>.TAG.VENDPZ <P.Z>
+TRY UID.<ARGS>.TAG0.ANAGIRIS 1
+
+SERV.NEWITEM 0B06
+NEW.ATTR 010
+NEW.P <EVAL <P.X>-1> <EVAL <P.Y>+1> <P.Z>
+NEW.UPDATE
+SERV.NEWITEM I_WORLDGEM_REYON
+NEW.ATTR 010|attr_invis
+NEW.P <EVAL <P.X>-1> <EVAL <P.Y>+1> <P.Z>
+NEW.NUDGEUP 5
+NEW.UPDATE
+TRY UID.<ARGS>.TAG0.SLOTGEM1 <NEW.UID>
+SERV.NEWITEM 0B03
+NEW.P <EVAL <P.X>-1> <EVAL <P.Y>+1> <P.Z>
+NEW.NUDGEUP 3
+NEW.UPDATE
+
+SERV.NEWITEM 0B08
+NEW.ATTR 010
+NEW.P <EVAL <P.X>-1> <EVAL <P.Y>> <P.Z>
+NEW.UPDATE
+SERV.NEWITEM I_WORLDGEM_REYON
+NEW.ATTR 010|attr_invis
+NEW.P <EVAL <P.X>-1> <EVAL <P.Y>> <P.Z>
+NEW.NUDGEUP 5
+NEW.UPDATE
+TRY UID.<ARGS>.TAG0.SLOTGEM2 <NEW.UID>
+SERV.NEWITEM 0B05
+NEW.ATTR 010
+NEW.P <EVAL <P.X>-1> <EVAL <P.Y>> <P.Z>
+NEW.NUDGEUP 3
+NEW.UPDATE
+
+
+[FUNCTION VENDKUR2]
+SERV.NEWITEM 0b9d
+NEW.ATTR 010
+NEW.P <P>
+NEW.UPDATE
+
+SERV.NEWITEM i_vendor_kira
+NEW.ATTR 010
+NEW.P <P>
+NEW.NUDGEUP 15
+NEW.FLIP
+NEW.UPDATE
+
+TARGETF F_VENDKUR2 <NEW.UID>
+SYSNORM Vendor konumunu için kendinizi seçin.
+
+[FUNCTION F_VENDKUR2]
+TRY UID.<ARGS>.TAG.VENDP <P>
+TRY UID.<ARGS>.TAG.VENDPX <P.X>
+TRY UID.<ARGS>.TAG.VENDPY <P.Y>
+TRY UID.<ARGS>.TAG.VENDPZ <P.Z>
+
+SERV.NEWITEM 0B06
+NEW.ATTR 010
+NEW.P <EVAL <P.X>+1> <EVAL <P.Y>+1> <P.Z>
+NEW.UPDATE
+SERV.NEWITEM I_WORLDGEM_REYON
+NEW.ATTR 010|attr_invis
+NEW.P <EVAL <P.X>+1> <EVAL <P.Y>+1> <P.Z>
+NEW.NUDGEUP 5
+NEW.UPDATE
+TRY UID.<ARGS>.TAG0.SLOTGEM1 <NEW.UID>
+SERV.NEWITEM 0B03
+NEW.P <EVAL <P.X>+1> <EVAL <P.Y>+1> <P.Z>
+NEW.NUDGEUP 3
+NEW.UPDATE
+
+SERV.NEWITEM 0B07
+NEW.ATTR 010
+NEW.P <EVAL <P.X>+1> <EVAL <P.Y>> <P.Z>
+NEW.UPDATE
+SERV.NEWITEM I_WORLDGEM_REYON
+NEW.ATTR 010|attr_invis
+NEW.P <EVAL <P.X>+1> <EVAL <P.Y>> <P.Z>
+NEW.NUDGEUP 5
+NEW.UPDATE
+TRY UID.<ARGS>.TAG0.SLOTGEM1 <NEW.UID>
+SERV.NEWITEM 0B04
+NEW.P <EVAL <P.X>+1> <EVAL <P.Y>> <P.Z>
+NEW.NUDGEUP 3
+NEW.UPDATE
+
+SERV.NEWITEM 0B08
+NEW.ATTR 010
+NEW.P <EVAL <P.X>+1> <EVAL <P.Y>-1> <P.Z>
+NEW.UPDATE
+SERV.NEWITEM I_WORLDGEM_REYON
+NEW.ATTR 010|attr_invis
+NEW.P <EVAL <P.X>+1> <EVAL <P.Y>-1> <P.Z>
+NEW.NUDGEUP 5
+NEW.UPDATE
+TRY UID.<ARGS>.TAG0.SLOTGEM3 <NEW.UID>
+SERV.NEWITEM 0B05
+NEW.ATTR 010
+NEW.P <EVAL <P.X>+1> <EVAL <P.Y>-1> <P.Z>
+NEW.NUDGEUP 3
+NEW.UPDATE
+
+
+[FUNCTION VENDKUR]
+SERV.NEWITEM 0b9d
+NEW.ATTR 010
+NEW.P <P>
+NEW.NUDGEUP 1
+NEW.FLIP
+NEW.UPDATE
+
+SERV.NEWITEM i_vendor_kira
+NEW.ATTR 010
+NEW.P <P>
+NEW.NUDGEUP 15
+NEW.UPDATE
+
+TARGETF F_VENDKUR <NEW.UID>
+SYSNORM Vendor konumunu için kendinizi seçin.
+
+[FUNCTION F_VENDKUR]
+TRY UID.<ARGS>.TAG.VENDP <P>
+TRY UID.<ARGS>.TAG.VENDPX <P.X>
+TRY UID.<ARGS>.TAG.VENDPY <P.Y>
+TRY UID.<ARGS>.TAG.VENDPZ <P.Z>
+
+SERV.NEWITEM 0B02
+NEW.ATTR 010
+NEW.P <EVAL <P.X>-1> <EVAL <P.Y>+1> <P.Z>
+NEW.UPDATE
+SERV.NEWITEM I_WORLDGEM_REYON
+NEW.ATTR 010|attr_invis
+NEW.P <EVAL <P.X>-1> <EVAL <P.Y>+1> <P.Z>
+NEW.NUDGEUP 5
+NEW.UPDATE
+TRY UID.<ARGS>.TAG0.SLOTGEM1 <NEW.UID>
+SERV.NEWITEM 0AFF
+NEW.P <EVAL <P.X>-1> <EVAL <P.Y>+1> <P.Z>
+NEW.NUDGEUP 3
+NEW.UPDATE
+
+SERV.NEWITEM I_DISPLAYCASE_BASE_LONG_CENTER
+NEW.ATTR 010
+NEW.P <P.X> <EVAL <P.Y>+1> <P.Z>
+NEW.UPDATE
+SERV.NEWITEM I_WORLDGEM_REYON
+NEW.ATTR 010|attr_invis
+NEW.P <P.X> <EVAL <P.Y>+1> <P.Z>
+NEW.NUDGEUP 5
+NEW.UPDATE
+TRY UID.<ARGS>.TAG0.SLOTGEM2 <NEW.UID>
+SERV.NEWITEM I_DISPLAYCASE_RAIL_LONG_CENTER
+NEW.ATTR 010
+NEW.P <P.X> <EVAL <P.Y>+1> <P.Z>
+NEW.NUDGEUP 3
+NEW.UPDATE
+
+SERV.NEWITEM I_DISPLAYCASE_BASE_LONG_END
+NEW.ATTR 010
+NEW.P <EVAL <P.X>+1> <EVAL <P.Y>+1> <P.Z>
+NEW.UPDATE
+SERV.NEWITEM I_WORLDGEM_REYON
+NEW.ATTR 010|attr_invis
+NEW.P <EVAL <P.X>+1> <EVAL <P.Y>+1> <P.Z>
+NEW.NUDGEUP 5
+NEW.UPDATE
+TRY UID.<ARGS>.TAG0.SLOTGEM3 <NEW.UID>
+SERV.NEWITEM I_DISPLAYCASE_RAIL_LONG_END
+NEW.ATTR 010
+NEW.P <EVAL <P.X>+1> <EVAL <P.Y>+1> <P.Z>
+NEW.NUDGEUP 3
+NEW.UPDATE
+
+[ITEMDEF I_WORLDGEM_REYON]
+DEFNAME=I_WORLDGEM_REYON
+ID=I_WORLDGEM_BIT
+VALUE=1
+TYPE=T_SCRIPT
+CATEGORY=Provisions - GM Items
+SUBSECTION=Special Items
+DESCRIPTION=Worldgem Bit
+NAME reyon gem bit
+
+[EVENTS E_REYON]
+ON=@DCLICK
+RETURN 1
+
+[ITEMDEF i_vendor_kira]
+ID=I_SIGN_BLANK
+NAME=Kiralik Dukkan
+TYPE=t_script
+DESCRIPTION=Kiralik Vendor
+
+ON=@CREATE
+COLOR=color_o_bloodrock
+ATTR=010
+TAG.kiralik=0
+TAG.owner=0
+
+ON=@CLICK
+if (<eval <tag.kiralik>> == 1)
+message @70,,1 [Kiralanmış]
+else
+message @32,,1 [Kiralanmamış]
+endif
+message @038A,,1 Vendor Sign
+return 1
+
+ON=@DCLICK
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF (<DISTANCE> > 4)
+SRC.SYSHATA Yeterince yakın değilsiniz.
+RETURN 1
+ENDIF
+IF (<LINK.TAG.owner>==<SRC.UID>)// || (<SRC.ISGM>)
+SDIALOG d_vendor_admin
+RETURN 1
+ENDIF
+IF (<DTAG0.KIRALIK>)
+SRC.SYSHATA Bu dükkan zaten kiralanmış.
+RETURN 1
+ENDIF
+IF (<DSRC.TAG0.VENDORVAR>)
+SRC.SYSHATA Size ait başka bir vendor bulunuyor.
+RETURN 1
+ENDIF
+
+SDIALOG d_vendor_intro
+RETURN 1
+
+ON=@TIMER
+REF21=<link.findlayer(21).uid>
+IF (<eval <link.findlayer(29).tag.para>> > 2500)
+SERV.NEWITEM I_CHECK_BRNX
+NEW.MORE1 <eval <link.findlayer(29).tag.para>>
+NEW.MORE2 <UID.<TAG0.OWNER>.uid>
+NEW.CONT <UID.<TAG0.OWNER>.findlayer.29.uid>
+NEW.UPDATE
+ENDIF
+if (<REF21.rescount>)
+SERV.NEWITEM I_BAG
+REF22 <NEW>
+REF22.cont=<UID.<TAG0.OWNER>.findlayer.29.uid>
+FOR X 1 <REF21.rescount>
+ref21.findcont.0.price 0
+ref21.findcont.0.tag.price
+ref21.findcont.0.tag.slotno
+ref21.findcont.0.cont <REF22>
+ref21.findcont.0.update
+ref21.findcont.<DLOCAL.X>.price 0
+ref21.findcont.<DLOCAL.X>.tag.price
+ref21.findcont.<DLOCAL.X>.tag.slotno
+ref21.findcont.<DLOCAL.X>.cont <REF22>
+ref21.findcont.<DLOCAL.X>.update
+ENDFOR
+REF21.UPDATE
+REF22.fix
+REF22.UPDATE
+ENDIF
+IF !((<DISPID>==I_SIGN_BLANK) || (<DISPID>==01F29))
+	IF (<DTAG0.ANAGIRIS>)
+		NUDGEUP 14
+		DISPID 01F29
+	ELSE
+		NUDGEUP 13
+		DISPID I_SIGN_BLANK
+	ENDIF
+ENDIF
+TRY UID.<TAG0.OWNER>.tag.vendor
+TRY UID.<TAG0.OWNER>.tag.vendorVAR
+TRY UID.<TAG0.OWNER>.SYSNORM Vendorunuz başarıyla kaldırıldı. Kalan eşyalar bankanıza gönderildi.
+LINK.REMOVE
+LINK=04fffffff
+TAG.kiralik=0
+TAG.owner=0
+COLOR=color_o_bloodrock
+
+FOR X 1 3
+TRY UID.<TAG0.SLOTGEM<dLOCAL.X>>.ID I_WORLDGEM_REYON
+TRY UID.<TAG0.SLOTGEM<dLOCAL.X>>.ATTR 010|ATTR_INVIS
+TRY UID.<TAG0.SLOTGEM<dLOCAL.X>>.COLOR
+TRY UID.<TAG0.SLOTGEM<dLOCAL.X>>.TAG.PRICE
+TRY UID.<TAG0.SLOTGEM<dLOCAL.X>>.AMOUNT 1
+TRY UID.<TAG0.SLOTGEM<dLOCAL.X>>.UPDATE
+ENDFOR
+
+RETURN 1
+
+[DIALOG d_vendor_reyon]
+100,100
+F_DEF_DIALOG 81,93,300,206
+
+DTEXT 100 108 55 Vendor Reyon İşlemleri
+
+
+button 107 140 2151 2152 1 0 1
+dtext 141 146 90 1. slot: 
+
+resizepic 191 136 2620 85 40
+IF !((<ISEMPTY <TAG0.REYONSLOT1>>) || (<ISNUM <TAG0.REYONSLOT1>>))
+IF (<TAG0.REYONSLOT1>==I_COIN_SILVER)
+DTEXT 200 145 1153 Silver Coin
+else
+tilepichue 195 140 <serv.itemdef.<TAG0.REYONSLOT1>.id> <dTAG0.REYONSLOTCOLOR1>
+endif
+ELSE
+DTEXT 200 145 1153 BOŞ
+ENDIF
+
+button 107 190 2151 2152 1 0 2
+dtext 141 196 90 2. slot: 
+
+resizepic 191 186 2620 85 40
+IF !((<ISEMPTY <TAG0.REYONSLOT2>>) || (<ISNUM <TAG0.REYONSLOT2>>))
+IF (<TAG0.REYONSLOT2>==I_COIN_SILVER)
+DTEXT 200 145 1153 Silver Coin
+else
+tilepichue 195 190 <serv.itemdef.<TAG0.REYONSLOT2>.id> <dTAG0.REYONSLOTCOLOR2>
+endif
+ELSE
+DTEXT 200 195 1153 BOŞ
+ENDIF
+
+IF !(<UID.<TAG0.SIGN>.TAG0.ANAGIRIS>)
+button 107 240 2151 2152 1 0 3
+dtext 141 246 90 3. slot:
+resizepic 191 236 2620 85 40
+IF !((<ISEMPTY <TAG0.REYONSLOT3>>) || (<ISNUM <TAG0.REYONSLOT3>>))
+IF (<TAG0.REYONSLOT3>==I_COIN_SILVER)
+DTEXT 200 145 1153 Silver Coin
+else
+tilepichue 195 240 <serv.itemdef.<TAG0.REYONSLOT3>.id> <dTAG0.REYONSLOTCOLOR3>
+endif
+ELSE
+DTEXT 200 245 1153 BOŞ
+ENDIF
+ENDIF
+
+[DIALOG d_vendor_reyon BUTTON]
+on=0
+
+ON=1 3
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+SRC.TARGETF F_REYON_EKLE <DARGN>
+
+
+[FUNCTION F_REYON_EKLE]
+REF33 <ARGO>
+
+IF !((<REF33.CONT.UID>==<UID.<SRC.TAG.VENDOR>.FINDLAYER.21.UID>)
+	IF (<REF33.CONT.TYPE>==T_CONTAINER)
+		IF !((<REF33.CONT.CONT.UID>==<UID.<SRC.TAG.VENDOR>.FINDLAYER.21.UID>)
+			SRC.SYSHATA Eşya vendorunuzun çantasında değil.
+			RETURN 1
+		ENDIF
+	ELSE
+		SRC.SYSHATA Eşya vendorunuzun çantasında değil.
+		RETURN 1
+	ENDIF
+ENDIF
+
+IF !(<REF33.PRICE> > 0)
+SRC.SYSHATA Reyona ekleyeceğiniz eşya satılık olmalıdır.
+RETURN 1
+ENDIF
+IF (<REF33.TAG0.SLOTNO> > 0)
+SRC.SYSHATA Bu eşya zaten reyonda.
+RETURN 1
+ENDIF
+
+TRY UID.<SRC.TAG0.VENDOR>.TAG0.REYONSLOT<DARGS> <REF33.BASEID>
+TRY UID.<SRC.TAG0.VENDOR>.TAG0.REYONSLOTCOLOR<DARGS> <REF33.COLOR>
+SRC.SYSNORM <REF33.NAME> reyonda <DARGS>. sırada sergilenecektir.
+LOCAL.TABELA <UID.<SRC.TAG0.VENDOR>.TAG0.SIGN>
+TRY UID.<UID.<LOCAL.TABELA>.TAG.SLOTITEM<DARGS>>.TAG.SLOTNO
+TRY UID.<UID.<LOCAL.TABELA>.TAG.SLOTGEM<DARGS>>.ID <REF33.BASEID>
+TRY UID.<UID.<LOCAL.TABELA>.TAG.SLOTGEM<DARGS>>.COLOR <REF33.COLOR>
+TRY UID.<UID.<LOCAL.TABELA>.TAG.SLOTGEM<DARGS>>.AMOUNT <REF33.AMOUNT>
+TRY UID.<UID.<LOCAL.TABELA>.TAG.SLOTGEM<DARGS>>.ATTR 010
+TRY UID.<UID.<LOCAL.TABELA>.TAG.SLOTGEM<DARGS>>.EVENTS +E_REYON
+TRY UID.<UID.<LOCAL.TABELA>.TAG.SLOTGEM<DARGS>>.TAG.PRICE <dREF33.PRICE>
+TRY UID.<UID.<LOCAL.TABELA>.TAG.SLOTGEM<DARGS>>.UPDATE
+TRY UID.<LOCAL.TABELA>.TAG.SLOTITEM<DARGS> <REF33.UID>
+REF33.TAG.SLOTNO <DARGS>
+
+
+[DIALOG d_vendor_admin]
+100,100
+F_DEF_DIALOG 81,93,365,236
+
+DTEXT 100 108 55 Vendor İşlemleri
+
+button 107 130 2151 2153 1 0 1
+dtext 141 136 90 150k karşılığında vendor süresini uzat. [1 hafta]
+
+button 107 160 2151 2153 1 0 2
+dtext 141 166 90 PV deed karşılığında vendor süresini uzat. [1 ay]
+
+button 107 190 2151 2153 1 0 3
+dtext 141 196 90 Vendoru terk et.
+
+button 107 220 2151 2153 1 0 4
+dtext 141 226 90 Banka aç.
+
+button 107 250 2151 2153 1 0 5
+dtext 141 256 90 Tabela değiştir.
+
+local.temp = <timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+
+dtext 107 286 033 Kalan süre: <dlocal.day> gün, <dlocal.hours> saat, <dlocal.minutes> dakika
+
+[DIALOG d_vendor_admin BUTTON]
+on=0
+
+ON=1
+IF !(<SRC.GOLD> < 150000)
+    src.gold -= 150000
+    TIMER=<eval <TIMER>+604800>
+    link.say @0481,,1 Çalışma süremi 1 hafta daha uzattınız.
+ELSE
+    SRC.SYSHATA Bankanızın en üst kısmında 150.000 altın bulunmuyor.
+ENDIF
+
+ON=2
+IF (<SRC.RESTEST 1 I_DON_PV>)
+    SRC.CONSUME 1 I_DON_PV
+    TIMER=<eval <TIMER>+2419200>
+    link.say @0481,,1 Çalışma süremi 1 ay daha uzattınız.
+ELSE
+    SRC.SYSHATA Yanınızda premium PV deed bulunmuyor.
+ENDIF
+
+ON=3
+TIMER 1
+
+ON=4
+SRC.BANKSELF
+
+ON=5
+SDIALOG D_VENDOR_CUSTOMIZE
+
+[DIALOG d_vendor_intro]
+100,100
+F_DEF_DIALOG 81,93,365,120
+DTEXT 100 108 55 Vendor Kirala
+
+button 107 130 2151 2152 1 0 1
+dtext 141 136 90 150k karşılığında vendor kirala. [1 hafta]
+
+button 107 160 2151 2152 1 0 2
+dtext 141 166 90 Donate PV deed karşılığında vendor kirala. [1 ay]
+
+[DIALOG d_vendor_intro BUTTON]
+on=0
+
+on=1
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF (<DISTANCE> > 4)
+SRC.SYSHATA Yeterince yakın değilsiniz.
+RETURN 1
+ENDIF
+IF (<DTAG0.KIRALIK>)
+SRC.SYSHATA Bu dükkan zaten kiralanmış.
+RETURN 1
+ENDIF
+IF (<dSRC.TAG0.VENDORVAR>)
+SRC.SYSHATA Size ait başka bir vendor bulunuyor.
+RETURN 1
+ENDIF
+IF (<SRC.GOLD> < 150000)
+SRC.SYSHATA Bankanızın en üst kısmında 150.000 altın bulunmuyor.
+RETURN 1
+ENDIF
+
+TAG.kiralik=1
+COLOR//=color_o_verite
+TAG.owner=<SRC.UID>
+TIMER=604800
+src.gold -= 150000
+
+	src.newnpc c_player_v
+	src.act.p <TAG0.VENDP>
+	src.act.tag.p <src.act.p>
+	src.act.tag.px <src.act.p.x>
+	src.act.tag.py <src.act.p.y>
+	src.act.tag.pz <src.act.p.z>
+	src.act.tag.owner <src.uid>
+	src.act.findlayer.29.tag.para 0
+	src.act.findlayer.29.more1 500000000000
+	src.act.tag.sign <uid>
+	src.act.findid.i_pv.link <link.uid>
+	src.act.memorydel <src.uid>
+	src.act.flags <src.act.flags>&statf_pet
+	src.act.update
+	src.tag.vendor <src.ACT.uid>
+	SRC.TAG.VENDORVAR 1
+	LINK <SRC.ACT>
+
+	SERV.newitem i_memory
+	new.attr 04
+	new.more1 04
+	new.more2 <serv.time>
+	new.morep <src.act.p>
+	new.color memory_ipet
+	new.timer -1
+	new.link <src.uid>
+	new.cont <LINK.uid>
+	new.update
+
+	src.sdialog d_vendoryardim
+	src.sysyes Vendorunuz başarıyla kuruldu.
+
+[function esyaeklevendor]
+obj=<args>
+
+if !(<argo.isitem>)
+src.sysh_trk Hatalı seçim.
+return 1
+endif
+
+if !(<argo.cont>==<src.findlayer.21.uid>)
+src.sysh_trk Sadece çantanızdaki eşyaları ekleyebilirsiniz.
+return 1
+endif
+
+IF (<ARGO.attr>&04) || (<ARGO.attr>&ATTR_NEWBIE)
+ARGO.TAG0.NEWBIE 1
+ARGO.ATTR=<ARGO.ATTR>&~attr_newbie
+ARGO.ATTR=<ARGO.ATTR>&~04
+ENDIF
+
+
+obj.say_trk Eşya eklendi
+argo.cont=<obj.findlayer.21.uid>
+argo.update
+//src.targetf=esyacikarvendor <args>
+
+////////
+
+[function esyacikarvendor]
+obj=<args>
+
+if !(<argo.isitem>)
+src.sysh_trk Hatalı seçim.
+return 1
+endif
+
+if (<argo.price>)
+src.sysh_trk Fiyatlandırılmış eşyaları geri almak için fiyatlarını sıfırlayın: fiyat 0
+return 1
+endif
+
+if !(<dargo.topobj.ISPV>)
+src.sysh_trk Hatalı seçim.
+return 1
+endif
+
+if !(<argo.topobj.uid>==<src.tag0.vendor>)
+src.sysh_trk Vendor size ait değil.
+return 1
+endif
+
+IF (<dARGO.TAG0.NEWBIE>)
+ARGO.ATTR=<ARGO.ATTR>|attr_newbie
+ENDIF
+
+argo.cont=<src.findlayer.21.uid>
+argo.update
+src.targetf=esyacikarvendor <args>
+
+	IF (<DARGO.TAG0.SLOTNO>) 
+	REF51 <UID.<ARGO.TOPOBJ.UID>.TAG0.SIGN>
+	TRY UID.<ARGO.TOPOBJ.UID>.TAG.REYONSLOT<DARGO.TAG0.SLOTNO>
+	TRY UID.<REF51.TAG0.SLOTGEM<DARGO.TAG0.SLOTNO>>.ID I_WORLDGEM_REYON
+	TRY UID.<REF51.TAG0.SLOTGEM<DARGO.TAG0.SLOTNO>>.ATTR 010|ATTR_INVIS
+	TRY UID.<REF51.TAG0.SLOTGEM<DARGO.TAG0.SLOTNO>>.COLOR
+	TRY UID.<REF51.TAG0.SLOTGEM<DARGO.TAG0.SLOTNO>>.TAG.PRICE
+	TRY UID.<REF51.TAG0.SLOTGEM<DARGO.TAG0.SLOTNO>>.AMOUNT 1
+	TRY UID.<REF51.TAG0.SLOTGEM<DARGO.TAG0.SLOTNO>>.UPDATE
+	ARGO.TAG0.SLOTNO
+	ENDIF
+
+
+// **************
+// VENDOR CHARDEF
+// **************
+
+[chardef c_player_v]
+defname c_player_v
+name #names_humanmale the Player Vendor
+id c_man
+can mt_equip|mt_nonmover
+hiredaywage 52
+desires i_gold
+
+tspeech pv_spch
+tevents e_pv
+
+On=@Create
+TITLE=Player Vendor
+NPC=brain_vendor
+allskills 1000
+archery
+tactics
+swordsmanship
+fencing
+macefighting
+wrestling
+hiding
+stealth
+str 9500
+dex 25
+int 25
+color colors_skin
+speechcolor 0481
+food 990
+invul 1
+
+itemnewbie random_male_hair
+color colors_hair
+itemnewbie random_facial_hair
+color match_hair
+item i_robe
+color colors_all
+item i_boots_calf
+color colors_all
+item i_torch_lit
+morey -1
+itemnewbie i_backpack
+itemnewbie i_bankbox
+color 0384
+timer 900
+attr 014
+itemnewbie i_pv
+itemnewbie i_pv_rem
+itemnewbie i_pv_sql
+
+On=@Death
+return 1
+
+On=@GetHit
+return 1
+
+on=@hittry
+RETURN 1
+
+ON=@Attack
+RETURN 1
+
+ON=@UserWarMode
+flags &= ~statf_war
+RETURN 1
+
+on=@spelleffect
+RETURN 1
+
+ON=@CallGuards
+RETURN 1
+
+ON=@EnvironChange
+flags &= ~statf_invisible
+
+
+// *******
+// ITEMLAR
+// *******
+
+[FUNCTION F_PVV]
+SRC.TARGETF F_PVV2
+
+[FUNCTION F_PVV2]
+SERV.NEWITEM I_PV_SQL
+TRYSRC <ARGO> NEW.EQUIP
+
+[itemdef i_pv_sql]
+id i_memory
+name SQL
+type t_eq_script
+
+on=@create
+timer 3600
+
+On=@Timer
+TRYSRC <CONT> SRC.F_VENDSEARCH2
+timer -1
+return 1
+
+[itemdef i_pv_rem]
+id i_memory
+name vendor silici
+type t_eq_script
+
+On=@UnEquip
+cont.memoryfindtype.memory_ipet.link.tag.vendor=
+cont.memoryfindtype.memory_ipet.link.tag.vendorvar=
+cont.vendorsayisi 2
+cont.remove
+
+On=@Timer
+remove
+return 1
+
+[itemdef i_pv]
+id i_memory
+name vendor ana kontroller
+type t_eq_script
+
+On=@TargOn_Char
+if (<src.targ.uid> == <cont.uid>)
+	cont.findlayer(21).open
+	target
+endif
+return 1
+
+On=@TargOn_Item
+if (<more1> == 1) // dinamik fiyatlandirma
+	if !(<src.uid> == <cont.tag0.owner>)
+		cont.say_trk <src.name>, siz benim işverenim değilsiniz.
+	elseif !(<src.targ.topobj.uid> == <cont.uid>)
+		cont.say_trk Bu eşya çantamda değil.
+	elseif (strmatch('<src.targ.price>',''))
+		cont.say_trk Bu satılabilecek bir eşya değil.
+	elseif (<src.targ.baseid> == i_kumbara)
+		cont.say_trk Bu satılabilecek bir eşya değil.
+	elseif (<eval <more2>> <= 0)
+		src.targ.price 0
+		cont.say_trk <src.targ.name>: 'satılık değil' olarak işaretlendi
+		IF (<DSRC.TARG.TAG0.SLOTNO>) 
+		REF51 <UID.<SRC.TARG.TOPOBJ.UID>.TAG0.SIGN>
+		TRY UID.<SRC.TARG.TOPOBJ.UID>.TAG.REYONSLOT<DSRC.TARG.TAG0.SLOTNO>
+		TRY UID.<REF51.TAG0.SLOTGEM<DSRC.TARG.TAG0.SLOTNO>>.ID I_WORLDGEM_REYON
+		TRY UID.<REF51.TAG0.SLOTGEM<DSRC.TARG.TAG0.SLOTNO>>.ATTR 010|ATTR_INVIS
+		TRY UID.<REF51.TAG0.SLOTGEM<DSRC.TARG.TAG0.SLOTNO>>.COLOR
+		TRY UID.<REF51.TAG0.SLOTGEM<DSRC.TARG.TAG0.SLOTNO>>.TAG.PRICE
+		TRY UID.<REF51.TAG0.SLOTGEM<DSRC.TARG.TAG0.SLOTNO>>.AMOUNT 1
+		TRY UID.<REF51.TAG0.SLOTGEM<DSRC.TARG.TAG0.SLOTNO>>.UPDATE
+		SRC.TARG.TAG0.SLOTNO
+		ENDIF
+	else
+		src.targ.price <eval <more2>>
+		more2 0
+		cont.say_trk <src.targ.name>: <src.targ.price> altın.
+		IF (<DSRC.TARG.TAG0.SLOTNO>) 
+		REF51 <UID.<SRC.TARG.TOPOBJ.UID>.TAG0.SIGN>
+		TRY UID.<REF51.TAG0.SLOTGEM<DSRC.TARG.TAG0.SLOTNO>>.TAG.PRICE <src.targ.price>
+		ENDIF
+	endif
+elseif (<more1> == 2) // satis
+if (<distance> > 2)
+cont.say Çok uzaktasın <src.name>.
+return 1
+endif
+	if !(<src.targ.topobj.uid> == <cont.uid>)
+		cont.say_trk Bu eşya çantamda değil.
+	elseif (strmatch('<src.targ.price>',''))
+		cont.say_trk Bu eşya satılık değil.
+	elseif (<src.targ.price> <= 0)
+		cont.say_trk Bu eşya satılık değil.
+	elseif (<src.gold> < <src.targ.price>)
+		cont.say_trk <F_DECIMAL <src.targ.price>> altınınız bulunmuyor.
+	else
+                src.ctag0.pvx = <src.targ.topobj.uid>
+                src.ctag0.pvprc = <src.targ.price>
+		src.targ.sdialog d_pv_buy
+	endif
+elseif (<more1> == 3) // para aktarma
+if (<distance> > 2)
+cont.say Çok uzaktasın <src.name>.
+return 1
+endif
+	if !(<src.uid> == <cont.tag0.owner>)
+		cont.say_trk <src.name>, siz benim işverenim değilsiniz.
+	elseif !(<src.targ.topobj.uid> == <src.uid>)
+		cont.say_trk Gösterdiğiniz nesne üzerinizde değil.
+	elseif !(<src.targ.baseid> == i_gold)
+		cont.say_trk Bu gösterdiğiniz altın değil.
+	else
+		cont.findlayer(29).more1 <eval (<cont.findlayer(29).more1> + <src.targ.amount>)>
+		if (<eval (<src.targ.amount> / <cont.hiredaywage>)> > 0)
+			cont.say_trk <src.targ.amount> altın çalışma süremi <eval (<src.targ.amount> / <cont.hiredaywage>)> saat uzattı, teşekkür ederim.
+		else
+			cont.say_trk <src.targ.amount> altın kasama eklendi, teşekkür ederim.
+		endif
+		src.targ.remove
+	endif
+endif
+return 1
+endif
+return 1
+
+On=@Timer
+return 1
+
+// *********
+// DIALOGLAR
+// *********
+
+[dialog d_vendoryardim]
+0,0
+
+F_DEF_DIALOG 20,30,390,280
+
+dtext 40 45 55 Vendor Komutları
+
+dtext 35 70 0481 Durum
+dtext 35 85 1100 Vendorun hizmet süresini gösterir
+
+dtext 35 110 0481 Fiyat
+dtext 35 125 1100 Vendordaki bir eşyaya fiyat vermenizi sağlar (ÖRN=fiyat 10)
+
+dtext 35 150 0481 Satin al veya buy
+dtext 35 165 1100 Vendordan eşya almanızı sağlar
+
+dtext 35 190 0481 Hasilat
+dtext 35 205 1100 Vendordan hasılatı almanızı sağlar.
+
+button 35 270 <def.bno> 1 0 0
+dtext 65 270 <def.yrenk> Tamam
+
+[dialog d_vendor_menu]
+400,100
+
+F_DEF_DIALOG 0,0,190,250
+
+dtext 20 15 55 Vendor İşlemleri
+
+IF (<DTAG0.HOUSEVENDDO>)
+
+dtext 50 41 <def.yrenk> Eşya Ekle
+button 20 40 <def.bno> 1 0 1
+
+dtext 50 61 <def.yrenk> Eşya Çıkar
+button 20 60 <def.bno> 1 0 2
+
+dtext 50 81 <def.yrenk> Hasılat
+button 20 80 <def.bno> 1 0 3
+
+dtext 50 101 <def.yrenk> Durum
+button 20 100 <def.bno> 1 0 4
+
+dtext 50 121 <def.yrenk> Para Ekle
+button 20 120 <def.bno> 1 0 12
+
+dtext 50 141 <def.yrenk> Giydir
+button 20 140 <def.bno> 1 0 6
+
+dtext 50 161 <def.yrenk> Elbiselerini çıkar
+button 20 160 <def.bno> 1 0 7
+
+dtext 50 181 <def.yrenk> Yardım
+button 20 180 <def.bno> 1 0 13
+
+dtext 50 201 <def.yrenk> Kontrat/Kaldır
+button 20 200 <def.bno> 1 0 11
+
+ELSE
+
+dtext 50 41 <def.yrenk> Eşya Ekle
+button 20 40 <def.bno> 1 0 1
+
+dtext 50 61 <def.yrenk> Eşya Çıkar
+button 20 60 <def.bno> 1 0 2
+
+dtext 50 81 <def.yrenk> Hasılat
+button 20 80 <def.bno> 1 0 3
+
+dtext 50 101 <def.yrenk> Durum
+button 20 100 <def.bno> 1 0 4
+
+dtext 50 121 <def.yrenk> Giydir
+button 20 120 <def.bno> 1 0 6
+
+dtext 50 141 <def.yrenk> Elbiselerini çıkar
+button 20 140 <def.bno> 1 0 7
+
+dtext 50 161 <def.yrenk> Yardım
+button 20 160 <def.bno> 1 0 9
+
+dtext 50 181 <def.yesil> Tabela menüsü
+button 20 180 <def.bno> 1 0 10
+
+dtext 50 201 <def.kirmizi> Reyonda göster
+button 20 200 <def.bno> 1 0 8
+
+ENDIF
+
+[dialog d_vendor_menu button]
+
+on=1 //src player , [] vendor
+if (<distance> > 2)
+src.sysh_trk Çok uzaktasınız.
+else
+src.targetf=esyaeklevendor <uid>
+endif
+
+on=2
+//src.say asd
+if (<distance> > 2)
+src.sysh_trk Çok uzaktasınız.
+else
+src.targetf=esyacikarvendor <uid>
+endif
+
+on=3
+if (<distance> > 2)
+src.sysh_trk Çok uzaktasınız.
+else
+hear hasila
+endif
+
+on=4
+if (<distance> > 2)
+src.sysh_trk Çok uzaktasınız.
+else
+hear durum
+endif
+
+on=5
+if (<distance> > 2)
+src.sysh_trk Çok uzaktasınız.
+else
+hear kontrat
+endif
+
+on=6
+src.targetf f_pvgiydir
+src.sys_trk Giydirmek istediğiniz eşyayı seçiniz. 
+//src.sys_trk Giyilemez itemlerinizi tıklamamanızı öneririz. Aksi taktirde oluşabilecek sorunların sorumlusu biz değiliz.
+return 1
+
+on=7
+ref1=<src.tag.vendor>
+for 1 24
+if !((<dlocal._for> == 9) || (<dlocal._for> == 11) || (<dlocal._for> == 15) || (<dlocal._for> == 16) || (<dlocal._for> == 21))
+ref1.findlayer.<dlocal._for>.cont <src.findlayer.21.uid>
+endif
+endfor
+
+on=8
+if (<distance> > 2)
+src.sysh_trk Çok uzaktasınız.
+RETURN 1
+endif
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+SDIALOG D_VENDOR_REYON
+
+on=9
+if (<distance> > 2)
+src.sysh_trk Çok uzaktasınız.
+else
+src.sdialog d_vendoryardim
+endif
+
+on=10
+if (<distance> > 2)
+src.sysh_trk Çok uzaktasınız.
+else
+TRY UID.<tag.sign>.DCLICK
+endif
+
+on=11
+if (<distance> > 2)
+src.sysh_trk Çok uzaktasınız
+else
+hear kontrat
+endif
+
+on=12
+if (<distance> > 2)
+src.sysh_trk Çok uzaktasınız
+else
+hear kasa
+endif
+
+on=13
+if (<distance> > 2)
+src.sysh_trk Çok uzaktasınız.
+else
+src.sdialog d_vendoryardim_PV
+endif
+
+
+
+[function f_pvgiydir]
+ref1=<argo>
+if !(<ref1.topobj.uid> == <src.uid>)
+src.sysh_Trk Sadece çantanızdaki eşyayı giydirebilirsiniz.
+return 1
+elseif !(<ref1.type> == t_clothing) && !(<ref1.type> == t_armor_leather) && !(<ref1.type> == t_armor) && !(<ref1.isweapon>) && !(<ref1.type> == t_spellbook) && !(<ref1.type> == t_leather) && !(<ref1.type> == t_shield)  && !(<ref1.layer> >= 1)
+src.sysh_Trk Bunu giydiremezsiniz.
+return 1
+elseif (<ref1.layer> == 21)
+src.sysh_Trk Bunu giydiremezsiniz.
+return 1
+ELSEIF (<REF1.attr>&04) || (<REF1.attr>&ATTR_NEWBIE)
+REF1.TAG0.NEWBIE 1
+src.sysh_Trk Newbified eşyaları giydiremezsiniz.
+return 1
+endif
+try uid.<src.tag.vendor>.equip <ref1>
+src.sys_trk Eşyayı giydirdiniz. Aynı türden başka bir item varsa vendorun çantasına düştü.
+src.targetf f_pvgiydir
+return 1
+
+
+[dialog d_pv_cash]
+410,299
+F_DEF_DIALOG 0,0,250,105
+
+resizepic 20 17 3000 130 20
+textentry 25 18 125 20 1152 1 0
+dtext 50 45 <def.yrenk> adet altın olarak çantama çek
+button 20 45 <def.bno> 1 0 1
+dtext 50 65 <def.yrenk> tutarında bankama çek gönder
+button 20 65 <def.bno> 1 0 2
+
+[dialog d_pv_cash text]
+<eval <findlayer.29.tag0.para>>
+
+[dialog d_pv_cash button]
+On=1
+if !(<isnum <argtxt[1]>>)
+	say_trk Hmm.. Sanırım tam anlayamadım.
+elseif (<eval <argtxt[1]>> <= 0)
+	say_trk Hmm.. Sanırım tam anlayamadım.
+elseif !(<isnum <argtxt[1]>>)
+	say_trk Hmm.. Sanırım tam anlayamadım.
+elseif (<eval <argtxt[1]>> > <eval <findlayer(29).tag0.para>>)
+	say_trk Bu miktar kasamda bulunmuyor.
+else
+	findlayer(29).tag0.para <eval (<findlayer(29).tag0.para> - <argtxt[1]>)>
+	src.newgold <eval <argtxt[1]>>
+	//src.sys_trk Para çantada 
+	say_trk Hasılat çantanıza gönderildi efendim.
+endif
+
+On=2
+if !(<isnum <argtxt[1]>>)
+	say_trk Hmm.. Sanırım tam anlayamadım.
+elseif (<eval <argtxt[1]>> <= 0)
+	say_trk Hmm.. Sanırım tam anlayamadım.
+elseif !(<isnum <argtxt[1]>>)
+	say_trk Hmm.. Sanırım tam anlayamadım.
+elseif (<eval <argtxt[1]>> > <eval <findlayer(29).tag0.para>>)
+	say_trk Bu miktar kasamda bulunmuyor.
+else
+	findlayer(29).tag0.para <eval (<findlayer(29).tag0.para> - <argtxt[1]>)>
+	//src.newgold <eval <argtxt[1]>>
+	//src.sys_trk Para çantada 
+	SERV.newitem i_check_brnx
+	SRC.new.more1 <eval <argtxt[1]>>
+	SRC.new.more2 <SRC.uid>
+	SRC.new.cont <SRC.findlayer(29).uid>
+	SRC.NEW.UPDATE
+	say_trk Hasılat bankanıza gönderildi efendim.
+endif
+
+[dialog d_pv_cash_pv]
+410,299
+F_DEF_DIALOG 0,0,250,105
+
+resizepic 20 17 3000 130 20
+textentry 25 18 125 20 1152 1 0
+dtext 50 45 <def.yrenk> adet altın olarak çantama çek
+button 20 45 <def.bno> 1 0 1
+dtext 50 65 <def.yrenk> tutarında bankama çek gönder
+button 20 65 <def.bno> 1 0 2
+
+[dialog d_pv_cash_pv text]
+<eval (<findlayer(29).more1> - 2500)>
+
+[dialog d_pv_cash_pv button]
+On=1
+if !(<isnum <argtxt[1]>>)
+	say_trk Hmm.. Sanırım tam anlayamadım.
+elseif (<eval <argtxt[1]>> <= 0)
+	say_trk Hmm.. Sanırım tam anlayamadım.
+elseif !(<isnum <argtxt[1]>>)
+	say_trk Hmm.. Sanırım tam anlayamadım.
+elseif (<eval <argtxt[1]>> > <eval <findlayer(29).more1>>)
+	say_trk Bu miktar kasamda bulunmuyor.
+elseif (<eval (<findlayer(29).more1> - <argtxt[1]>)> < 2500)
+	say_trk Bu miktarı veremeyeceğim, kasamda en az 2500 altın kalmalı.
+else
+	findlayer(29).more1 <eval (<findlayer(29).more1> - <argtxt[1]>)>
+	src.newgold <eval <argtxt[1]>>
+	//src.sys_trk Para çantada 
+	say_trk Hasılat çantanıza gönderildi efendim.
+endif
+
+On=2
+if !(<isnum <argtxt[1]>>)
+	say_trk Hmm.. Sanırım tam anlayamadım.
+elseif (<eval <argtxt[1]>> <= 0)
+	say_trk Hmm.. Sanırım tam anlayamadım.
+elseif !(<isnum <argtxt[1]>>)
+	say_trk Hmm.. Sanırım tam anlayamadım.
+elseif (<eval <argtxt[1]>> > <eval <findlayer(29).more1>>)
+	say_trk Bu miktar kasamda bulunmuyor.
+elseif (<eval (<findlayer(29).more1> - <argtxt[1]>)> < 2500)
+	say_trk Bu miktarı veremeyeceğim, kasamda en az 2500 altın kalmalı.
+else
+	findlayer(29).more1 <eval (<findlayer(29).more1> - <argtxt[1]>)>
+	//src.newgold <eval <argtxt[1]>>
+	//src.sys_trk Para çantada 
+	SERV.newitem i_check_brnx
+	SRC.new.more1 <eval <argtxt[1]>>
+	SRC.new.more2 <SRC.uid>
+	SRC.new.cont <SRC.findlayer(29).uid>
+	SRC.NEW.UPDATE
+	say_trk Hasılat bankanıza gönderildi efendim.
+endif
+
+[dialog d_pv_buy]
+300,200
+
+F_DEF_DIALOG 0,0,370,200
+
+resizepic 215 15 2620 135 170 // resim bg
+tilepichue 273 65 <serv.itemdef.<ID>.id> <dcolor>
+
+dtext 15 15 60 Eşya: <STRTRIM <qval (<attr>&attr_magic)?magical:> <STRSUB 0 26 <NAME>>>
+dtext 15 35 60 Adet: <qval (<BASEID> == i_keg_potion)?<MOREX>:<AMOUNT>>
+dtext 15 55 60 Fiyat: <F_DECIMAL <EVAL <price>>> altın
+if ((<type> == t_armor) || (<type> == t_armor_leather) || (<type> == t_shield) || (<type> == t_clothing) || (<type> == t_weapon_sword) || (<type> == t_weapon_fence) || (<type> == t_weapon_mace_staff) || (<type> == t_weapon_mace_smith) || (<type> == t_weapon_mace_pick) || (<type> == t_weapon_bow) || (<type> == t_weapon_xbow) || (<type> == t_weapon_axe) || (<type> == t_weapon_mace_sharp))
+dtext 15 75 60 Hasar: %<eval (100 - ((<more1l> * 100) / <more1h>))> eski
+dtext 15 95 60 Büyü: <F_MAGICSHOW2>
+endif
+
+radio 20 125 210 211 0 1
+dtext 42 125 0481 Bankaya gönder
+
+button 20 155 <def.bno> 1 0 1
+button 120 155 <def.bno> 1 0 0
+dtext 50 157 <def.YESIL> Satın al
+dtext 150 157 <def.KIRMIZI> Vazgeç
+
+[dialog d_pv_buy button]
+On=1
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if (<topobj.distance> > 3)
+src.sysh_trk Vendordan çok uzaktasın.
+return 1
+endif
+if (strmatch('<price>',''))
+	src.sysh_trk Bu eşya satılık değil.
+elseif (<price> <= 0)
+	src.sysh_trk Bu eşya satılık değil.
+elseif !(<src.ctag0.pvx> == <topobj.uid>)
+        src.sysh_trk Eşya vendorun çantasında değil.
+        return 1
+elseif !(<src.ctag0.pvprc> == <price>)
+        src.sysh_trk Eşyanın fiyatı satın alma işlemi sırasında değiştirildi. 
+        src.sysh_trk Lütfen tekrar kontrol ediniz. 
+        return 1
+elseif (<src.gold> >= <price>)
+	IF (<DTAG0.SLOTNO>) 
+	REF51 <UID.<TOPOBJ.UID>.TAG0.SIGN>
+	TRY UID.<TOPOBJ.UID>.TAG.REYONSLOT<DTAG0.SLOTNO>
+	TRY UID.<REF51.TAG0.SLOTGEM<DTAG0.SLOTNO>>.ID I_WORLDGEM_REYON
+	TRY UID.<REF51.TAG0.SLOTGEM<DTAG0.SLOTNO>>.ATTR 010|ATTR_INVIS
+	TRY UID.<REF51.TAG0.SLOTGEM<DTAG0.SLOTNO>>.COLOR
+	TRY UID.<REF51.TAG0.SLOTGEM<DTAG0.SLOTNO>>.TAG.PRICE
+	TRY UID.<REF51.TAG0.SLOTGEM<DTAG0.SLOTNO>>.AMOUNT 1
+	TRY UID.<REF51.TAG0.SLOTGEM<DTAG0.SLOTNO>>.UPDATE
+	TAG0.SLOTNO
+	ENDIF
+	src.gold -= <eval <price>>
+	IF (<TOPOBJ.TAG0.HOUSEVENDDO> > 0)
+	topobj.findlayer(29).more1 (<topobj.findlayer(29).more1> + <price>)
+	ELSE
+	topobj.findlayer(29).tag0.para (<topobj.findlayer(29).tag0.para> + <price>)
+	ENDIF
+	src.sysyes <name> isimli eşyayı <eval <price>> altın karşılığında satın aldınız.
+	TRY UID.<topobj.uid>.memoryfindtype.memory_ipet.link.SYSYES <name> isimli eşya <eval <price>> altın karşılığında satıldı.
+		IF (<argchk[1]>)	
+		cont <src.findlayer(29).uid>
+		ELSE
+		cont <src.findlayer(21).uid>
+		ENDIF	
+	price
+	update
+	if ((<baseid> == i_fs) || (<baseid> == i_spellbook) || (<baseid> == i_rune_book) || (<baseid> == i_magic_reg30) || (<baseid> == i_magic_reg60) || (<baseid> == i_magic_reg90))
+		attr <attr>|attr_newbie
+	endif
+	IF (<dTAG0.NEWBIE>)
+	ATTR=<ATTR>|attr_newbie
+	ENDIF
+	price 0
+else
+	topobj.say_trk Bunu alabilecek kadar altınınız yok.
+endif
+
+
+
+// ******
+// SPEECH
+// ******
+
+[speech pv_spch]
+on=kasa*
+IF (<DTAG0.HOUSEVENDDO> > 0)
+	if (<src.uid> == <tag0.owner>)
+		if (strmatch('<args>','KASA ?'))
+			say_trk Satış olmaması ve kasamdaki paranın azalması durumunda kasama yanınızda getireceğiniz altını eklemek için kullanacağınız komuttur.
+		else
+			findid.i_pv.more1 3
+			findid.i_pv.target
+			say_trk Kasama yatırmak istediğiniz parayı seçiniz.
+		endif
+	endif
+ENDIF
+	return 1
+
+on=hasila*
+
+if (<src.uid> == <tag0.owner>)
+//SAY_tRK <eval <findlayer(29).more1>>
+IF (<DTAG0.HOUSEVENDDO> > 0)
+  	if (<eval <findlayer(29).more1>> < 2501)
+ 	 say_trk Kasada para yok patron.
+  	 else
+  		SDIALOG D_PV_CASH_PV
+ 	 endif
+ 	 face
+
+ELSE
+  	if (<eval <findlayer(29).tag0.para>> < 1)
+ 	 say_trk Kasada para yok patron.
+  	 else
+  		SDIALOG D_PV_CASH
+ 	 endif
+ 	 face
+ENDIF
+
+else
+	say_trk Sadece patronuma ödeme yaparım.
+	face
+endif
+RETURN 1
+
+On=bilgi
+On=yardim
+if ((<src.uid> == <tag0.owner>) || (<src.isgm>))
+IF (<DTAG0.HOUSEVENDDO> > 0)
+	src.dialog d_vendoryardim_pv
+ELSE
+	src.dialog d_vendoryardim
+ENDIF
+endif
+RETURN 1
+
+On=durum*
+IF (<DTAG0.HOUSEVENDDO> > 0)
+
+	if ((<src.uid> == <tag0.owner>) || (<src.isgm>))
+		if (strmatch('<args>','DURUM ?'))
+			say_trk Çalışacağım gün sayısını öğrenmek için kullancağınız komuttur.
+		else
+			say_trk Kasamdaki <eval <findlayer(29).more1>> altın ile <eval (<findlayer(29).more1> / (<hiredaywage> * 24))> gün daha sizin için çalışacağım.
+		endif
+	endif
+
+ELSE
+	if ((<src.uid> == <tag0.owner>) || (<src.isgm>))
+		if (strmatch('<args>','DURUM ?'))
+			say_trk Çalışacağım gün sayısını öğrenmek için kullancağınız komuttur.
+		else
+local.temp = <UID.<TAG0.SIGN>.TIMER>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+			say_trk <dlocal.day> gün, <dlocal.hours> saat, <dlocal.minutes> dakika daha sizin için çalışacağım.
+		endif
+	endif
+ENDIF
+	return 1
+
+On=fiyat *
+	if (<src.uid> == <tag0.owner>)
+		if (strmatch('<args>','FIYAT ?'))
+			say_trk Çantama yerlestirdiğiniz eşyalari fiyatlandırmakta kullanacağınız komuttur. Kullanışı, X'in yerine bir sayı gelecek biçimde 'Fiyat X' şeklindedir.
+			say_trk Satılamaz ibareli eşyalari asla fiyatlandıramazsınız. Satılık haldeki bir eşyayı 'satılık değil' hale getirmek için 0 fiyat vermeniz gereklidir.
+		else
+			if !(<findlayer(21).findcont(0)>)
+				say_trk Çantamda fiyatlandırılacak mal bulunmuyor.
+			else
+				try <args>
+			endif
+		endif
+	endif
+	return 1
+
+On=alisveris*
+	if (<distance> < 4)//((<canseelos>) && (<distance> < 4))
+		if (<src.uid> == <tag0.owner>)
+			say_trk Satılacak eşyaları buraya koyabilirsiniz.
+			pack
+		elseif !(<findlayer(21).findcont(0)>)
+			say_trk Şuan satılık malım yok. Lütfen daha sonra tekrar geliniz.
+		else
+			pack
+		endif
+	else
+		src.sysh_trk Vendora ulaşamıyorsunuz.
+	endif
+	return 1
+
+On=*buy*
+On=*satin al*
+	if (<src.uid> == <tag0.owner>)
+		say_trk İşverenim olduğunuz için istediğinizi alabilirsiniz. Para vermenize gerek yok.
+	elseif !(<findlayer(21).findcont(0)>)
+		say_trk Şuan satılık malım yok. Lütfen daha sonra tekrar geliniz.
+	else
+		findid.i_pv.more1 2
+		findid.i_pv.target
+	endif
+	return 1
+
+On=kontrat*
+IF (<DTAG0.HOUSEVENDDO> > 0)
+IF ((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom)) && ((<UID.<UID.<SRC.REGION.UID>.MORE2>.ISOWNER <SRC>>) || (<UID.<UID.<SRC.REGION.UID>.MORE2>.ISCOOWNER <SRC>>))
+		if (strmatch('<args>','KONTRAT ?'))
+			if (<src.uid> == <tag0.owner>)
+				say_trk Bu komutu sadece siz kullanabilirsiniz. Komutu kullandığınızda çantamdaki eşya sayısını ve kasamdaki para miktarını gösteren bir konfirmasyon diyaloğu çıkacaktır, tamamı tıklamanıız işten ayrılmama ve kontratımı geri kazanmanıza vesile olacaktır.
+			endif
+		elseif (<src.uid> == <tag0.owner>)
+			if (<findid.i_pv_rem.timer> < 0)
+				findid.i_pv_rem.more2 1
+                                src.ctag.vhuid <SRC.REGION.UID>
+				dialog d_pv_dismiss
+			endif
+//		else
+//			if (<findid.i_pv_rem.timer> < 0)
+//				findid.i_pv_rem.more2 2
+//				dialog d_pv_dismiss
+//			endif
+		endif
+else
+  IF !((<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi) || (<SRC.UID.<SRC.REGION.UID>.TYPE>==t_multi_custom))
+   src.sysh_trk Evin içinde olmalısın.
+   return 1
+  endif
+//say_trk Senden emir almamı bekleme <src.name>!
+face
+endif
+ENDIF
+return 1
+
+On=*
+return 1
+
+	
+// *****
+// EVENT
+// *****
+
+[events e_pv]
+ON=@ReceiveItem
+SRC.SYSNORM Vendor menüsünden giydir veya eşya ekle seçeneğini kullanmalısınız.
+RETURN 1
+
+On=@Gethit
+if (<findid.i_rune_poison>)
+findid.i_rune_poison.remove
+endif
+return 1
+
+On=@Attack
+return 1
+
+On=@Hit
+return 1
+
+On=@HitTry
+return 1
+
+On=@Death
+hits <str>
+return 1
+
+On=@ItemEquip
+if ((<act.layer> == 1) || (<act.layer> == 2))
+	findid.i_torch.equip
+	findid.i_torch.dclick
+	return 1
+endif
+
+On=@Click
+if !(strmatch('<eval 0<tag0.px>>','<eval <p.x>>')) || !(strmatch('<eval 0<tag0.py>>','<eval <p.y>>')) || !(strmatch('<eval 0<tag0.pz>>','<eval <p.z>>'))
+	p <tag0.p>
+	update
+	return 1
+endif
+
+if !(<memoryfindtype.memory_ipet>)
+	memorydel <src.uid>
+	newitem i_memory
+	new.attr 04
+	new.more1 04
+	new.more2 <serv.time>
+	new.morep <p>
+	new.color memory_ipet
+	new.timer -1
+	new.link <tag0.owner>
+	new.cont <uid>
+	flags <flags>&statf_pet
+endif
+
+ref1=<owner>
+if !(<ref1.isplayer>)
+forcont <findlayer.layer_pack>
+serv.log Silinmis char, esyalar da silindi. (<name> <uid> <baseid> <color> <amount> <qval (<type>==t_container)?<rescount>:>) // buraya container sorgusu 22 aralık 2009 da eklendi (alcholic>
+endfor 
+remove
+endif
+
+if (<serv.account.<ref1.account.name>.block>)
+//ref1.newgold <EVAL <findlayer.29.tag0.para>>
+	SERV.newitem i_check_brnx
+IF (<DTAG0.HOUSEVENDDO> > 0)
+	new.more1 <EVAL <findlayer.29.more1>>
+ELSE
+	new.more1 <EVAL <findlayer.29.tag0.para>>
+ENDIF
+	new.more2 <ref1.uid>
+	new.cont <ref1.findlayer(29).uid>
+	NEW.UPDATE
+ref2=<findlayer.layer_pack>
+
+forcont <findlayer.layer_pack>
+serv.log Banli vendor esyalar iade edildi. (<name> <uid> <baseid> <color> <amount> <qval (<type>==t_container)?<rescount>:>)
+endfor
+
+ref2.cont = <ref1.findlayer.29>
+ref2.attr = 00
+ref2.fix
+src.sysmessage @,,1 <qval <isgm>?Banlı karakterin vendoru silindi.:>
+remove
+endif
+
+message @1153,,1 [<memoryfindtype.memory_ipet.link.fullname>]
+message @035,,1 <name>
+IF !(<DTAG0.HOUSEVENDDO> > 0)
+findlayer.29.more1 50000000
+ENDIF
+return 1
+
+On=@DClick
+if !(strmatch('<eval 0<tag0.px>>','<eval <p.x>>')) || !(strmatch('<eval 0<tag0.py>>','<eval <p.y>>')) || !(strmatch('<eval 0<tag0.pz>>','<eval <p.z>>'))
+	p <tag0.p>
+	update
+	return 1
+endif
+
+if !(<memoryfindtype.memory_ipet>)
+	memorydel <src.uid>
+	newitem i_memory
+	new.attr 04
+	new.more1 04
+	new.more2 <serv.time>
+	new.morep <p>
+	new.color memory_ipet
+	new.timer -1
+	new.link <tag0.owner>
+	new.cont <uid>
+	flags <flags>&statf_pet
+endif
+
+
+
+
+if (<src.uid> == <tag0.owner>)
+	src.tag.vendor <uid>
+endif
+
+
+if (strmatch('<src.uid>','<tag0.owner>'))
+sdialog d_vendor_menu
+face
+endif
+
+
+if (<src.isgm>)
+	pack
+	face
+	return 1
+elseif (<src.flags>&statf_dead)
+	src.sysh_trk Şuanki durumunuzda bu işlemi gerçekleştiremezsiniz.
+        return 1
+elseif (<distance> < 4) //((<canseelos>) && (<distance> < 4))
+	if (<src.uid> == <tag0.owner>)
+		say_trk Satılacak eşyaları buraya koyabilirsiniz.
+		pack
+		face
+		return 1
+	
+	else
+		pack
+		face
+		return 1
+	endif
+		
+	if !(<findlayer(21).findcont(0)>)
+		say_trk Şuan satılık malım yok. Lütfen daha sonra tekrar geliniz.
+	else
+		pack
+		face
+	endif
+else
+	src.sysh_trk Vendora ulaşamıyorsunuz.
+endif
+
+return 1
+
+On=@EnvironChange
+IF !(<DTAG0.HOUSEVENDDO> > 0)
+findlayer.29.more1 50000000
+ENDIF
+if (<flags>&statf_war)
+	flags <flags>&~statf_war
+	update
+endif
+food 990
+p <tag0.p>
+tag.p <p>
+tag.px <p.x>
+tag.py <p.y>
+tag.pz <p.z>
+
+IF !(<DTAG0.HOUSEVENDDO> > 0)
+if (<UID.<TAG0.SIGN>.timer> < 0)
+	memoryfindtype.memory_ipet.link.sys_trk Vendorunuz süresi kalmadığı için istifa etti.
+	TRY UID.<TAG0.SIGN>.TIMER 1
+endif
+ELSE
+
+if (<eval <findlayer(29).more1>> < 1)
+	if (<findid.i_pv_rem.timer> < 0)
+		if (<findid.i_pv_rem.more1>)
+			say_trk Bedavaya çalışacak değilim.
+			salute
+			if (<findlayer(21).rescount>)
+			findlayer(21).cont <src.findlayer(29).uid>  // bankaya atar itemleri	
+			memoryfindtype.memory_ipet.link.sys_trk Vendorunuzun çantası bankanıza aktarıldı.
+			update
+			endif
+			findid.i_pv_rem.timer 3
+			memoryfindtype.memory_ipet.link.sys_trk Vendorunuz maaş almadığı için istifa etti.
+		else
+			findid.i_pv_rem.more1 1
+			go <tag0.p>
+		endif
+	endif
+
+elseif !((strmatch('<findid.i_pv.link.type>','t_multi')) || (strmatch('<findid.i_pv.link.type>','t_multi_custom')))
+	if (<findid.i_pv_rem.timer> < 0)
+		say_trk Üstümde bir çatı olmazsa çalışmam.
+		salute
+		findid.i_pv_rem.timer 3
+		findid.i_pv_rem.more2 3
+
+IF (<eval <findlayer(29).more1>> > 2500)
+SERV.NEWITEM I_CHECK_BRNX
+NEW.MORE1 <eval <findlayer(29).more1>>
+NEW.MORE2 <memoryfindtype.memory_ipet.link.uid>
+NEW.CONT <memoryfindtype.memory_ipet.link.findlayer.29.uid>
+NEW.UPDATE
+ENDIF
+
+		obj=<findlayer(21).uid>
+		if (<obj.rescount>)
+		local.gitsin=<memoryfindtype.memory_ipet.link.findlayer.29.uid>
+		obj.cont=<local.gitsin>  // bankaya atar itemleri
+		obj.attr=00
+		obj.fix
+		endif
+		memoryfindtype.memory_ipet.link.sys_trk Vendorunuzun bulunduğu ev yıkıldığı için istifa etti.
+	endif
+endif
+
+ENDIF
+
+//IF !(strmatch('<region.events>','r_pazar')
+//		TRY UID.<TAG0.SIGN>.TIMER 1
+//		memoryfindtype.memory_ipet.link.sys_trk Vendorunuz pazar alanında olmadığı için istifa etti.
+//endif
+
+
+[function gp]
+var.gp 0
+//findlayer(21).packo gp_ctrl
+findlayer(29).packo gp_ctrl
+return <dvar.gp>
+
+[function fiyat]
+if !(<isnum <args>>)
+say_trk Geçersiz fiyat belirttiniz.
+return 1
+endif
+
+if (<eval <argn>> > 15000000)
+	say_trk Tek bir mala en fazla 15 milyon fiyat verebilirsiniz.
+else
+	findid.i_pv.more1 1
+	findid.i_pv.more2 <eval <argn>>
+	findid.i_pv.target
+endif
+
+[DIALOG d_vendor_customize]
+100,100
+page 0
+F_DEF_DIALOG 0,0,420,280
+F_DEF_DHEADER 20,15,Vendor Tabela Değiştir
+
+button 250 240 <def.bno> 1 0 0
+dtext 279 242 <def.yrenk> Kapat
+
+page 1
+button 20 240 <def.bno> 0 2 0
+dtext 50 242 <def.yrenk> Sayfa atla
+button 30 50 <def.bno> 1 0 30
+tilepic 50 50 2980
+button 90 50 <def.bno> 1 0 31
+tilepic 110 50 2982
+button 150 50 <def.bno> 1 0 32
+tilepic 170 50 2984
+button 210 50 <def.bno> 1 0 33
+tilepic 230 50 2986
+button 270 50 <def.bno> 1 0 34
+tilepic 290 50 2988
+button 330 50 <def.bno> 1 0 35
+tilepic 350 50 2990
+
+button 30 110 <def.bno> 1 0 36
+tilepic 50 110 2992
+button 90 110 <def.bno> 1 0 37
+tilepic 110 110 2994
+button 150 110 <def.bno> 1 0 38
+tilepic 170 110 2996
+button 210 110 <def.bno> 1 0 39
+tilepic 230 110 2998
+button 270 110 <def.bno> 1 0 40
+tilepic 290 110 3000
+button 330 110 <def.bno> 1 0 41
+tilepic 350 110 3002
+
+button 30 170 <def.bno> 1 0 42
+tilepic 50 170 3004
+button 90 170 <def.bno> 1 0 43
+tilepic 110 170 3006
+button 150 170 <def.bno> 1 0 44
+tilepic 170 170 3008
+button 210 170 <def.bno> 1 0 45
+tilepic 230 170 3010
+button 270 170 <def.bno> 1 0 46
+tilepic 290 170 3012
+button 330 170 <def.bno> 1 0 47
+tilepic 350 170 3014
+
+page 2
+button 20 240 <def.bno> 0 3 0
+dtext 50 242 <def.yrenk> Sayfa atla
+button 30 50 <def.bno> 1 0 48
+tilepic 50 50 3016
+button 90 50 <def.bno> 1 0 49
+tilepic 110 50 3018
+button 150 50 <def.bno> 1 0 50
+tilepic 170 50 3020
+button 210 50 <def.bno> 1 0 51
+tilepic 230 50 3022
+button 270 50 <def.bno> 1 0 52
+tilepic 290 50 3024
+button 330 50 <def.bno> 1 0 53
+tilepic 350 50 3026
+
+button 30 110 <def.bno> 1 0 54
+tilepic 50 110 3028
+button 90 110 <def.bno> 1 0 55
+tilepic 110 110 3030
+button 150 110 <def.bno> 1 0 56
+tilepic 170 110 3032
+button 210 110 <def.bno> 1 0 57
+tilepic 230 110 3034
+button 270 110 <def.bno> 1 0 58
+tilepic 290 110 3036
+button 330 110 <def.bno> 1 0 59
+tilepic 350 110 3038
+button 30 170 <def.bno> 1 0 60
+tilepic 50 170 3040
+button 90 170 <def.bno> 1 0 61
+tilepic 110 170 3042
+button 150 170 <def.bno> 1 0 62
+tilepic 170 170 3044
+button 210 170 <def.bno> 1 0 63
+tilepic 230 170 3046
+button 270 170 <def.bno> 1 0 64
+tilepic 290 170 3048
+button 330 170 <def.bno> 1 0 65
+tilepic 350 170 3050
+
+page 3
+button 20 240 <def.bno> 0 1 0
+dtext 50 242 <def.yrenk> Sayfa atla
+button 30 50 <def.bno> 1 0 66
+tilepic 50 50 3052
+button 90 50 <def.bno> 1 0 67
+tilepic 110 50 3054
+button 150 50 <def.bno> 1 0 68
+tilepic 170 50 3056
+button 210 50 <def.bno> 1 0 69
+tilepic 230 50 3058
+button 270 50 <def.bno> 1 0 70
+tilepic 290 50 3060
+button 330 50 <def.bno> 1 0 71
+tilepic 350 50 3062
+button 30 110 <def.bno> 1 0 72
+tilepic 50 110 3064
+button 90 110 <def.bno> 1 0 73
+tilepic 110 110 3066
+button 150 110 <def.bno> 1 0 74
+tilepic 170 110 3068
+button 210 110 <def.bno> 1 0 75
+tilepic 230 110 3070
+button 270 110 <def.bno> 1 0 76
+tilepic 290 110 3072
+button 330 110 <def.bno> 1 0 77
+tilepic 350 110 3074
+button 30 170 <def.bno> 1 0 78
+tilepic 50 170 3076
+button 90 170 <def.bno> 1 0 79
+tilepic 110 170 3078
+button 150 170 <def.bno> 1 0 80
+tilepic 170 170 3080
+button 210 170 <def.bno> 1 0 81
+tilepic 230 170 3082
+button 270 170 <def.bno> 1 0 82
+tilepic 290 170 3084
+button 330 170 <def.bno> 1 0 83
+tilepic 350 170 3086
+
+
+[DIALOG d_vendor_customize BUTTON]
+
+ON=30 83
+if !(<LINK.TAG.owner>==<SRC.UID>)
+return 1
+endif
+if (<src.hits> < 1)
+return 1
+endif
+
+IF (<DISPID>==I_SIGN_BLANK)
+	nudgedown 13
+ENDIF
+
+IF (<DISPID>==01F29)
+	nudgedown 14
+ENDIF
+
+LOCAL.SIGN=2980
+
+ IF (<ARGN1>==80)
+ LOCAL.SIGN += 100
+ ELIF (<ARGN1> > 80)
+ LOCAL.SIGN += 2*<STRSUB 1 1 <ARGN1>>+50
+ ELIF (<ARGN1>==70)
+ LOCAL.SIGN += 80
+ ELIF (<ARGN1> > 70)
+ LOCAL.SIGN += 2*<STRSUB 1 1 <ARGN1>>+40
+ ELIF (<ARGN1>==60)
+ LOCAL.SIGN += 60
+ ELIF (<ARGN1> > 60)
+ LOCAL.SIGN += 2*<STRSUB 1 1 <ARGN1>>+30
+ ELIF (<ARGN1>==50)
+ LOCAL.SIGN += 40
+ ELIF (<ARGN1> > 50)
+ LOCAL.SIGN += 2*<STRSUB 1 1 <ARGN1>>+20
+ ELIF (<ARGN1>==40)
+ LOCAL.SIGN += 20
+ ELIF (<ARGN1> > 40)
+ LOCAL.SIGN += 2*<STRSUB 1 1 <ARGN1>>+10
+ ELSE
+ LOCAL.SIGN += 2*<STRSUB 1 1 <ARGN1>>
+ ENDIF
+IF (<DTAG0.ANAGIRIS>)
+LOCAL.SIGN <EVAL <DLOCAL.SIGN>-1>
+ENDIF
+DISPID=<dLOCAL.SIGN>
+COLOR
+UPDATE
+
+
+[EOF]

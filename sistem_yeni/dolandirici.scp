@@ -1,0 +1,424 @@
+
+[function botselect]
+FOR Y 0 1000
+VAR0.BOTSELECT<DLOCAL.Y>
+var.botname<DLOCAL.Y>
+var.botnamegizli<DLOCAL.Y>
+ENDFOR
+
+IF (<DVAR0.BOTKOY> > 0)
+FOR Z 1 <DVAR0.BOTKOY>
+	local.botselect <F_BOTSELECT>
+	var.botname<dlocal.Z> <def.botname<dlocal.botselect>>
+	var.botnamegizli<dlocal.Z> <EVAL RAND(1,100)>
+	var.botselect<dlocal.botselect> 1
+	sysnorm <var.botname<dlocal.Z>> - <dlocal.Z>
+ENDFOR
+ENDIF
+
+[FUNCTION F_BOTSELECT]
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+
+IF (<DVAR0.BOTSELECT<DLOCAL.XYZ>> < 1)
+RETURN <DLOCAL.XYZ>
+ENDIF
+
+LOCAL.XYZ <EVAL RAND(1, <ddef.botdef>)>
+RETURN <DLOCAL.XYZ>
+
+
+[defname botnames]
+botdef 51
+botname1 Epica
+botname2 Kristyn
+botname3 Sayko
+botname4 Killer
+botname5 Inscripto
+botname6 Inscidayi
+botname7 Porsche
+botname8 Crafter
+botname9 Parabaspara
+botname10 RainoN
+botname11 DOMINEE
+botname12 Kamil
+botname13 Lesley
+botname14 CIMBOM
+botname15 Tosuncuk
+botname16 Keserim
+botname17 CoroNa
+botname18 Dayidayidayi
+botname19 Scribebaba
+botname20 Madenci
+botname21 Reis
+botname22 Eugenie
+botname23 Floretta
+botname24 John
+botname25 Lanora
+botname26 Mulayim
+botname27 Maryland
+botname28 MeriSSa
+botname29 Bobby
+botname30 Kraig
+botname31 Scrollcu
+botname32 Maynard
+botname33 Aleyna
+botname34 Tilki
+botname35 KurtCobain
+botname36 Nicole
+botname37 Daiboth
+botname38 ShiNe
+botname39 Hazineci
+botname40 Necrowarrior
+botname41 Anatolia
+botname42 Hadicanimsende
+botname43 Yapmayavbune
+botname44 Mitte
+botname45 Toygu
+botname46 Izzet
+botname47 RaSmuS
+botname48 HaydeBre
+botname49 Gayla
+botname50 Haradrim
+botname51 TAZIZ

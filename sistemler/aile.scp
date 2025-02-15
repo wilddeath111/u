@@ -1,0 +1,852 @@
+﻿//------------------
+// AILE SISTEMI
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+//FUNCTIONZ
+
+[PLEVEL 1]
+AILE
+
+[FUNCTION AILE]
+if !(<dsrc.tag0.ailesivar>)
+src.syshata Herhangi bir aileye üye değilsiniz.
+return 1
+endif
+
+IF (<dISEMPTYZ <SRC.TAG0.AILETAS>>)
+src.syshata Herhangi bir aileye üye değilsiniz.
+return 1
+endif
+
+IF (<SRC.HITS> < 1)
+SRC.SYSHATA Ölüyken kullanamazsınız.
+RETURN 1
+ENDIF
+
+IF (<UID.<SRC.TAG0.AILETAS>.TAG0.REIS>==<SRC.UID>)
+dialogclose d_ailereis
+dialogclose d_aileuye
+sdialog d_ailereis
+ELSE
+dialogclose d_ailereis
+dialogclose d_aileuye
+sdialog d_aileuye
+ENDIF
+
+
+[FUNCTION F_AILE_DUYUR]
+FOR 1 <dTAG0.UYEGENTOP>
+IF (<TAG0.UYE<dLOCAL._FOR>>)
+TRY UID.<TAG0.UYE<dLOCAL._FOR>>.SYSNORM [[Aile Haber]: <args>
+ENDIF
+ENDFOR
+
+[function bolgesel]
+GO <DVAR.AILEPX>,<DVAR.AILEPY>,<DVAR.AILEPZ>
+
+[FUNCTION SETAILEP]
+VAR.AILEPX <P.X>
+VAR.AILEPY <P.Y>
+VAR.AILEPZ <P.Z>
+SYSNORM <DVAR.AILEPX>,<DVAR.AILEPY>,<DVAR.AILEPZ>
+FORINSTANCES I_AILE_STONE
+REMOVE
+ENDFOR
+
+[FUNCTION F_SOYAD_CHECK]
+LOCAL.1 <STRARG <args>>
+LOCAL.LOL <STREAT <args>>
+LOCAL.2 <STRARG <LOCAL.LOL>>
+LOCAL.3 <STREAT <LOCAL.LOL>>
+
+LOCAL.SCT <strtoupper(<strsub 0 1 <LOCAL.1>>)><strtolower(<strsub 1 15 <LOCAL.1>>)>
+
+FOR X 2 3
+IF !(<ISNUM <LOCAL.<DLOCAL.X>>>)
+LOCAL.SCT<DLOCAL.X> <strtoupper(<strsub 0 1 <LOCAL.<DLOCAL.X>>>)><strtolower(<strsub 1 15 <LOCAL.<DLOCAL.X>>>)>
+ENDIF
+ENDFOR
+
+LOCAL.SC <LOCAL.SCT>
+
+FOR Y 2 3
+IF !(<ISNUM <LOCAL.<DLOCAL.Y>>>)
+LOCAL.SC <LOCAL.SC> <LOCAL.SCT<DLOCAL.Y>>
+ENDIF
+ENDFOR
+
+RETURN <STRTRIM <LOCAL.SC>>
+
+/////ITEMS
+
+[itemdef i_deed_aile]
+name=aile kurma belgesi
+id=i_deed
+type=t_script
+weight=0
+value=115000
+
+On=@Create
+attr attr_newbie
+color 0481
+
+on=@click
+message @038A,,1 <name>
+return 1
+
+on=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if (<dsrc.tag0.ailesivar> == 1)
+	src.syshata Zaten bir aileye uyesiniz.
+RETURN 1
+ENDIF
+
+if !(<topobj.uid> == <src.uid>)
+	src.syshata Sadece çantanızdayken kullanabilirsiniz.
+	RETURN 1
+ENDIF
+
+sdialog d_ailekur
+return 1
+
+on=@timer
+return 1
+
+[itemdef i_kolye_reis]
+name=reis kolyesi
+id=i_necklace_gold
+type=t_jewelry
+weight=0
+
+On=@Create
+attr attr_newbie
+color 0481
+
+on=@click
+message @90,,1 [reis]
+message @0481,,1 <name>
+return 1
+
+on=@dclick
+if (strmatch('<src.tag0.kolye>','<uid>'))
+sdialog d_ailereis
+equip
+endif
+return 1
+
+on=@equip
+if !(strmatch('<src.tag0.kolye>','<uid>'))
+src.syshata Bu kolye size ait değil.
+unequip
+return 1
+endif
+
+on=@timer
+return 1
+
+[itemdef i_kolye_uye]
+name=uye kolyesi
+id=i_necklace_gold
+type=t_jewelry
+weight=0
+
+On=@Create
+attr attr_newbie
+color 0481
+
+
+on=@click
+message @90,,1 [üye]
+message @0481,,1 <name>
+return 1
+
+on=@dclick
+if (strmatch('<src.tag0.kolye>','<uid>'))
+sdialog d_aileuye
+equip
+endif
+return 1
+
+on=@equip
+if !(strmatch('<src.tag0.kolye>','<uid>'))
+src.syshata Bu kolye sizin degil!
+unequip
+return 1
+endif
+
+on=@timer
+return 1
+
+[ITEMDEF i_aile_stone]
+DEFNAME=i_aile_stone
+ID=i_gravestone_18
+TYPE=t_script
+NAME=Aile Stone [silmeyin!!!]
+
+On=@create
+color 0455
+attr 010
+
+On=@click
+message @0481,,1 <tag0.aile> [üye: <dtag0.uyesay>] 
+message @100,,1 <uid.<dtag0.reis>.fullname>
+message @035 <name>
+return 1
+
+on=@dclick
+IF (<SRC.GM>)
+FOR X 1 <dtag0.UYEGENTOP>
+IF (<UID.<TAG0.UYE<DLOCAL.X>>.UID>)
+SRC.SYSNORM <DLOCAL.X>- <UID.<TAG0.UYE<DLOCAL.X>>.NAME>
+ENDIF
+ENDFOR
+ENDIF
+RETURN 1
+
+on=@timer
+return 1
+
+[function f_aile_ekle]
+local.oldref1 <ref1>
+local.oldref2 <ref2>
+ref1=<args> // Alan
+ref2=<argo> // Alınan
+
+if !(<ref2.isplayer>)
+ref1.syshata Yalnızca oyuncuları alabilirsiniz.
+
+elseif (<ref2.hits> < 1)
+ref1.syshata Ölülere davet gönderemezsiniz.
+
+elif (<ref1.uid> == <ref2.uid>)
+ref1.syshata Siz zaten ailedesiniz.
+
+elif !(<ref2.isonline>)
+ref1.syshata <ref2.name> oyuna bağlı değil.
+
+elif (<ref2.findid.i_rune_incognito>)
+ref1.syshata <ref2.name> isimli oyuncunun adı gizli. Davet gönderilemedi.
+ref2.syshata Isminizi gizlemiş halde bir aileye dahil olamazsınız.
+
+elif (<ref2.isdialogopen d_aile_girlex>)
+ref1.syshata <ref2.name> isimli oyuncu şu an zaten bir davet almış.
+
+elif (<ref2.tag0.ailesivar>)
+ref1.syshata <ref2.name> bir aileye zaten üye.
+else
+ref2.tag0.ailetas <ref1.tag0.ailetas>
+ref2.tag0.aileisim <uid.<ref1.tag0.ailetas>.tag0.aile>
+REF1.sysnorm <ref2.name> isimli oyuncuya aile teklifi gonderdiniz.
+TRYSRC <ref2> dialogclose d_aile_girlex
+TRYSRC <ref2> dialog d_aile_girlex
+endif
+
+ref1 <local.oldref1>
+ref2 <local.oldref2>
+
+////GUMPS
+
+[dialog d_aileuye]
+100,50
+//resizepic 0 0 5054 250 220
+//checkertrans 12 56 225 152
+F_DEF_DIALOG 0,0,250,200
+
+dtext 20 15 1153 <UID.<src.tag0.ailetas>.TAG0.AILE>
+dtext 20 32 35 Toplam üye: <dUID.<SRC.TAG0.AILETAS>.TAG0.UYESAY>
+dtext 20 50 100 Aile reisi: <UID.<UID.<SRC.TAG0.AILETAS>.TAG0.REIS>.NAME>
+
+dtext 60 93 0481 Üye bilgileri
+dtext 60 123 0481 Aileden ayrıl
+dtext 60 153 0481 Yeni kolye al [50k]
+
+button 30 90 4005 4006 1 0 1
+button 30 120 4005 4006 1 0 2
+button 30 150 4005 4006 1 0 3
+
+
+[dialog d_aileuye text]
+
+[dialog d_aileuye button]
+
+onbutton 1
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<dsrc.tag0.ailesivar>)
+src.syshata Herhangi bir aileye üye değilsiniz.
+return 1
+endif
+
+SRC.SDIALOG D_UYE_DETAY
+
+onbutton 2
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<dsrc.tag0.ailesivar>)
+src.syshata Herhangi bir aileye üye değilsiniz.
+return 1
+endif
+
+LOCAL.OLDREF <REF60>
+REF60 <SRC>
+
+IF !(<REF60.UID>)
+SRC.SYSHATA Sistemsel bir hata meydana geldi. Lütfen page atınız.
+RETURN 1
+ENDIF
+
+try UID.<src.tag0.ailetas>.tag0.uye<dUID.<dREF60.TAG0.KOLYE>.TAG0.SIRANO>
+REF60.TAG0.AILESIVAR
+REF60.TAG0.NAME.SUFFIX
+TRY UID.<REF60.TAG0.KOLYE>.REMOVE
+TRY UID.<src.tag0.ailetas>.TAG0.UYESAY <eval <dUID.<src.tag0.ailetas>.TAG0.UYESAY>-1>
+REF60.SYSNORM <UID.<src.tag0.ailetas>.TAG0.AILE> isimli aileden ayrıldınız.
+TRY UID.<UID.<src.tag0.ailetas>.TAG0.REIS>.SYSNORM <REF60.NAME> ailenizden ayrıldı.
+TRY UID.<src.tag0.ailetas>.F_AILE_DUYUR <REF60.NAME> aileden ayrıldı.
+
+REF60 <LOCAL.OLDREF>
+
+onbutton 3
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<dsrc.tag0.ailesivar>)
+src.syshata Herhangi bir aileye üye değilsiniz.
+return 1
+endif
+IF (<dISEMPTYZ <SRC.TAG.KOLYE>>)
+src.syshata Herhangi bir aileye üye değilsiniz.
+return 1
+endif
+if !(<src.restest 50000 i_gold>)
+src.syshata Yanınızda 50.000 altın bulunmuyor.
+return 1
+endif
+
+LOCAL.SLOT <UID.<SRC.TAG.KOLYE>.TAG0.SIRANO>
+TRY UID.<SRC.TAG.KOLYE>.REMOVE
+SRC.CONSUME i_gold 50000
+SRC.SYSYES Kolyeniz eskisiyle değiştirildi.
+
+IF (<UID.<SRC.TAG0.AILETAS>.TAG0.REIS>==<SRC.UID>)
+src.newitem i_kolye_reis
+src.tag0.kolye <new.uid>
+src.new.name <UID.<src.tag0.ailetas>.TAG0.AILE>
+src.new.tag0.sahip <src.uid>
+src.equip <new>
+ELSE
+src.newitem i_kolye_uye
+SRC.NEW.TAG0.SIRANO <DLOCAL.SLOT>
+src.tag0.kolye <src.new.uid>
+src.new.tag0.sahip <src.uid>
+src.new.name <UID.<src.tag0.ailetas>.TAG0.AILE>
+src.equip <new>
+ENDIF
+
+[dialog d_ailereis]
+100,50
+//resizepic 0 0 5054 250 220
+//checkertrans 12 56 225 152
+F_DEF_DIALOG 0,0,250,230
+
+dtext 20 15 1153 <UID.<src.tag0.ailetas>.TAG0.AILE>
+dtext 20 32 35 Toplam üye: <dUID.<SRC.TAG0.AILETAS>.TAG0.UYESAY>
+dtext 20 50 100 Aile reisi: <UID.<UID.<SRC.TAG0.AILETAS>.TAG0.REIS>.NAME>
+
+dtext 60 93 0481 Üye al
+dtext 60 123 0481 Üye bilgileri
+dtext 60 153 0481 Aileyi dağıt
+dtext 60 183 0481 Yeni kolye al [50k]
+
+button 30 90 4005 4006 1 0 1
+button 30 120 4005 4006 1 0 2
+button 30 150 4005 4006 1 0 3
+button 30 180 4005 4006 1 0 4
+
+[dialog d_ailereis text]
+
+[dialog d_ailereis button]
+onbutton 1
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+src.targetf f_aile_ekle <src.uid>
+src.sysnorm Üye talebi göndermek istediğiniz oyuncuyu seçiniz.
+
+onbutton 2
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<dsrc.tag0.ailesivar>)
+src.syshata Herhangi bir aileye üye değilsiniz.
+return 1
+endif
+
+SRC.SDIALOG D_UYE_DETAY
+
+onbutton 3
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<dsrc.tag0.ailesivar>)
+src.syshata Herhangi bir aileye üye değilsiniz.
+return 1
+endif
+
+SRC.SDIALOG D_AILE_DAGIT
+
+onbutton 4
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<dsrc.tag0.ailesivar>)
+src.syshata Herhangi bir aileye üye değilsiniz.
+return 1
+endif
+IF (<dISEMPTYZ <SRC.TAG.KOLYE>>)
+src.syshata Herhangi bir aileye üye değilsiniz.
+return 1
+endif
+if !(<src.restest 50000 i_gold>)
+src.syshata Yanınızda 50.000 altın bulunmuyor.
+return 1
+endif
+
+LOCAL.SLOT <UID.<SRC.TAG.KOLYE>.TAG0.SIRANO>
+TRY UID.<SRC.TAG.KOLYE>.REMOVE
+SRC.CONSUME i_gold 50000
+SRC.SYSYES Kolyeniz eskisiyle değiştirildi.
+
+IF (<UID.<SRC.TAG0.AILETAS>.TAG0.REIS>==<SRC.UID>)
+src.newitem i_kolye_reis
+src.tag0.kolye <new.uid>
+src.new.name <UID.<src.tag0.ailetas>.TAG0.AILE>
+src.new.tag0.sahip <src.uid>
+src.equip <new>
+ELSE
+src.newitem i_kolye_uye
+SRC.NEW.TAG0.SIRANO <DLOCAL.SLOT>
+src.tag0.kolye <src.new.uid>
+src.new.tag0.sahip <src.uid>
+src.new.name <UID.<src.tag0.ailetas>.TAG0.AILE>
+src.equip <new>
+ENDIF
+
+
+[Dialog d_ailekur]
+0,0
+
+PAGE 0
+F_DEF_DIALOG 200,100,300,150
+//resizepic 200 100 5120 300 150
+//resizepic 210 110 3000 280 130
+resizepic 280 150 3000 160 25
+dtext 220 112 035 <serv.name> Aile Sistemi
+dtext 215 150 1153 Soyisim:
+dtextentry 285 151 150 20 030 1
+button 230 190 4006 4007 1 0 1
+dtext 260 192 1153 Aileyi Kur
+
+button 390 190 4006 4007 1 0 0
+dtext 420 192 1153 Vazgeç
+
+[Dialog d_ailekur button]
+onbutton=1
+if (<dsrc.tag0.ailesivar> == 1)
+src.syshata Zaten bir aileye üyesiniz.
+return 1
+endif
+IF (strlen(<argtxt[1]>) < 5) || (strlen(<argtxt[1]>) > 15)
+src.syshata Soyisim en az 5, en fazla 15 karakter olabilir.
+return 1
+ENDIF
+IF (<ISEMPTY <argtxt[1]>>)
+SRC.SYSHATA Boş geçemezsiniz.
+RETURN 1
+ENDIF
+FOR s 1 <eval (strlen(<argtxt[1]>))-1>
+IF !(strmatch('[abcdefghijklmnoprstuvyzwqx' ]','<strsub <eval <local.s>> 1 <argtxt[1]>>'))
+src.syshata Soy isminizde geçersiz karakterler bulunuyor.
+return 1
+ENDIF
+ENDFOR
+
+FOR s 1 <eval (strlen(<argtxt[1]>))-1>
+IF (strmatch('[ ]','<strsub <eval <local.s>> 1 <argtxt[1]>>'))
+local.bosluksay <EVAL <dlocal.bosluksay>+1>
+ENDIF
+ENDFOR
+
+IF (<DLOCAL.BOSLUKSAY> > 1)
+SRC.SYSHATA Soyadınızda sadece 1 kere boşluk kullanabilirsiniz.
+RETURN 1
+ENDIF
+
+///LOCAL.ISIM <F_SOYAD_CHECK <argtxt[1]>>
+
+LOCAL.ISIM <STRTRIM <argtxt[1]>>
+
+FORINSTANCES I_AILE_STONE
+IF (strmatch('<TAG0.AILE>','<LOCAL.ISIM>')
+SRC.SYSHATA Aynı isimde başka bir aile bulunuyor.
+RETURN 1
+ENDIF
+ENDFOR
+
+SERV.NEWITEM I_AILE_sTONE
+NEW.TAG.AILE <local.isim>
+NEW.TAG.REIS <SRC.UID>
+NEW.P <eval <DVAR.AILEPX>+<dvar0.ailetop>>,<DVAR.AILEPY>,<DVAR.AILEPZ>
+NEW.TAG0.UYE1 <SRC.UID>
+NEW.UPDATE
+NEW.TAG0.UYESAY 1
+NEW.TAG0.UYEGENTOP 1
+
+var.ailetop <dvar.ailetop>+1
+var.ailetoplam <dvar.ailetoplam>+1
+
+src.tag0.ailesivar 1
+SRC.TAG0.NAME.SUFFIX " <local.isim>"
+SRC.TAG0.AILETAS <NEW.UID>
+
+src.newitem i_kolye_reis
+src.tag0.kolye <new.uid>
+src.new.name <local.isim>
+src.new.tag0.sahip <src.uid>
+src.tag0.kolye <new.uid>
+src.equip <new>
+
+src.sysyes <local.isim> ailesi kurulmuştur.
+
+remove
+return 1
+
+[dialog d_aile_girlex]
+0,0
+nomove
+//resizepic 60 110 5120 300 160
+//resizepic 70 120 3000 280 140
+F_DEF_DIALOG 60,110,300,160
+text 70 140 1153 0 
+text 70 160 1153 1 
+text 70 180 1153 2 
+button 120 220 4005 4006 1 0 1
+button 220 220 4005 4006 1 0 2
+dtext 150 222 70 Evet
+dtext 250 222 35 Hayır
+
+[dialog d_aile_girlex text]
+<src.tag0.aileisim> isimli aileye
+davet edildiniz. 50k karşılığında
+katılmak istiyor musunuz?
+
+[dialog d_aile_girlex button]
+
+onbutton=0
+src.sysnorm Aileye girmeyi reddettiniz.
+src.tag0.reis
+src.tag0.ailetas
+src.tag0.aileisim
+
+onbutton=1
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+src.tag0.aileisim
+if !(<src.restest 50000 i_gold>)
+src.syshata Yanınızda 50.000 altın bulunmuyor.
+src.tag0.reis
+src.tag0.ailetas
+return 1
+endif
+
+if (<eval <src.tag0.ailesivar>> == 1)
+src.syshata Zaten bir aileye uyesiniz.
+src.tag0.reis
+src.tag0.ailetas
+src.tag0.aileisim
+return 1
+
+else
+
+TRY UID.<src.tag0.ailetas>.TAG0.UYESAY <eval <dUID.<src.tag0.ailetas>.TAG0.UYESAY>+1>
+TRY UID.<src.tag0.ailetas>.TAG0.UYEGENTOP <eval <dUID.<src.tag0.ailetas>.TAG0.UYEGENTOP>+1>
+local.slot <dUID.<src.tag0.ailetas>.TAG0.UYEGENTOP>
+try UID.<src.tag0.ailetas>.tag0.uye<dlocal.slot> <src.uid>
+
+src.consume i_gold 50000
+src.tag0.ailesivar 1
+SRC.TAG0.NAME.SUFFIX " <UID.<src.tag0.ailetas>.TAG0.AILE>"
+src.newitem i_kolye_uye
+SRC.NEW.TAG0.SIRANO <DLOCAL.SLOT>
+src.tag0.kolye <src.new.uid>
+src.new.tag0.sahip <src.uid>
+src.new.name <UID.<src.tag0.ailetas>.TAG0.AILE>
+src.equip <new>
+
+src.sysyes <UID.<src.tag0.ailetas>.TAG0.AILE> ailesine katıldınız.
+TRY UID.<src.tag0.ailetas>.F_AILE_DUYUR <SRC.NAME> aileye katıldı.
+endif
+
+src.tag0.aileisim
+src.tag0.reis
+
+onbutton=2
+src.sysnorm Aileye girmeyi reddettiniz.
+src.tag0.reis
+src.tag0.ailetas
+src.tag0.aileisim
+return 1
+
+[DIALOG d_uye_detay]
+100,50
+PAGE 0
+
+F_DEF_DIALOG 0,0,445,523
+
+LOCAL.OLDREF50 <REF50>
+ref50 <src.tag0.ailetas>
+
+dtext 20 15 1153 <REF50.TAG0.AILE> Ailesi Üye Detayları
+dtext 20 32 35 Toplam üye: <dREF50.TAG0.UYESAY>
+
+
+dtext 45 60 55 İSİM
+dtext 200 60 55 BÖLGE
+IF (<REF50.TAG0.REIS>==<SRC.UID>) // REIS
+dtext 390 60 55 ÇIKAR
+ENDIF
+
+gumppictiled 12 80 420 1 2417
+
+LOCAL.AUMENTAR=0
+LOCAL.PAGE=1
+PAGE 1
+FOR 1 <dREF50.TAG0.UYEGENTOP>
+IF (<LOCAL.AUMENTAR> > 18)
+LOCAL.AUMENTAR=0
+button 400 475 4005 4007 0 <EVAL <LOCAL.PAGE>+1> 1
+LOCAL.PAGE += 1
+PAGE <EVAL <LOCAL.PAGE>>
+button 360 475 4014 4016 0 <EVAL <LOCAL.PAGE>-1> 1
+ENDIF
+IF (<REF50.TAG0.UYE<dLOCAL._FOR>>)
+LOCAL.AUMENTAR += 1
+IF (<dUID.<REF50.TAG0.UYE<dLOCAL._FOR>>.ISPK>)
+LOCAL.COLOR=39
+ELSE
+LOCAL.COLOR=88
+ENDIF
+
+button 13 <EVAL (<LOCAL.AUMENTAR>*20)+62> 9702 9703 1 0 <dLOCAL._FOR>
+dtext 35 <EVAL (<LOCAL.AUMENTAR>*20)+60> <EVAL <LOCAL.COLOR>> <STRSUB 0 23 <UID.<REF50.TAG0.UYE<dLOCAL._FOR>>.NAME>>
+
+IF (<UID.<REF50.TAG0.UYE<dLOCAL._FOR>>.ISONLINE>)
+dtext 190 <EVAL (<LOCAL.AUMENTAR>*20)+60> 1152 <STRSUB 0 28 <UID.<REF50.TAG0.UYE<dLOCAL._FOR>>.REGION.NAME>>
+ELSE
+dtext 200 <EVAL (<LOCAL.AUMENTAR>*20)+60> 1152 (offline)
+ENDIF
+
+IF (<REF50.TAG0.REIS>==<SRC.UID>) && !(<REF50.TAG0.REIS>==<UID.<REF50.TAG0.UYE<dLOCAL._FOR>>.UID> // REIS
+button 395 <EVAL (<LOCAL.AUMENTAR>*20)+59> 4017 4019 1 0 <eval <dLOCAL._FOR>+5000>
+ENDIF
+
+gumppictiled 12 <EVAL (<LOCAL.AUMENTAR>*20)+80> 420 1 2417
+
+ENDIF
+ENDFOR
+
+REF50 <LOCAL.OLDREF50>
+
+[DIALOG d_uye_detay button]
+on 1 4999
+SRC.CTAG.UYEBAK <UID.<SRC.TAG0.AILETAS>.TAG0.UYE<dARGN>>
+SRC.SDIALOG D_UYE_BAK
+
+on 5000 10000
+LOCAL.ARGN <EVAL <DARGN>-5000>
+SRC.CTAG.UYEAT <UID.<SRC.TAG0.AILETAS>.TAG0.UYE<dLOCAL.ARGN>>
+SRC.SDIALOG D_UYE_AT
+
+ON 10500
+SRC.SDIALOG D_AILEMAP
+
+[DIALOG d_uye_bak]
+100,50
+PAGE 0
+//resizepic 0 0 5054 445 343
+//resizepic 15 15 5120 416 286
+F_DEF_DIALOG 0,0,445,343
+
+LOCAL.OLDREF <REF60>
+REF60 <SRC.CTAG.UYEBAK>
+LOCAL.OLDREF50 <REF50>
+ref50 <src.tag0.ailetas>
+
+checkertrans 12 56 420 275
+
+dtext 20 15 1153 <REF50.TAG0.AILE> Ailesi Üye Detayları
+dtext 20 32 35 Toplam üye: <dREF50.TAG0.UYESAY>
+
+gumppictiled 10 55 426 1 2417
+dtext 15 60 55 İSİM: 
+gumppictiled 10 80 426 1 2417
+dtext 15 85 55 BÖLGE:
+gumppictiled 10 105 426 1 2417
+
+dtext 15 110 55 HITS/STR:
+gumppictiled 10 130 426 1 2417
+dtext 15 135 55 KILL SAYISI:
+gumppictiled 10 155 426 1 2417
+dtext 15 160 55 ÖLÜM SAYISI:
+gumppictiled 10 180 426 1 2417
+dtext 15 185 55 FAME:
+gumppictiled 10 205 426 1 2417
+dtext 15 210 55 KARMA:
+gumppictiled 10 230 426 1 2417
+dtext 15 235 55 SON GİRİŞ:
+gumppictiled 10 255 426 1 2417
+
+gumppictiled 115 56 1 200 2417 / dikey
+
+dtext 125 60 0481 <REF60.FULLNAME>
+IF (<REF60.ISONLINE>)
+dtext 125 85 0481 <REF60.REGION.NAME>
+ELSE
+dtext 125 85 0481 (offline)
+ENDIF
+dtext 125 110 0481 <REF60.HITS>/<REF60.STR>
+dtext 125 135 0481 <REF60.KILLS>
+dtext 125 160 0481 <REF60.DEATHS>
+dtext 125 185 0481 <REF60.FAME>
+dtext 125 210 0481 <REF60.KARMA>
+dtext 125 235 0481 <REF60.ACCOUNT.LASTCONNECTDATE>
+
+button 32 300 4014 4016 1 0 1
+dtext 62 302 0481 Geri dön
+
+REF50 <LOCAL.OLDREF50>
+REF60 <LOCAL.OLDREF60>
+
+[DIALOG d_uye_bak button]
+on 0
+SRC.CTAG.UYEBAK
+
+on 1
+SRC.CTAG.UYEBAK
+SRC.SDIALOG d_uye_detay
+
+[dialog d_UYE_AT]
+0,0
+nomove
+//resizepic 60 110 5120 300 160
+//resizepic 70 120 3000 280 140
+F_DEF_DIALOG 60,110,300,160
+text 100 140 1153 0 
+text 100 160 1153 1 
+text 100 180 1153 2 
+button 120 220 4005 4006 1 0 1
+button 220 220 4005 4006 1 0 2
+dtext 150 222 70 Evet
+dtext 250 222 35 Hayır
+
+[dialog d_UYE_AT text]
+<UID.<SRC.CTAG.UYEAT>.NAME> isimli oyuncuyu
+ailenizden kalıcı olarak
+çıkarmak istiyor musunuz?
+
+[dialog d_UYE_AT button]
+onbutton=0
+SRC.CTAG.UYEAT
+
+onbutton=1
+LOCAL.OLDREF <REF60>
+REF60 <SRC.CTAG.UYEAT>
+
+IF !(<REF60.UID>)
+SRC.SYSHATA Sistemsel bir hata meydana geldi. Lütfen page atınız.
+RETURN 1
+ENDIF
+
+try UID.<src.tag0.ailetas>.tag0.uye<dUID.<dREF60.TAG0.KOLYE>.TAG0.SIRANO>
+REF60.TAG0.AILESIVAR
+REF60.TAG0.NAME.SUFFIX
+TRY UID.<REF60.TAG0.KOLYE>.REMOVE
+TRY UID.<src.tag0.ailetas>.TAG0.UYESAY <eval <dUID.<src.tag0.ailetas>.TAG0.UYESAY>-1>
+REF60.SYSNORM <UID.<src.tag0.ailetas>.TAG0.AILE> ailesinden çıkartıldınız.
+SRC.SYSYES <REF60.NAME> ailenizden çıkartıldı.
+TRY UID.<src.tag0.ailetas>.F_AILE_DUYUR <REF60.NAME> aileden çıkartıldı.
+
+REF60 <LOCAL.OLDREF>
+
+
+
+[dialog d_AILE_DAGIT]
+0,0
+nomove
+//resizepic 60 110 5120 300 160
+//resizepic 70 120 3000 280 140
+F_DEF_DIALOG 60,110,300,160
+text 100 140 1153 0 
+text 100 160 1153 1 
+text 100 180 1153 2 
+button 120 220 4005 4006 1 0 1
+button 220 220 4005 4006 1 0 2
+dtext 150 222 70 Evet
+dtext 250 222 35 Hayır
+
+[dialog d_AILE_DAGIT text]
+<UID.<src.tag0.ailetas>.TAG0.AILE> isimli aileyi
+kalıcı olarak
+dağıtmak istiyor musunuz?
+
+[dialog d_AILE_DAGIT button]
+onbutton=0
+
+onbutton=1
+LOCAL.OLDREF <REF60>
+REF60 <src.tag0.ailetas>
+REF60.REMOVE
+FOR 1 <dREF60.TAG0.UYEGENTOP>
+IF (<REF60.TAG0.UYE<dLOCAL._FOR>>)
+TRY UID.<REF60.TAG0.UYE<dLOCAL._FOR>>.TAG0.AILESIVAR
+TRY UID.<REF60.TAG0.UYE<dLOCAL._FOR>>.TAG0.AILETAS
+TRY UID.<REF60.TAG0.UYE<dLOCAL._FOR>>.TAG0.NAME.SUFFIX
+TRY UID.<UID.<REF60.TAG0.UYE<dLOCAL._FOR>>.TAG0.KOLYE>.REMOVE
+TRY UID.<REF60.TAG0.UYE<dLOCAL._FOR>>.SYSNORM <REF60.TAG0.AILE> ailesi dağıtılmıştır.
+ENDIF
+ENDFOR
+VAR.AILETOPLAM <eval <DVAR.AILETOPLAM>-1>
+
+REF60 <LOCAL.OLDREF>
+
+[plevel 1]
+ac
+
+[function ac]
+if (strmatch('<args>',''))
+    src.syshata Boş mesaj gönderemezsiniz.
+    return 1
+endif
+if (<src.tag0.ailesivar>)
+TRY UID.<src.tag0.ailetas>.F_AILE_KONUSMA <src.name>: <args>
+else
+src.syshata Bir aileye üye olmadan bu komutu kullanamazsınız.
+return 1
+endif
+
+[FUNCTION F_AILE_KONUSMA]
+FOR 1 <dTAG0.UYEGENTOP>
+IF (<TAG0.UYE<dLOCAL._FOR>>)
+TRY UID.<TAG0.UYE<dLOCAL._FOR>>.SYSNORM <args>
+ENDIF
+ENDFOR
+
+[EOF]

@@ -1,0 +1,102 @@
+﻿//------------------
+// GAIN
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+[function necro_gain]
+IF (<ISEVENT.E_HARADRIM>)
+if ((<skilllock[49]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<NECROMANCY> < 100.0))
+IF (RAND(2)==1)
+NECROMANCY += 1
+ENDIF
+endif
+ENDIF
+
+[function f_bow_gain]
+if ((<skilllock[8]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<BOWCRAFT> < 100.0))
+BOWCRAFT += 1
+endif
+
+[function f_mine_gain]
+if ((<skilllock[45]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<MINING> < 100.0))
+MINING += 1
+endif
+
+[function f_mage_gain]
+if ((<skilllock[25]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<Magery> < 100.0))
+magery += 1
+endif
+
+[function f_music_gain]
+if ((<skilllock[29]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<Musicianship> < 100.0))
+Musicianship += 1
+endif
+
+[function f_peace_gain]
+if ((<skilllock[9]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<peacemaking> < 100.0))
+peacemaking += 1
+endif
+
+[function f_poi_gain]
+if ((<skilllock[30]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<poisoning> < 100.0))
+poisoning += 1
+endif
+
+[function f_cartop_gain]
+if ((<skilllock[12]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<cartography> < 100.0))
+cartography += 1
+endif
+
+[function f_detect_gain]
+if ((<skilllock[14]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<DetectingHidden> < 100.0))
+DetectingHidden += 1
+endif
+
+[function f_magicresist_gain]
+if ((<skilllock[26]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<magicresistance> < 100.0))
+magicresistance += 1
+endif
+
+[function f_tactics_gain]
+if ((<skilllock[27]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<tactics> < 100.0))
+tactics += 1
+endif
+
+[function f_speak_gain]
+if ((<skilllock[32]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<spiritspeak> < 100.0))
+spiritspeak += 1
+endif
+
+[function f_animallore_gain]
+if ((<skilllock[2]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<animallore> < 100.0))
+animallore += 1
+endif
+
+[function f_armslore_gain]
+if ((<skilllock[4]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<armslore> < 100.0))
+armslore += 1
+endif
+
+[function f_begging_gain]
+if ((<skilllock[6]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<BEGGING> < 100.0))
+BEGGING += 1
+endif
+
+[function f_eva_gain]
+if ((<skilllock[16]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<EvaluatingIntel> < 100.0))
+EvaluatingIntel += 1
+endif
+
+[function f_track_gain]
+if ((<skilllock[38]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<TRACKING> < 100.0))
+TRACKING += 1
+endif
+
+[function f_itemid_gain]
+if ((<skilllock[3]> == 0) && (<skilltotal> < <skillclass.skillsum>) && (<ITEMID> < 100.0))
+ITEMID += 1
+endif
+
+[EOF]

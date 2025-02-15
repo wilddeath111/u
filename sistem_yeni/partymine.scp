@@ -1,0 +1,165 @@
+﻿
+[ITEMDEF i_c_faction]
+Id i_handr_1
+type t_eq_script
+name faction resign
+
+On=@create
+timer 3600
+attr attr_invis
+
+ON=@equip
+timer 3600
+
+On=@timer
+CONT.memoryfindtype.memory_guild.REMOVE
+CONT.SYSSARI Faction üyeliğinden ayrıldınız.
+remove
+return 1
+
+[itemdef i_stone_faction]
+id i_grave_stone
+name faction stone
+type t_stone_guild
+
+on=@create
+attr 010
+color 0455
+tag0.faction 1
+
+[dialog d_faction]
+170,0
+nomove
+F_DEF_DIALOG 60,110,250,115
+gumppictiled 67 117 235 100 2624
+
+gumppic 65 120 48
+dtext 150 120 35 Faction: <name>
+
+IF (<SRC.memoryfindtype.memory_guild.LINK.UID>==<UID>)
+button 120 154 2151 2153 1 0 2
+dtext 150 160 0481 Faction'dan ayrıl
+ELSE
+button 120 154 2151 2153 1 0 1
+dtext 150 160 0481 Faction'a üye ol
+ENDIF
+
+//button 120 170 2151 2153 52 1 0 2
+//dtext 150 176 0481 Puan menüsü
+
+
+[dialog d_faction button]
+ON 2
+IF !(<SRC.memoryfindtype.memory_guild>)
+RETURN 1
+ENDIF
+SERV.NEWITEM i_c_faction
+SRC.EQUIP <NEW>
+SRC.SYSNORM 1 saat içerisinde faction üyeliğinden ayrılacaksınız.
+RETURN 1
+
+ON 1
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF (<SRC.memoryfindtype.memory_guild>)
+SRC.SYSHATA Zaten bir guilde veya factiona üyesiniz.
+RETURN 1
+ENDIF
+
+f_guildsys_addchartoguild <uid>,<src.uid>,1
+SRC.SYSYES <NAME> birliğine katıldınız.
+RETURN 1
+
+////////////////////////////////////////////////////////////////////////////////
+
+[FUNCTION F_PAXE_IRON]
+FORITEMS 3
+IF (<TYPE>==T_ROCK) && (<BASEID>==I_WORLDGEM_BIT)
+IF ((<dP.X>==<dSRC.CTAG0.MINEPX>) && (<dP.Y>==<dSRC.CTAG0.MINEPY>) && (<dP.Z>==<dSRC.CTAG0.MINEPZ>))
+IF !(<dTAG0.PTMINE> > 0)
+MORE MR_IRON
+TAG0.PTMINE 1
+RETURN 1
+ENDIF
+ENDIF
+ENDIF
+ENDFOR
+
+[FUNCTION F_PAXE]
+FORITEMS 3
+IF (<TYPE>==T_ROCK) && (<BASEID>==I_WORLDGEM_BIT)
+IF ((<dP.X>==<dSRC.CTAG0.MINEPX>) && (<dP.Y>==<dSRC.CTAG0.MINEPY>) && (<dP.Z>==<dSRC.CTAG0.MINEPZ>))
+IF !(<dTAG0.PTMINE> > 0)
+IF (RAND(40)==1)
+DORAND 3
+MORE MR_VERITE
+MORE MR_VALORITE
+MORE MR_MYTHERIL
+ENDDO
+ENDIF
+LOCAL.AMOUNT <EVAL <AMOUNT>>
+AMOUNT <EVAL <AMOUNT>+<DLOCAL.AMOUNT>>
+TAG0.PTMINE 1
+RETURN 1
+ENDIF
+ENDIF
+ENDIF
+ENDFOR
+
+[FUNCTION F_AXE]
+FORITEMS 3
+IF (<TYPE>==T_TREE) && (<BASEID>==I_WORLDGEM_BIT)
+IF ((<dP.X>==<dSRC.CTAG0.MINEPX>) && (<dP.Y>==<dSRC.CTAG0.MINEPY>) && (<dP.Z>==<dSRC.CTAG0.MINEPZ>))
+IF !(<dTAG0.PTMINE> > 0)
+//LOCAL.AMOUNT <EVAL <AMOUNT>/2>
+LOCAL.AMOUNT <EVAL <AMOUNT>>
+AMOUNT <EVAL <AMOUNT>+<DLOCAL.AMOUNT>>
+TAG0.PTMINE 1
+RETURN 1
+ENDIF
+ENDIF
+ENDIF
+ENDFOR
+
+[FUNCTION F_OLTA]
+FORITEMS 15
+IF (<TYPE>==T_WATER) && (<BASEID>==I_WORLDGEM_BIT)
+IF ((<dP.X>==<dSRC.CTAG0.MINEPX>) && (<dP.Y>==<dSRC.CTAG0.MINEPY>) && (<dP.Z>==<dSRC.CTAG0.MINEPZ>))
+IF !(<dTAG0.PTMINE> > 0)
+//LOCAL.AMOUNT <EVAL <AMOUNT>/2>
+LOCAL.AMOUNT <EVAL <AMOUNT>>
+AMOUNT <EVAL <AMOUNT>+<DLOCAL.AMOUNT>>
+TAG0.PTMINE 1
+RETURN 1
+ENDIF
+ENDIF
+ENDIF
+ENDFOR
+
+[FUNCTION F_PARTY_MINE]
+FORCHARS 20
+IF (<SRC.PARTY.ISSAMEPARTYOF <UID>>) && !(<SRC.UID>==<UID>) && (<MINING> > 97.9) && (<HITS> > 0)
+LOCAL.PARTYCOUNT <DLOCAL.PARTYCOUNT>+1
+ENDIF
+ENDFOR
+
+IF (<DLOCAL.PARTYCOUNT> > 0)
+ 
+FORITEMS 3
+IF (<TYPE>==T_ROCK)
+IF ((<dP.X>==<dSRC.CTAG0.MINEPX>) && (<dP.Y>==<dSRC.CTAG0.MINEPY>) && (<dP.Z>==<dSRC.CTAG0.MINEPZ>))
+IF !(<dTAG0.PTMINE> > 0)
+AMOUNT <AMOUNT>+<DLOCAL.PARTYCOUNT>
+TAG0.PTMINE 1
+SRC.SYSYES Party bonusu ile bu noktadan daha fazla maden elde edeceksiniz.
+RETURN 1
+ENDIF
+ENDIF
+ENDIF
+ENDFOR
+
+ENDIF
+
+
+

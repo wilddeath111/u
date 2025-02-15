@@ -1,0 +1,77 @@
+﻿//------------------
+// REG COUNT
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+[function regs] 
+sdialog d_reagents 
+
+[dialog d_reagents] 
+20,50
+PAGE 0
+//resizepic 0 0 5054 120 520
+//resizepic 10 10 3000 100 500
+F_DEF_DIALOG 0,0,135,450
+DTEXT 27 7 035 Reg Miktarları
+
+tilepic 5 35 <eval 0f8d> // spider silk 
+gumppic 37 55 2443 <eval 08F>
+text 61 56 <qval (<rescount i_reag_spider_silk> < 20)?<eval 32>:<eval 0480>> 0 
+text 37 33 <qval (<rescount i_reag_spider_silk> < 20)?<eval 33>:<eval 0480>> 1 
+
+tilepic 0 85 <eval 0f8c> // sulfurous ash 
+gumppic 37 105 2443 <eval 08F>
+text 61 106 <qval (<rescount i_reag_sulfur_ash > < 20)?<eval 32>:<eval 0480>> 2 
+text 40 83 <qval (<rescount i_reag_sulfur_ash> < 20)?<eval 33>:<eval 0480>> 3 
+
+tilepic 0 135 <eval 0f88> // nightshade 
+gumppic 37 155 2443 <eval 08F>
+text 61 156 <qval (<rescount i_reag_nightshade> < 20)?<eval 32>:<eval 0480>> 4 
+text 37 133 <qval (<rescount i_reag_nightshade> < 20)?<eval 33>:<eval 0480>> 5 
+
+tilepic 2 186 <eval 0f7b> // bloodmoss
+gumppic 37 205 2443 <eval 08F>
+text 61 206 <qval (<rescount i_reag_blood_moss> < 20)?<eval 32>:<eval 0480>> 6 
+text 40 183 <qval (<rescount i_reag_blood_moss> < 20)?<eval 33>:<eval 0480>> 7 
+
+tilepic 0 236 <eval 0f85> // ginseng 
+gumppic 37 255 2443 <eval 08F>
+text 61 256 <qval (<rescount i_reag_ginseng> < 20)?<eval 32>:<eval 0480>> 8 
+text 37 233 <qval (<rescount i_reag_ginseng> < 20)?<eval 33>:<eval 0480>> 9 
+
+tilepic 3 287 <eval 0f84> // garlic 
+gumppic 37 305 2443 <eval 08F>
+text 61 306 <qval (<rescount i_reag_garlic> < 20)?<eval 32>:<eval 0480>> 10 
+text 37 283 <qval (<rescount i_reag_garlic> < 20)?<eval 33>:<eval 0480>> 11 
+
+tilepic 0 337 <eval 0f86> // mandrake 
+gumppic 37 355 2443 <eval 08F>
+text 61 356 <qval (<rescount i_reag_mandrake_root> < 20)?<eval 32>:<eval 0480>> 12 
+text 37 333 <qval (<rescount i_reag_mandrake_root> < 20)?<eval 33>:<eval 0480>> 13 
+
+tilepic 0 390 <eval 0f7a> // black pearl 
+gumppic 37 405 2443 <eval 08F>
+text 61 406 <qval (<rescount i_reag_black_pearl> < 20)?<eval 32>:<eval 0480>> 14 
+text 37 383 <qval (<rescount i_reag_black_pearl> < 20)?<eval 33>:<eval 0480>> 15 
+
+[DIALOG d_reagents text] 
+<eval <rescount i_reag_spider_silk>> 
+spider's silk
+<eval <rescount i_reag_sulfur_ash>> 
+sulphurous ash
+<eval <rescount i_reag_nightshade>> 
+nightshade 
+<eval <rescount i_reag_blood_moss>> 
+blood moss
+<eval <rescount i_reag_ginseng>> 
+ginseng 
+<eval <rescount i_reag_garlic>> 
+garlic 
+<eval <rescount i_reag_mandrake_root>> 
+mandrake root 
+<eval <rescount i_reag_black_pearl>> 
+black pearl
+
+[EOF]

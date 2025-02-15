@@ -1,0 +1,235 @@
+﻿
+[plevel 1]
+kufur
+ihbar
+
+[ITEMDEF i_kufurbaz]
+DEFNAME=i_kufurbaz
+ID=i_DEED
+
+On=@Create
+color 0480
+timer -1
+attr 08000
+
+on=@click
+message @0481 [<tag0.zaman>]
+message @60 <uid.<tag0.kufurbaz>.name>
+return 1
+
+on=@dclick
+if (<src.account.plevel> > 5)
+src.ctag0.kfrindex 1
+sdialog d_kufurbaz
+endif
+return 1
+
+[itemdef i_kufur_box]
+name=metal chest
+id=i_chest_metal
+type=t_container
+
+ON=@create
+color=080a
+attr attr_invis
+
+on=@click
+message @,,1 [<rescount> items]
+message @0481,,1 Küfür Box
+return 1
+
+on=@dclick
+if !(<src.account.plevel> > 5)
+src.sysmessage @0481 napiosun serseri?
+return 1	
+endif
+
+
+[dialog d_kufurbaz]
+200,0
+page 0
+resizepic 10 30 5120 460 690
+resizepic 20 40 3000 440 670
+dhtmlgump 50 50 350 20 0 0 <def.bfont_red><serv.name> UO Küfür Sistemi
+dhtmlgump 50 75 360 20 0 0 <def.bfont_dred><def.u>Küfür eden</u>: <def.bfont_blue> <uid.<tag0.kufurbaz>.name>
+dhtmlgump 50 95 360 20 0 0 <def.bfont_dred><def.u>İhbar eden</u>: <def.bfont_blue> <uid.<tag0.ihbar>.name>
+dhtmlgump 50 115 360 20 0 0 <def.bfont_dred><def.u>Zaman</u>: <def.bfont_blue> <tag0.zaman>
+button 50 135 4006 4007 0 1 1
+button 150 135 4006 4007 0 2 2
+button 250 135 4006 4007 0 3 3
+dtext 85 135 0481 [1-25]
+dtext 185 135 0481 [25-50]
+dtext 285 135 0481 [50-60]
+
+button 20 665 4006 4007 1 0 4
+dtext 55 665 0481 Küfürbazı jaile at
+button 20 685 4006 4007 1 0 5
+dtext 55 685 0481 İhbar edeni jaile at
+button 220 685 4006 4007 1 0 6
+dtext 255 685 0481 İhbarı sil
+
+page 1
+local.satir 165
+for x 1 25
+dhtmlgump 50 <dlocal.satir> 100 20 0 0 <def.bfont_green> <uid.<tag0.kufurbaz>.tag0.nededi<dlocal.x>>
+local.satir <dlocal.satir>+20
+endfor
+
+page 2
+local.satir 165
+for x 26 50
+dhtmlgump 50 <dlocal.satir> 100 20 0 0 <def.bfont_green> <uid.<tag0.kufurbaz>.tag0.nededi<dlocal.x>>
+local.satir <dlocal.satir>+20
+endfor
+
+page 3
+local.satir 165
+for x 51 60
+dhtmlgump 50 <dlocal.satir> 100 20 0 0 <def.bfont_green> <uid.<tag0.kufurbaz>.tag0.nededi<dlocal.x>>
+local.satir <dlocal.satir>+20
+endfor
+
+[dialog d_kufurbaz button]
+on 4
+if (<src.account.plevel> < 6)
+return 1
+endif
+local.lexref <ref2>
+ref2 <tag0.kufurbaz>
+if (0<ref2.tag.jailhakaret>)
+ref2.tag.jailhakaret=(<eval <ref2.tag.jailhakaret>> + 1)
+ref2.go jail8
+ref2.tag.jail 1
+ref2.tag.jaillenmis=1
+ref2.events +e_jail
+serv.newitem i_jailcik
+new.timer=10800*<eval(<ref2.tag.jailhakaret>>
+new.cont <ref2.uid>
+new.update
+else
+ref2.tag.jailhakaret=1
+ref2.go jail8
+ref2.tag.jail 1
+ref2.tag.jaillenmis=1
+ref2.events +e_jail
+serv.newitem i_jailcik
+new.timer=10800
+new.cont <ref2.uid>
+new.update
+endif
+//serv.allclients sysnorm [[Duyuru]: <ref2.name> küfür dedektörüne takılıp hakaret suçundan hapis cezasına çarptırıldı.
+src.sysnorm <ref2.name> kufur sucundan jaillendi.
+for x 1 60
+try ref2.tag0.nededi<dlocal.x>
+endfor
+remove
+ref2 <local.lexref>
+return 1
+
+on 5
+if (<src.account.plevel> < 6)
+return 1
+endif
+local.lexref <ref2>
+local.lexref3 <ref3>
+ref2 <tag0.kufurbaz>
+ref3 <tag0.ihbar>
+if (0<ref3.tag.jailhatalipage>)
+ref3.tag.jailhatalipage=(<eval <ref3.tag.jailhatalipage>> + 1)
+ref3.stone 0
+ref3.go jail7
+ref3.tag.jail 2
+ref3.tag.jaillenmis=1
+ref3.events +e_jail
+serv.newitem i_jailcik
+new.timer=14400*<eval(<ref3.tag.jailhatalipage>>
+new.cont <ref3.uid>
+new.update
+else
+ref3.tag.jailhatalipage=1
+ref3.stone 0
+ref3.go jail7
+ref3.tag.jail 2
+ref3.tag.jaillenmis=1
+ref3.events +e_jail
+serv.newitem i_jailcik
+new.timer=14400
+new.cont <ref3.uid>
+new.update
+endif
+src.sysnorm <ref3.name> hatalı page sucundan jaillendi.
+for x 1 60
+try ref2.tag0.nededi<dlocal.x>
+endfor
+remove
+ref2 <local.lexref>
+ref3 <local.lexref3>
+return 1
+
+on 6
+if (<src.account.plevel> < 6)
+return 1
+endif
+local.lexref <ref2>
+ref2 <tag0.kufurbaz>
+for x 1 60
+try ref2.tag0.nededi<dlocal.x>
+endfor
+remove
+src.sysnorm Küfür ihbarını sildiniz.
+ref2 <local.lexref>
+return 1
+
+[itemdef i_kufur]
+name=kufurbaz haydo
+id=i_memory
+type=t_eq_script
+weight=0
+layer=layer_special
+
+On=@Create
+attr attr_invis|attr_decay
+timer 600
+
+on=@timer
+for x 1 60
+try cont.tag0.nededi<dlocal.x>
+endfor
+remove
+return 1
+
+[function ihbar]
+kufur
+
+[function kufur]
+sysnorm Kimin konuşmalarını şikayet edeceksiniz?
+targetf f_kufur
+
+[function f_kufur]
+local.lexref <ref2>
+ref2 <argo.uid>
+
+if !(<ref2.account.plevel> < 2)
+syshata Sadece oyuncuları ihbar edebilirsiniz.
+return 1
+endif
+
+if !(<ref2.isplayer>)
+syshata Sadece oyuncuları ihbar edebilirsiniz.
+return 1
+endif
+
+if (<ref2.findid.i_kufur>)
+syshata <ref2.name> isimli kişi zaten ihbar edilmiş durumda.
+return 1
+endif
+
+serv.newitem i_kufur
+new.tag0.ihbar <uid>
+new.tag0.zaman <serv.rtime>
+try ref2.equip <new>
+sysnorm <ref2.name> isimli kişiyi ihbar ettiniz.
+ref2.tag0.nededi60 babafingo
+ref2 <local.lexref>
+
+return 1

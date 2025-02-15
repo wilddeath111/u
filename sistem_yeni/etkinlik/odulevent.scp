@@ -1,0 +1,114 @@
+﻿[ITEMDEF i_odul_belgesi]
+DEFNAME=i_odul_belgesi
+ID=i_hediye_paket
+TYPE=T_CONTAINER
+NAME odul belgesi
+WEIGHT=0
+
+ON=@create
+ATTR=04
+COLOR=1989
+
+ON=@click
+message @0481,,1 ödül
+src.sysnorm Çift tıklamanız halinde ödülünüz çantanıza yerleştirilecektir.
+return 1
+
+on=@dclick
+IF (<CONT.UID>==<SRC.FINDLAYER(LAYER_PACK).UID>)
+for 1 <rescount>
+findcont.0.cont <src.findlayer.21>
+findcont.<dlocal._for>.cont <src.findlayer.21>
+endfor
+remove
+src.sysyes Ödülünüz çantanıza koyulmuştur.
+return 1
+ELSE
+SRC.SYSHATA Sadece çantanızda kullanabilirsiniz.
+ENDIF
+RETURN 1
+
+[ITEMDEF i_odul_event]
+DEFNAME=i_odul_event
+ID=i_gravestone_18
+TYPE=t_script
+NAME=odul event
+
+On=@create
+color 0481
+attr 010
+timer 60
+
+On=@click
+local.temp = <dtimer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+message @0481,,1 [<dlocal.day>g, <dlocal.hours>s, <dlocal.minutes>m]
+message @50,,1 ödül event
+return 1
+
+ON=@TIMER
+IF (<SERV.CLIENTS> > 0)
+FOR X 0 <EVAL <dSERV.CLIENTS>-1>
+IF !(<dUID.<SERV.CLIENT.<DLOCAL.X>.UID>.ACCOUNT.TAG0.ODULOK> > 0)
+TRY UID.<SERV.CLIENT.<DLOCAL.X>.UID>.F_ODUL_BOUNCE
+TRY UID.<SERV.CLIENT.<DLOCAL.X>.UID>.ACCOUNT.TAG0.ODULOK 1
+TRY UID.<SERV.CLIENT.<DLOCAL.X>.UID>.SYSYES Online ödül etkinliği kapsamında ödülünüz bankanıza yerleştirildi.
+ELSE
+TRY UID.<SERV.CLIENT.<DLOCAL.X>.UID>.SYSHATA IP adresinizdeki başka bir karaktere ödül verildiği için bu karaktere ödül verilemedi.
+ENDIF
+ENDFOR
+
+TIMERF 12, SERV.ALLCLIENTS SYSNORM [[Online Ödül]: Etkinlik kapsamında saat 22:00'da online bulunan karakterlere ödülleri verilmiştir.
+ENDIF
+
+SERV.ALLCLIENTS ACCOUNT.TAG0.ODULOK
+TIMER 604800
+RETURN 1
+
+[FUNCTION F_ODUL_BOUNCE]
+//FOR Y 0 <EVAL <dSERV.CLIENTS>-1> // IP CHECK KAPATTIK
+//IF (<SERV.CLIENT.<DLOCAL.Y>.ACCOUNT.LASTIP>==<ACCOUNT.LASTIP>)
+//TRY UID.<SERV.CLIENT.<DLOCAL.Y>.UID>.ACCOUNT.TAG0.ODULOK 1
+//ENDIF
+//ENDFOR
+
+ACCOUNT.TAG0.ODULOK 1
+
+DORAND 6 // item, amount, color, newbie?
+TRY F_ODUL_YARAT I_INGOT_IRON,250
+TRY F_ODUL_YARAT I_GOLD,50000
+TRY F_BINEK_YARAT C_LLAMA
+TRY F_BINEK_YARAT C_OSTARD_desert
+TRY F_ODUL_YARAT I_SHROUD
+TRY F_ODUL_YARAT I_ROBE,1,0455,1
+ENDDO
+
+RETURN 1
+
+[FUNCTION F_ODUL_YARAT]
+SERV.NEWITEM <ARGV[0]>
+IF (<dARGV[1]> > 1)
+NEW.AMOUNT <DARGV[1]>
+ENDIF
+IF !(<ISEMPTY <ARGV[2]>>)
+NEW.COLOR <ARGV[2]>
+ENDIF
+IF (<dARGV[3]> > 0)
+NEW.ATTR 04
+ENDIF
+REF150 <NEW>
+SERV.NEWITEM i_odul_belgesi
+NEW.CONT <FINDLAYER.29>
+REF150.CONT <NEW>
+
+[FUNCTION F_BINEK_YARAT]
+ANIMALDEED <ARGV[0]>
+REF150 <NEW>
+SERV.NEWITEM i_odul_belgesi
+NEW.CONT <FINDLAYER.29>
+REF150.CONT <NEW>

@@ -1,0 +1,178 @@
+﻿[DEFNAME ETKINLIK]
+Etkinlik1 GM Topuk
+Etkinlik2 Kar Topu Savaşı
+Etkinlik3 Capture the Flag
+Etkinlik4 Deathmatch
+Etkinlik5 Büyük Moonglow Savaşı (guild)
+bilgiEtkinlik1 1
+bilgiEtkinlik2 2
+bilgiEtkinlik3 3
+bilgiEtkinlik4 4
+bilgiEtkinlik5 5
+
+Monday12 Etkinlik1
+Monday17 Etkinlik2
+Monday20 Etkinlik3
+
+Wednesday12 Etkinlik1
+Wednesday15 Etkinlik2
+Wednesday17 Etkinlik3
+Wednesday22 Etkinlik4
+Wednesday23 Etkinlik5
+Wednesday19 Etkinlik2
+
+Tuesday12 Etkinlik1
+Tuesday15 Etkinlik2
+Tuesday17 Etkinlik3
+
+
+[FUNCTION ZAMANLAR]
+SYSNORM Bugün <F_DAYSHOW> [haftanın <F_DAYCHECK>. günü]
+SYSHATA Tarih: <F_DATE>
+SYSYES Saat: <F_HOUR>:<F_MINUTE>
+
+[FUNCTION F_HOUR]
+RETURN <SERV.RTIME.FORMAT %H>
+
+[FUNCTION F_MINUTE]
+RETURN <SERV.RTIME.FORMAT %M>
+
+[FUNCTION F_DATE]
+RETURN <SERV.RTIME.FORMAT %d>.<dSERV.RTIME.FORMAT %m>.<dSERV.RTIME.FORMAT %Y>
+
+[FUNCTION F_DAYCHECK]
+RETURN <dDEF.Check<SERV.RTIME.FORMAT %A>>
+
+[FUNCTION F_DAYSHOW]
+RETURN <DEF.Show<SERV.RTIME.FORMAT %A>>
+
+[DEFNAME ZAMANLAR]
+ShowMonday Pazartesi
+ShowTuesday Salı
+ShowWednesday Çarşamba
+ShowThursday Perşembe
+ShowFriday Cuma
+ShowSaturday Cumartesi
+ShowSunday Pazar
+CheckMonday 1
+CheckTuesday 2
+CheckWednesday 3
+CheckThursday 4
+CheckFriday 5
+CheckSaturday 6
+CheckSunday 7
+Day1 Monday
+Day2 Tuesday
+Day3 Wednesday
+Day4 Thursday
+Day5 Friday
+Day6 Saturday
+Day7 Sunday
+
+[FUNCTION F_ETKCOUNT]
+FOR X 1 24
+IF !((strmatch('<DEF.<DEF.Day<dCTAG0.ETKSAYFA>><DLOCAL.X>>','') || (strmatch('<DEF.<DEF.Day<dCTAG0.ETKSAYFA>><DLOCAL.X>>',' ') || (strmatch('<DEF.<DEF.Day<dCTAG0.ETKSAYFA>><DLOCAL.X>>','0'))
+LOCAL.SAYZ ++
+ENDIF
+ENDFOR
+RETURN <DLOCAL.SAYZ>
+
+
+[function etkinlik]
+DIALOGCLOSE D_ETKINLIK
+CTAG0.ETKSAYFA <F_DAYCHECK>
+SDIALOG D_ETKINLIK,<dCTAG0.ETKSAYFA>
+
+
+[dialog d_etkinlik]
+100,50
+
+page 0
+
+F_DEF_DIALOG 0,0,480,226
+
+dtext 317 8 035 <serv.name> UO Etkinlik Takvimi
+tilepic 15 10 <serv.itemdef.i_crystal_green.id>
+dtext 35 8 70 <F_DAYSHOW> - <F_HOUR>:<F_MINUTE>
+
+//gumppic 220 40 5561
+//tilepic 280 33 <serv.itemdef.i_crystal_ball.id>
+//dtext 312 33 70 Günlük etkinlik: <F_ETKCOUNT <dCTAG0.ETKSAYFA>>
+//tilepic 280 58 <serv.itemdef.i_crystal_ball.id>
+//dtext 312 58 70 Toplam yapılan etkinlik: 151
+//dtext 162 110 <eval 04c3> Etkinlik Takvimi - <F_DAYSHOW> 
+
+gumppictiled 7 30 465 1 2417
+
+//gumppictiled 7 130 465 1 2417
+
+dtext 15 31 90 SAAT
+gumppictiled 60 30 1 <EVAL <EVAL <F_ETKCOUNT <dCTAG0.ETKSAYFA>>*20>+20> 2417 // DIKEY
+
+dtext 175 31 90 ETKİNLİK
+gumppictiled 330 30 1 <EVAL <EVAL <F_ETKCOUNT <dCTAG0.ETKSAYFA>>*20>+20> 2417 // DIKEY
+
+dtext 355 31 90 BİLGİ
+gumppictiled 410 30 1 <EVAL <EVAL <F_ETKCOUNT <dCTAG0.ETKSAYFA>>*20>+20> 2417 // DIKEY
+
+dtext 425 31 90 KATIL
+
+gumppictiled 7 50 465 1 2417 // YATAY
+
+PAGE <dCTAG0.ETKSAYFA>
+
+FOR X 1 24
+IF !((strmatch('<DEF.<DEF.Day<dCTAG0.ETKSAYFA>><DLOCAL.X>>','') || (strmatch('<DEF.<DEF.Day<dCTAG0.ETKSAYFA>><DLOCAL.X>>',' ') || (strmatch('<DEF.<DEF.Day<dCTAG0.ETKSAYFA>><DLOCAL.X>>','0'))
+LOCAL.SAY ++
+DTEXT 15 <EVAL (<DLOCAL.SAY>*20)+30> 0481 <DLOCAL.X>:00
+tilepichue 65 <EVAL (<DLOCAL.SAY>*20)+34> <serv.itemdef.i_cannon_ball.id> <eval 07ad>
+DTEXT 85 <EVAL (<DLOCAL.SAY>*20)+30> 0481 <DEF.<DEF.<DEF.Day<dCTAG0.ETKSAYFA>><DLOCAL.X>>>
+BUTTON 355 <EVAL (<DLOCAL.SAY>*20)+28> 4011 4012 1 0 <eval <DDEF.bilgi<DEF.<DEF.Day<dCTAG0.ETKSAYFA>><DLOCAL.X>>>+100>
+BUTTON 435 <EVAL (<DLOCAL.SAY>*20)+35> 2103 2104 1 0 <eval <DDEF.bilgi<DEF.<DEF.Day<dCTAG0.ETKSAYFA>><DLOCAL.X>>>+1000>
+gumppictiled 7 <EVAL (<DLOCAL.SAY>*20)+50> 465 1 2417 // YATAY
+ENDIF
+ENDFOR
+
+IF (<dCTAG0.ETKSAYFA> < 2)
+LOCAL.ONCEKI 7
+ELSE
+LOCAL.ONCEKI <EVAL <dCTAG0.ETKSAYFA>-1>
+ENDIF
+button 10 190 4014 4016 1 0 <EVAL <DLOCAL.ONCEKI>+500>
+DTEXT 40 192 <def.kirmizi> <DEF.SHOW<DEF.DAY<DLOCAL.ONCEKI>>>
+
+IF (<dCTAG0.ETKSAYFA> > 6)
+LOCAL.SONRAKI 1
+ELSE
+LOCAL.SONRAKI <EVAL <dCTAG0.ETKSAYFA>+1>
+ENDIF
+IF (<DLOCAL.SONRAKI>==1)
+LOCAL.X 383
+ELSEIF (<DLOCAL.SONRAKI>==2)
+LOCAL.X 417
+ELSEIF (<DLOCAL.SONRAKI>==3)
+LOCAL.X 383
+ELSEIF (<DLOCAL.SONRAKI>==4)
+LOCAL.X 383
+ELSEIF (<DLOCAL.SONRAKI>==5)
+LOCAL.X 408
+ELSEIF (<DLOCAL.SONRAKI>==6)
+LOCAL.X 381
+ELSEIF (<DLOCAL.SONRAKI>==7)
+LOCAL.X 405
+ENDIF
+button 440 190 4005 4007 1 0 <EVAL <DLOCAL.SONRAKI>+500>
+DTEXT <DLOCAL.X> 192 <def.kirmizi> <DEF.SHOW<DEF.DAY<DLOCAL.SONRAKI>>>
+
+
+[dialog d_etkinlik button]
+ON 0
+CTAG0.ETKSAYFA
+
+ON 100 200
+LOCAL.ARGN <EVAL <DARGN>-100>
+SYSHATA <DEF.etkinlik<DLOCAL.ARGN>>
+
+ON 500 600
+LOCAL.ARGN <EVAL <DARGN>-500>
+SYSHATA <DLOCAL.ARGN>

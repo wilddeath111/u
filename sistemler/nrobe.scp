@@ -1,0 +1,311 @@
+﻿//------------------
+// NROBE.SCP
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+[itemdef 02042]
+DEFNAME=i_robe_ranger
+NAME=ranger robe
+TYPE=t_clothing
+WEIGHT=5
+RESOURCES=100 i_cloth
+SKILLMAKE=TAILORING 98.0, t_sewing_kit
+
+ON=@Create
+HITPOINTS=100
+ATTR 04
+COLOR 07D4
+
+ON=@Click
+message @038A,,1 a <name>
+RETURN 1
+
+ON=@EQUIP
+IF (<SRC.TAMING> < 100.0) || (<SRC.ANIMALLORE> < 100.0)
+SRC.SYSHATA Taming ve Animal Lore yeteneklerinizin 100.0 olması gereklidir.
+UNEQUIP
+RETURN 1
+ENDIF
+
+on=@timer
+return 1
+
+
+[itemdef 02043]
+DEFNAME=i_robe_warrior
+NAME=warrior robe
+TYPE=t_clothing
+WEIGHT=5
+RESOURCES=200 i_cloth, 70 i_reag_dragon_blood, 40 i_reag_daemon_bone, 5 i_crystal_energy, 5 i_crystal_ice, 5 i_crystal_fire, 5 i_crystal_earth
+SKILLMAKE=TAILORING 90.0, t_sewing_kit
+
+ON=@Create
+HITPOINTS=100
+COLOR 07a1
+
+ON=@Click
+message @038A,,1 a <name>
+RETURN 1
+
+ON=@Equip
+IF !(<src.tactics> >= 98.0)	
+	src.syshata Giyebilmek için 98.0 Tactics yeteneğiniz olmalı.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+IF (<src.magery> > 40.0)
+	src.syshata Giyebilmek için Magery yeteneğiniz olmamalı.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+src.events +e_dragonrobe
+
+if <src.findid.i_rune_night_sight>
+src.findid.i_rune_night_sight.remove
+endif
+src.spelleffect s_night_sight 1000
+
+
+ON=@unEquip
+src.events -e_dragonrobe
+
+on=@timer
+return 1
+
+
+[events e_dragonrobe]
+
+ON=@Spelleffect
+if (<argn>==1) || (<argn>==3) || (<argn>==8)
+say_trk *spell resist*
+return 1
+ENDIF
+
+
+
+[itemdef i_shroud]
+NAME=shroud
+DYE=1
+TYPE=t_clothing
+ID=02684
+WEIGHT=5
+RESOURCES=100 i_cloth
+SKILLMAKE=TAILORING 98.0, t_sewing_kit
+
+ON=@Create
+HITPOINTS=100
+
+ON=@Click
+message @038A,,1 a <name>
+RETURN 1
+
+ON=@Equip
+IF ( <SRC.MAGERY> < 75.0 )
+	SRC.SYSHATA Giyebilmek için en az 75.0 Magery yeteneğiniz olmalı.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+[itemdef i_mr]
+NAME=mage robe
+DYE=1
+TYPE=t_clothing
+ID=02684
+WEIGHT=5
+RESOURCES=100 i_cloth, 15 i_reag_dragon_blood
+SKILLMAKE=TAILORING 98.0, t_sewing_kit
+ARMOR 30
+
+ON=@Create
+HITPOINTS=100
+
+ON=@Click
+message @038A,,1 a <name>
+RETURN 1
+
+on=@Equip
+if (<src.magery> < 90.0)
+src.syshata Giyebilmek için 90.0 Magery yeteneği gereklidir.
+unequip
+return 1
+endif
+
+on=@timer
+return 1
+
+[ITEMDEF i_balron_hides]
+id=01067
+DEFNAME=i_balron_hides
+name=balron hide
+WEIGHT=1
+
+on=@click
+message @038A,,1 <amount> <name>
+return 1
+
+ON=@Create
+color=0455
+
+On=@Dclick
+return 1
+
+
+[ITEMDEF i_dye_crystal]
+NAME=dye crystal
+ID=01f1c
+WEIGHT=3
+
+On=@Create
+COLOR=0846
+
+on=@click
+message @038A,,1 a <name>
+return 1
+
+On=@DClick
+sdialog d_dyedegis
+return 1
+
+
+[DIALOG D_DYEDEGIS]
+50,50
+
+page 0
+
+F_DEF_DIALOG 30,40,295,160
+
+dtext 120 50 <eval 100>  Dye Değişim Sistemi
+dtext 55 70 035 Rengini değiştirmek istediğiniz boyayı seçin.
+
+dtext 70 100 0481 Classic Rare Dye
+button 40 100 4005 4006 0 1 1
+dtext 70 120 0481 Rare Dye
+button 40 120 4005 4006 0 2 2
+dtext 70 140 0481 Leather Dye
+button 40 140 4005 4006 0 3 3
+dtext 70 160 0481 Furniture Dye
+button 40 160 4005 4006 0 4 4
+
+
+
+//dtext 80 152 035 Değiştir
+
+
+page 1
+
+F_DEF_DIALOG 330,40,195,260
+
+dtext 350 50 <eval 100> Classic Rare Dye Değişimi
+dtext 350 80 035 Gerekli malzemeler:
+dtext 350 100 <def.yesil> - 1 Dye Crystal
+dtext 350 120 <def.yesil> - 15 Balron Hide
+dtext 350 240 <def.kirmizi> *Aynı rengi tekrar elde
+dtext 358 260 <def.kirmizi> etme olasılığı mevcuttur.
+
+
+button 370 175 4005 4006 1 0 100
+dtext 400 177 035 Değiştir
+
+
+page 2
+
+F_DEF_DIALOG 330,40,195,260
+
+dtext 350 50 <eval 100> Rare Dye Değişimi
+dtext 350 80 035 Gerekli malzemeler:
+dtext 350 100 <def.yesil> - 3 Dye Crystal
+dtext 350 120 <def.yesil> - 15 Balron Hide
+dtext 350 240 <def.kirmizi> *Aynı rengi tekrar elde
+dtext 358 260 <def.kirmizi> etme olasılığı mevcuttur.
+
+
+button 370 175 4005 4006 1 0 200
+dtext 400 177 035 Değiştir
+
+page 3
+
+F_DEF_DIALOG 330,40,195,260
+
+dtext 350 50 <eval 100> Leather Dye Değişimi
+dtext 350 80 035 Gerekli malzemeler:
+dtext 350 100 <def.yesil> - 3 Dye Crystal
+dtext 350 120 <def.yesil> - 15 Balron Hide
+dtext 350 240 <def.kirmizi> *Aynı rengi tekrar elde
+dtext 358 260 <def.kirmizi> etme olasılığı mevcuttur.
+
+
+button 370 175 4005 4006 1 0 300
+dtext 400 177 035 Değiştir
+
+
+page 4
+
+F_DEF_DIALOG 330,40,195,260
+
+dtext 350 50 <eval 100> Furniture Dye Değişimi
+dtext 350 80 035 Gerekli malzemeler:
+dtext 350 100 <def.yesil> - 1 Dye Crystal
+dtext 350 120 <def.yesil> - 15 Balron Hide
+dtext 350 240 <def.kirmizi> *Aynı rengi tekrar elde
+dtext 358 260 <def.kirmizi> etme olasılığı mevcuttur.
+
+
+button 370 175 4005 4006 1 0 400
+dtext 400 177 035 Değiştir
+
+
+
+
+[DIALOG D_DYEDEGIS BUTTON]
+on=100
+if (<src.restest 1 i_dye_rare>) && (<src.restest 1 i_dye_crystal>) && (<src.restest 15 i_balron_hides>)
+	SRC.CONSUME 1 I_DYE_RARE
+	SRC.CONSUME 1 I_DYE_CRYSTAL
+	SRC.CONSUME 15 I_BALRON_HIDES
+	SERV.NEWITEM=i_dye_rare
+	SRC.NEW.BOUNCE
+ELSE 
+	SRC.syshata Çantanızda classic rare dye veya yeterli malzeme bulunmuyor.
+endif
+
+on=200
+if (<src.restest 1 i_dye_rare_new>) && (<src.restest 3 i_dye_crystal>) && (<src.restest 15 i_balron_hides>)
+	SRC.CONSUME 1 I_DYE_RARE_NEW
+	SRC.CONSUME 3 I_DYE_CRYSTAL
+	SRC.CONSUME 15 I_BALRON_HIDES
+	SERV.NEWITEM=i_dye_rare_new
+	SRC.NEW.BOUNCE
+ELSE 
+	SRC.syshata Çantanızda rare dye veya yeterli malzeme bulunmuyor.
+endif
+
+on=300
+if (<src.restest 1 i_dye_leat>) && (<src.restest 3 i_dye_crystal>) && (<src.restest 15 i_balron_hides>)
+	SRC.CONSUME 1 I_DYE_LEAT
+	SRC.CONSUME 3 I_DYE_CRYSTAL
+	SRC.CONSUME 15 I_BALRON_HIDES
+	SERV.NEWITEM=i_dye_leat
+	SRC.NEW.BOUNCE
+ELSE 
+	SRC.syshata Çantanızda leather dye veya yeterli malzeme bulunmuyor.
+endif
+
+on=400
+if (<src.restest 1 i_dye_furny>) && (<src.restest 1 i_dye_crystal>) && (<src.restest 15 i_balron_hides>)
+	SRC.CONSUME 1 I_DYE_FURNY
+	SRC.CONSUME 1 I_DYE_CRYSTAL
+	SRC.CONSUME 15 I_BALRON_HIDES
+	SERV.NEWITEM=i_dye_furny
+	SRC.NEW.BOUNCE
+ELSE 
+	SRC.syshata Çantanızda furniture dye veya yeterli malzeme bulunmuyor.
+endif
+
+
+
+
+[eof]

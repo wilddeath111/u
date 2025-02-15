@@ -1,0 +1,109 @@
+﻿//------------------
+// GUILDS.SCP
+//------------------
+// <serv.name> UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+[PLEVEL 1]
+gc
+
+[function gc]
+if (<memoryfindtype.memory_guild.link.uid>)
+serv.allclients guild [[<FULLNAME>]: <args>
+endif
+
+[function guild]
+if (<memoryfindtype.memory_guild.link.uid> == <src.memoryfindtype.memory_guild.link.uid>)
+sysmessage @0481,3,1,eng, <args>
+endif
+
+[dialog d_guildonline]
+50,50
+
+resizepic 0 0 3500 370 340
+resizepic 10 10 3000 350 320
+dhtmlgump 80 20 350 20 0 0 <def.bfont_red><serv.name> UO Guild Online Sistemi
+//dtext 20 20 1153 Guild: <guild.name>[<memoryfindtype.memory_guild.link.abbrev>]
+//dtext 20 40 1153 Toplam Üye Sayısı: <guild.member.count>
+//dtext 345 20 1153 Sayfa: <dsrc.ctag.gsayfa>
+dhtmlgump 40 50 100 20 0 0 <def.bfont_red><def.u>Üye</u>
+dhtmlgump 160 50 100 20 0 0 <def.bfont_red><def.u>Fame</u>
+dhtmlgump 210 50 100 20 0 0 <def.bfont_red><def.u>Karma</u>
+dhtmlgump 260 50 100 20 0 0 <def.bfont_red><def.u>Konum</u>
+dhtmlgump 40 300 100 20 0 0 <def.bfont_red>Sonraki Sayfa
+dhtmlgump 260 300 100 20 0 0 <def.bfont_red>Önceki Sayfa
+
+if !(<dsrc.ctag0.gsayfa> == 1)
+button 240 300 55 55 1 0 112
+endif
+local.az <guild.member.count>
+local.a <eval <dsrc.ctag.gsayfa>*10>
+if (<dlocal.az> > <dlocal.a>)
+button 20 300 55 55 1 0 111
+local.te 1
+endif
+local.awe <eval <dsrc.ctag.gsayfa> -1>
+local.awe <eval <dlocal.awe>*10>
+local.abc <eval <dlocal.az> - <dlocal.awe>>
+local.satir 80
+
+for <eval <qval (<dlocal.te> == 1)?10:<dlocal.abc>>>
+local.aa <eval <dsrc.ctag0.gsayfa> -1>
+local.aa <eval <dlocal.aa>*10>
+local.aa +=<dlocal._for>
+local.aa -= 1
+obj=<guild.member.<dlocal.aa>.uid>
+dhtmlgump 260 <eval <dlocal.satir>+1> 110 20 0 0 <qval (<obj.isonline>)?<qval (<obj.region.guarded> == 1)?<def.bfont_dblue><obj.region.name>:<def.bfont_red><obj.region.name>>:<def.bfont_black>>
+dhtmlgump 160 <eval <dlocal.satir>+1> 50 20 0 0 <obj.fame>
+dhtmlgump 210 <eval <dlocal.satir>+1> 50 20 0 0 <obj.karma>
+dhtmlgump 40 <eval <dlocal.satir>+1> 150 20 0 0 <qval (<obj.isonline> == 1)?<def.bfont_dgreen><obj.FULLNAME>:<obj.FULLNAME>>
+button 20 <dlocal.satir> 55 55 1 0 <dlocal._for>
+local.satir +=20
+endfor
+
+
+[dialog d_guildonline button]
+on 111
+src.dialogclose d_guildonline
+src.ctag.gsayfa +=1
+src.sdialog d_guildonline
+
+on 112
+src.dialogclose d_guildonline
+src.ctag.gsayfa -=1
+src.sdialog d_guildonline
+
+on=1 11
+local.aa <eval <dsrc.ctag.gsayfa> -1>
+local.aa <dlocal.aa>*11
+local.aa +=<eval <argn>>
+src.ctag0.hangiuye <eval <dlocal.aa>-1>
+src.sdialog d_guildonline2
+
+[dialog d_guildonline2]
+50,50
+
+resizepic 0 0 3500 370 270
+resizepic 10 10 3000 350 250
+dhtmlgump 80 20 350 20 0 0 <def.bfont_red><serv.name> UO Guild Online Sistemi
+local.lexobj <obj>
+obj=<guild.member.<dsrc.ctag.hangiuye>.uid>
+dhtmlgump 20 50 350 20 0 0 <def.bfont_red>İsim: <def.bfont_dgreen><obj.FULLNAME>
+dhtmlgump 20 70 350 20 0 0 <def.bfont_red>Puan: <def.bfont_dgreen><eval <obj.tag0.puan>>
+dhtmlgump 20 90 350 20 0 0 <def.bfont_red>Kills: <def.bfont_dgreen><obj.kills>
+dhtmlgump 20 110 350 20 0 0 <def.bfont_red>Ölüm Sayısı: <def.bfont_dgreen><obj.deaths>
+dhtmlgump 20 130 350 20 0 0 <def.bfont_red>Online Süresi: <def.bfont_dgreen><eval <obj.ACCOUNT.TOTALCONNECTTIME>/60> Saat
+dhtmlgump 20 150 350 20 0 0 <def.bfont_red>Fame: <def.bfont_dgreen><obj.fame>
+dhtmlgump 20 170 350 20 0 0 <def.bfont_red>Karma: <def.bfont_dgreen><obj.karma>
+dhtmlgump 20 190 350 20 0 0 <def.bfont_red>Hits: <def.bfont_dgreen><obj.str>/<obj.hits>
+dhtmlgump 20 210 350 20 0 0 <def.bfont_red>Skill Total: <def.bfont_dgreen><fval <obj.skilltotal>>
+dhtmlgump 20 230 350 20 0 0 <def.bfont_red>Son Oyuna Giriş: <def.bfont_dgreen><obj.ACCOUNT.LASTCONNECTDATE>
+obj <local.lexobj>
+
+[dialog d_guildonline2 button]
+on 0
+IF (<MEMORYFINDTYPE.MEMORY_GUILD.LINK.UID>!=0)
+ctag.gsayfa 1
+sdialog d_guildonline
+ENDIF

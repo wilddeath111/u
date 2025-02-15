@@ -1,0 +1,628 @@
+﻿//------------------
+// NEWBIE DEED
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Sondias
+//------------------
+
+[itemdef i_yemek]
+id i_pig_roast
+name high quality pig roast
+WEIGHT=1
+VALUE=4348
+TYPE=t_script
+
+on=@create
+color 0840
+attr 04
+
+on=@click
+message @038a,,1 a <name>
+return 1
+
+On=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if (<topobj.uid> != <src.uid>)
+	src.syshata Bunu sadece üzerinizdeyken kullanabilirsiniz.
+RETURN 1
+ENDIF
+	SRC.FOOD 500
+	src.syshata Karnınız epey doydu.
+REMOVE
+RETURN 1
+
+ON=@TIMER
+RETURN 1
+
+[itemdef i_don_pv]
+id i_deed
+name premium pv deed
+type t_deed
+WEIGHT=1
+VALUE=4348
+TYPE=t_script
+
+on=@create
+color 0455
+attr 04
+
+on=@click
+message @038a,,1 a <name>
+return 1
+
+On=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+	src.syshata Şehir player vendorlarının süresini uzatmak için kullanılır.
+RETURN 1
+
+ON=@TIMER
+RETURN 1
+
+[itemdef i_deed_guild2]
+id i_deed
+name guildstone deed
+type t_deed
+WEIGHT=1
+VALUE=500000
+TYPE=t_script
+
+on=@create
+attr 04
+
+on=@click
+message @038a,,1 a <name>
+return 1
+
+On=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+SERV.NEWITEM I_GUILDSTONE
+SRC.NEW.P <SRC.P>
+SRC.NEW.UPDATE
+REMOVE
+RETURN 1
+
+ON=@TIMER
+RETURN 1
+
+[itemdef i_deed_guild]
+id i_deed
+name guildstone deed
+type t_deed
+WEIGHT=1
+VALUE=500000
+TYPE=t_script
+
+on=@create
+attr 04
+
+on=@click
+message @038a,,1 a <name>
+return 1
+
+On=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+	src.syshata Guild kurmak için hazır bir şekilde page atmalısınız.
+RETURN 1
+
+ON=@TIMER
+RETURN 1
+
+[itemdef i_deed_evyeni]
+id i_deed
+name ev yenileme deed
+type t_deed
+WEIGHT=1
+VALUE=4348
+TYPE=t_script
+
+on=@create
+color 0455
+attr 04
+
+on=@click
+message @038a,,1 a <name>
+return 1
+
+On=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if (<topobj.uid> != <src.uid>)
+	src.syshata Bunu sadece üzerinizdeyken kullanabilirsiniz.
+RETURN 1
+ENDIF
+
+SDIALOG D_SELF_EV
+return 1
+
+ON=@TIMER
+RETURN 1
+
+[Dialog D_SELF_EV]
+0,0
+
+PAGE 0
+F_DEF_DIALOG 200,100,300,100
+//resizepic 200 100 5120 300 150
+//resizepic 210 110 3000 280 130
+
+dtext 220 112 035 Ev Yenileme Deed (2 ay)
+
+button 230 150 4006 4007 1 0 1
+dtext 260 152 1153 Evimi yenile
+
+button 390 150 4006 4007 1 0 0
+dtext 420 152 1153 Vazgeç
+
+[Dialog D_SELF_EV button]
+onbutton=1
+
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+
+FORINSTANCES I_SIGN_BRASS
+IF (<MORE2>==<SRC.UID>)
+LOCAL.P <UID>
+LOCAL.POK 1
+ENDIF
+ENDFOR
+IF !(<dLOCAL.POK>)
+SRC.SYSHATA Dünya üzerinde size ait bir ev bulunmuyor.
+RETURN 1
+ENDIF
+
+TRY UID.<LOCAL.P>.TIMER 5184000
+src.sysyes Eviniz 60 günlüğüne yenilendi.
+
+REMOVE
+return 1
+
+[itemdef i_deed_IRK]
+id i_deed
+name change deed
+type t_deed
+WEIGHT=1
+VALUE=4348
+TYPE=t_script
+
+on=@create
+color 0455
+attr 04
+
+on=@click
+message @038a,,1 a ırk <name>
+return 1
+
+On=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if (<topobj.uid> != <src.uid>)
+	src.syshata Bunu sadece üzerinizdeyken kullanabilirsiniz.
+RETURN 1
+ENDIF
+
+SDIALOG D_SELF_IRK
+return 1
+
+ON=@TIMER
+RETURN 1
+
+[Dialog D_SELF_IRK]
+0,0
+
+PAGE 0
+F_DEF_DIALOG 200,100,300,100
+//resizepic 200 100 5120 300 150
+//resizepic 210 110 3000 280 130
+
+dtext 220 112 035 Irk Change Deed
+
+button 230 150 4006 4007 1 0 1
+dtext 260 152 1153 Irkımı değiştir
+
+button 390 150 4006 4007 1 0 0
+dtext 420 152 1153 Vazgeç
+
+[Dialog D_SELF_IRK button]
+onbutton=1
+
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+
+SDIALOG D_WEIGHT_IRK2
+
+return 1
+
+[dialog d_weight_irk2]
+-150,20
+noclose 
+nomove 
+
+//resizepic 240 25 5100 540 605
+//resizepic 240 25 3500 540 605
+
+F_DEF_DIALOG 240,25,540,605
+
+//gumppic 370 45 2416
+dtext 440 50 035 <serv.name> Irk Bonus Seçimi
+
+gumppictiled 248 90 524 1 2417
+
+//1153
+tilepichue 250 100 <serv.itemdef.i_cannon_ball.id> <eval 1153>
+tilepichue 250 120 <serv.itemdef.i_cannon_ball.id> <eval 1153>
+tilepichue 250 140 <serv.itemdef.i_cannon_ball.id> <eval 1153>
+dtext 270 96 <def.kirmizi> Irklar arasında sadece bonus olarak farklılık vardır.
+dtext 270 116 <def.kirmizi> Sadece Orc karakterler Magery yeteneği kullanamazlar.
+
+gumppictiled 305 160 1 420 2417 / dikey 1
+gumppictiled 720 160 1 420 2417 / dikey 2
+
+gumppictiled 248 160 524 1 2417 / üst
+
+dtext 255 185 100 HUMAN  
+dtext 310 165 1152-Armslore yeteneği olmadan zehir sürebilir.
+dtext 310 185 1152-Parrying yeteneği ile özel mage robeları giyebilir.
+dtext 310 205 1152-Her yeteneği geliştirebilirler.
+button 725 180 4005 4006 1 0 1
+
+gumppictiled 249 230 526 1 2417
+
+dtext 255 255 100 ELF  
+dtext 310 235 1152-Archery yeteneği ile daha fazla hasar verirler.
+dtext 310 255 1152-Hazine Haritalarını yüksek level açma şansları daha fazladır.
+dtext 310 275 1152-Her yeteneği geliştirebilirler.
+button 725 250 4005 4006 1 0 2
+
+gumppictiled 248 300 524 1 2417
+
+dtext 255 325 100 DWARF 
+dtext 310 305 1152-Eşya üretirken aynı malzeme ile aynı eşyadan 2 tane üretebilir.
+dtext 310 325 1152-Her craft yeteneğinin 2 tane üretme oranı farklıdır.
+dtext 310 345 1152-Her yeteneği geliştirebilirler.
+button 725 320 4005 4006 1 0 3
+
+gumppictiled 246 370 524 1 2417
+
+dtext 255 395 100 HOBBIT
+dtext 310 375 1152-Sınırsız stuck hakkına sahiptir.
+dtext 310 395 1152-Tracking yeteneği daha geniş bir alan için etkilidir.
+dtext 310 415 1152-Her yeteneği geliştirebilirler.
+button 725 390 4005 4006 1 0 4
+
+gumppictiled 249 440 524 1 2417
+
+dtext 255 465 1100 ORC
+dtext 310 445 1152-Vücut yapısı sayesinde fazladan 10 armora sahiptir.
+dtext 310 465 1152-Magery yeteneğini kullanamazlar. Runebook'u sınırsız kullanabilirler.
+dtext 310 485 1152-Poison Bow sadece Orc karakterler tarafından kullanılabilir.
+button 725 460 4005 4006 1 0 5
+
+gumppictiled 249 510 524 1 2417
+
+dtext 255 525 1100 DARK 
+dtext 255 545 1100 ELF
+dtext 310 515 1152-Protection ve Reactive Armor büyülerini aynı anda kullanabilirler.
+dtext 310 535 1152-Diğer ırklar bu büyüleri aynı anda kullanamazlar.
+dtext 310 555 1152-Her yeteneği geliştirebilirler.
+button 725 530 4005 4006 1 0 6
+
+gumppictiled 249 580 524 1 2417
+   
+tilepichue 250 595 <serv.itemdef.i_cannon_ball.id> <eval 1153>
+dtext 270 591 <def.kirmizi> Skillcap: 800.0 | PH: %100 
+//button 558 588 4005 4006 1 0 6
+
+[Dialog d_weight_irk2 button]
+
+onbutton=1
+SRC.TAG0.IRK Human
+SRC.SYSNORM Human ırkını seçtiniz. 
+
+IF (<SRC.ISEVENT.E_ORC>)
+SRC.MODAR <EVAL <SRC.MODAR>-10>
+try uid.<src.tag.orcmask>.remove
+try uid.<src.tag.orcbear>.remove
+SRC.KILLS 10
+ELSEIF (<SRC.ISEVENT.E_DARKELF>)
+SRC.KILLS 10
+ENDIF
+
+SRC.EVENTS -E_ORC
+SRC.EVENTS -E_ORC_PEVENT
+SRC.EVENTS -E_DARKELF
+remove
+
+onbutton=2
+SRC.TAG0.IRK Elf
+SRC.SYSNORM Elf ırkını seçtiniz. 
+
+IF (<SRC.ISEVENT.E_ORC>)
+SRC.MODAR <EVAL <SRC.MODAR>-10>
+try uid.<src.tag.orcmask>.remove
+try uid.<src.tag.orcbear>.remove
+SRC.KILLS 10
+ELSEIF (<SRC.ISEVENT.E_DARKELF>)
+SRC.KILLS 10
+ENDIF
+
+SRC.EVENTS -E_ORC
+SRC.EVENTS -E_ORC_PEVENT
+SRC.EVENTS -E_DARKELF
+remove
+
+
+onbutton=3
+SRC.TAG0.IRK Dwarf
+SRC.SYSNORM Dwarf ırkını seçtiniz. 
+
+IF (<SRC.ISEVENT.E_ORC>)
+SRC.MODAR <EVAL <SRC.MODAR>-10>
+try uid.<src.tag.orcmask>.remove
+try uid.<src.tag.orcbear>.remove
+SRC.KILLS 10
+ELSEIF (<SRC.ISEVENT.E_DARKELF>)
+SRC.KILLS 10
+ENDIF
+
+SRC.EVENTS -E_ORC
+SRC.EVENTS -E_ORC_PEVENT
+SRC.EVENTS -E_DARKELF
+remove
+
+onbutton=4
+SRC.TAG0.IRK Hobbit
+SRC.SYSNORM Hobbit ırkını seçtiniz. 
+
+IF (<SRC.ISEVENT.E_ORC>)
+SRC.MODAR <EVAL <SRC.MODAR>-10>
+try uid.<src.tag.orcmask>.remove
+try uid.<src.tag.orcbear>.remove
+SRC.KILLS 10
+ELSEIF (<SRC.ISEVENT.E_DARKELF>)
+SRC.KILLS 10
+ENDIF
+
+SRC.EVENTS -E_ORC
+SRC.EVENTS -E_ORC_PEVENT
+SRC.EVENTS -E_DARKELF
+
+remove
+
+onbutton=5
+IF (<SRC.ISEVENT.E_ORC>)
+SRC.MODAR <EVAL <SRC.MODAR>-10>
+try uid.<src.tag.orcmask>.remove
+try uid.<src.tag.orcbear>.remove
+ENDIF
+SRC.TAG0.IRK Orc
+SRC.SYSNORM Orc ırkını seçtiniz. 
+SRC.EVENTS +E_ORC
+SRC.EVENTS +E_ORC_PEVENT
+SRC.EVENTS -E_DARKELF
+
+	SRC.COLOR 07D4
+	SRC.OSKIN 07D4
+	SRC.KILLS 1000
+	SRC.UPDATE
+	SERV.NEWITEM I_MASK_ORC
+	SRC.BOUNCE <NEW>
+	src.tag0.orcmask <new.uid>
+	SERV.NEWITEM I_ET_BEAR2
+	SRC.BOUNCE <NEW>
+	src.tag0.orcbear <new.uid>
+	SRC.MODAR <EVAL <SRC.MODAR>+10>
+
+REMOVE
+
+onbutton=6
+SRC.TAG0.IRK Dark Elf
+SRC.SYSNORM Dark Elf ırkını seçtiniz. 
+
+IF (<SRC.ISEVENT.E_ORC>)
+SRC.MODAR <EVAL <SRC.MODAR>-10>
+try uid.<src.tag.orcmask>.remove
+try uid.<src.tag.orcbear>.remove
+ENDIF
+
+SRC.EVENTS -E_ORC
+SRC.EVENTS -E_ORC_PEVENT
+SRC.EVENTS +E_DARKELF
+
+	SRC.COLOR 0450
+	SRC.OSKIN 0450
+	SRC.KILLS 1000
+	SRC.UPDATE
+
+REMOVE
+
+
+[itemdef i_deed_sex]
+id i_deed
+name sex change deed
+type t_deed
+WEIGHT=1
+VALUE=4348
+TYPE=t_script
+
+on=@create
+color 0455
+attr 04
+
+on=@click
+message @038a,,1 a <name>
+return 1
+
+On=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if (<topobj.uid> != <src.uid>)
+	src.syshata Bunu sadece üzerinizdeyken kullanabilirsiniz.
+RETURN 1
+ENDIF
+
+SDIALOG D_SELF_SEX
+return 1
+
+ON=@TIMER
+RETURN 1
+
+[Dialog D_SELF_SEX]
+0,0
+
+PAGE 0
+F_DEF_DIALOG 200,100,300,100
+//resizepic 200 100 5120 300 150
+//resizepic 210 110 3000 280 130
+
+dtext 220 112 035 Sex Change Deed
+
+button 230 150 4006 4007 1 0 1
+dtext 260 152 1153 Cinsiyetimi değiştir
+
+button 390 150 4006 4007 1 0 0
+dtext 420 152 1153 Vazgeç
+
+[Dialog D_SELF_SEX button]
+onbutton=1
+
+IF (<SRC.ICON>==02106)
+SRC.BODY C_WOMAN
+SRC.OBODY C_WOMAN
+SRC.UPDATE
+ELSE
+SRC.BODY C_MAN
+SRC.OBODY C_MAN
+SRC.UPDATE
+endif
+
+src.sysyes Cinsiyetiniz başarıyla değiştirilmiştir.
+
+return 1
+
+[itemdef i_deed_rename]
+id i_deed
+name rename deed
+type t_deed
+WEIGHT=1
+VALUE=4348
+TYPE=t_script
+
+on=@create
+color 0455
+attr 04
+
+on=@click
+message @038a,,1 a <name>
+return 1
+
+On=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if (<topobj.uid> != <src.uid>)
+	src.syshata Bunu sadece üzerinizdeyken kullanabilirsiniz.
+RETURN 1
+ENDIF
+
+SDIALOG D_SELF_RENAME
+return 1
+
+ON=@TIMER
+RETURN 1
+
+[Dialog D_SELF_RENAME]
+0,0
+
+PAGE 0
+F_DEF_DIALOG 200,100,300,150
+//resizepic 200 100 5120 300 150
+//resizepic 210 110 3000 280 130
+resizepic 280 150 3000 160 25
+dtext 220 112 035 Rename Deed
+dtext 215 150 1153 Yeni isim:
+dtextentry 285 151 150 20 030 1
+button 230 190 4006 4007 1 0 1
+dtext 260 192 1153 İsmimi değiştir
+
+button 390 190 4006 4007 1 0 0
+dtext 420 192 1153 Vazgeç
+
+[Dialog D_SELF_RENAME button]
+onbutton=1
+IF (strlen(<argtxt[1]>) < 3) || (strlen(<argtxt[1]>) > 15)
+src.syshata İsminiz en az 5, en fazla 15 karakter olabilir.
+return 1
+ENDIF
+IF (<ISEMPTY <argtxt[1]>>)
+SRC.SYSHATA Boş geçemezsiniz.
+RETURN 1
+ENDIF
+FOR s 1 <eval (strlen(<argtxt[1]>))-1>
+IF !(strmatch('[abcdefghijklmnoprstuvyzwqx]','<strsub <eval <local.s>> 1 <argtxt[1]>>'))
+src.syshata İsminizde geçersiz karakterler bulunuyor.
+return 1
+ENDIF
+ENDFOR
+
+SRC.NAME <argtxt[1]>
+remove
+return 1
+
+
+[itemdef i_deed_newbie]
+id i_deed
+name newbie deed
+type t_deed
+WEIGHT=1
+VALUE=4348
+TYPE=t_script
+
+on=@create
+color 0455
+attr 04
+
+on=@click
+message @038a,,1 a <name>
+return 1
+
+On=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if (<topobj.uid> != <src.uid>)
+	src.syshata Bunu sadece üzerinizdeyken kullanabilirsiniz.
+RETURN 1
+ENDIF
+target
+SRC.SYSNORM Newbie yapacağınız eşyayı seçin.
+return 1
+
+on=@targon_item
+if !(<src.targ.topobj.uid> == <src.uid>)
+	src.syshata Newbie yapacağınız eşya çantanızda olmalı.
+elseif !((<src.targ.type> == t_clothing) || (<src.targ.baseid> == i_hammer_smith) || (<src.targ.baseid> == i_mortar_pestle) || (<src.targ.baseid> == i_sewing_kit) || (<src.targ.baseid> == i_scissors) || (<src.targ.baseid> == i_saw) || (<src.targ.baseid> == i_tinker_tools) || (<src.targ.baseid> == i_fishing_pole) || (<src.targ.baseid> == i_pickaxe) || (<src.targ.baseid> == i_dagger))
+	src.syshata Bunu newbie yapamazsınız.
+elseif ((<SRC.TARG.ISWEAPON> || (<src.targ.baseid> == i_tc_mr15 ) || (<src.targ.baseid> == i_tc_mr12 ) || (<src.targ.baseid> == i_tc_mr9 ) || (<src.targ.baseid> == i_tc_mr6 ) || (<src.targ.baseid> == i_tc_mr3 ) || (<src.targ.baseid> == i_mr ) || (<src.targ.baseid> == i_shroud) || (<src.targ.baseid> == i_robe_ranger) || (<src.targ.baseid> == i_robe_warrior) || (<src.targ.baseid> == i_robe_ranger) || (<src.targ.baseid> == i_robe_energy) || (<src.targ.baseid> == i_robe_earth) || (<src.targ.baseid> == i_robe_ice) || (<src.targ.baseid> == i_robe_fire))
+	src.syshata Bunu newbie yapamazsınız.
+else
+	src.targ.attr 04
+	src.targ.update
+	src.sysyes <src.targ.name> newbified yapılmıştır.
+	remove
+endif
+return 1
+
+[eof]

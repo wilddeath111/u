@@ -1,0 +1,246 @@
+﻿[itemdef i_alet_cantasi]
+name alet cantasi
+defname i_alet_cantasi
+id i_toolcase_empty
+type t_normal
+VALUE=12500
+
+on=@create
+attr attr_newbie
+tag.toplam 0
+
+on=@click
+IF (<LINK.UID>)
+message @90,,1 [<link.fullname>]
+ENDIF
+message @038a,,1 alet çantası
+return 1
+
+on=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+
+if (<topobj.uid> != <src.uid>)
+src.syshata Alet çantası üzerinizde olmalı.
+return 1
+endif
+
+if !(<link.uid>)
+link <src.uid>
+src.sysyes Alet çantası artık sizin.
+return 1
+endif
+
+if !(strmatch('<link.uid>','<src.uid>')
+src.syshata Bu alet çantasına başkasına ait.
+return 1
+endif
+
+if (0<tag.alch> = 1) && (0<tag.bow> = 1) && (0<tag.carp> = 1) && (0<tag.cartog> = 1) && (0<tag.ins> = 1) && (0<tag.tai> = 1) && (0<tag.tink> = 1) && (0<tag.bs> = 1)
+more1 2
+endif
+sdialog d_aletca
+return 1
+
+on=@targon_item
+if (<src.targ.topobj.uid> != <src.uid>)
+src.syshata Ekleyeceğiniz alet çantanızda olmalı.
+return 1
+endif
+
+
+if (<src.targ.baseid> = i_hammer_smith)
+	IF (0<tag.bs> == 1)
+	SRC.SYSHATA Blacksmithy aleti zaten çantaya eklenmiş.
+	RETURN 1
+	ENDIF
+	tag.toplam <eval <dtag0.toplam>+1>
+	tag.alet<dtag0.toplam> blacksmith
+	tag.aletid<dtag0.toplam> i_hammer_smith
+	tag.bs 1
+	//type t_
+	dispid i_toolcase
+	update
+	more1 1
+	src.sysyes Blacksmithy aleti çantaya eklendi.
+	src.sysnorm Eşya yapabilmek için elinizde smith's hammer olmalıdır.
+elseif (<src.targ.baseid> = i_mortar_pestle)
+	IF (0<tag.alch> == 1)
+	SRC.SYSHATA Alchemy aleti zaten çantaya eklenmiş.
+	RETURN 1
+	ENDIF
+	tag.toplam <eval <dtag0.toplam>+1>
+	tag.alet<dtag0.toplam> alchemy
+	tag.aletid<dtag0.toplam> i_mortar_pestle
+	tag.alch 1
+	type t_mortar
+	dispid i_toolcase
+	update
+	more1 1
+	src.targ.attr=attr_move_never|attr_newbie|attr_invis
+	src.targ.update
+	src.sysyes Alchemy aleti çantaya eklendi.
+elseif (<src.targ.baseid> = i_arrow_shaft)
+	IF (0<tag.bow> == 1)
+	SRC.SYSHATA Bowcrafting aleti zaten çantaya eklenmiş.
+	RETURN 1
+	ENDIF
+	tag.toplam <eval <dtag0.toplam>+1>
+	tag.alet<dtag0.toplam> bowcraft
+	tag.aletid<dtag0.toplam> i_arrow_shaft
+	tag.bow 1
+	//type t_shaft
+	dispid i_toolcase
+	more1 1
+	src.consume 1 <src.targ.baseid>
+	src.sysyes Bowcrafting aleti çantaya eklendi.
+elseif (<src.targ.baseid> = i_saw)
+	IF (0<tag.carp> == 1)
+	SRC.SYSHATA Carpentry aleti zaten çantaya eklenmiş.
+	RETURN 1
+	ENDIF
+	tag.toplam <eval <dtag0.toplam>+1>
+	tag.alet<dtag0.toplam> carpenter
+	tag.aletid<dtag0.toplam> i_saw
+	tag.carp 1
+	type t_carpentry
+	dispid i_toolcase
+	more1 1
+	src.targ.attr=attr_move_never|attr_newbie|attr_invis
+	src.targ.update
+	src.sysyes Carpentry aleti çantaya eklendi.
+elseif (<src.targ.baseid> = i_map_blank)
+	IF (0<tag.cartog> == 1)
+	SRC.SYSHATA Cartography aleti zaten çantaya eklenmiş.
+	RETURN 1
+	ENDIF
+	tag.toplam <eval <dtag0.toplam>+1>
+	tag.alet<dtag0.toplam> cartography
+	tag.aletid<dtag0.toplam> i_map_blank
+	tag.cartog 1
+	//type t_map_blank
+	dispid i_toolcase
+	more1 1
+	src.consume 1 <src.targ.baseid>
+	src.sysyes Cartography aleti çantaya eklendi.
+elseif (<src.targ.baseid> = i_scroll_blank)
+	IF (0<tag.ins> == 1)
+	SRC.SYSHATA Inscription aleti zaten çantaya eklenmiş.
+	RETURN 1
+	ENDIF
+	tag.toplam <eval <dtag0.toplam>+1>
+	tag.alet<dtag0.toplam> inscription
+	tag.aletid<dtag0.toplam> i_scroll_blank
+	tag.ins 1
+	//type t_scroll_blank
+	dispid i_toolcase
+	more1 1
+	src.consume 1 <src.targ.baseid>
+	src.sysyes Inscription aleti çantaya eklendi.
+elseif (<src.targ.baseid> = i_sewing_kit)
+	IF (0<tag.tai> == 1)
+	SRC.SYSHATA Tailoring aleti zaten çantaya eklenmiş.
+	RETURN 1
+	ENDIF
+	tag.toplam <eval <dtag0.toplam>+1>
+	tag.alet<dtag0.toplam> tailor
+	tag.aletid<dtag0.toplam> i_sewing_kit
+	tag.tai 1
+	type t_sewing_kit
+	dispid i_toolcase
+	more1 1
+	src.targ.attr=attr_move_never|attr_newbie|attr_invis
+	src.targ.update
+	src.sysyes Tailoring aleti çantaya eklendi.
+elseif (<src.targ.baseid> = i_tinker_tools)
+	IF (0<tag.tink> == 1)
+	SRC.SYSHATA Tinkering aleti zaten çantaya eklenmiş.
+	RETURN 1
+	ENDIF
+	tag.toplam <eval <dtag0.toplam>+1>
+	tag.alet<dtag0.toplam> tinker
+	tag.aletid<dtag0.toplam> i_tinker_tools
+	tag.tink 1
+	type t_tinker_tools
+	dispid i_toolcase
+	more1 1
+	src.targ.attr=attr_move_never|attr_newbie|attr_invis
+	src.targ.update
+	src.sysyes Tinkering aleti çantaya eklendi.
+else
+	src.syshata Bunu alet çantasına ekleyemezsiniz.
+endif
+
+return 1
+
+on=@targon_char
+return 1
+
+on=@targon_ground
+return 1
+
+[dialog d_aletca]
+20,50
+F_DEF_DIALOG 0,0,200,250
+F_DEF_DHEADER 20,15,<SERV.NAME> Alet Çantası
+
+dtext 40 35 33 <qval (<more1> = 0) ? - Eklenmiş alet yok. : >
+
+IF (<DTAG0.TOPLAM> > 0)
+FOR X 1 <DTAG0.TOPLAM>
+IF !(<ISEMPTY <TAG0.ALET<DLOCAL.X>>>)
+DTEXT 40 <EVAL (<DLOCAL.X>*20)+20> 033 <strtoupper(<strsub 0 1 <TAG0.ALET<DLOCAL.X>>>)><strtolower(<strsub 1 15 <TAG0.ALET<DLOCAL.X>>>)> tool
+
+IF (<TAG0.ALETID<DLOCAL.X>>==i_arrow_shaft)
+tilepic 120 <EVAL (<DLOCAL.X>*20)+20> <serv.itemdef.<TAG0.ALETID<DLOCAL.X>>.id>
+ELSEIF (<TAG0.ALETID<DLOCAL.X>>==i_mortar_pestle)
+tilepic 110 <EVAL (<DLOCAL.X>*20)+22> <serv.itemdef.<TAG0.ALETID<DLOCAL.X>>.id>
+ELSEIF (<TAG0.ALETID<DLOCAL.X>>==i_hammer_smith)
+tilepic 120 <EVAL (<DLOCAL.X>*20)+22> <serv.itemdef.<TAG0.ALETID<DLOCAL.X>>.id>
+ELSEIF (<TAG0.ALETID<DLOCAL.X>>==i_tinker_tools)
+tilepic 109 <EVAL (<DLOCAL.X>*20)+15> <serv.itemdef.<TAG0.ALETID<DLOCAL.X>>.id>
+ELSEIF (<TAG0.ALETID<DLOCAL.X>>==I_MAP_BLANK)
+tilepic 138 <EVAL (<DLOCAL.X>*20)+14> <serv.itemdef.<TAG0.ALETID<DLOCAL.X>>.id>
+ELSEIF (<TAG0.ALETID<DLOCAL.X>>==I_SEWING_KIT)
+tilepic 88 <EVAL (<DLOCAL.X>*20)+20> <serv.itemdef.<TAG0.ALETID<DLOCAL.X>>.id>
+ELSE
+tilepic 128 <EVAL (<DLOCAL.X>*20)+20> <serv.itemdef.<TAG0.ALETID<DLOCAL.X>>.id>
+ENDIF
+
+BUTTON 20 <EVAL (<DLOCAL.X>*20)+20> 9702 9703 1 0 <DLOCAL.X>
+ENDIF
+ENDFOR
+ENDIF
+
+dtext 48 211 1153 <qval (<more1> = 2) ? Alet çantası dolu. : Alet ekle>
+IF !(<DMORE1>==2)
+button 20 210 4005 4006 1 0 80
+ENDIF
+
+[dialog d_aletca text]
+
+[dialog d_aletca button]
+on 1 8
+IF (strmatch('<TAG0.ALET<DARGN>>','carpenter'))
+SRC.SDIALOG D_SKILL_CARPENTRY
+TRY type t_carpentry
+ELSEIF (strmatch('<TAG0.ALET<DARGN>>','tinker'))
+SRC.SDIALOG D_SKILL_TINKERING
+TRY type t_tinker_tools
+ELSEIF (strmatch('<TAG0.ALET<DARGN>>','tailor'))
+SRC.SDIALOG D_SKILL_TAILORING
+TRY type t_sewing_kit
+ELSEIF (strmatch('<TAG0.ALET<DARGN>>','alchemy'))
+SRC.SDIALOG D_SKILL_ALCHEMY
+TRY type t_mortar
+ELSEIF (strmatch('<TAG0.ALET<DARGN>>','blacksmith'))
+SRC.SDIALOG D_SKILL_BSSEC
+src.sysnorm Eşya üretebilmek için elinizde smith's hammer olmalıdır.
+ELSE
+SRC.SDIALOG D_SKILL_<TAG0.ALET<DARGN>>
+ENDIF
+
+on=80
+src.findid.i_alet_cantasi.target
+src.sysnorm Eklemek istediğiniz aleti seçiniz.

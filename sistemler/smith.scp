@@ -1,0 +1,225 @@
+//------------------
+// SMITH.SCP
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+[FUNCTION INGOTS]
+IF (<HITS> > 0 )
+SDIALOG D_INGOTS
+ENDIF
+
+[FUNCTION ORES]
+IF (<HITS> > 0 )
+SDIALOG D_ORES
+ENDIF
+
+[DIALOG d_ingots]
+100,50
+
+F_DEF_DIALOG 0,0,430,350
+
+dtext 20 15 1153 <SERV.NAME> UO
+dtext 20 32 1153 Ingots
+
+gumppic 300 235 5555
+
+tilepic 65 63 <serv.itemdef.i_ingot_iron.id> // iron
+gumppic 22 80 2443
+text 46 82 1153 0
+text 25 61 5 1
+
+tilepichue 83 112 <serv.itemdef.i_ingot_iron.id> <eval <def.color_o_bronze>> // bronze
+gumppic 22 128 2443
+text 46 130 1153 14
+text 25 109 <eval <def.color_o_bronze>> 15
+
+tilepichue 107 158 <serv.itemdef.i_ingot_iron.id> <eval <def.color_o_dullcopper>> // dull copper
+gumppic 22 176 2443
+text 46 178 1153 4
+text 25 157 <eval <def.color_o_dullcopper>> 5
+
+tilepichue 80 207 <serv.itemdef.i_ingot_iron.id> <eval <def.color_o_copper>> // copper
+gumppic 22 225 2443
+text 46 227 1153 6
+text 25 206 <eval <def.color_o_copper>> 7
+
+tilepichue 65 260 <serv.itemdef.i_ingot_iron.id> <eval <def.color_o_gold>> // gold
+gumppic 22 278 2443
+text 46 279 1153 8
+text 25 258 <eval <def.color_o_gold>> 9
+
+tilepichue 204 63 <serv.itemdef.i_ingot_iron.id> <eval <def.color_o_silver>> // silver
+gumppic 150 80 2443
+text 173 82 1153 12
+text 152 61 <eval 03e8> 13
+
+tilepichue 208 112 <serv.itemdef.i_ingot_iron.id> <eval <def.color_o_shadow>> // shadow
+gumppic 150 128 2443
+text 173 130 1153 10
+text 152 110 <eval <def.color_o_shadow>> 11
+
+tilepichue 206 208 <serv.itemdef.i_ingot_iron.id> <eval <def.color_o_verite>>
+gumppic 150 225 2443
+dtext 173 227 1153 <EVAL <RESCOUNT i_ingot_verite>>
+dtext 152 206 <eval <def.color_o_verite>> Verite Ingot
+
+tilepichue 337 63 <serv.itemdef.i_ingot_iron.id> <eval <def.color_o_valorite>>
+gumppic 278 80 2443
+dtext 300 82 1153 <EVAL <RESCOUNT i_ingot_valorite>>
+dtext 279 61 <eval <def.color_o_valorite>> Valorite Ingot
+
+tilepichue 212 260 <serv.itemdef.i_ingot_iron.id> <eval <def.color_o_mytheril>>
+gumppic 150 278 2443
+dtext 173 279 1153 <EVAL <RESCOUNT i_ingot_mytheril>>
+dtext 152 258 <eval <def.color_o_mytheril>> Mytheril Ingot
+
+tilepichue 347 112 <serv.itemdef.i_ingot_iron.id> <eval <def.color_o_bloodrock>>
+gumppic 278 128 2443
+dtext 300 130 1153 <EVAL <RESCOUNT i_ingot_bloodrock>>
+dtext 279 110 <eval <def.color_o_bloodrock>> Bloodrock Ingot
+
+tilepichue 347 159 <serv.itemdef.i_ingot_iron.id> <eval <def.color_o_blackrock>>
+gumppic 278 176 2443
+dtext 300 178 1153 <EVAL <RESCOUNT i_ingot_blackrock>>
+dtext 279 157 0450 Blackrock Ingot
+
+tilepichue 208 159 <serv.itemdef.i_ingot_iron.id> <eval <def.color_o_agapite>>
+gumppic 150 176 2443
+dtext 173 178 1153 <EVAL <RESCOUNT i_ingot_agapite>>
+dtext 152 157 <eval <def.color_o_agapite>> Agapite Ingot
+
+button 314 310 4005 4006 1 0 1 // ORE BUTTON
+dtext 345 312 38 Ores  // ORE MENU
+
+[DIALOG d_ingots text]
+<EVAL <RESCOUNT i_ingot_iron>>
+Iron Ingot
+<EVAL <RESCOUNT i_ingot_copper>>
+Old Copper Ingot
+<EVAL <RESCOUNT i_ingot_dull_copper>>
+Dull Copper Ingot
+<EVAL <RESCOUNT i_ingot_copper>>
+Copper Ingot
+<EVAL <RESCOUNT i_ingot_gold>>
+Gold Ingot
+<EVAL <RESCOUNT i_ingot_shadow>>
+Shadow Ingot
+<EVAL <RESCOUNT i_ingot_silver>>
+Silver Ingot
+<EVAL <RESCOUNT i_ingot_bronze>>
+Bronze Ingot
+Hepsini çýkart
+Ingot ekle
+0
+
+[DIALOG d_ingots button]
+ONBUTTON 1
+ORES
+
+// ORE MENUSU
+[DIALOG d_ores]
+100,50
+
+F_DEF_DIALOG 0,0,430,350
+
+dtext 20 15 1153 <SERV.NAME> UO
+dtext 20 32 1153 Ores
+
+gumppic 300 235 5555
+
+tilepic 80 73 <serv.itemdef.i_ore_iron.id> // iron
+gumppic 22 80 2443
+text 46 82 1153 0
+text 25 61 5 1
+
+tilepichue 80 122 <serv.itemdef.i_ore_iron.id> <eval <def.color_o_bronze>> // bronze
+gumppic 22 128 2443
+text 46 130 1153 14
+text 25 109 <eval <def.color_o_bronze>> 15
+
+tilepichue 80 168 <serv.itemdef.i_ore_iron.id> <eval <def.color_o_dullcopper>> // dull copper
+gumppic 22 176 2443
+text 46 178 1153 4
+text 25 157 <eval <def.color_o_dullcopper>> 5
+
+tilepichue 80 217 <serv.itemdef.i_ore_iron.id> <eval <def.color_o_copper>> // copper
+gumppic 22 225 2443
+text 46 227 1153 6
+text 25 206 <eval <def.color_o_copper>> 7
+
+tilepichue 80 270 <serv.itemdef.i_ore_iron.id> <eval <def.color_o_gold>> // gold
+gumppic 22 278 2443
+text 46 279 1153 8
+text 25 258 <eval <def.color_o_gold>> 9
+
+tilepichue 208 73 <serv.itemdef.i_ore_iron.id> <eval <def.color_o_silver>> // silver
+gumppic 150 80 2443
+text 173 82 1153 12
+text 152 61 <eval 03e8> 13
+
+tilepichue 208 122 <serv.itemdef.i_ore_iron.id> <eval <def.color_o_shadow>> // shadow
+gumppic 150 128 2443
+text 173 130 1153 10
+text 152 110 <eval <def.color_o_shadow>> 11
+
+tilepichue 208 217 <serv.itemdef.i_ore_iron.id> <eval <def.color_o_verite>>
+gumppic 150 225 2443
+dtext 173 227 1153 <EVAL <RESCOUNT i_ore_verite>>
+dtext 152 206 <eval <def.color_o_verite>> Verite Ore
+
+tilepichue 337 73 <serv.itemdef.i_ore_iron.id> <eval <def.color_o_valorite>>
+gumppic 278 80 2443
+dtext 300 82 1153 <EVAL <RESCOUNT i_ore_valorite>>
+dtext 279 61 <eval <def.color_o_valorite>> Valorite Ore
+
+tilepichue 208 270 <serv.itemdef.i_ore_iron.id> <eval <def.color_o_mytheril>>
+gumppic 150 278 2443
+dtext 173 279 1153 <EVAL <RESCOUNT i_ore_mytheril>>
+dtext 152 258 <eval <def.color_o_mytheril>> Mytheril Ore
+
+tilepichue 337 122 <serv.itemdef.i_ore_iron.id> <eval <def.color_o_bloodrock>>
+gumppic 278 128 2443
+dtext 300 130 1153 <EVAL <RESCOUNT i_ore_bloodrock>>
+dtext 279 110 <eval <def.color_o_bloodrock>> Bloodrock Ore
+
+tilepichue 337 169 <serv.itemdef.i_ore_iron.id> <eval <def.color_o_blackrock>>
+gumppic 278 176 2443
+dtext 300 178 1153 <EVAL <RESCOUNT i_ore_blackrock>>
+dtext 279 157 0450 Blackrock Ore
+
+tilepichue 208 169 <serv.itemdef.i_ore_iron.id> <eval <def.color_o_agapite>>
+gumppic 150 176 2443
+dtext 173 178 1153 <EVAL <RESCOUNT i_ore_agapite>>
+dtext 152 157 <eval <def.color_o_agapite>> Agapite Ore
+
+button 314 310 4005 4006 1 0 1 // ORE BUTTON
+dtext 345 312 38 Ingots  // ORE MENU
+
+[DIALOG d_ores text]
+<EVAL <RESCOUNT i_ingot_iron>>
+Iron Ore
+<EVAL <RESCOUNT i_ingot_copper>>
+Old Copper Ore
+<EVAL <RESCOUNT i_ingot_dull_copper>>
+Dull Copper Ore
+<EVAL <RESCOUNT i_ingot_copper>>
+Copper Ore
+<EVAL <RESCOUNT i_ingot_gold>>
+Gold Ore
+<EVAL <RESCOUNT i_ingot_shadow>>
+Shadow Ore
+<EVAL <RESCOUNT i_ingot_silver>>
+Silver Ore
+<EVAL <RESCOUNT i_ingot_bronze>>
+Bronze Ore
+Hepsini çýkart
+Ingot ekle
+0
+
+[DIALOG d_ores button]
+ONBUTTON 1
+INGOTS
+
+[EOF]

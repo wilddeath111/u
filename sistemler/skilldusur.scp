@@ -1,0 +1,108 @@
+﻿//------------------
+// SKILLDUSUR
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+[FUNCTION skilldusur]
+if (<skilltotal> < 1000)
+	SYSHATA Yeteneklerinizi daha fazla düşüremezsiniz.
+	return 1
+elseif (<src.isevent.e_jail>)
+	SYSHATA Jaildeyken skill düşüremezsiniz.
+	return 1
+elseif (<src.flags>&statf_stone)
+	SYSHATA Stone halde iken skill düşüremezsiniz.
+elseif (<SRC.HITS> < 1)
+	SYSHATA Ölüyken skill düşüremezsiniz.
+ELSE
+	Sdialog d_skill_dusur
+	return 1
+endif
+
+[dialog D_SKILL_DUSUR]
+-150,20
+
+LOCAL.RESIZE 165
+
+FOR X 0 49
+IF (<SRC.<SERV.SKILL.<DLOCAL.X>.NAME>> > 0)
+LOCAL.ELEM <DLOCAL.ELEM>+1
+ENDIF
+ENDFOR
+
+LOCAL.ELEM <EVAL <DLOCAL.ELEM>>-1
+
+IF !(<DLOCAL.ELEM>)
+F_DEF_DIALOG 245,25,220,<DLOCAL.RESIZE>
+ELSE
+LOCAL.ELEM <EVAL <DLOCAL.ELEM>*20>
+F_DEF_DIALOG 245,25,220,<EVAL <DLOCAL.RESIZE>+<DLOCAL.ELEM>>
+ENDIF
+
+dtext 260 45 035 <serv.name> Skill Düşürme Ekranı
+gumppictiled 252 70 205 1 2417
+
+LOCAL.SAY 0
+
+FOR X 0 49
+IF (<SRC.<SERV.SKILL.<DLOCAL.X>.NAME>> > 0)
+	LOCAL.FIX 1
+	LOCAL.SAY ++
+	LOCAL.Y <EVAL (58+<EVAL <DLOCAL.SAY>*20>)>
+	dtext 290 <EVAL <DLOCAL.Y>+2> 1152 <SERV.SKILL.<DLOCAL.X>.NAME>
+	dtext 410 <EVAL <DLOCAL.Y>+2> 1152 <SRC.<SERV.SKILL.<DLOCAL.X>.NAME>>
+	button 260 <DLOCAL.Y> 4005 4006 1 0 <eval <DLOCAL.X>+1>
+ENDIF
+ENDFOR
+LOCAL.SAY ++
+LOCAL.Y <EVAL (68+<EVAL <DLOCAL.SAY>*20>)>
+LOCAL.Y +=20
+
+IF !(<DLOCAL.FIX>)
+dtext 260 78 33 Düşürülecek skill bulunmuyor.
+ELSE
+dtext 260 <DLOCAL.Y> 1152 Düşürülecek miktar:
+radio 260 <EVAL <DLOCAL.Y>+20> 9728 9730 1 101
+dtext 290 <EVAL <DLOCAL.Y>+24> 035 1.0
+radio 320 <EVAL <DLOCAL.Y>+20> 9728 9730 0 102
+dtext 350 <EVAL <DLOCAL.Y>+24> 035 10.0
+radio 380 <EVAL <DLOCAL.Y>+20> 9728 9730 0 103
+dtext 410 <EVAL <DLOCAL.Y>+24> 035 Sıfırla
+ENDIF
+
+//dtext 610 <DLOCAL.Y> 035 Vazgeç
+//button 578 <eval <DLOCAL.Y>-2> 4005 4006 1 0 1
+
+[Dialog D_SKILL_DUSUR button]
+
+ONBUTTON 1 50
+LOCAL.ARGN <EVAL <DARGN>-1>
+IF (<SRC.HITS> < 1)
+SRC.SYSHATA Ölüyken kullanamazsınız.
+RETURN 1
+ENDIF
+IF (<argchk[101]>)
+SRC.TAG0.SKD 10
+ELSEIF (<argchk[102]>)
+SRC.TAG0.SKD 100
+ELSEIF (<argchk[103]>)
+SRC.TAG0.SKD 1000
+ENDIF
+
+if (<SRC.skilltotal> <= 1000)
+	SRC.SYSHATA Yeteneklerinizi daha fazla düşüremezsiniz.
+	return 1
+endif
+
+IF (<SRC.<SERV.SKILL.<DLOCAL.ARGN>.NAME>> < <dSRC.TAG0.SKD>)
+SRC.<SERV.SKILL.<DLOCAL.ARGN>.NAME> 0
+SRC.sdialog D_SKILL_DUSUR
+ELSE
+SRC.<SERV.SKILL.<DLOCAL.ARGN>.NAME> <EVAL (<SRC.<SERV.SKILL.<DLOCAL.ARGN>.NAME>>-<eval <dSRC.TAG0.SKD>>>)>
+SRC.sdialog D_SKILL_DUSUR
+ENDIF
+
+
+[eof]

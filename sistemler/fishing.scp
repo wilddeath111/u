@@ -1,0 +1,401 @@
+﻿
+///////////////////////////
+//|---------------------|//
+//|Server: Minax        |//
+//|Web: Minax.gen.tr    |//
+//|Sphereversion: 0.56b |//
+//|Crafted By Michaell  |//
+//|---------------------|//
+///////////////////////////
+
+[ITEMDEF i_fishing_net_green]
+ID=i_fishing_net_3
+VALUE=500
+WEIGHT=2
+NAME=special fishing net
+CATEGORY=Items by Professions
+SUBSECTION=Fisherman
+DESCRIPTION=Fishing Net
+
+On=@Create
+attr attr_decay
+COLOR=color_o_verite
+MORE1=1000
+
+On=@Click
+message @038a,,1 <amount> fishing net
+return 1
+
+on=@DClick
+IF ! (<MORE1> == 1000 )
+	MESSAGE @1153,,1 [ağ kurulu]
+	RETURN 1
+ELSEIF (<SRC.FISHING> < 90.0)
+	src.sysh_trk Bunu kullanabilmek için 90.0 Fishing yeteneğiniz olmalı.
+	RETURN 1
+        src.ctag.agatti 00
+ELSEIF !(<SRC.REGION.FLAGS>&region_flag_ship)
+	src.sysh_trk Bunu sadece gemilerde kullanabilirsiniz.
+	RETURN 1
+ELSEIF !(<REGION.FLAGS>&region_flag_ship)
+	src.sysh_trk Bunu Sadece gemilerde kullanabilirsiniz.
+	RETURN 1
+ELSEIF !(<src.uid> == <topobj.uid>)
+	src.syshata Üzerinizde olmalı.
+	return 1
+else
+	IF (<dsrc.ctag.agatti> > 4)
+	SRC.SYSHATA Aynı anda en fazla 5 tane ağ atabilirsiniz.
+	RETURN 1
+	ENDIF
+	IF (RAND(25)==1)
+	src.syshata Ağ parçalandı.
+	CONSUME 1
+	RETURN 1
+	ENDIF
+        src.ctag.agatti <EVAL (<src.ctag.agatti>+1)>
+	src.say_trk Hoyde! Rasgele!
+        src.sys_trk Ağı attınız.
+	SERV.NEWITEM i_fishing_net_green
+	NEW.MORE1=100
+    NEW.P <SRC.P>
+	NEW.FIX
+	NEW.TIMER 40
+	NEW.ATTR ATTR_STATIC
+	CONSUME 1
+	Serv.newitem i_fishnet_spawner2
+	new.equip
+	new.MORE1 6
+	new.timer 10
+	new.morep <src.p>
+	ATTR=0010
+	TIMER=-1
+ENDIF
+RETURN 1
+
+ON=@Timer
+REMOVE
+RETURN 1
+
+
+[ITEMDEF i_fishing_net_blue] //premium ağ
+ID=i_fishing_net_3
+VALUE=500
+WEIGHT=2
+NAME=high quality fishing net
+CATEGORY=Items by Professions
+SUBSECTION=Fisherman
+DESCRIPTION=Fishing Net
+SKILLMAKE=TAILORING 80.0, t_sewing_kit
+RESOURCES=50 i_cloth
+
+On=@Create
+attr attr_decay
+COLOR=084a
+MORE1=1000
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+on=@DClick
+IF ! (<MORE1> == 1000 )
+	MESSAGE @1153,,1 [ağ kurulu]
+	RETURN 1
+ELSEIF (<SRC.FISHING> < 90.0)
+	src.sysh_trk Bunu kullanabilmek için 90.0 Fishing yeteneğiniz olmalı.
+	RETURN 1
+        src.ctag.agatti 00
+ELSEIF !(<SRC.REGION.FLAGS>&region_flag_ship)
+	src.sysh_trk Bunu sadece gemilerde kullanabilirsiniz.
+	RETURN 1
+ELSEIF !(<REGION.FLAGS>&region_flag_ship)
+	src.sysh_trk Bunu Sadece gemilerde kullanabilirsiniz.
+	RETURN 1
+ELSEIF !(<src.uid> == <topobj.uid>)
+	src.syshata Üzerinizde olmalı.
+	return 1
+else
+	IF (<dsrc.ctag.agatti> > 4)
+	SRC.SYSHATA Aynı anda en fazla 5 tane ağ atabilirsiniz.
+	RETURN 1
+	ENDIF
+	IF (RAND(25)==1)
+	src.syshata Ağ parçalandı.
+	CONSUME 1
+	RETURN 1
+	ENDIF
+        src.ctag.agatti <EVAL (<src.ctag.agatti>+1)>
+	src.say_trk Hoyde! Rasgele!
+        src.sys_trk Ağı attınız.
+	SERV.NEWITEM i_fishing_net_blue
+	NEW.MORE1=100
+    NEW.P <SRC.P>
+	NEW.FIX
+	NEW.TIMER 40
+	NEW.ATTR ATTR_STATIC
+	CONSUME 1
+    Serv.newitem i_fishnet_spawner3
+	new.equip
+	new.MORE1 9
+	new.timer 8
+	new.morep <src.p>
+	ATTR=0010
+	TIMER=-1
+
+ENDIF
+RETURN 1
+
+ON=@Timer
+REMOVE
+RETURN 1
+
+[ITEMDEF i_fishnet_spawner3]
+NAME=fishnet spawner
+ID=i_gold
+TYPE=T_EQ_SCRIPT
+WEIGHT=0
+LAYER=layer_special
+
+ON=@Create
+ATTR=attr_invis|attr_decay
+
+ON=@Equip
+TIMER=1	
+
+ON=@Timer
+local.lexref <ref1>
+ref1=<topobj.uid>
+if (<cont>)
+	if !(<more1> = 0)
+                if !(<ref1.REGION.FLAGS>&region_flag_ship)
+                ref1.sysh_trk Gemiden ayrıldığınız için ağ işlemi iptal oldu.
+                more1 0
+                timer 1
+                cont.ctag.agatti <EVAL <dcont.ctag.agatti>-1>
+                return 1
+                endif
+		more1 -= 1
+		timer 1
+                ref1.sys_trk Denizden çıkanlar ambara yüklendi.
+		IF (RAND(40)==1)
+		SERV.NEWITEM i_bottle_define
+		if (0<var.ship.<ref1.region.uid>.hatch>)
+                new.cont <var.ship.<ref1.region.uid>.hatch>
+                return 1
+                endif
+                foritems 20
+                if ((<type> == t_ship_hold_lock) || (<type> == t_ship_hold)) && (<region.uid> == <ref1.region.uid>)
+                new.cont <uid>
+                return 1
+                endif
+                endfor
+		ENDIF
+		serv.newitem { i_fish_big_1 1 i_fish_big_2 1 i_fish_big_3 1 i_fish_big_4 1 }
+		new.amount <qval (<ref1.fishing> == 1000)?12:10> 
+                if (0<var.ship.<ref1.region.uid>.hatch>)
+                new.cont <var.ship.<ref1.region.uid>.hatch>
+                return 1
+                endif
+                foritems 20
+                if ((<type> == t_ship_hold_lock) || (<type> == t_ship_hold)) && (<region.uid> == <ref1.region.uid>)
+                new.cont <uid>
+                return 1
+                endif
+                endfor
+	elseif (<more1> = 0)
+                cont.sysh_trk Ağ parçalandı.
+                cont.ctag.agatti 00
+		if (rand(40) == 1)
+			if (rand(8) == 1)
+				cont.newnpc c_dolphin
+			else
+				cont.newnpc c_sea_serpent
+			endif
+			cont.act.p <morep>
+			cont.act.move 12
+			local.fact <cont.act.uid>
+			cont.newitem i_sedo_remove
+			cont.act.cont <local.fact>
+			cont.act.timer 45
+			cont.sys_trk Ağınıza büyük birşeyler takıldı.
+		endif
+		remove
+		return 1
+	endif
+endif
+remove
+ref1 <local.lexref>
+return 1
+
+
+[ITEMDEF i_fishnet_spawner2]
+NAME=fishnet spawner
+ID=i_gold
+TYPE=T_EQ_SCRIPT
+WEIGHT=0
+LAYER=layer_special
+
+ON=@Create
+ATTR=attr_invis|attr_decay
+
+ON=@Equip
+TIMER=1	
+
+ON=@Timer
+local.lexref <ref1>
+ref1=<topobj.uid>
+if (<cont>)
+	if !(<more1> = 0)
+                if !(<ref1.REGION.FLAGS>&region_flag_ship)
+                ref1.sysh_trk Gemiden ayrıldığınız için ağ işlemi iptal oldu.
+                more1 0
+                timer 1
+                cont.ctag.agatti <EVAL <dcont.ctag.agatti>-1>
+                return 1
+                endif
+		more1 -= 1
+		timer 1
+                ref1.sys_trk Denizden çıkanlar ambara yüklendi.
+		serv.newitem { i_fish_big_1 1 i_fish_big_2 1 i_fish_big_3 1 i_fish_big_4 1 }
+		new.amount <qval (<ref1.fishing> == 1000)?12:10> 
+                if (0<var.ship.<ref1.region.uid>.hatch>)
+                new.cont <var.ship.<ref1.region.uid>.hatch>
+                return 1
+                endif
+                foritems 20
+                if ((<type> == t_ship_hold_lock) || (<type> == t_ship_hold)) && (<region.uid> == <ref1.region.uid>)
+                new.cont <uid>
+                return 1
+                endif
+                endfor
+	elseif (<more1> = 0)
+                cont.sysh_trk Ağ parçalandı.
+                cont.ctag.agatti 00
+		if (rand(40) == 1)
+			if (rand(8) == 1)
+				cont.newnpc c_dolphin
+			else
+				cont.newnpc c_sea_serpent
+			endif
+			cont.act.p <morep>
+			cont.act.move 12
+			local.fact <cont.act.uid>
+			cont.newitem i_sedo_remove
+			cont.act.cont <local.fact>
+			cont.act.timer 45
+			cont.sys_trk Ağınıza büyük birşeyler takıldı.
+		endif
+		remove
+		return 1
+	endif
+endif
+remove
+ref1 <local.lexref>
+return 1
+
+[itemdef i_sedo_remove]
+ID=i_memory
+TYPE=t_eq_script
+NAME=serpent&dolphin remover!
+
+On=@Create
+attr attr_decay
+
+On=@Timer
+if !(<more2>)
+	cont.flags <cont.flags>|04
+	cont.anim 4
+	cont.say_trk * Dibe doğru dalar *
+	more2 1
+	timer 45
+	return 1
+else
+	cont.remove 1
+	remove
+	return 1
+endif
+
+[ITEMDEF i_fish_prize]
+NAME=prize fish
+ID=i_fish_small
+TYPE=t_fish
+VALUE=7
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Fisherman
+DESCRIPTION=Prize Fish (magic)
+
+on=@create
+COLOR=colors_brown
+
+on=@dclick
+SOUND=snd_spell_cunning
+SRC.SPELLEFFECT=10,100
+REMOVE
+RETURN 1
+
+[ITEMDEF i_fish_wondrous]
+NAME=wondrous fish
+ID=i_fish_small
+TYPE=t_fish
+VALUE=7
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Fisherman
+DESCRIPTION=Wondrous Fish (magic)
+
+on=@Create
+COLOR=colors_blue
+
+on=@DClick
+SOUND=snd_spell_agility
+SRC.SPELLEFFECT=9,100
+REMOVE
+RETURN 1
+
+[ITEMDEF i_fish_rare]
+NAME=truly rare fish
+ID=i_fish_small
+TYPE=t_fish
+VALUE=7
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Fisherman
+DESCRIPTION=Truly Rare Fish (magic)
+
+on=@Create
+COLOR=colors_orange
+
+on=@DClick
+SOUND=snd_spell_strength
+SRC.SPELLEFFECT=16,100
+REMOVE
+RETURN 1
+
+[ITEMDEF i_fish_peculiar]
+NAME=highly peculiar fish
+ID=i_fish_small
+TYPE=t_fish
+VALUE=7
+WEIGHT=1
+CATEGORY=Items by Professions
+SUBSECTION=Fisherman
+DESCRIPTION=Highly Peculiar Fish (magic)
+
+on=@Create
+COLOR=colors_green
+
+on=@DClick
+SOUND=snd_spell_agility
+src.stamina = <src.stamina>+10
+
+IF <src.stamina> > <src.dex>
+	src.stamina = <src.dex>
+ENDIF
+REMOVE
+RETURN 1

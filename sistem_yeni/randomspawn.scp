@@ -1,0 +1,682 @@
+﻿
+
+[FUNCTION AHANDA]
+FOR X 1 10
+var.tamer<DLOCAL.X>
+var.tamerr<DLOCAL.X>
+ENDFOR
+
+[ITEMDEF i_book_tamer]
+ID i_spellbook
+TYPE=t_script
+WEIGHT=0.1
+NAME=tamer's book
+RESOURCES=100 i_scroll_blank, 40 i_scroll_recall, 10 i_scroll_gate_travel
+SKILLMAKE=INSCRIPTION 98.0, MAGERY 98.0
+VALUE 250000
+
+on=@create
+COLOR 0840
+attr attr_newbie
+
+on=@click
+message @038a,,1 a <name>
+return 1
+
+ON=@DClick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF (<dSRC.ISPIN>)
+src.sdialog d_pin_giris
+RETURN 1
+ENDIF
+if (<src.findid.i_jailcik>) 
+SRC.SYSHATA Hapisteyken kullanamazsınız.
+RETURN 1
+ENDIF
+
+IF (<SRC.TRACKING> < 75.0) || (<SRC.TAMING> < 75.0)
+SRC.SYSHATA Kullanabilmek için 75.0 Taming ve Tracking yetenekleri gereklidir.
+return 1
+ENDIF
+
+SRC.DIALOGCLOSE D_TAMERBOOK
+SRC.SDIALOG D_TAMERBOOK
+
+RETURN 1
+
+[DIALOG d_tamerbook]
+0,100
+PAGE 0
+gumppic 75 10 2201
+
+Dhtmlgump 125 18 186 17 0 0 Son Kayıtlar
+
+FOR X 1 8
+dhtmlgump 107 <EVAL <EVAL <DLOCAL.X>*20>+30> 150 20 0 0 <def.bfont_black>[<var.tamer<DLOCAL.X>>]
+dhtmlgump 153 <EVAL <EVAL <DLOCAL.X>*20>+30> 150 20 0 0 <def.bfont_red><var.tamerr<DLOCAL.X>>
+ENDFOR
+
+//ÜST ÇİZGİ 1
+gumppic 105 30 57 <eval 0156>
+gumppic 125 30 58 <eval 0156>
+gumppic 140 30 58 <eval 0156>
+gumppic 155 30 58 <eval 0156>
+gumppic 170 30 58 <eval 0156>
+gumppic 185 30 58 <eval 0156>
+gumppic 200 30 58 <eval 0156>
+gumppic 210 30 58 <eval 0156>
+gumppic 220 30 58 <eval 0156>
+//gumppic 230 30 58 <eval 0156>
+
+//ÜST ÇİZGİ 2
+gumppic 260 30 57 <eval 0156>
+gumppic 280 30 58 <eval 0156>
+gumppic 295 30 58 <eval 0156>
+gumppic 310 30 58 <eval 0156>
+gumppic 325 30 58 <eval 0156>
+gumppic 340 30 58 <eval 0156>
+gumppic 355 30 58 <eval 0156>
+gumppic 365 30 58 <eval 0156>
+gumppic 375 30 58 <eval 0156>
+gumppic 385 30 58 <eval 0156>
+
+gumppic 260 185 57 <eval 0156>
+gumppic 280 185 58 <eval 0156>
+gumppic 295 185 58 <eval 0156>
+gumppic 310 185 58 <eval 0156>
+gumppic 325 185 58 <eval 0156>
+gumppic 340 185 58 <eval 0156>
+gumppic 355 185 58 <eval 0156>
+gumppic 365 185 58 <eval 0156>
+gumppic 375 185 58 <eval 0156>
+gumppic 385 185 58 <eval 0156>
+
+Dhtmlgump 280 18 150 17 0 0 Aktif Random Spawn
+
+LOCAL.GEMSAY 0
+
+FORINSTANCES I_RS_GEMBIT
+IF (<dISEMPTYZ <UID.<TAG0.BINEKUID>.UID>>)
+REMOVE
+ELSE
+LOCAL.GEMSAY <EVAL <DLOCAL.GEMSAY>+1>
+LOCAL.GEMBIT<DLOCAL.GEMSAY> <UID>
+ENDIF
+ENDFOR
+
+GUMPPIC 307 198 2223 <EVAL 038A>
+GUMPPIC 341 198 2224 <EVAL 038A>
+
+IF (<DLOCAL.GEMSAY> > 0)
+
+gumppictiled 270 88 80 5 1049
+gumppictiled 330 88 70 5 1049
+
+IF (<DLOCAL.GEMSAY> > 1)
+gumppictiled 270 138 80 5 1049
+gumppictiled 330 138 70 5 1049
+ENDIF
+
+LOCAL.AUMENTAR=0
+LOCAL.PAGE=1
+PAGE 1
+FOR <DLOCAL.GEMSAY> 1
+IF (<LOCAL.AUMENTAR> > 2)
+LOCAL.AUMENTAR=0
+button 341 199 2103 2104 0 <EVAL <LOCAL.PAGE>+1> 1
+LOCAL.PAGE += 1
+PAGE <EVAL <LOCAL.PAGE>>
+button 314 199 2103 2104 0 <EVAL <LOCAL.PAGE>-1> 1
+ENDIF
+dtext 330 195 035 <DLOCAL.PAGE>
+IF !(<dISEMPTYZ <UID.<LOCAL.GEMBIT<DLOCAL._FOR>>.TAG0.BINEKUID>>)
+LOCAL.HEIGHT <EVAL <LOCAL.AUMENTAR>*50>
+
+IF ((STRMATCH(*HORSE*, <SERV.ITEMDEF.<UID.<UID.<LOCAL.GEMBIT<DLOCAL._FOR>>.TAG0.BINEKUID>.ICON>.BASEID>))
+LOCAL.HEIGHTFIX <EVAL 45+<DLOCAL.HEIGHT>+3>
+LOCAL.WIDTHFIX 260
+ELSEIF ((STRMATCH(*BEAR*, <SERV.ITEMDEF.<UID.<UID.<LOCAL.GEMBIT<DLOCAL._FOR>>.TAG0.BINEKUID>.ICON>.BASEID>))
+LOCAL.HEIGHTFIX <EVAL 45+<DLOCAL.HEIGHT>>
+LOCAL.WIDTHFIX 270
+ELSEIF ((STRMATCH(*LLAMA*, <SERV.ITEMDEF.<UID.<UID.<LOCAL.GEMBIT<DLOCAL._FOR>>.TAG0.BINEKUID>.ICON>.BASEID>))
+LOCAL.HEIGHTFIX <EVAL 45+<DLOCAL.HEIGHT>>
+LOCAL.WIDTHFIX 265
+ELSE
+LOCAL.HEIGHTFIX <EVAL 45+<DLOCAL.HEIGHT>>
+LOCAL.WIDTHFIX 260
+ENDIF
+		tilepichue <DLOCAL.WIDTHFIX> <DLOCAL.HEIGHTFIX> <UID.<UID.<LOCAL.GEMBIT<DLOCAL._FOR>>.TAG0.BINEKUID>.ICON> <dUID.<UID.<LOCAL.GEMBIT<DLOCAL._FOR>>.TAG0.BINEKUID>.COLOR>
+		Dhtmlgump 310 <EVAL 43+<DLOCAL.HEIGHT>> 150 17 0 0 <UID.<UID.<LOCAL.GEMBIT<DLOCAL._FOR>>.TAG0.BINEKUID>.NAME>
+		Dhtmlgump 310 <EVAL 58+<DLOCAL.HEIGHT>> 150 17 0 0 <UID.<UID.<LOCAL.GEMBIT<DLOCAL._FOR>>.TAG0.BINEKUID>.TAMING> taming
+
+local.temp = <dUID.<UID.<LOCAL.GEMBIT<DLOCAL._FOR>>.TAG0.BINEKUID>.FINDID.I_RANDSPAWN.TIMER>
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+		
+		Dhtmlgump 310 <EVAL 73+<DLOCAL.HEIGHT>> 150 17 0 0 <def.bfont_red><dlocal.minutes> dk, <dlocal.seconds> sn
+		LOCAL.AUMENTAR += 1
+ENDIF
+ENDFOR
+ELSE
+PAGE 1
+Dhtmlgump 270 48 150 17 0 0 <def.bfont_red>Aktif spawn yok.
+ENDIF
+
+[itemdef i_randspawn]
+name random spawn timer
+id i_memory
+type t_eq_script
+weight 0
+layer layer_special
+
+On=@Create
+attr attr_invis|attr_newbie
+timer 7200
+
+On=@Equip
+timer 7200
+	
+On=@Timer
+RETURN 1
+TRY UID.<CONT.TAG0.SPAWNUID>.REMOVE
+SERV.ALLCLIENTS SYSMESSAGE @035,,1 [Random Spawn]: <CONT.NAME>, belirlenen süre içinde ehlileştirilemediği için <CONT.REGION.NAME> bölgesinde açlıktan öldü.
+VAR0.SPAWN<dCONT.TAG0.RSVAR>ST Silindi
+CONT.REMOVE
+CONT.UPDATE
+CONT.UPDATEX
+REMOVE
+RETURN 1
+
+[Function f_spawn_check]
+IF ((<UID.<Serv.Map(<P.X>,<P.Y>).Region.UID>.Type> == T_Multi) || (<UID.<Serv.Map(<P.X>,<P.Y>).Region.UID>.Type> == T_Ship) || (<UID.<Serv.Map(<P.X>,<P.Y>).Region.UID>.Type> == T_Multi_Custom))
+RETURN 1
+ENDIF
+
+FORITEMS 100
+IF (<BASEID>==i_RS_GEMBIT) || (<BASEID>==i_WORLDGEM_BIT) || (<BASEID>==i_hazine_kasa) || (<BASEID>==i_dung_giris) || (<BASEID>==i_travgate) || (<BASEID>==i_hazine7)
+RETURN 1
+ENDIF
+ENDFOR
+
+IF ((<IsNearType T_multi 10>) || (<IsNearType T_normal 3>) || (<IsNearType T_tree 3>) || (<IsNearType T_rock 3>)  || (<IsNearType T_wall 10>) || (<IsNearType T_water 10>) || (<IsNearType T_foliage 3>))
+RETURN 1
+ENDIF
+
+
+[EVENTS E_RANDOM_MOUNT]
+ON=@DEATH
+TRY UID.<TAG0.SPAWNUID>.REMOVE
+IF !(<dTAG0.NOANONS>)
+VAR0.SPAWN<DTAG0.RSVAR>ST Öldü
+SERV.ALLCLIENTS SYSMESSAGE @035,,1 [Random Spawn]: <NAME>, <REGION.NAME> dolaylarında öldürüldü.
+ENDIF
+
+[FUNCTION F_RAND_OSTARD]
+DORAND 3
+RETURN c_ostard_desert
+RETURN c_ostard_forest
+RETURN c_llama2
+ENDDO
+
+[FUNCTION F_RAND_OSTARD2]
+DORAND 3
+RETURN c_ostard_mid
+RETURN c_ostard_zostrich
+RETURN c_bear_polar
+ENDDO
+
+[FUNCTION F_RAND_MUSTSHIRE]
+DORAND 6
+RETURN c_a_must
+RETURN c_a_must
+RETURN c_a_fresian
+RETURN c_shire
+RETURN c_shire
+RETURN c_shire
+ENDDO
+
+[FUNCTION F_RAND_TOP]
+DORAND 2
+RETURN c_steed_silver
+RETURN c_m_kiirin
+ENDDO
+
+
+[FUNCTION RS_SETUP]
+FORINSTANCES I_RS_GEMBIT
+TRY UID.<TAG0.BINEKUID>.TAG0.RSVAR
+TAG0.RSVAR
+ENDFOR
+
+FOR X 0 <DVAR.TOPSPAWN>
+VAR.SPAWN<DLOCAL.X>
+VAR.SPAWN<DLOCAL.X>SA
+VAR.SPAWN<DLOCAL.X>DK
+VAR.SPAWN<DLOCAL.X>ST
+VAR.SPAWN<DLOCAL.X>OK
+VAR.SPAWN<DLOCAL.X>P
+ENDFOR
+
+LOCAL.SAY 0
+
+FOR Z 1 5
+LOCAL.SAY <EVAL <DLOCAL.SAY>+1>
+VAR.SPAWN<DLOCAL.SAY> <F_RAND_OSTARD>
+VAR.SPAWN<DLOCAL.SAY>SA <EVAL RAND(0,23)>
+VAR.SPAWN<DLOCAL.SAY>DK <EVAL RAND(0,59)>
+ENDFOR
+
+FOR Z 1 3
+LOCAL.SAY <EVAL <DLOCAL.SAY>+1>
+VAR.SPAWN<DLOCAL.SAY> <F_RAND_OSTARD2>
+VAR.SPAWN<DLOCAL.SAY>SA <EVAL RAND(0,23)>
+VAR.SPAWN<DLOCAL.SAY>DK <EVAL RAND(0,59)>
+ENDFOR
+
+IF (RAND(3)==1)
+FOR Z 1
+LOCAL.SAY <EVAL <DLOCAL.SAY>+1>
+VAR.SPAWN<DLOCAL.SAY> <F_RAND_MUSTSHIRE>
+VAR.SPAWN<DLOCAL.SAY>SA <EVAL RAND(0,23)>
+VAR.SPAWN<DLOCAL.SAY>DK <EVAL RAND(0,59)>
+ENDFOR
+ENDIF
+
+IF (RAND(3)==1)
+FOR Z 1
+LOCAL.SAY <EVAL <DLOCAL.SAY>+1>
+VAR.SPAWN<DLOCAL.SAY> <F_RAND_MUSTSHIRE>
+VAR.SPAWN<DLOCAL.SAY>SA <EVAL RAND(0,23)>
+VAR.SPAWN<DLOCAL.SAY>DK <EVAL RAND(0,59)>
+ENDFOR
+ENDIF
+
+//LOCAL.SAY <EVAL <DLOCAL.SAY>+1>
+//VAR.SPAWN<DLOCAL.SAY> <F_RAND_TOP>
+//VAR.SPAWN<DLOCAL.SAY>SA <EVAL RAND(0,23)>
+//VAR.SPAWN<DLOCAL.SAY>DK <EVAL RAND(0,59)>
+
+FOR X 1 <DLOCAL.SAY>
+VAR.SPAWN<DLOCAL.X>ST
+VAR.SPAWN<DLOCAL.X>OK
+VAR.SPAWN<DLOCAL.X>P
+ENDFOR
+
+VAR.TOPSPAWN <DLOCAL.SAY>
+
+SQLCONN
+db.query truncate table randomspawn
+FOR A 1 <DLOCAL.SAY>
+LOCAL.SAAT 1<qval (<EVAL STRLEN(<DVAR.SPAWN<DLOCAL.A>SA>)>=1)?0<DVAR.SPAWN<DLOCAL.A>SA>:<DVAR.SPAWN<DLOCAL.A>SA>><qval (<EVAL STRLEN(<DVAR.SPAWN<DLOCAL.A>DK>)>=1)?0<DVAR.SPAWN<DLOCAL.A>DK>:<DVAR.SPAWN<DLOCAL.A>DK>>
+db.execute "INSERT INTO randomspawn (id, saat) VALUES ('<DLOCAL.A>','<DLOCAL.SAAT>')"
+ENDFOR
+
+[ITEMDEF i_rs_stone3]
+DEFNAME=i_rs_stone3
+ID=i_gravestone_18
+TYPE=t_script
+NAME=random spawn3
+
+On=@create
+color 0846
+attr 010
+VAR.RSSTONE3 <UID>
+timer 1
+
+On=@click
+message @0481 [<dtimer>]
+message @50 <name>
+return 1
+
+on=@dclick
+RETURN 1
+
+on=@timer
+//SAY @90,,1 RS Gembit Checked
+REF85 <UID>
+FORINSTANCES I_RS_GEMBIT
+REF86 <TAG0.BINEKUID>
+IF (<REF86.UID>)
+
+	IF (<dREF86.FINDID.I_RANDSPAWN.TIMER> <= 0)
+
+		VAR0.SPAWN<dREF86.TAG0.RSVAR>ST Silindi
+		SERV.ALLCLIENTS SYSMESSAGE @035,,1 [Random Spawn]: <REF86.NAME>, belirlenen süre içinde ehlileştirilemediği için <REF86.REGION.NAME> bölgesinde açlıktan öldü.
+			
+		IF (<dREF86.F_RS_PC>)
+			REF86.TAG0.NOANONS 1
+			REF86.SAY_TRK *açlıktan ölür*
+			REF86.HITS 0
+			REF86.UPDATE
+		ELSE
+			REF86.REMOVE
+		ENDIF
+
+		REMOVE
+		REF86.UPDATE
+		UPDATE
+	ELSEIF (<dREF86.FINDID.I_RANDSPAWN.TIMER> <= 1200)
+		IF (<dREF86.TAG.ANONS> < 1)
+			SERV.ALLCLIENTS SYSMESSAGE @035,,1 [Random Spawn]: <REF86.NAME>, <REF86.REGION.NAME> bölgesinde açlıktan ölmek üzere.
+			REF86.TAG.ANONS 1
+		ENDIF
+	ENDIF
+ELSE
+	VAR0.SPAWN<dTAG0.RSVAR>ST Silindi
+	REMOVE
+ENDIF
+ENDFOR
+
+TIMER 2
+RETURN 1
+
+[FUNCTION F_RS_PC]
+FORCHARS 16
+IF (<ISPLAYER>) || (<ISGM>)
+RETURN 1
+ENDIF
+ENDFOR
+
+[ITEMDEF i_rs_stone2]
+DEFNAME=i_rs_stone2
+ID=i_gravestone_18
+TYPE=t_script
+NAME=random spawn2
+
+On=@create
+color 0846
+attr 010
+VAR.RSSTONE2 <UID>
+
+On=@click
+message @0481 [gun timer: <dtimer>]
+message @50 <name>
+return 1
+
+on=@dclick
+RETURN 1
+
+on=@timer
+SAY @90,,1 RS Setup Release
+TRY UID.<VAR.RSSTONE>.TAG0.GUNLUK
+TIMER -1
+RETURN 1
+
+[ITEMDEF i_rs_stone]
+DEFNAME=i_rs_stone
+ID=i_gravestone_18
+TYPE=t_script
+NAME=random spawn
+
+On=@create
+color 0846
+attr 010
+timer 60
+VAR.RSSTONE <UID>
+
+On=@click
+message @0481 [<dtimer>] - <dtag0.gunluk>
+message @50 <name>
+return 1
+
+on=@dclick
+RETURN 1
+
+on=@timer
+timer 60
+SAY @90,,1 Random Spawns Checked
+
+IF (<dF_HOUR>==0) && (<dF_MINUTE>==0)
+	IF !(<dTAG0.GUNLUK> > 0)
+		TRY RS_SETUP
+		TRY TAG0.GUNLUK 1
+		TRY UID.<VAR.RSSTONE2>.TIMER 300
+	ENDIF
+ENDIF
+
+IF (<dF_HOUR>==12) && (<dF_MINUTE>==0)
+	IF !(<dTAG0.GUNLUKC> > 0)
+		TRY F_CHEST_PLACE
+		TRY TAG0.GUNLUKC 1
+		TIMERF 300, TAG0.GUNLUKC
+	ENDIF
+ENDIF
+
+IF (<dF_HOUR>==22) && (<dF_MINUTE>==0)
+	IF !(<dTAG0.GUNLUKC> > 0)
+		TRY F_CHEST_PLACE
+		TRY TAG0.GUNLUKC 1
+		TIMERF 300, TAG0.GUNLUKC
+	ENDIF
+ENDIF
+
+IF (<dF_HOUR>==17) && (<dF_MINUTE>==0)
+	IF !(<dTAG0.GUNLUKC> > 0)
+		TRY F_CHEST_PLACE
+		TRY TAG0.GUNLUKC 1
+		TIMERF 300, TAG0.GUNLUKC
+	ENDIF
+ENDIF
+
+IF (<dF_HOUR>==20) && (<dF_MINUTE>==0)
+	IF !(<dTAG0.GUNLUKC> > 0)
+		TRY F_CHEST_PLACE
+		TRY TAG0.GUNLUKC 1
+		TIMERF 300, TAG0.GUNLUKC
+	ENDIF
+ENDIF
+
+IF (<dF_HOUR>==19) && (<dF_MINUTE>==0)
+	IF !(<dTAG0.GUNLUKC> > 0)
+		TRY F_CHEST_PLACE
+		TRY TAG0.GUNLUKC 1
+		TIMERF 300, TAG0.GUNLUKC
+	ENDIF
+ENDIF
+
+IF (<dF_HOUR>==18) && (<dF_MINUTE>==0)
+	IF !(<dTAG0.GUNLUKC> > 0)
+		TRY F_CHEST_PLACE
+		TRY TAG0.GUNLUKC 1
+		TIMERF 300, TAG0.GUNLUKC
+	ENDIF
+ENDIF
+
+IF (<dF_HOUR>==1) && (<dF_MINUTE>==0)
+	IF !(<dTAG0.GUNLUKC> > 0)
+		TRY F_CHEST_PLACE
+		TRY TAG0.GUNLUKC 1
+		TIMERF 300, TAG0.GUNLUKC
+	ENDIF
+ENDIF
+
+
+FOR Y 1 <dVAR0.TOPSPAWN>
+IF (<dF_HOUR> >= <dVAR.SPAWN<DLOCAL.Y>SA>)
+IF (<dF_MINUTE> >= <dVAR.SPAWN<DLOCAL.Y>DK>)
+IF (<dVAR.SPAWN<DLOCAL.Y>OK> < 1)
+VAR.SPAWN<DLOCAL.Y>OK 1
+LOCAL.P <F_SPAWN_PLACE>
+SERV.NEWNPC <VAR.SPAWN<DLOCAL.Y>>
+NEW.TAG0.RSVAR <DLOCAL.Y>
+NEW.P <LOCAL.P>
+NEW.HOME <LOCAL.P>
+NEW.HOMEDIST 3
+NEW.EVENTS +E_RANDOM_MOUNT
+REF89 <NEW>
+
+SERV.NEWITEM I_RANDSPAWN
+TRY REF89.EQUIP <NEW>
+
+SERV.NEWITEM I_RS_GEMBIT
+NEW.TAG0.RSVAR <DLOCAL.Y>
+NEW.P <LOCAL.P>
+NEW.COLOR 0480
+NEW.TAG0.RS 1
+NEW.TAG0.BINEKUID <REF89.UID>
+
+REF89.TAG0.SPAWNUID <NEW.UID>
+
+REF89.UPDATE
+NEW.UPDATE
+
+VAR.SPAWN<DLOCAL.Y>ST Aktif
+VAR.SPAWN<DLOCAL.Y>P <LOCAL.P>
+
+
+	for x 10 2
+	try var.tamer<eval <local.x>> <var.tamer<eval <local.x>-1>>
+	try var.tamerr<eval <local.x>> <var.tamerr<eval <local.x>-1>>
+	endfor
+	var.tamer1 <F_HOUR>:<F_MINUTE>
+	var.tamerr1 <REF89.NAME>
+
+SERV.ALLCLIENTS SYSMESSAGE @035,,1 [Random Spawn]: <REF89.NAME>, sahipsiz bir şekilde gezerken görüldü.
+
+RETURN 1
+ENDIF
+ENDIF
+ENDIF
+ENDFOR
+
+timer 60
+
+return 1
+
+[ITEMDEF i_rs_gembit]
+DEFNAME=i_rs_gembit
+ID=i_crystal_ball
+TYPE=t_script
+NAME=RS GEMBIT
+
+On=@create
+attr 010|attr_invis
+
+on=@click
+message @0481,,1 [ellemeyin!!!]
+
+on=@timer
+return 1
+
+[function rsadmin]
+IF (<ACCOUNT.PLEVEL> > 6)
+sdialog d_rs_admin
+ENDIF
+
+[dialog d_rs_admin]
+100,50
+
+page 0
+
+F_DEF_DIALOG 0,0,480,526
+gumppictiled 7 7 465 511 2624
+
+dtext 317 8 035 <serv.name> UO Random Spawn
+tilepic 15 10 <serv.itemdef.i_crystal_green.id>
+dtext 35 8 70 Toplam günlük spawn: <dVAR.TOPSPAWN> 
+
+gumppictiled 7 30 465 1 2417
+
+dtext 15 31 90 SAAT
+gumppictiled 60 30 1 <EVAL <EVAL <VAR.TOPSPAWN>*20>+20> 2417 // DIKEY
+
+dtext 175 31 90 BİNEK
+gumppictiled 330 30 1 <EVAL <EVAL <VAR.TOPSPAWN>*20>+20> 2417 // DIKEY
+
+dtext 355 31 90 DURUM
+gumppictiled 410 30 1 <EVAL <EVAL <VAR.TOPSPAWN>*20>+20> 2417 // DIKEY
+
+dtext 425 31 90 GİT
+
+gumppictiled 7 50 465 1 2417 // YATAY
+
+//<qval (<EVAL STRLEN(<DVAR.SPAWN<DLOCAL.X>DK>)>=1)?0<DVAR.SPAWN<DLOCAL.X>DK>:<DVAR.SPAWN<DLOCAL.X>DK>>
+
+SQLCONN
+DB.QUERY "SELECT * FROM randomspawn order by saat ASC"
+if (<dDB.ROW.NUMROWS> > 0)
+	for R 0 <eval <dDB.ROW.NUMROWS>-1>
+		LOCAL.T <DB.ROW.<eval <LOCAL.R>>.0>
+		IF (strmatch(´<VAR.SPAWN<DLOCAL.T>ST>´,´Öldü´)
+		LOCAL.COLOR 32
+		ELSEIF (strmatch(´<VAR.SPAWN<DLOCAL.T>ST>´,´Silindi´)
+		LOCAL.COLOR 038a
+		ELSEIF (strmatch(´<VAR.SPAWN<DLOCAL.T>ST>´,´Aktif´)
+		LOCAL.COLOR 0840
+		ELSEIF (strmatch(´<VAR.SPAWN<DLOCAL.T>ST>´,´Tamelendi´)
+		LOCAL.COLOR 0110
+		ELSE
+		LOCAL.COLOR 0481
+		ENDIF
+
+		DTEXT 15 <EVAL (<DLOCAL.R>*20)+50> <dLOCAL.COLOR> <qval (<EVAL STRLEN(<DVAR.SPAWN<DLOCAL.T>SA>)>=1)?0<DVAR.SPAWN<DLOCAL.T>SA>:<DVAR.SPAWN<DLOCAL.T>SA>>:<qval (<EVAL STRLEN(<DVAR.SPAWN<DLOCAL.T>DK>)>=1)?0<DVAR.SPAWN<DLOCAL.T>DK>:<DVAR.SPAWN<DLOCAL.T>DK>>
+		tilepichue 65 <EVAL (<DLOCAL.R>*20)+54> <serv.itemdef.i_cannon_ball.id> <dLOCAL.COLOR>
+		DTEXT 85 <EVAL (<DLOCAL.R>*20)+50> <dLOCAL.COLOR> <VAR.SPAWN<DLOCAL.T>>
+		DTEXT 345 <EVAL (<DLOCAL.R>*20)+50> <dLOCAL.COLOR> <VAR.SPAWN<DLOCAL.T>ST>
+		button 427 <EVAL (<DLOCAL.R>*20)+48> 4005 4006 1 0 <DLOCAL.T>	
+		gumppictiled 7 <EVAL (<DLOCAL.R>*20)+70> 465 1 2417 // YATAY
+	ENDFOR
+ENDIF
+
+[dialog d_rs_admin button]
+ON 1 100
+GO <VAR.SPAWN<DARGN>P>
+
+[FUNCTION RS_TEMIZ]
+FORINSTANCES I_RS_GEMBIT
+TRY UID.<TAG.BINEKUID>.REMOVE
+REMOVE
+ENDFOR
+
+[Function F_SPAWN_PLACE]
+FOR 1000
+Local.X=<R5000> // <EVAL RAND(1883,1937)>//<R5000> // 1649 2769
+Local.Y=<R4000> // <EVAL RAND(2134,2063)>//<R4000> // 1627 2777
+Args=<dLocal.X>,<dLocal.Y>,0,0
+IF !((<UID.<Serv.Map(<Args>).Region.UID>.Type> == T_Multi) || (<UID.<Serv.Map(<Args>).Region.UID>.Type> == T_Ship) || (<UID.<Serv.Map(<Args>).Region.UID>.Type> == T_Multi_Custom))
+IF !((STRMATCH(*CAMP*, <Serv.Map(<Args>).REGION.NAME>)) || (STRMATCH(*MOONGATE*, <Serv.Map(<Args>).REGION.NAME>)) || (STRMATCH(*MAZE*, <Serv.Map(<Args>).REGION.NAME>)) || (STRMATCH(*MORDOR*, <Serv.Map(<Args>).REGION.NAME>)) || (STRMATCH(*GRAVEYARD*, <Serv.Map(<Args>).REGION.NAME>)) || (STRMATCH(*CEMETARY*, <Serv.Map(<Args>).REGION.NAME>)))
+IF ((<Serv.Map(<Args>).Type> == T_Dirt) || (<Serv.Map(<Args>).Type> == T_Forest) || (<Serv.Map(<Args>).Type> == T_Grass) || (<Serv.Map(<Args>).Type> == T_Jungle)  || (<Serv.Map(<Args>).Type> == T_Snow) || (<Serv.Map(<Args>).Type> == T_Sand))
+IF !(<Serv.Map(<Args>).Region.Flags>&Region_Flag_Guarded|Region_Flag_Safe|Region_Flag_UnderGround|region_flag_nobuilding)
+IF !((<Serv.Map(<Args>).IsNearType T_multi 10>) || (<Serv.Map(<Args>).IsNearType T_foliage 3>) || (<Serv.Map(<Args>).IsNearType T_Normal 3>) || (<Serv.Map(<Args>).IsNearType T_Tree 3>) || (<Serv.Map(<Args>).IsNearType T_Rock 2>) || (<Serv.Map(<Args>).IsNearType T_Wall 10>) || (<Serv.Map(<Args>).IsNearType T_Water 10>))
+Serv.Newitem i_memory
+new.attr attr_invis
+New.P <Args>
+New.Fix
+Args <New.P>
+IF (<dNEW.F_SPAWN_CHECK>)
+New.Remove
+ELSE
+New.Remove
+return <Args>
+ENDIF
+Endif
+Endif
+Endif
+Endif
+Endif
+ENDFOR
+
+[Function Random_Koordinat2]
+//0 öz brit
+//1 çakma brit
+//2 güzel bi abi
+//3 star denizli
+//4 orta dünya
+LOCAL.M <EVAL RAND(2,4)>
+FOR 1000
+Local.X=<R2500> //5000
+Local.Y=<R2500> //4000
+Args=<dLocal.X>,<dLocal.Y>,0,<DLOCAL.M>
+IF !(<Serv.Map(<Args>).Type> == T_water)// || (<Serv.Map(<Args>).Type> == T_Forest) || (<Serv.Map(<Args>).Type> == T_Grass) || (<Serv.Map(<Args>).Type> == T_Jungle)  || (<Serv.Map(<Args>).Type> == T_Snow) || (<Serv.Map(<Args>).Type> == T_Sand))
+Serv.Newitem i_memory
+New.P <Args>
+New.Fix
+Args <New.P>
+New.Remove
+GO <Args>
+//TIMERF 10, RANDOM_KOORDINAT2
+Return <Args>
+ENDIF
+ENDFOR

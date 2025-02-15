@@ -1,0 +1,666 @@
+﻿
+[DEFNAME DONATE]
+LOOTKUTU1 25
+LOOTKUTU2 50
+PAXE 50
+OLTA 50
+HATC 50
+TSTAFF 50
+BOW 50
+BRACE 25
+PV 50
+EVYENI 30
+SIYAH 25
+YEMEK 15
+RENAME 15
+SEX 15
+CASTLE 50
+GUILD 50
+IRK 25
+
+D_KAT1 LOOTKUTU1
+D_KAT2 LOOTKUTU2
+D_KAT3 PAXE
+D_KAT4 OLTA
+D_KAT5 HATC
+D_KAT6 TSTAFF
+D_KAT7 BOW
+D_KAT8 BRACE
+D_KAT9 PV
+D_KAT10 EVYENI
+D_KAT13 SIYAH
+D_KAT11 CASTLE
+D_KAT12 GUILD
+D_KAT14 YEMEK
+D_KAT15 RENAME
+D_KAT16 SEX
+D_KAT17 IRK
+
+D_KAT3_ID i_pickaxe_p
+D_KAT4_ID i_fishing_pole_p
+D_KAT5_ID i_hatchet_p
+D_KAT6_ID i_staff_taming_p
+D_KAT7_ID i_bow_p
+D_KAT8_ID i_inlor_taki
+D_KAT9_ID i_don_pv
+D_KAT10_ID i_deed_evyeni
+D_KAT13_ID i_sacsakal
+D_KAT11_ID i_deed_Castle
+D_KAT12_ID i_deed_guild
+D_KAT14_ID i_yemek
+D_KAT15_ID i_deed_rename
+D_KAT16_ID i_deed_sex
+D_KAT17_ID i_deed_irk
+
+[PLEVEL 1]
+MARKET
+DONATE
+DESTEK
+
+[FUNCTION MARKET]
+DONATE
+
+[FUNCTION DESTEK]
+DONATE
+
+[FUNCTION DONATE]
+SDIALOG D_DONATE
+
+[DIALOG D_DONATE]
+25,0
+NOMOVE
+
+PAGE 0
+F_DEF_DIALOG 30,70,220,296
+F_DEF_DIALOG 30,368,220,70
+F_DEF_DIALOG 30,440,220,42
+dtext 65 90 035 <serv.name> Market
+gumppic 40 75 30080 <EVAL 0480>
+//tilepic 195 75 <SERV.ITEMDEF.i_pet_wisp.ID>
+
+DTEXT 75 153 <EVAL 038A> Loot Kutusu
+gumppic 40 145 10500 70
+gumppic 56 145 10502 70
+GUMPPIC 48 157 2118 <EVAL 038A>
+//button 48 157 2118 2117 0 2 100
+
+DTEXT 75 193 0481 Eşya
+gumppic 40 185 10500 <eval 04c2>
+gumppic 56 185 10502 <eval 04c2>
+button 48 197 2118 2117 0 3 100
+
+DTEXT 75 233 <EVAL 038A> Binek
+gumppic 40 225 10500 <eval 084a>
+gumppic 56 225 10502 <eval 084a>
+GUMPPIC 48 237 2118 <EVAL 038A>
+//button 48 237 2118 2117 1 0 500
+
+DTEXT 75 273 <EVAL 038A> Köy
+gumppic 40 265 10500 <eval 06af>
+gumppic 56 265 10502 <eval 06af>
+GUMPPIC 48 277 2118 <EVAL 038A>
+//button 48 277 2118 2117 1 0 501
+
+DTEXT 75 313 0481 Diğer
+gumppic 40 305 10500 <eval 08f>
+gumppic 56 305 10502 <eval 08f>
+button 48 317 2118 2117 0 6 100
+
+dtext 175 333 0481 DP: 
+dtext 205 333 70 <DSRC.ACCOUNT.TAG.DONATE>
+gumppictiled 175 350 55 1 2417 // YATAY
+
+gumppic 38 384 4036
+button 40 386 2103 2104 1 0 2000
+button 40 404 2103 2104 1 0 2001
+dtext 55 382 70 Donate puan ekle
+dtext 55 400 70 Donate puan çıkar: 
+resizepic 185 393 2620 35 34
+//F_DEF_DIALOG 205,393,35,34
+dtextentry 190 401 25 15 1100 1 0
+
+//button 40 455 2103 2104 1 0 100
+//dhtmlgump 55 451 250 20 0 0 <def.bfont_YELLOW>Nasıl donate puanı yüklerim?
+//button 40 475 2103 2104 1 0 101
+//dhtmlgump 55 471 250 20 0 0 <def.bfont_YELLOW>Donate Seçenekleri
+//button 40 495 2103 2104 1 0 102
+//dhtmlgump 55 491 250 20 0 0 <def.bfont_YELLOW>Donate Bildirim Formu
+button 40 455 2103 2104 1 0 555
+//dhtmlgump 55 491 250 20 0 0 <def.bfont_YELLOW>Discord
+dtext 55 451 90 Discord
+//tilepic 200 500 <SERV.ITEMDEF.I_KITAP_1.ID>
+//tilepic 202 470 <SERV.ITEMDEF.i_book_of_truth.ID>
+//tilepic 190 485 <SERV.ITEMDEF.I_KITAP_2.ID>
+
+
+////gumppictiled 397 50 115 1 2417 // YATAY
+////gumppictiled 397 7 1 43 2417 // DIKEY
+
+PAGE 2
+F_DEF_DIALOG 259,70,450,474
+
+resizepic 285 93 2620 135 165
+dtext 315 100 1100 Loot Kutusu
+dtext 330 115 1100 Level 1
+dtext 295 230 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 230 0387 <DDEF.LOOTKUTU1>
+gumppictiled 317 240 24 1 2417 // YATAY
+dtext 345 230 70 <EVAL <DDEF.LOOTKUTU1>-<EVAL (<DDEF.LOOTKUTU1>*<DVAR.INDIRIM>)/100>>
+gumppic 370 235 2437 <eval 025>
+ELSE
+dtext 320 230 70 <DDEF.LOOTKUTU1>
+ENDIF
+tilepichue 330 155 <SERV.ITEMDEF.i_chest_metal.ID> <EVAL 07ad>
+//htmlgump 430 93 260 167 0 1 1
+resizepic 430 93 5120 261 167
+dtext 440 100 0481 Şans oranına göre random eşya çıkar. 
+dtext 440 140 70 Kolay: Mustang, Shire, Castle
+dtext 440 160 035 Orta: Mustang, Shire, Castle
+dtext 440 180 1100 Zor: 50 DP
+button 440 230 4005 4007 1 0 1
+dtext 470 232 0481 Satın Al
+
+resizepic 285 310 2620 135 165
+dtext 315 317 1100 Loot Kutusu
+dtext 330 332 1100 Level 2
+dtext 295 447 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 447 0387 <DDEF.LOOTKUTU2>
+gumppictiled 317 457 24 1 2417 // YATAY
+dtext 345 447 70 <EVAL <DDEF.LOOTKUTU2>-<EVAL (<DDEF.LOOTKUTU2>*<DVAR.INDIRIM>)/100>>
+gumppic 370 452 2437 <eval 025>
+ELSE
+dtext 320 447 70 <DDEF.LOOTKUTU2>
+ENDIF
+tilepichue 330 372 <SERV.ITEMDEF.i_chest_metal.ID> <EVAL 0810>
+
+PAGE 3
+F_DEF_DIALOG 259,70,450,474
+
+resizepic 285 93 2620 135 165
+dtext 315 100 1100 ancient 
+dtext 330 115 1100 pickaxe
+dtext 295 230 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 230 0387 <DDEF.PAXE>
+gumppictiled 317 240 24 1 2417 // YATAY
+dtext 345 230 70 <EVAL <DDEF.PAXE>-<EVAL (<DDEF.PAXE>*<DVAR.INDIRIM>)/100>>
+gumppic 370 235 2437 <eval 025>
+ELSE
+dtext 320 230 70 <DDEF.PAXE>
+ENDIF
+tilepichue 330 155 <SERV.ITEMDEF.i_pickaxe.ID> <EVAL 07a1>
+//htmlgump 430 93 260 167 0 1 1
+resizepic 430 93 5120 261 167
+dhtmlgump 440 100 240 120 0 0 <def.bfont_yellow>Aynı noktadan daha fazla maden elde etmenizi sağlar.<def.br><def.br><def.bfont_white>Süre: 1 ay
+
+button 440 230 4005 4007 1 0 3
+dtext 470 232 0481 Satın Al
+
+resizepic 285 310 2620 135 165
+dtext 315 317 1100 ancient
+dtext 330 332 1100 fish pole
+dtext 295 447 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 447 0387 <DDEF.OLTA>
+gumppictiled 317 457 24 1 2417 // YATAY
+dtext 345 447 70 <EVAL <DDEF.OLTA>-<EVAL (<DDEF.OLTA>*<DVAR.INDIRIM>)/100>>
+gumppic 370 452 2437 <eval 025>
+ELSE
+dtext 320 447 70 <DDEF.OLTA>
+ENDIF
+tilepichue 290 372 <SERV.ITEMDEF.i_fishing_pole.ID> <EVAL 07a1>
+resizepic 430 310 5120 261 167
+dhtmlgump 440 317 240 120 0 0 <def.bfont_yellow>Aynı noktadan daha fazla balık elde etmenizi sağlar.<def.br><def.br><def.bfont_white>Süre: 1 ay
+
+button 440 447 4005 4007 1 0 4
+dtext 470 449 0481 Satın Al
+
+button 600 507 4005 4007 0 31 1000
+dtext 630 509 0481 ileri
+
+PAGE 31
+F_DEF_DIALOG 259,70,450,474
+
+resizepic 285 93 2620 135 165
+dtext 315 100 1100 ancient 
+dtext 330 115 1100 hatchet
+dtext 295 230 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 230 0387 <DDEF.HATC>
+gumppictiled 317 240 24 1 2417 // YATAY
+dtext 345 230 70 <EVAL <DDEF.HATC>-<EVAL (<DDEF.HATC>*<DVAR.INDIRIM>)/100>>
+gumppic 370 235 2437 <eval 025>
+ELSE
+dtext 320 230 70 <DDEF.HATC>
+ENDIF
+tilepichue 330 155 <SERV.ITEMDEF.i_hatchet.ID> <EVAL 07a1>
+//htmlgump 430 93 260 167 0 1 1
+resizepic 430 93 5120 261 167
+dhtmlgump 440 100 240 120 0 0 <def.bfont_yellow>Aynı noktadan daha fazla odun elde etmenizi sağlar.<def.br><def.br><def.bfont_white>Süre: 1 ay
+
+button 440 230 4005 4007 1 0 5
+dtext 470 232 0481 Satın Al
+
+resizepic 285 310 2620 135 165
+dtext 315 317 1100 ancient
+dtext 330 332 1100 taming staff
+dtext 295 447 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 447 0387 <DDEF.TSTAFF>
+gumppictiled 317 457 24 1 2417 // YATAY
+dtext 345 447 70 <EVAL <DDEF.TSTAFF>-<EVAL (<DDEF.TSTAFF>*<DVAR.INDIRIM>)/100>>
+gumppic 370 452 2437 <eval 025>
+ELSE
+dtext 320 447 70 <DDEF.TSTAFF>
+ENDIF
+tilepichue 290 372 <SERV.ITEMDEF.i_staff_gnarled.ID> <EVAL 07a1>
+resizepic 430 310 5120 261 167
+dhtmlgump 440 317 240 120 0 0 <def.bfont_yellow>Daha hızlı ve düşük fail oranı ile tame yapmanızı sağlar.<def.br><def.br><def.bfont_white>Süre: 1 ay
+
+button 440 447 4005 4007 1 0 6
+dtext 470 449 0481 Satın Al
+
+button 565 507 4014 4015 0 3 1000
+dtext 540 509 0481 geri
+button 600 507 4005 4007 0 32 1000
+dtext 630 509 0481 ileri
+
+PAGE 32
+F_DEF_DIALOG 259,70,450,474
+
+resizepic 285 93 2620 135 165
+dtext 315 100 1100 ancient 
+dtext 330 115 1100 bow
+dtext 295 230 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 230 0387 <DDEF.BOW>
+gumppictiled 317 240 24 1 2417 // YATAY
+dtext 345 230 70 <EVAL <DDEF.BOW>-<EVAL (<DDEF.BOW>*<DVAR.INDIRIM>)/100>>
+gumppic 370 235 2437 <eval 025>
+ELSE
+dtext 320 230 70 <DDEF.BOW>
+ENDIF
+tilepichue 330 155 <SERV.ITEMDEF.i_bow_p.ID> <EVAL 95>
+//htmlgump 430 93 260 167 0 1 1
+resizepic 430 93 5120 261 167
+dhtmlgump 440 100 240 120 0 0 <def.bfont_yellow>NPC'lere daha fazla hasar verip daha hızlı vurmanızı sağlar.<def.br><def.br><def.bfont_white>Süre: 1 ay
+
+button 440 230 4005 4007 1 0 7
+dtext 470 232 0481 Satın Al
+
+resizepic 285 310 2620 135 165
+dtext 315 317 1100 nightsight
+dtext 330 332 1100 bracelet
+dtext 295 447 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 447 0387 <DDEF.BRACE>
+gumppictiled 317 457 24 1 2417 // YATAY
+dtext 345 447 70 <EVAL <DDEF.BRACE>-<EVAL (<DDEF.BRACE>*<DVAR.INDIRIM>)/100>>
+gumppic 370 452 2437 <eval 025>
+ELSE
+dtext 320 447 70 <DDEF.BRACE>
+ENDIF
+tilepichue 290 372 <SERV.ITEMDEF.i_BRACELET_gold.ID> <EVAL 0481>
+resizepic 430 310 5120 261 167
+dhtmlgump 440 317 240 120 0 0 <def.bfont_yellow>Sürekli nightsight etkisi hissetmenizi sağlar.<def.br><def.br><def.bfont_white>Süre: 2 hafta
+
+button 440 447 4005 4007 1 0 8
+dtext 470 449 0481 Satın Al
+
+button 565 507 4014 4015 0 31 1000
+dtext 540 509 0481 geri
+
+PAGE 6
+F_DEF_DIALOG 259,70,450,474
+
+resizepic 285 93 2620 135 165
+dtext 315 100 1100 player vendor
+dtext 330 115 1100 deed
+dtext 295 230 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 230 0387 <DDEF.PV>
+gumppictiled 317 240 24 1 2417 // YATAY
+dtext 345 230 70 <EVAL <DDEF.PV>-<EVAL (<DDEF.PV>*<DVAR.INDIRIM>)/100>>
+gumppic 370 235 2437 <eval 025>
+ELSE
+dtext 320 230 70 <DDEF.PV>
+ENDIF
+tilepichue 330 155 <SERV.ITEMDEF.i_DEED.ID> <EVAL 0455>
+//htmlgump 430 93 260 167 0 1 1
+resizepic 430 93 5120 261 167
+dhtmlgump 440 100 240 120 0 0 <def.bfont_yellow>Şehir vendorunuzun süresini uzatmanızı sağlar.<def.br><def.br><def.bfont_white>Süre: 1 ay
+
+button 440 230 4005 4007 1 0 9
+dtext 470 232 0481 Satın Al
+
+resizepic 285 310 2620 135 165
+dtext 315 317 1100 ev yenileme
+dtext 330 332 1100 belgesi
+dtext 295 447 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 447 0387 <DDEF.EVYENI>
+gumppictiled 317 457 24 1 2417 // YATAY
+dtext 345 447 70 <EVAL <DDEF.EVYENI>-<EVAL (<DDEF.EVYENI>*<DVAR.INDIRIM>)/100>>
+gumppic 370 452 2437 <eval 025>
+ELSE
+dtext 320 447 70 <DDEF.EVYENI>
+ENDIF
+tilepichue 330 372 <SERV.ITEMDEF.i_DEED.ID> <EVAL 0455>
+resizepic 430 310 5120 261 167
+dhtmlgump 440 317 240 120 0 0 <def.bfont_yellow>Evinizin süresini 1 ay uzatmanızı sağlar.<def.br><def.br><def.bfont_white>Süre: 1 ay
+
+button 440 447 4005 4007 1 0 10
+dtext 470 449 0481 Satın Al
+
+button 600 507 4005 4007 0 61 1000
+dtext 630 509 0481 ileri
+
+PAGE 61
+F_DEF_DIALOG 259,70,450,474
+
+resizepic 285 93 2620 135 165
+dtext 315 100 1100 castle
+dtext 330 115 1100 deed
+dtext 295 230 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 230 0387 <DDEF.CASTLE>
+gumppictiled 317 240 24 1 2417 // YATAY
+dtext 345 230 70 <EVAL <DDEF.CASTLE>-<EVAL (<DDEF.CASTLE>*<DVAR.INDIRIM>)/100>>
+gumppic 370 235 2437 <eval 025>
+ELSE
+dtext 320 230 70 <DDEF.CASTLE>
+ENDIF
+tilepichue 330 155 <SERV.ITEMDEF.i_DEED.ID> 0
+//htmlgump 430 93 260 167 0 1 1
+resizepic 430 93 5120 261 167
+dhtmlgump 440 100 240 120 0 0 <def.bfont_yellow>Normal vendorda satılan castle kurma belgesidir.<def.br><def.br><def.bfont_white>
+
+button 440 230 4005 4007 1 0 11
+dtext 470 232 0481 Satın Al
+
+resizepic 285 310 2620 135 165
+dtext 315 317 1100 guildstone
+dtext 330 332 1100 deed
+dtext 295 447 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 447 0387 <DDEF.GUILD>
+gumppictiled 317 457 24 1 2417 // YATAY
+dtext 345 447 70 <EVAL <DDEF.GUILD>-<EVAL (<DDEF.GUILD>*<DVAR.INDIRIM>)/100>>
+gumppic 370 452 2437 <eval 025>
+ELSE
+dtext 320 447 70 <DDEF.GUILD>
+ENDIF
+tilepichue 330 372 <SERV.ITEMDEF.i_DEED.ID> 0
+resizepic 430 310 5120 261 167
+dhtmlgump 440 317 240 120 0 0 <def.bfont_yellow>Guild kurmanızı sağlar.<def.br><def.br><def.bfont_white>
+
+button 440 447 4005 4007 1 0 12
+dtext 470 449 0481 Satın Al
+
+button 565 507 4014 4015 0 6 1000
+dtext 540 509 0481 geri
+button 600 507 4005 4007 0 62 1000
+dtext 630 509 0481 ileri
+
+PAGE 62
+F_DEF_DIALOG 259,70,450,474
+
+resizepic 285 93 2620 135 165
+dtext 315 100 1100 siyah saç sakal
+dtext 330 115 1100 boyası
+dtext 295 230 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 230 0387 <DDEF.SIYAH>
+gumppictiled 317 240 24 1 2417 // YATAY
+dtext 345 230 70 <EVAL <DDEF.SIYAH>-<EVAL (<DDEF.SIYAH>*<DVAR.INDIRIM>)/100>>
+gumppic 370 235 2437 <eval 025>
+ELSE
+dtext 320 230 70 <DDEF.SIYAH>
+ENDIF
+tilepichue 330 155 <SERV.ITEMDEF.i_bottle_hair_dye.ID> 0
+//htmlgump 430 93 260 167 0 1 1
+resizepic 430 93 5120 261 167
+dhtmlgump 440 100 240 120 0 0 <def.bfont_yellow>Siyah renk saç ve sakal boyasıdır.<def.br><def.br><def.bfont_white>
+
+button 440 230 4005 4007 1 0 13
+dtext 470 232 0481 Satın Al
+
+resizepic 285 310 2620 135 165
+dtext 315 317 1100 high quality
+dtext 330 332 1100 pig roast
+dtext 295 447 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 447 0387 <DDEF.YEMEK>
+gumppictiled 317 457 24 1 2417 // YATAY
+dtext 345 447 70 <EVAL <DDEF.YEMEK>-<EVAL (<DDEF.YEMEK>*<DVAR.INDIRIM>)/100>>
+gumppic 370 452 2437 <eval 025>
+ELSE
+dtext 320 447 70 <DDEF.YEMEK>
+ENDIF
+tilepichue 330 372 <SERV.ITEMDEF.i_pig_roast.ID> 0840
+resizepic 430 310 5120 261 167
+dhtmlgump 440 317 240 120 0 0 <def.bfont_yellow>Uzun süre açlık hissetmemenizi sağlar.<def.br><def.br><def.bfont_white>
+
+button 440 447 4005 4007 1 0 14
+dtext 470 449 0481 Satın Al
+
+button 565 507 4014 4015 0 61 1000
+dtext 540 509 0481 geri
+button 600 507 4005 4007 0 63 1000
+dtext 630 509 0481 ileri
+
+PAGE 63
+F_DEF_DIALOG 259,70,450,474
+
+resizepic 285 93 2620 135 165
+dtext 315 100 1100 isim değiştirme
+dtext 330 115 1100 belgesi
+dtext 295 230 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 230 0387 <DDEF.RENAME>
+gumppictiled 317 240 24 1 2417 // YATAY
+dtext 345 230 70 <EVAL <DDEF.RENAME>-<EVAL (<DDEF.RENAME>*<DVAR.INDIRIM>)/100>>
+gumppic 370 235 2437 <eval 025>
+ELSE
+dtext 320 230 70 <DDEF.RENAME>
+ENDIF
+tilepichue 330 155 <SERV.ITEMDEF.i_deed.ID> 0455
+//htmlgump 430 93 260 167 0 1 1
+resizepic 430 93 5120 261 167
+dhtmlgump 440 100 240 120 0 0 <def.bfont_yellow>İsmini değiştirmenizi sağlar.<def.br><def.br><def.bfont_white>
+
+button 440 230 4005 4007 1 0 15
+dtext 470 232 0481 Satın Al
+
+resizepic 285 310 2620 135 165
+dtext 315 317 1100 cinsiyet değiştirme
+dtext 330 332 1100 belgesi
+dtext 295 447 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 447 0387 <DDEF.SEX>
+gumppictiled 317 457 24 1 2417 // YATAY
+dtext 345 447 70 <EVAL <DDEF.SEX>-<EVAL (<DDEF.SEX>*<DVAR.INDIRIM>)/100>>
+gumppic 370 452 2437 <eval 025>
+ELSE
+dtext 320 447 70 <DDEF.SEX>
+ENDIF
+tilepichue 330 372 <SERV.ITEMDEF.i_deed.ID> 0455
+resizepic 430 310 5120 261 167
+dhtmlgump 440 317 240 120 0 0 <def.bfont_yellow>Cinsiyetinizi değiştirmenizi sağlar.<def.br><def.br><def.bfont_white>
+
+button 440 447 4005 4007 1 0 16
+dtext 470 449 0481 Satın Al
+
+button 565 507 4014 4015 0 62 1000
+dtext 540 509 0481 geri
+button 600 507 4005 4007 0 64 1000
+dtext 630 509 0481 ileri
+
+PAGE 64
+F_DEF_DIALOG 259,70,450,474
+
+resizepic 285 93 2620 135 165
+dtext 315 100 1100 irk değiştirme
+dtext 330 115 1100 belgesi
+dtext 295 230 0481 DP:
+IF (<DVAR.INDIRIM> > 0)
+dtext 320 230 0387 <DDEF.IRK>
+gumppictiled 317 240 24 1 2417 // YATAY
+dtext 345 230 70 <EVAL <DDEF.IRK>-<EVAL (<DDEF.IRK>*<DVAR.INDIRIM>)/100>>
+gumppic 370 235 2437 <eval 025>
+ELSE
+dtext 320 230 70 <DDEF.IRK>
+ENDIF
+tilepichue 330 155 <SERV.ITEMDEF.i_deed.ID> 0455
+//htmlgump 430 93 260 167 0 1 1
+resizepic 430 93 5120 261 167
+dhtmlgump 440 100 240 120 0 0 <def.bfont_yellow>Irkınızı değiştirmenizi sağlar.<def.br><def.br><def.bfont_white>
+
+button 440 230 4005 4007 1 0 17
+dtext 470 232 0481 Satın Al
+
+
+button 565 507 4014 4015 0 63 1000
+dtext 540 509 0481 geri
+
+
+[DIALOG D_DONATE BUTTON]
+on 555
+weblink https://discordapp.com/invite/3g5wZtF
+return 1
+
+ON 1 17
+LOCAL.ID <DEF.D_KAT<DARGN>_ID>
+LOCAL.PRICE <DEF.<DEF.D_KAT<DARGN>>>
+
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+
+IF (<DSRC.ACCOUNT.TAG.DONATE> < <DLOCAL.PRICE>)
+SRC.SYSHATA Hesabınızda yeterli sayıda DP bulunmuyor.
+RETURN 1
+ENDIF
+
+SRC.ACCOUNT.TAG.DONATE <EVAL <DSRC.ACCOUNT.TAG.DONATE>-<DLOCAL.PRICE>>
+SERV.NEWITEM <LOCAL.ID>
+SRC.NEW.BOUNCE
+LOCAL.UID <SRC.NEW.UID>
+
+IF (<LOCAL.ID>==i_staff_taming_p)
+SERV.NEWITEM i_tstaff_stone
+SRC.NEW.P 5200,1483,5
+SRC.NEW.UPDATE
+SRC.NEW.TAG0.TSTAFF <LOCAL.UID>
+TRY UID.<LOCAL.UID>.TAG0.TIMERSTONE <SRC.NEW.UID>
+ENDIF
+
+SRC.SYSYES Eşya çantanıza aktarıldı.
+RETURN 1
+
+ON 2000
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+SRC.TARGETF F_DONEKLE
+SRC.SYSNORM Ekleyeceğiniz donate puanını seçin.
+
+ON 2001
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF !(<ISNUM <ARGTXT[1]>>)
+SRC.SYSHATA Rakam girmelisiniz.
+RETURN 1
+ENDIF
+IF (<dARGTXT[1]> < 1)
+SRC.SYSHATA En az 1 girebilirsiniz.
+RETURN 1
+ENDIF
+IF (<dARGTXT[1]> > 500)
+SRC.SYSHATA En fazla 500 girebilirsiniz.
+RETURN 1
+ENDIF
+IF (<dSRC.ACCOUNT.TAG.DONATE> < <dARGTXT[1]>)
+SRC.SYSHATA Hesabınızda <dARGTXT[1]> adet donate puan bulunmuyor.
+RETURN 1
+ENDIF
+
+SRC.ACCOUNT.TAG.DONATE <EVAL <SRC.ACCOUNT.TAG.DONATE>-<dARGTXT[1]>>
+SERV.NEWITEM I_DONATE
+SRC.NEW.AMOUNT <dARGTXT[1]>
+SRC.BOUNCE <NEW>
+
+SRC.SYSYES Donate puanı çantanıza aktarıldı.
+
+
+[FUNCTION F_DONEKLE]
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF !(<ARGO.BASEID>==i_donate)
+SRC.SYSHATA Sadece donate puanlarını seçebilirsiniz.
+RETURN 1
+ENDIF
+IF !(<ARGO.TOPOBJ.UID>==<SRC.UID>)
+SRC.SYSHATA Üzerinizde olmalıdır.
+RETURN 1
+ENDIF
+SRC.ACCOUNT.TAG.DONATE <EVAL <SRC.ACCOUNT.TAG.DONATE>+<ARGO.AMOUNT>>
+SRC.SYSYES Hesabınıza <ARGO.AMOUNT> adet donate puan eklendi.
+TRY ARGO.REMOVE
+
+
+[ITEMDEF i_donate]
+ID=i_virtstone_2
+DEFNAME i_donate
+WEIGHT=1
+name donate puan
+
+on=@create
+attr 04
+color 0bb2
+
+on=@timer
+return 1
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+[ITEMDEF i_tstaff_stone]
+DEFNAME=i_tstaff_stone
+ID=i_gravestone_18
+TYPE=t_script
+NAME=premium tstaff stone [silmeyin!!!]
+
+On=@create
+color 07a1
+attr attr_static
+timer 1209600
+
+On=@click
+message @100,,1 <UID.<TAG0.TSTAFF>.topobj.name>
+message @0481,,1 [<dtimer>] 
+message @035 <name>
+return 1
+
+on=@dclick
+RETURN 1
+
+on=@timer
+TRY UID.<TAG0.TSTAFF>.REMOVE
+REMOVE
+return 1
+
+
+
+
+

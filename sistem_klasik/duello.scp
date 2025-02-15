@@ -1,0 +1,1027 @@
+﻿// Kontrol edilecekler
+// -Crimlik olayı, puan sistemi
+
+[events e_safes]
+
+ON=@ATTACK
+SKILL FAIL
+ACTION -1
+RETURN 1
+
+ON=@HITTRY
+SKILL FAIL
+ACTION -1
+RETURN 1
+
+ON=@HIT
+SKILL FAIL
+ACTION -1
+RETURN 1
+
+On=@GetHit
+SRC.FLAGS &= ~statf_war
+SRC.MEMORYFINDTYPE.memory_war_targ.remove
+SRC.MEMORYFINDTYPE.memory_war_targ.remove
+SRC.MEMORYFINDTYPE.memory_war_targ.remove
+SRC.SKILL FAIL
+SRC.ACTION -1
+RETURN 1
+
+On=@Spelleffect
+IF !(<SRC.UID>==<UID>)
+SRC.F_FIZZLE
+SRC.SKILL FAIL
+RETURN 1
+ENDIF
+
+ON=@SPELLCAST
+IF (<DARGN>==25) || (<DARGN>==26)
+f_fizzle
+RETURN 1
+ENDIF
+IF !(<serv.spell.<argn>.flags>&spellflag_good)
+f_fizzle
+RETURN 1
+ENDIF
+
+ON=@SKILLSTART
+if !((<action> == id(Skill_Magery)) || (<action> == Skill_Magery) || (<action> == id(Skill_Meditation)) || (<action> == Skill_Meditation) || (<action> == id(Skill_poisoning)) || (<action> == Skill_poisoning) || (<action> == id(Skill_spiritspeak)) || (<action> == Skill_spiritspeak) || (<action> == id(Skill_Appraise)) || (<action> == Skill_Appraise))
+return 1
+endif
+
+on=@itemdclick
+if (<act.type>==t_figurine) || (<act.type>==t_animaldeed) || (<act.baseid>==i_et_bear2)
+return 1
+endif
+
+on=@dismount
+return 1
+
+on=@mount
+return 1
+
+[itemdef i_duello_stone]
+id i_grave_stone
+name Duello
+type t_script
+
+on=@create
+attr 010
+color 0455
+
+on=@click
+if (<more1> == 2)
+local.temp = <dtimer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+message @48,,1 [Süre: <dlocal.minutes> dk <dlocal.seconds> sn]
+message @48,,1 [<uid.<tag.player1>.name> vs. <uid.<tag.player2>.name>]
+endif
+message @07a1,,1 <name>
+return 1
+
+on=@dclick
+if (<src.account.plevel> >= 7)
+sdialog d_duello_ayar
+return 1
+endif
+for x 1 4
+if (strmatch('<tag0.koordinat<dlocal.x>>','0'))
+src.syshata Bu duello taşı ayarlanmamış lütfen page atın.
+return 1
+endif
+endfor
+
+///local.saat=<SERV.RTIME.FORMAT %H>
+///local.dakika=<SERV.RTIME.FORMAT %M>
+///if !((<local.saat> == 13) || (<local.saat> == 19))
+///src.syshata Duello sistemi 13:00-14:00 ve 19:00-20:00 saatlerinde çalışmaktadır.
+///return 1
+///endif
+
+if (<distance> > 3)
+src.syshata Taşa yeterince yakın değilsiniz.
+return 1
+elseif (<more1> == 1)
+src.syshata Şuanda duello teklifi bekleniyor.
+return 1
+elseif (<more1> == 2)
+src.syshata Şuanda <uid.<tag.player1>.name> ve <uid.<tag.player2>.name> duello yapıyor.
+return 1
+elseif (<more1> == 3)
+src.syshata Duello taşı kullanıma kapatılmıştır.
+return 1
+else
+sdialog d_duello_teklif_ana_menu
+endif
+return 1
+
+on=@timer
+say_trk Duello berabere bitti.
+REF14 <uid.<tag0.player1>.uid>
+REF15 <uid.<tag0.player2>.uid>
+IF (<dREF14.TAG0.UCRETTYPE>==2)
+trysrc <ref14> SRC.donateyazdimduello <eval <ref14.dtag0.ucret>>
+trysrc <ref15> SRC.donateyazdimduello <eval <ref14.dtag0.ucret>>
+ELSE
+trysrc <ref14> SRC.cekyazdimduello <eval <ref14.dtag0.ucret>>
+trysrc <ref15> SRC.cekyazdimduello <eval <ref14.dtag0.ucret>>
+ENDIF
+IF (<DTAG0.ARENADUEL>)
+if (<DB.connected>)
+db.query insert into sonolaylar (id, date, type, char1, char1uid, char2, char2uid, region, blabla) VALUES ('', '<F_DATE> <F_HOUR>:<F_MINUTE>', 'arenaduellob', '<addslashes <uid.<tag0.player1>.fullname>>', '<dtag0.player1>', '<addslashes <uid.<tag0.player2>.fullname>>', '<dtag0.player2>', '<addslashes <REGION.NAME>>', '')
+endif
+serv.allclients sysnorm [[Arena Duello]: <uid.<tag0.player1>.fullname> ile <uid.<tag0.player2>.fullname> arasındaki arena duello berabere bitti.
+ELSE
+if (<DB.connected>)
+db.query insert into sonolaylar (id, date, type, char1, char1uid, char2, char2uid, region, blabla) VALUES ('', '<F_DATE> <F_HOUR>:<F_MINUTE>', 'duellob', '<addslashes <uid.<tag0.player1>.fullname>>', '<dtag0.player1>', '<addslashes <uid.<tag0.player2>.fullname>>', '<dtag0.player2>', '<addslashes <REGION.NAME>>', '')
+endif
+serv.allclients sysnorm [[Duello]: <uid.<tag0.player1>.fullname> ile <uid.<tag0.player2>.fullname> arasındaki duello berabere bitti.
+ENDIF
+trysrc <tag0.player1> src.p <tag0.koordinat2>
+trysrc <tag0.player2> src.p <tag0.koordinat2>
+trysrc <tag0.player1> src.statlarifulle
+trysrc <tag0.player2> src.statlarifulle
+trysrc <tag0.player1> src.events -e_duello
+trysrc <tag0.player1> src.events +e_safes
+trysrc <tag0.player2> src.events -e_duello
+trysrc <tag0.player2> src.events +e_safes
+trysrc <tag0.player1> src.tag.ocsavas
+trysrc <tag0.player2> src.tag.ocsavas
+trysrc <tag0.player1> src.update
+trysrc <tag0.player2> src.update
+more1 0
+return 1
+
+on=@pickup_ground
+if (<src.account.plevel> < 7)
+return 1
+endif
+
+[function f_duelloteklif]
+local.oldobj <obj>
+obj = <src.tag.duellotas>
+if !(<argo.isplayer>)
+src.syshata Sadece oyuncularla duello yapabilirsiniz.
+obj <local.oldobj>
+return 1
+elseif (<argo.uid> == <src.uid>)
+src.syshata Kendinize duello teklifi atamazsınız.
+obj <local.oldobj>
+return 1
+elseif (<argo.account.plevel> > 1)
+src.syshata Yetkililere duello teklifi yapamazsınız.
+obj <local.oldobj>
+return 1
+elseif (<argo.distance <src.uid>> > 3)
+src.syshata <argo.name> adlı oyuncunun yakınında bulunmalısınız.
+obj <local.oldobj>
+return 1
+elseif (<argo.distance <obj>> > 5)
+src.syshata <argo.name> adlı oyuncu duello taşına yakın değil.
+obj <local.oldobj>
+return 1
+elseif (<obj.more1> == 1)
+src.syshata Şuanda başka bir teklif bekleniyor.
+obj <local.oldobj>
+return 1
+elseif (<obj.more1> == 2)
+src.syshata Şuanda <uid.<obj.tag0.player1>.name> vs <uid.<obj.tag0.player2>.name> duellosu var.
+obj <local.oldobj>
+return 1
+endif
+
+IF (<DSRC.TAG0.UCRETTYPE> == 1)
+	if !(<argo.gold> >= <src.dtag0.ucret>)
+	src.syshata <argo.name> adlı oyuncuda bu miktarda para bulunmuyor.
+	obj <local.oldobj>
+	return 1
+	endif
+ELSE
+	if !(<dargo.account.tag0.donate> >= <src.dtag0.ucret>)
+	src.syshata <argo.name> adlı oyuncuda bu miktarda DP bulunmuyor.
+	obj <local.oldobj>
+	return 1
+	endif
+ENDIF
+
+obj.more1 1
+argo.tag0.arenaduel <dsrc.tag.arenaduel>
+argo.tag.ucrettype <src.tag.ucrettype>
+argo.tag.bandajl <src.tag.bandajl>
+argo.tag.potionl <src.tag.potionl>
+argo.tag.ucret <src.dtag0.ucret>
+argo.tag.poison <src.tag0.poison>
+argo.tag.loot <src.tag0.loot>
+argo.tag0.duellotas <obj>
+argo.tag0.duellorakip <src.uid>
+argo.timerf 20,dialogclose d_duello_teklif
+argo.sysnorm Duello teklifi aldınız. 20 saniye içinde kabul etmelisiniz.
+src.tag.duellorakip <argo>
+trysrc <argo> sdialog d_duello_teklif
+
+obj <local.oldobj>
+
+[dialog d_duello_teklif]
+0,50
+nomove
+page 1
+button 15 15 30 30 0 2 1
+dtext 30 40 035 Duello!
+
+page 2
+IF (<DSRC.TAG0.ARENADUEL>)
+F_DEF_DIALOG 80,128,380,270
+dtext 95 170 07a1 size ARENA DUELLO teklifinde bulunuyor. (alan: Arena #<DSRC.TAG0.ARENADUEL>)
+ELSE
+F_DEF_DIALOG 80,128,290,270
+dtext 95 170 07a1 size duello teklifinde bulunuyor.
+ENDIF
+dtext 95 150 07a1 <uid.<src.tag0.duellorakip>.name> adlı oyuncu
+dtext 95 190 07a1 Katılmak istiyor musunuz?
+dtext 95 215 38 Şartlar;
+dtext 95 240 035 Ücret: <src.dtag0.ucret> <qval (<src.tag0.ucrettype> < 2)?altın:DP>
+dtext 95 260 <def.kirmizi> Loot: <qval (<src.tag0.loot> < 1)?Yasak:Serbest>
+dtext 95 280 <def.yesil> Silaha zehir: <qval (<src.tag0.poison> < 1)?Serbest:Yasak>
+dtext 95 300 07a1 Bandaj sayısı: <dsrc.tag.bandajl>
+dtext 95 320 07a1 Potion sayısı: <dsrc.tag.potionl>
+button 100 360 4005 4006 1 0 1
+dtext 135 362 <def.yesil> Evet
+button 235 360 4017 4018 1 0 0
+dtext 270 362 <def.kirmizi> Hayır
+
+[dialog d_duello_teklif button]
+on=0
+obj = <src.tag0.duellorakip>
+obj.sysnorm <src.name> adlı oyuncu duello teklifinizi reddetti.
+try uid.<src.tag0.duellotas>.more1 0
+
+on=1
+obj = <src.tag0.duellorakip>
+if (<uid.<src.tag0.duellotas>.more1> == 2)
+src.syshata Şuanda <uid.<uid.<src.tag0.duellotas>.tag0.player1>.name> vs <uid.<uid.<src.tag0.duellotas>.tag0.player2>.name> duellosu var.
+return 1
+endif
+
+IF (<DSRC.TAG0.UCRETTYPE> == 1)
+if !(<src.gold> >= <src.dtag0.ucret>)
+src.syshata Karakterinizde bu meblada para bulunmuyor.
+obj.syshata Rakibinizde bu meblada para bulunmuyor.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+ELSE
+if !(<Dsrc.ACCOUNT.TAG0.DONATE> >= <src.dtag0.ucret>)
+src.syshata Hesabınızda bu meblada DP bulunmuyor.
+obj.syshata Rakibinizde bu meblada DP bulunmuyor.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+ENDIF
+
+IF (<DSRC.TAG0.UCRETTYPE>==1)
+if !(<obj.gold> >= <src.dtag0.ucret>)
+obj.syshata Karakterinizde bu meblada para bulunmuyor.
+src.syshata Rakibinizde bu meblada para bulunmuyor.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+ELSE
+if !(<dobj.ACCOUNT.TAG0.DONATE> >= <src.dtag0.ucret>)
+obj.syshata Hesabınızda bu meblada DP bulunmuyor.
+src.syshata Rakibinizde bu meblada DP bulunmuyor.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+ENDIF
+
+if (<obj.findlayer(25).uid>)
+obj.syshata Altınızda binek varken duello yapamazsınız.
+src.syshata Rakibinizin altında binek olduğu için duello teklifi iptal edildi.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+
+if (<src.findlayer(25).uid>)
+src.syshata Altınızda binek varken duello yapamazsınız.
+obj.syshata Rakibinizin altında binek olduğu için duello teklifi iptal edildi.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+
+forchars 25
+if (<memoryfindtype.memory_ipet>)
+if (<memoryfindtype.memory_ipet.link>==<src.uid>)
+src.syshata Etrafınızda size ait bir hayvan varken duello yapamazsınız.
+obj.syshata Rakibinizin yakınında ona ait bir binek bulunduğu için duello iptal edildi.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+endif
+endfor
+
+forchars 25
+if (<memoryfindtype.memory_ipet>)
+if (<memoryfindtype.memory_ipet.link>==<obj.uid>)
+obj.syshata Etrafınızda size ait bir hayvan varken duello yapamazsınız.
+src.syshata Rakibinizin yakınında ona ait bir binek bulunduğu için duello iptal edildi.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+endif
+endfor
+
+if ((<obj.findlayer(25).uid>) && !(<src.findlayer(25).uid>)) || ((<src.findlayer(25).uid>) && !(<obj.findlayer(25).uid>))
+obj.syshata Rakibinizle eşit şartlarda değilsiniz.
+src.syshata Rakibinizle eşit şartlarda degilsiniz.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+
+forcont <src.findlayer(layer_pack)> 20
+IF (<ISWEAPON>) && (<morez> > 0) && (<src.tag0.poison> == 1)
+src.syshata Zehirli silah yasak şartına uymadığınız için duello teklifi iptal edildi.
+obj.syshata Rakibiniz zehirli silah yasak şartına uymadığı için duello teklifi iptal edildi.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+endfor
+
+forcont <obj.findlayer(layer_pack)> 20
+IF (<ISWEAPON>) && (<morez> > 0) && (<OBJ.tag0.poison> == 1)
+obj.syshata Zehirli silah yasak şartına uymadığınız için duello teklifi iptal edildi.
+src.syshata Rakibiniz zehirli silah yasak şartına uymadığı için duello teklifi iptal edildi.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+endfor
+
+forcont <src.findlayer(layer_pack)> 20
+IF (<TYPE>==T_POTION)
+LOCAL.SRCPOT <EVAL <DLOCAL.SRCPOT>+<AMOUNT>>
+ELSEIF (<TYPE>==T_BANDAGE)
+LOCAL.SRCBAN <EVAL <DLOCAL.SRCBAN>+<AMOUNT>>
+ENDIF
+ENDFOR
+
+forcont <OBJ.findlayer(layer_pack)> 20
+IF (<TYPE>==T_POTION)
+LOCAL.OBJPOT <EVAL <DLOCAL.OBJPOT>+<AMOUNT>>
+ELSEIF (<TYPE>==T_BANDAGE)
+LOCAL.OBJBAN <EVAL <DLOCAL.OBJBAN>+<AMOUNT>>
+ENDIF
+ENDFOR
+
+IF (<DLOCAL.SRCBAN> > <SRC.TAG0.BANDAJL>) || (<DLOCAL.SRCPOT> > <SRC.TAG0.POTIONL>)
+SRC.syshata Bandaj veya potion şartına uymadığınız için duello teklifi iptal edildi.
+OBJ.syshata Rakibiniz bandaj veya potion şartına uymadığı için duello teklifi iptal edildi.
+try uid.<src.tag0.duellotas>.more1 0
+RETURN 1
+ENDIF
+
+IF (<DLOCAL.OBJBAN> > <SRC.TAG0.BANDAJL>) || (<DLOCAL.OBJPOT> > <SRC.TAG0.POTIONL>)
+OBJ.syshata Bandaj veya potion şartına uymadığınız için duello teklifi iptal edildi.
+SRC.syshata Rakibiniz bandaj veya potion şartına uymadığı için duello teklifi iptal edildi.
+try uid.<src.tag0.duellotas>.more1 0
+RETURN 1
+ENDIF
+
+for x 0 <src.findlayer(21).rescount>
+if (<uid.<src.findlayer.21.uid>.findcont(<dlocal.x>).isweapon>) && !(<uid.<src.findlayer.21.uid>.findcont(<dlocal.x>).morez> == 0) && (<src.tag0.poison> == 1)
+src.syshata Zehirli silah yasak şartına uymadığınız için duello teklifi iptal edildi.
+obj.syshata Rakibiniz zehirli silah yasak şartına uymadığı için duello teklifi iptal edildi.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+endfor
+
+for x 0 <obj.findlayer(21).rescount>
+if (<uid.<obj.findlayer.21.uid>.findcont(<dlocal.x>).isweapon>) && !(<uid.<obj.findlayer.21.uid>.findcont(<dlocal.x>).morez> == 0) && (<obj.tag0.poison> == 1)
+obj.syshata Zehirli silah yasak şartına uymadığınız için duello teklifi iptal edildi.
+src.syshata Rakibiniz zehirli silah yasak şartına uymadığı için duello teklifi iptal edildi.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+endfor
+
+if ((<src.findlayer(1).isweapon>) && !(<src.findlayer(1).morez> == 0) && (<src.tag0.poison> == 1))
+src.syshata Zehirli silah yasak şartına uymadığınız için duello teklifi iptal edildi.
+obj.syshata Rakibiniz zehirli silah yasak şartına uymadığı için duello teklifi iptal edildi.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+
+if ((<src.findlayer(2).isweapon>) && !(<src.findlayer(2).morez> == 0) && (<src.tag0.poison> == 1))
+src.syshata Zehirli silah yasak şartına uymadığınız için duello teklifi iptal edildi.
+obj.syshata Rakibiniz zehirli silah yasak şartına uymadığı için duello teklifi iptal edildi.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+
+if ((<obj.findlayer(1).isweapon>) && !(<obj.findlayer(1).morez> == 0) && (<src.tag0.poison> == 1))
+obj.syshata Zehirli silah yasak şartına uymadığınız için duello teklifi iptal edildi.
+src.syshata Rakibiniz zehirli silah yasak şartına uymadığı için duello teklifi iptal edildi.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+
+if ((<obj.findlayer(2).isweapon>) && !(<obj.findlayer(2).morez> == 0) && (<src.tag0.poison> == 1))
+obj.syshata Zehirli silah yasak şartına uymadığınız için duello teklifi iptal edildi.
+src.syshata Rakibiniz zehirli silah yasak şartına uymadığı için duello teklifi iptal edildi.
+try uid.<src.tag0.duellotas>.more1 0
+return 1
+endif
+
+//obj.findlayer(1).morez 0
+//obj.findlayer(2).morez 0
+//src.findlayer(1).morez 0
+//src.findlayer(2).morez 0
+src.events +e_duello
+src.events -e_safes
+obj.events +e_duello
+obj.events -e_safes
+obj.tag.ocsavas 1
+src.tag.ocsavas 1
+src.findid.i_rune_incognito.timer
+obj.findid.i_rune_incognito.timer
+////serv.allclients sysmessage @58,,1 <obj.name> vs <src.name> duellosu başlıyor.
+IF (<DSRC.TAG0.UCRETTYPE>==2)
+src.account.tag0.donate -= <dsrc.dtag0.ucret>
+trysrc <obj> SRC.F_DUEL_DCONS <src.dtag0.ucret>
+ELSE
+src.GOLD -= <src.dtag0.ucret>
+trysrc <obj> SRC.F_DUEL_PCONS <dsrc.dtag0.ucret>
+ENDIF
+serv.newnpc c_hakem
+new.p <uid.<src.tag0.duellotas>.tag0.koordinat1>
+new.gerisay
+new.update
+trysrc <obj> src.statlarifulle
+statlarifulle
+try uid.<src.tag0.duellotas>.tag.player1 <obj>
+try uid.<src.tag0.duellotas>.tag.player2 <src.uid>
+try uid.<src.tag0.duellotas>.timer 300
+try uid.<src.tag0.duellotas>.more1 2
+trysrc <obj> p <uid.<src.tag0.duellotas>.tag0.koordinat3>
+trysrc <obj> src.closealldialogs
+obj.update
+src.closealldialogs
+src.p <uid.<src.tag0.duellotas>.tag0.koordinat4>
+trysrc <obj> src.kafeslee
+src.kafeslee
+src.update
+
+[FUNCTION F_DUEL_PCONS]
+SRC.GOLD -= <DARGS>
+
+[FUNCTION F_DUEL_DCONS]
+SRC.ACCOUNT.TAG0.DONATE -= <DARGS>
+
+[function gerisay]
+timerf 0,src.say @0481,,1 5
+timerf 1,src.say @0481,,1 4
+timerf 2,src.say @0481,,1 3
+timerf 3,src.say @0481,,1 2
+timerf 4,src.say @0481,,1 1
+timerf 5,src.say @0481,,1 0
+timerf 6,src.say @0481,,1 Başla!!
+timerf 7,remove
+
+[function kafeslee]
+IF (<DTAG0.ARENADUEL>)
+SRC.INVIS
+SRC.TIMERF 7, SRC.INVIS 0
+ELSE
+serv.newitem 079
+new.p <src.p>
+new.move -1
+new.color 04c2
+new.timerf 7,remove
+serv.newitem 079
+new.p <src.p>
+new.move 1
+new.color 04c2
+new.timerf 7,remove
+serv.newitem 078
+new.color 04c2
+new.p <src.p>
+new.move 0,-1
+new.timerf 7,remove
+serv.newitem 078
+new.p <src.p>
+new.color 04c2
+new.move 0,1
+new.timerf 7,remove
+serv.newitem 079
+new.color 04c2
+new.p <src.p>
+new.move 1,1
+new.timerf 7,remove
+
+serv.newitem 078
+new.color 04c2
+new.p <src.p>
+new.move 1,1
+new.timerf 7,remove
+
+serv.newitem 079
+new.p <src.p>
+new.color 04c2
+new.move -1,1
+new.timerf 7,remove
+serv.newitem 078
+new.p <src.p>
+new.color 04c2
+new.move 1,-1
+new.timerf 7,remove
+ENDIF
+
+
+[FUNCTION DUELTEMIZ]
+FORITEMS 1
+IF (<DTAG0.DUELWALL>)
+TRY SRC.DCLICK <UID>
+REMOVE
+UPDATE
+ENDIF
+UPDATE
+ENDFOR
+SRC.UPDATE
+SECTOR.ALLCLIENTS UPDATE
+
+[function removede]
+TRY COLOR 0455
+TRY TIMER 1
+TRY REMOVE
+TRY UPDATE
+TRY FIX
+TRY COLOR 0455
+
+[chardef c_hakem]
+name #names_humanmale the refree
+id c_man
+can mt_equip|mt_nonmover
+
+on=@click
+message @07a1,,1 Hakem
+return 1
+
+On=@Create
+str 9500
+dex 9500
+int 9500
+color 0418
+speechcolor 0481
+food 990
+npc 1
+
+itemnewbie i_hair_long
+color 044e
+itemnewbie i_beard_vandyke
+color 044e
+itemnewbie i_backpack
+itemnewbie i_bankbox
+color 0384
+timer 900
+attr 014
+itemnewbie i_blackrock_platemail
+itemnewbie i_blackrock_platemail_leggings
+itemnewbie i_blackrock_platemail_arms
+itemnewbie i_blackrock_platemail_gorget
+itemnewbie i_blackrock_platemail_gauntlets
+
+[function statlarifulle]
+src.hits <src.str>
+src.mana <src.int>
+src.stam <src.dex>
+src.findid.i_rune_poison.remove
+src.findid.i_bleeding.remove
+src.findid.i_bleeding2.remove
+
+[dialog d_duello_ayar]
+0,0
+resizepic 100 100 5120 300 200
+resizepic 110 110 9350 280 180
+dhtmlgump 190 120 300 20 0 0 <serv.name> Duello Sistemi
+
+button 120 150 210 211 1 0 1
+button 120 175 210 211 1 0 2
+button 120 200 210 211 1 0 3
+button 120 225 210 211 1 0 4
+button 120 250 210 211 1 0 5
+dhtmlgump 142 150 400 20 0 0 Gerisayım Koordinatı: <tag0.koordinat1>
+dhtmlgump 142 175 400 20 0 0 Çıkış Koordinatı: <tag0.koordinat2>
+dhtmlgump 142 200 400 20 0 0 1.Player: <tag0.koordinat3>
+dhtmlgump 142 225 400 20 0 0 2.Player: <tag0.koordinat4>
+dhtmlgump 142 250 400 20 0 0 <qval (<more1> == 3)?Duelloyu kullanıma aç.:Duelloyu kullanıma kapat.>
+
+[dialog d_duello_ayar button]
+onbutton 1
+src.ctag0.duellotasuids <uid>
+targetfg koordinat 1
+onbutton 2
+src.ctag0.duellotasuids <uid>
+targetfg koordinat 2
+onbutton 3
+src.ctag0.duellotasuids <uid>
+targetfg koordinat 3
+onbutton 4
+src.ctag0.duellotasuids <uid>
+targetfg koordinat 4
+onbutton 5
+more1 <qval (<more1> == 3)?0:3>
+src.sysmessage @<qval (<more1> == 3)?38,,1 Duello tasini kullanima kapattınız.:58,,1 Duello taşını kullanıma açtınız.>
+say @<qval (<more1> == 3)?38,,1 Duello taşı kullanıma kapatıldı.:58,,1 Duello taşı kullanıma açıldı.>
+
+[function koordinat]
+try uid.<src.ctag0.duellotasuids>.tag.koordinat<args> <src.targp>
+src.sysnorm Yeni koordinat ayarlandı: <src.targp>
+
+[dialog d_duello_teklif_ana_menu]
+200,200
+
+
+IF (<DTAG0.ARENADUEL> == 1)
+RESIZEPIC 0 0 5054 348 380
+gumppictiled 10 10 325 100 2624
+checkertrans 10 10 325 360
+GUMPPIC 10 10 8
+ELSEIF (<DTAG0.ARENADUEL> == 2)
+RESIZEPIC 0 0 5054 348 380
+gumppictiled 10 10 325 100 2624
+checkertrans 10 10 325 360
+GUMPPIC 10 10 10
+ELSEIF (<DTAG0.ARENADUEL> == 3)
+RESIZEPIC 0 0 5054 348 380
+gumppictiled 10 10 325 100 2624
+checkertrans 10 10 325 360
+GUMPPIC 10 10 11
+ELSE
+F_DEF_DIALOG 0,50,255,300
+ENDIF
+
+
+resizepic 25 110 2620 190 35
+dtextentry 40 117 170 20 07a1 0 5000
+dtext 25 80 0481 Bahis ücreti:
+
+radio 115 80 210 211 1 3
+dtext 138 80 035 Altın
+
+radio 175 80 210 211 0 4
+dtext 198 80 035 DP
+
+checkbox 25 170 210 211 0 1
+dtext 45 170 0481 Loot serbest
+
+checkbox 25 190 210 211 0 2
+dtext 45 190 0481 Silaha zehir serbest
+
+dtext 25 227 0481 Bandaj sayısı: 
+resizepic 120 220 2620 70 35
+dtextentry 135 227 50 20 07a1 1 100
+
+dtext 25 277 0481 Potion sayısı: 
+resizepic 120 270 2620 70 35
+dtextentry 135 277 50 20 07a1 2 50
+
+button 200 313 4005 4006 1 0 1
+dtext 120 315 035 Teklif gönder
+
+[dialog d_duello_teklif_ana_menu button]
+on=1
+if !((<isnum <argtxt[0]>>) && (<isnum <argtxt[1]>>) && (<isnum <argtxt[2]>>))
+src.syshata Sadece rakam girebilirsiniz.
+return 1
+elseif !(<argtxt[1]> >= 5)
+src.syshata Bandaj sayısı en az 5 olmalı.
+return 1
+elseif !(<argtxt[2]> >= 3)
+src.syshata Potion sayısı en az 3 olmalı.
+return 1
+elseif (<argtxt[2]> > 500)
+src.syshata Potion sayısı bu kadar yüksek olamaz.
+return 1
+elseif (<argtxt[1]> > 500)
+src.syshata Bandaj sayısı bu kadar yüksek olamaz.
+return 1
+endif
+
+IF (<argchk[3]>)==1)
+if !(<argtxt[0]> >= 5000)
+src.syshata Bahis en az 5.000 altın olmalı.
+return 1
+endif
+	if !(<src.gold> >= <argtxt[0]>)
+	src.syshata Karakterinizde bu meblada para bulunmuyor.
+	return 1
+	endif
+src.tag.ucrettype 1
+ELSEIF (<argchk[4]>==1)
+
+if !(<argtxt[0]> >= 1)
+src.syshata Bahis en az 1 DP olmalı.
+return 1
+endif
+	if !(<dsrc.ACCOUNT.TAG0.DONATE> >= <dargtxt[0]>)
+	src.syshata Hesabınızda bu meblada DP bulunmuyor.
+	return 1
+	endif	
+src.tag.ucrettype 2
+ENDIF
+
+src.targetf f_duelloteklif
+src.sysmessage @07a1,,1 Duello yapmak istediğiniz kişiyi seçin.
+src.tag.duellotas <uid>
+src.tag.ucret <argtxt[0]>
+src.tag.loot <qval (<argchk[1]> < 1)?0:1>
+src.tag.poison <qval (<argchk[2]> < 1)?1:0>
+src.tag.bandajl <argtxt[1]>
+src.tag.potionl <argtxt[2]>
+src.tag.arenaduel <dtag0.arenaduel>
+
+[function lootbankaya]
+serv.newitem i_bag
+src.new.cont <src.findlayer.29>
+local.bag <src.new>
+local.lfor 
+for <uid.<args>.rescount>
+if (<uid.<args>.findcont.<eval <local.lfor>>.attr>&attr_newbie)
+local.lfor <eval <local.lfor>> +1
+else
+try uid.<args>.findcont.<eval <local.lfor>>.cont <uid.<local.bag>>
+endif
+endfor
+TRY UID.<ARGS>.UPDATE
+
+[events e_duello]
+On=@SpellCast
+if ((<argn> == 28) ||(<argn> == 24) || (<argn> == 33) || (<argn> == 35) || (<argn> == 39) || (<argn> == 40) || (<argn> == 44) || (<argn> == 45) || (<argn> == 46) || (<argn> == 47) || (<argn> == 49) || (<argn> == 50) || (<argn> == 55))  || (<argn> == 64)  || (<argn> == 63) || (<argn> == 62)  || (<argn> == 61)   || (<argn> == 60)   || (<argn> == 59)   || (<argn> == 58)  || (<argn> == 57)   || (<argn> == 56)  || (<argn> == 54)  || (<argn> == 48)) 
+src.syshata Duello esnasında bu büyüyü kullanamazsınız.
+return 1
+endif
+
+On=@SkillStart
+if (<action> == id(skill_stealth)) || (<action> == skill_stealth) || ((<action> == id(skill_snooping)) || (<action> == skill_snooping)) || ((<action> == id(skill_stealing)) || (<action> == skill_stealing)) || ((<action> == id(skill_hiding)) || (<action> == skill_hiding))  
+src.syshata Duello esnasında bu yeteneklerinizi kullanamazsınız.
+SRC.SKILL FAIL
+return 1
+endif
+if (<action> == id(skill_poisoning)) && (<src.tag0.poison> == 1)
+src.syshata Yapmış olduğunuz duelloda silaha zehir sürme yasaklanmıştır.
+SRC.SKILL FAIL
+return 1
+endif
+
+on=@itemdclick
+if (<act.type>==t_figurine) || (<act.type>==t_animaldeed)
+return 1
+endif
+if (<src.tag0.poison> == 1) && ((<act.baseid> == i_potion_PoisonLess) || (<act.baseid> == i_potion_Poison) || (<act.baseid> ==  i_potion_PoisonGreat) || (<act.baseid> ==  i_potion_PoisonDeadly))
+src.syshata Yapmış olduğunuz duelloda silaha zehir sürme yasaklanmıştır.
+return 1
+endif
+
+IF (<ACT.ISWEAPON>) && (<morez> > 0) && (<src.tag0.poison> == 1)
+src.syshata Yapmış olduğunuz duelloda silaha zehir sürme yasaklanmıştır.
+return 1
+endif
+
+on=@itemequip
+IF (<ACT.ISWEAPON>) && (<morez> > 0) && (<src.tag0.poison> == 1)
+src.syshata Yapmış olduğunuz duelloda silaha zehir sürme yasaklanmıştır.
+act.unequip
+return 1
+endif
+
+on=@dismount
+return 1
+
+on=@mount
+return 1
+
+on=@death
+obj = <tag0.duellorakip>
+ref1 = <obj.tag0.duellorakip>
+obj.tag.ocsavas
+ref1.tag.ocsavas
+try uid.<ref1.tag0.duellotas>.say_trk <obj.name> kazandı.
+IF (<DOBJ.TAG0.ARENADUEL>)
+if (<DB.connected>)
+db.query insert into sonolaylar (id, date, type, char1, char1uid, char2, char2uid, region, blabla) VALUES ('', '<F_DATE> <F_HOUR>:<F_MINUTE>', 'arenaduello', '<addslashes <obj.fullname>>', '<dobj.uid>', '<addslashes <ref1.fullname>>', '<dref1.uid>', '<addslashes <REGION.NAME>>', '')
+endif
+serv.allclients sysyes [[Arena Duello]: <obj.fullname> ve <ref1.fullname> arasındaki arena duelloyu <obj.name> kazandı.
+ELSE
+if (<DB.connected>)
+db.query insert into sonolaylar (id, date, type, char1, char1uid, char2, char2uid, region, blabla) VALUES ('', '<F_DATE> <F_HOUR>:<F_MINUTE>', 'duello', '<addslashes <obj.fullname>>', '<dobj.uid>', '<addslashes <ref1.fullname>>', '<dref1.uid>', '<addslashes <REGION.NAME>>', '')
+endif
+serv.allclients sysyes [[Duello]: <obj.fullname> ve <ref1.fullname> arasındaki duelloyu <obj.name> kazandı.
+ENDIF
+if (<ref1.tag0.loot> == 1)
+ref1.findlayer.1.cont <ref1.findlayer.21>
+ref1.findlayer.2.cont <ref1.findlayer.21>
+ref1.findlayer.3.cont <ref1.findlayer.21>
+ref1.findlayer.4.cont <ref1.findlayer.21>
+ref1.findlayer.5.cont <ref1.findlayer.21>
+ref1.findlayer.6.cont <ref1.findlayer.21>
+ref1.findlayer.7.cont <ref1.findlayer.21>
+ref1.findlayer.8.cont <ref1.findlayer.21>
+ref1.findlayer.10.cont <ref1.findlayer.21>
+ref1.findlayer.12.cont <ref1.findlayer.21>
+ref1.findlayer.13.cont <ref1.findlayer.21>
+ref1.findlayer.17.cont <ref1.findlayer.21>
+ref1.findlayer.18.cont <ref1.findlayer.21>
+ref1.findlayer.19.cont <ref1.findlayer.21>
+ref1.findlayer.20.cont <ref1.findlayer.21>
+ref1.findlayer.22.cont <ref1.findlayer.21>
+ref1.findlayer.23.cont <ref1.findlayer.21>
+ref1.findlayer.24.cont <ref1.findlayer.21>
+trysrc <obj> src.lootbankaya <ref1.findlayer(21).uid>
+endif
+IF (<dOBJ.TAG0.UCRETTYPE>==2)
+trysrc <obj> SRC.donateyazdimduello <eval <obj.dtag0.ucret>*2>
+ELSE
+trysrc <obj> SRC.cekyazdimduello <eval <obj.dtag0.ucret>*2>
+ENDIF
+ref1.findid.i_rune_poison.remove
+ref1.findid.i_bleeding.remove
+ref1.findid.i_bleeding2.remove
+ref1.hits <ref1.str>
+ref1.mana <ref1.int>
+ref1.stam <ref1.dex>
+ref1.action -1
+obj.findid.i_rune_poison.remove
+obj.findid.i_bleeding.remove
+obj.findid.i_bleeding2.remove
+obj.hits <obj.str>
+obj.mana <obj.int>
+obj.stam <obj.dex>
+obj.action -1
+try uid.<ref1.tag0.duellotas>.more1 0
+try uid.<obj.tag0.duellotas>.more1 0
+try uid.<ref1.tag0.duellotas>.timer -1
+ref1.events -e_duello
+ref1.events +e_safes
+obj.events -e_duello
+obj.events +e_safes
+ref1.p <uid.<obj.tag0.duellotas>.tag0.koordinat2>
+ref1.update
+obj.p <uid.<ref1.tag0.duellotas>.tag0.koordinat2>
+obj.update
+return 1
+
+[function donateyazdimduello]
+SRC.ACCOUNT.TAG0.DONATE += <DARGS>
+
+[function cekyazdimduello]
+src.newitem i_check_brnx
+src.new.more1 <Dargs>
+src.new.more2 <SRC.uid>
+src.new.cont <SRC.findlayer(29).uid>
+
+
+
+[plevel 7]
+duelloalani
+
+[function duelloalani]
+src.newitem i_duello_stone
+src.act.p <src.p>
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move 0 -1
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move 1 -1
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move 2 -1
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move 3 -1
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move 4 -1
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move -1 -1
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move -2 -1
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move -3 -1
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move -4 -1
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move -5 -1
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move -6 -1
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move -6 -2
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move -6 -3
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move -6 -4
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move -6 -5
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move -6 -6
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move -6 -7
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move -6 -8
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move -6 -9
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move -6 -10
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move -6 -11
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move 5 -12
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move 4 -12
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move 3 -12
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move 2 -12
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move 1 -12
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move 0 -12
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move -1 -12
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move -2 -12
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move -3 -12
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move -4 -12
+src.newitem 02fe
+src.act.p <src.p>
+src.act.move -5 -12
+src.newitem 0300
+src.act.p <src.p>
+src.act.move -6 -12
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move 5 -11
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move 5 -10
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move 5 -9
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move 5 -8
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move 5 -7
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move 5 -6
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move 5 -5
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move 5 -4
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move 5 -3
+src.newitem 02ff
+src.act.p <src.p>
+src.act.move 5 -2
+src.newitem 02fd
+src.act.p <src.p>
+src.act.move 5 -1
+
+[eof]

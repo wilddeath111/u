@@ -1,0 +1,82 @@
+﻿//------------------
+// DUYURU
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+
+[ITEMDEF i_haber]
+ID 0EDC
+type t_script 
+
+On=@Create
+Color 0481
+Timer 600
+attr=attr_move_never
+
+On=@Dclick
+Return 1
+
+On=@click
+message @1100,,1 <dtimer> sn
+message @0481,,1 Haber Taşı
+return 1
+
+On=@Timer
+Serv.allclients sysmessage @0481,,1 [<serv.name> Duyuru]:
+//dorand 3
+serv.allclients sysmessage @90,,1 <tag.duyuru>
+//serv.allclients sysmessage @90,,1 <tag.duyuru2>
+//serv.allclients sysmessage @90,,1 <tag.duyuru3>
+//enddo
+timer 1800
+return 1
+
+[plevel 4]
+duyuru
+
+[FUNCTION duyuru]
+if (<account.plevel> > 3)
+if (strmatch('<args>',''))
+src.syshata Boş mesaj mı geçiceksin?
+else
+ctag.dumo <args>
+sdialog d_dumo_emin
+endif
+endif
+return 1
+
+[dialog d_dumo_emin]
+-100,-100
+nomove
+noclose
+
+resizepic 200 175 3500 285 155
+text 220 185 2100 0
+text 245 275 2100 1
+text 245 295 2100 2
+htmlgump 215 208 250 60 3 1 1
+button 215 275 4006 4007 1 0 1
+button 215 295 4018 4019 1 0 0
+
+[dialog d_dumo_emin text]
+Emin Misiniz ?
+Eminim, duyuruyu dogru yazdim.
+Hayir, yanlis yazdim.
+<src.ctag.dumo>
+
+[dialog d_dumo_emin button]
+On=0
+src.sysmessage @0481,,1 Duyurudan vazgeçtin.
+src.ctag.dumo
+return 1
+
+on=1
+serv.allclients sysmessage @0481,,1,,1 *<serv.name> Duyuru*: <src.ctag.dumo>
+serv.allclients SOUND 0f7
+src.ctag.dumo
+return 1
+
+
+[EOF]

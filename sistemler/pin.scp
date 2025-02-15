@@ -1,0 +1,263 @@
+﻿[itemdef i_pin_firstlog] 
+name pin system
+id i_memory 
+type t_eq_script 
+
+on=@create 
+attr attr_decay|attr_invis 
+timer 2
+
+on=@equip
+timer 2
+
+on=@timer
+TRYSRC <CONT> SRC.SDIALOG D_PIN_GIRIS
+REMOVE
+return 1
+
+[plevel 1]
+pin
+
+[function pin] 
+if (<ctag0.pingirisi>)
+	sdialog d_pin_profil
+else
+	if (<daccount.tag0.pinyes>)
+		sdialog d_pin_giris
+	else
+		sdialog d_pin_no
+	endif
+endif 
+
+
+[dialog d_pin_giris] 
+0,0 
+NOMOVE
+//resizepic 200 175 5054 400 250 
+//resizepic 210 185 3000 380 125
+F_DEF_DIALOG 200,175,280,150
+//F_DEF_DIALOG 210,215,380,90
+htmlgump 225 195 120 20 0 0 0 
+//htmlgump 222 222 360 80 1 1 0 
+
+resizepic 315 220 2620 85 30 // pin giriş
+dtextentry 320 227 70 35 0 0 // pin giriş
+
+htmlgump 230 227 100 20 3 0 0 
+
+htmlgump 305 263 120 20 2 0 0 
+htmlgump 305 283 120 20 4 0 0 
+button 270 260 4005 4007 1 0 1 
+button 270 280 4005 4007 1 0 2 
+
+[dialog d_pin_giris text] 
+<def.bfont_yellow><serv.name> Pin Sistemi
+<def.bfont_red>Lütfen aşağıdaki alana pin kodunuzu yazıp Tamam tuşuna basın. Pin kodunuzu web sitemizden değiştirebilirsiniz. Pin kodunuzu kimse ile paylaşmayınız. 
+<def.bfont_white>Giriş yap 
+<def.bfont_white>Pin kodunuz: 
+<def.bfont_white>Pin kodumu unuttum
+
+[dialog d_pin_giris button] 
+On=0 
+ctag0.pingirisi 
+
+On=1 
+if !(<isnum <argtxt[0]>>)
+syshata Pin kodu sadece rakamlardan oluşmaktadır.
+sdialog d_pin_giris
+return 1 
+endif 
+if !(strmatch('<daccount.tag0.pin>','<argtxt[0]>'))
+syshata Pin kodunuz yanlış. Lütfen tekrar deneyiniz.
+sdialog d_pin_giris
+return 1
+endif
+
+sysnorm Pin girişi yapıldı.
+sysyes (.pin) komutuyla sistemi devre dışı bırakabilirsiniz.
+ctag0.pingirisi 1 
+
+on=2
+
+weblink www.uo.com/lostpin.php
+
+
+[dialog d_pin_profil] 
+0,0 
+F_DEF_DIALOG 200,175,300,130
+htmlgump 220 195 120 20 0 0 0 
+htmlgump 255 230 360 80 1 0 0 
+htmlgump 255 250 360 80 2 0 0 
+
+button 220 227 4005 4007 1 0 1 
+button 220 247 4005 4007 1 0 2 
+
+[dialog d_pin_profil text] 
+<def.bfont_yellow><serv.name> Pin Sistemi
+<def.bfont_white>Pin kodumu değiştir.
+<def.bfont_white>Pin sistemini devre dışı bırak.
+
+[dialog d_pin_profil button] 
+On=0 
+
+on=1
+weblink www.uo.com/lostpin.php
+//sysnorm Lütfen pin kodunuzu belirleyiniz.
+//sysnorm Pin kodu minimum 4, maksimum 6 rakamdan oluşabilir.
+//sdialog d_pin_yeni
+
+On=2
+sysnorm Pin sistemi devre dışı bırakıldı.
+//account.tag0.pin
+//account.tag0.gizlisoru
+//account.tag0.gizlicevap
+account.tag0.pinyes
+ctag0.pingirisi
+
+
+[dialog d_pin_no] 
+50,20 
+F_DEF_DIALOG 55,175,280,110
+dhtmlgump 75 195 320 20 0 0 <def.bfont_yellow><serv.name> Pin Sistemi
+dhtmlgump 110 230 360 80 0 0 <def.bfont_white>Pin sistemini aktif et. 
+button 75 227 4005 4007 1 0 1 
+
+[dialog d_pin_no button] 
+On=0 
+
+On=1
+sysnorm Pin sistemi aktif edildi.
+account.tag0.pinyes 1
+ctag0.pingirisi
+
+[dialog d_pin_yeni] 
+0,10
+//resizepic 200 175 5054 400 315
+F_DEF_DIALOG 200,175,400,315
+//F_DEF_DIALOG 210,185,380,90
+
+htmlgump 225 195 120 20 0 0 0 
+htmlgump 220 220 360 45 1 33 0 
+
+resizepic 325 280 2620 85 30 // pin giriş
+dtextentry 330 287 70 15 0481 0 // pin giriş
+htmlgump 220 285 120 20 2 0 0 
+
+resizepic 325 320 2620 155 30 // soru
+dtextentry 330 327 140 15 0481 1 // soru
+htmlgump 220 325 120 20 5 0 0 
+
+resizepic 325 360 2620 155 30 // cvp
+dtextentry 330 367 140 15 0481 2 // cvp
+htmlgump 220 365 120 20 6 0 0 
+
+
+htmlgump 220 400 360 45 3 0 0 
+
+button 335 450 4005 4007 1 0 1 // tamam
+htmlgump 370 453 360 45 4 0 0 // tamam
+
+[dialog d_pin_yeni text] 
+<def.bfont_yellow><serv.name> Pin Sistemi
+<def.bfont_red>Pin kodunuz sadece rakamlardan oluşabilir ve minimum 4, maksimum 6 karakter olabilir.
+<def.bfont_white>Yeni pin kodunuz:
+<def.bfont_white>* Pin kodunuzu kaybetmeniz durumunda gizli sorunuzun cevabı ile tekrar belirleyebilirsiniz.
+<def.bfont_white>Tamam
+<def.bfont_white>Gizli soru:
+<def.bfont_white>Gizli soru cevabı:
+
+[dialog d_pin_yeni button] 
+on=0 
+sysnorm Pin belirleme işlemini iptal ettiniz.
+
+On=1 
+if !(<isnum <argtxt[0]>>)
+syshata Pin kodu sadece rakamlardan oluşabilir.
+sdialog d_pin_yeni
+return 1 
+endif 
+if (<eval strlen(<argtxt[0]>)> > 6) 
+syshata Pin kodu minimum 4, maksimum 6 haneli sayı olabilir. 
+sdialog d_pin_yeni
+return 1 
+endif 
+if (<eval strlen(<argtxt[0]>)> < 4) 
+syshata Pin kodu minimum 4, maksimum 6 haneli sayı olabilir.
+sdialog d_pin_yeni
+return 1 
+endif 
+if (<eval strlen(<argtxt[1]>)> < 4) 
+syshata Gizli soru minimum 4 haneli harf olabilir.
+sdialog d_pin_yeni
+return 1 
+endif 
+if (<isnum <argtxt[1]>>)
+syshata Gizli soru sadece harflerden oluşabilir.
+sdialog d_pin_yeni
+return 1 
+endif 
+if (<eval strlen(<argtxt[2]>)> < 3) 
+syshata Gizli sorunun cevabı minimum 3 haneli olabilir.
+sdialog d_pin_yeni
+return 1 
+endif
+account.tag0.pin <argtxt[0]> 
+account.tag0.gizlisoru <argtxt[1]> 
+account.tag0.gizlicevap <argtxt[2]> 
+sysyes Pin kodunuz belirlendi. 
+sysnorm Yeni pin kodunuz: <argtxt[0]> 
+sysnorm Lütfen unutmamak için pin kodunuzu not ediniz.
+account.tag0.pinyes 1 
+ctag0.pingirisi
+
+
+[dialog d_pin_unuttum] 
+0,0 
+F_DEF_DIALOG 200,175,320,220
+htmlgump 220 195 120 20 0 0 0 
+htmlgump 220 220 281 45 1 33 0 
+
+htmlgump 220 285 120 20 2 0 0 
+htmlgump 330 285 120 20 6 0 0 
+
+resizepic 325 310 2620 155 30 // cvp
+dtextentry 330 317 140 15 0481 0 // cvp
+htmlgump 220 315 120 20 5 0 0 
+
+button 335 350 4005 4007 1 0 1 // tamam
+htmlgump 370 353 360 45 4 0 0 // tamam
+
+[dialog d_pin_unuttum text] 
+<def.bfont_yellow><serv.name> Pin Sistemi
+<def.bfont_red>Gizli sorunuzun cevabını girerek pin kodunuzu sıfırlayabilirsiniz.
+<def.bfont_white>Gizli sorunuz:
+<def.bfont_white>* Pin kodunuzu kaybetmeniz durumunda gizli sorunuzun cevabı ile tekrar belirleyebilirsiniz.
+<def.bfont_white>Tamam
+<def.bfont_white>Cevap:
+<def.bfont_yellow><account.tag0.gizlisoru>
+
+[dialog d_pin_unuttum button] 
+on=0 
+sysnorm Pin sıfırlama işlemini iptal ettiniz.
+
+On=1 
+if (<eval strlen(<argtxt[0]>)> < 3) 
+syshata Gizli sorunun cevabı minimum 3 haneli olabilir.
+sdialog d_pin_unuttum
+return 1 
+endif
+IF !(strmatch('<argtxt[0]>','<ACCOUNT.TAG0.GIZLICEVAP>')
+SYSHATA Cevabınız sistemde kayıtlı cevap ile uyuşmuyor.
+sdialog d_pin_unuttum
+RETURN 1
+ENDIF
+
+account.tag0.pin
+account.tag0.gizlisoru
+account.tag0.gizlicevap
+account.tag0.pinyes
+ctag0.pingirisi
+sysyes Pin kodunuz ve gizli cevabınız başarıyla sıfırlandı.
+
+
+[eof]

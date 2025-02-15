@@ -1,0 +1,469 @@
+﻿[itemdef i_robe_elder] 
+NAME=elder mage robe
+DYE=1
+TYPE=t_clothing
+ID=02684
+WEIGHT=5
+RESOURCES=200 i_cloth, 50 i_reag_dragon_blood, 25 i_reag_daemon_bone, 5 i_crystal_energy, 5 i_crystal_ice, 5 i_crystal_fire, 5 i_crystal_earth
+SKILLMAKE=TAILORING 90.0, t_sewing_kit
+
+ON=@Create
+HITPOINTS=100
+COLOR=07A1
+
+ON=@Click
+message @038A,,1 an <name>
+RETURN 1
+
+ON=@Equip
+IF !((<src.magery> >= 98.0) && (<src.meditation> >= 98.0) && (<src.evaluatingintel> >= 98.0))	
+	src.syshata Giyebilmek için 98.0 Magery, 98.0 Meditation, 98.0 Eval. Intel gereklidir.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+IF ((<src.tactics> > 0) || (<src.wrestling> > 0) || (<src.swordsmanship> > 0) || (<src.fencing> > 0) || (<src.macefighting> > 0) || (<src.archery> > 0))
+	src.syshata Giyebilmek için combat yeteneğiniz olmamalıdır.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+IF (<src.parrying> > 0)
+IF !((strmatch(´<SRC.TAG0.IRK>´,´Human´))
+	src.syshata Giyebilmek için combat yeteneğiniz olmamalıdır.
+	UNEQUIP
+	RETURN 1
+ENDIF
+ENDIF
+
+src.events +e_elderrobe
+src.events -e_energyrobe
+src.events -e_firerobe
+src.events -e_icerobe
+src.events -e_earthrobe
+
+ON=@unEquip
+src.events -e_energyrobe
+src.events -e_firerobe
+src.events -e_icerobe
+src.events -e_earthrobe
+src.events -e_elderrobe
+
+[events e_elderrobe]
+
+ON=@Spelleffect
+if (<argn>==1) || (<argn>==3) || (<argn>==5) || (<argn>==8)
+say_trk *spell resist*
+return 1
+ENDIF
+
+
+[itemdef i_robe_craft]
+DEFNAME=i_robe_craft
+ID=i_robe
+NAME=craft robe
+TYPE=t_clothing
+WEIGHT=5
+RESOURCES=200 i_cloth, 70 i_reag_dragon_blood, 40 i_reag_daemon_bone, 3 i_crystal_energy
+SKILLMAKE=TAILORING 90.0, t_sewing_kit
+
+ON=@Create
+HITPOINTS=100
+COLOR 0800
+attr 04
+
+ON=@Click
+message @038A,,1 a <name>
+RETURN 1
+
+ON=@Equip
+IF !(<src.blacksmithing> >= 98.0)	
+	src.syshata Giyebilmek için 98.0 Blacksmithing yeteneğiniz olmalı.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+IF !(<src.tinkering> >= 98.0)	
+	src.syshata Giyebilmek için 98.0 Tinkering yeteneğiniz olmalı.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+IF !(<src.tailoring> >= 98.0)	
+	src.syshata Giyebilmek için 98.0 Tailoring yeteneğiniz olmalı.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+
+if <src.findid.i_rune_night_sight>
+src.findid.i_rune_night_sight.remove
+endif
+src.spelleffect s_night_sight 1000
+SRC.MODMAXWEIGHT 100
+src.events +e_craftrobe
+
+ON=@unEquip
+SRC.MODMAXWEIGHT 0
+src.events -e_craftrobe
+
+on=@timer
+return 1
+
+[EVENTS E_CRAFTROBE]
+ON=@CLICK
+MESSAGE @70,,1 [Legendary Craft]
+MESSAGE @0481,,1 <FULLNAME>
+RETURN 1
+
+[ITEMDEF i_crystal_energy]
+NAME=energy crystal
+ID=01f1c
+WEIGHT=3
+
+On=@Create
+COLOR=4000
+
+ON=@Click
+message @038A,,1 an <name>
+RETURN 1
+
+On=@DClick
+src.syssari Elder robe yapımında kullanabilirsiniz.
+return 1
+
+[ITEMDEF i_crystal_fire]
+NAME=fire crystal
+ID=01f1c
+WEIGHT=3
+
+On=@Create
+COLOR=080a
+
+ON=@Click
+message @038A,,1 a <name>
+RETURN 1
+
+On=@DClick
+src.syssari Elder robe yapımında kullanabilirsiniz.
+return 1
+
+
+[ITEMDEF i_crystal_ice]
+NAME=ice crystal
+ID=01f1c
+WEIGHT=3
+
+On=@Create
+COLOR=0800
+
+ON=@Click
+message @038A,,1 an <name>
+RETURN 1
+
+On=@DClick
+src.syssari Elder robe yapımında kullanabilirsiniz.
+return 1
+
+[ITEMDEF i_crystal_earth]
+NAME=earth crystal
+ID=01f1c
+WEIGHT=3
+
+On=@Create
+COLOR=07ad
+
+ON=@Click
+message @038A,,1 an <name>
+RETURN 1
+
+On=@DClick
+src.syssari Elder robe yapımında kullanabilirsiniz.
+return 1
+
+
+[itemdef i_robe_energy]
+NAME=energy mage robe
+DYE=1
+TYPE=t_clothing
+ID=02684
+WEIGHT=5
+RESOURCES=200 i_cloth, 50 i_reag_dragon_blood, 25 i_reag_daemon_bone, 10 i_crystal_energy
+SKILLMAKE=TAILORING 90.0, t_sewing_kit
+
+ON=@Create
+HITPOINTS=100
+COLOR=4000
+
+ON=@Click
+message @038A,,1 an <name>
+RETURN 1
+
+ON=@Equip
+IF !((<src.magery> >= 98.0) && (<src.meditation> >= 98.0) && (<src.evaluatingintel> >= 98.0))	
+	src.syshata Giyebilmek için 98.0 Magery, 98.0 Meditation, 98.0 Eval. Intel gereklidir.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+IF ((<src.tactics> > 0) || (<src.wrestling> > 0) || (<src.swordsmanship> > 0) || (<src.fencing> > 0) || (<src.macefighting> > 0) || (<src.archery> > 0))
+	src.syshata Giyebilmek için combat yeteneğiniz olmamalıdır.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+IF (<src.parrying> > 0)
+IF !((strmatch(´<SRC.TAG0.IRK>´,´Human´))
+	src.syshata Giyebilmek için combat yeteneğiniz olmamalıdır.
+	UNEQUIP
+	RETURN 1
+ENDIF
+ENDIF
+
+SERV.NEWITEM I_ROBE_ELDER
+SRC.BOUNCE <NEW>
+REMOVE
+RETURN 1
+//src.events +e_energyrobe
+
+on=@dclick
+IF (<TOPOBJ.UID>==<SRC.UID>)
+SERV.NEWITEM I_ROBE_ELDER
+SRC.BOUNCE <NEW>
+REMOVE
+ENDIF
+RETURN 1
+
+ON=@unEquip
+src.events -e_energyrobe
+src.events -e_firerobe
+src.events -e_icerobe
+src.events -e_earthrobe
+
+[events e_energyrobe]
+
+//ON=@Spelleffect
+//if (<argn>==1) || (<argn>==3) || (<argn>==8) || (<argn>==49) || (<argn>==42)
+//say_trk *spell resist*
+//return 1
+//ENDIF
+
+[itemdef i_robe_fire]
+NAME=fire mage robe
+DYE=1
+TYPE=t_clothing
+ID=02684
+WEIGHT=5
+RESOURCES=200 i_cloth, 50 i_reag_dragon_blood, 25 i_reag_daemon_bone, 10 i_crystal_fire
+SKILLMAKE=TAILORING 90.0, t_sewing_kit
+
+ON=@Create
+HITPOINTS=100
+COLOR=080a
+
+ON=@Click
+message @038A,,1 a <name>
+RETURN 1
+
+ON=@Equip
+IF !((<src.magery> >= 98.0) && (<src.meditation> >= 98.0) && (<src.evaluatingintel> >= 98.0))	
+	src.syshata Giyebilmek için 98.0 Magery, 98.0 Meditation, 98.0 Eval. Intel gereklidir.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+IF ((<src.tactics> > 0) || (<src.wrestling> > 0) || (<src.swordsmanship> > 0) || (<src.fencing> > 0) || (<src.macefighting> > 0) || (<src.archery> > 0))
+	src.syshata Giyebilmek için combat yeteneğiniz olmamalıdır.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+IF (<src.parrying> > 0)
+IF !((strmatch(´<SRC.TAG0.IRK>´,´Human´))
+	src.syshata Giyebilmek için combat yeteneğiniz olmamalıdır.
+	UNEQUIP
+	RETURN 1
+ENDIF
+ENDIF
+
+//src.events +e_firerobe
+
+SERV.NEWITEM I_ROBE_ELDER
+SRC.BOUNCE <NEW>
+REMOVE
+RETURN 1
+
+on=@dclick
+IF (<TOPOBJ.UID>==<SRC.UID>)
+SERV.NEWITEM I_ROBE_ELDER
+SRC.BOUNCE <NEW>
+REMOVE
+ENDIF
+RETURN 1
+
+ON=@unEquip
+src.events -e_energyrobe
+src.events -e_firerobe
+src.events -e_icerobe
+src.events -e_earthrobe
+
+[events e_firerobe]
+
+//ON=@Spelleffect
+//if (<argn>==5) || (<argn>==18) || (<argn>==28) || (<argn>==43) || (<argn>==51) || (<argn>==55)
+//say_trk *spell resist*
+//return 1
+//ENDIF
+
+[itemdef i_robe_ice]
+NAME=ice mage robe
+DYE=1
+TYPE=t_clothing
+ID=02684
+WEIGHT=5
+RESOURCES=200 i_cloth, 50 i_reag_dragon_blood, 25 i_reag_daemon_bone, 10 i_crystal_ice
+SKILLMAKE=TAILORING 90.0, t_sewing_kit
+
+ON=@Create
+HITPOINTS=100
+COLOR=0800
+
+ON=@Click
+message @038A,,1 an <name>
+RETURN 1
+
+ON=@Equip
+IF !((<src.magery> >= 98.0) && (<src.meditation> >= 98.0) && (<src.evaluatingintel> >= 98.0))	
+	src.syshata Giyebilmek için 98.0 Magery, 98.0 Meditation, 98.0 Eval. Intel gereklidir.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+IF ((<src.tactics> > 0) || (<src.wrestling> > 0) || (<src.swordsmanship> > 0) || (<src.fencing> > 0) || (<src.macefighting> > 0) || (<src.archery> > 0))
+	src.syshata Giyebilmek için combat yeteneğiniz olmamalıdır.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+IF (<src.parrying> > 0)
+IF !((strmatch(´<SRC.TAG0.IRK>´,´Human´))
+	src.syshata Giyebilmek için combat yeteneğiniz olmamalıdır.
+	UNEQUIP
+	RETURN 1
+ENDIF
+ENDIF
+
+//src.events +e_icerobe
+//if <src.findid.i_rune_reactive_armor>
+//src.findid.i_rune_reactive_armor.remove
+//endif
+//src.spelleffect s_reactive_armor 1000
+
+SERV.NEWITEM I_ROBE_ELDER
+SRC.BOUNCE <NEW>
+REMOVE
+RETURN 1
+
+on=@dclick
+IF (<TOPOBJ.UID>==<SRC.UID>)
+SERV.NEWITEM I_ROBE_ELDER
+SRC.BOUNCE <NEW>
+REMOVE
+ENDIF
+RETURN 1
+
+ON=@unEquip
+src.events -e_energyrobe
+src.events -e_firerobe
+src.events -e_icerobe
+src.events -e_earthrobe
+
+[events e_icerobe]
+
+//ON=@Spelleffect
+//if (<argn>==38) || (<argn>==47) || (<argn>==41) || (<argn>==54)
+//say_trk *spell resist*
+//return 1
+//ENDIF
+
+[itemdef i_robe_earth]
+NAME=earth mage robe
+DYE=1
+TYPE=t_clothing
+ID=02684
+WEIGHT=5
+RESOURCES=200 i_cloth, 50 i_reag_dragon_blood, 25 i_reag_daemon_bone, 10 i_crystal_earth
+SKILLMAKE=TAILORING 90.0, t_sewing_kit
+
+ON=@Create
+HITPOINTS=100
+COLOR=07ad
+
+ON=@Click
+message @038A,,1 an <name>
+RETURN 1
+
+ON=@Equip
+IF !((<src.magery> >= 98.0) && (<src.meditation> >= 98.0) && (<src.evaluatingintel> >= 98.0))	
+	src.syshata Giyebilmek için 98.0 Magery, 98.0 Meditation, 98.0 Eval. Intel gereklidir.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+IF ((<src.tactics> > 0) || (<src.wrestling> > 0) || (<src.swordsmanship> > 0) || (<src.fencing> > 0) || (<src.macefighting> > 0) || (<src.archery> > 0))
+	src.syshata Giyebilmek için combat yeteneğiniz olmamalıdır.
+	UNEQUIP
+	RETURN 1
+ENDIF
+
+IF (<src.parrying> > 0)
+IF !((strmatch(´<SRC.TAG0.IRK>´,´Human´))
+	src.syshata Giyebilmek için combat yeteneğiniz olmamalıdır.
+	UNEQUIP
+	RETURN 1
+ENDIF
+ENDIF
+
+//src.events +e_earthrobe
+SRC.CTAG0.EARTHCURE
+
+SERV.NEWITEM I_ROBE_ELDER
+SRC.BOUNCE <NEW>
+REMOVE
+RETURN 1
+
+on=@dclick
+IF (<TOPOBJ.UID>==<SRC.UID>)
+SERV.NEWITEM I_ROBE_ELDER
+SRC.BOUNCE <NEW>
+REMOVE
+ENDIF
+RETURN 1
+
+ON=@unEquip
+SRC.CTAG0.EARTHCURE
+src.events -e_energyrobe
+src.events -e_firerobe
+src.events -e_icerobe
+src.events -e_earthrobe
+
+[events e_earthrobe]
+
+//ON=@Spelleffect
+//if (<argn>==57)
+//say_trk *spell resist*
+//return 1
+//ENDIF
+
+//On=@GetHit
+//if ((<findid.i_rune_poison>) || (<findid.i_rune_poison_field>)) && (<findid.i_rune_poison.morey> < 801)
+	//	CTAG0.EARTHCURE <EVAL <dCTAG0.EARTHCURE>+1>
+		//IF (<dCTAG0.EARTHCURE> > 1)
+			//effect 3,0376a,1,30,1
+			//sound snd_spell_cure
+			//findid.i_rune_poison.remove
+			//findid.i_rune_poison_field.remove
+			//say_trk *poison resist*
+			//CTAG0.EARTHCURE
+		//ENDIF
+//endif

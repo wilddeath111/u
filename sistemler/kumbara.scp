@@ -1,0 +1,312 @@
+﻿//------------------
+// KUMBARA
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Sondias
+//------------------
+
+[ITEMDEF 01FB]
+DEFNAME=i_kumbara
+name=kumbara
+WEIGHT=1
+VALUE=300
+TYPE=t_script
+
+on=@create
+COLOR 0233
+tag.gp 0
+attr=04
+
+on=@Click
+message @70,,1 [<F_DECIMAL <dtag.gp>> gp]
+IF (<MORE1>)
+message @038a,,1 kumbara [<UID.<MORE1>.FULLNAME>]
+ELSE
+message @038a,,1 kumbara
+ENDIF
+return 1
+
+on=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<more1>)
+	more1 <src.uid>
+	src.sysyes Kumbara artık size ait.
+elseif (<more1> != <src.uid>)
+	src.syshata Bu kumbaranın sahibi değilsiniz.
+elseif !(<src.findlayer.29.uid> == <cont.uid>)
+	src.syshata Bunu kullanabilmeniz için bankanızın en üst kısmında olmalı.
+	return 1
+else
+	more2 1
+	target @69,1,1 Kumbara menüsünü açmak için kumbarayı, para yatırmak için parayı veya çeki seçin.
+endif
+return 1
+
+on=@targon_item
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if (<more2> == 1)
+	if (<src.targ.topobj.uid> != <src.uid>)
+		src.syshata Ekleyeceğiniz şey yanınızda olmalıdır.
+		return 1
+	endif
+	if (<src.targ.baseid> == i_gold)
+		tag0.gp += <dsrc.targ.amount>
+		src.targ.remove
+		src.sysnorm <F_DECIMAL <dsrc.targ.amount>> gp kumbaraya eklendi.
+		more2 1
+		target
+	elseif (<src.targ.baseid> == i_check_brnx)
+		tag0.gp += <dsrc.targ.more1>
+		src.targ.remove
+		src.sysnorm <F_DECIMAL <dsrc.targ.more1>> gp kumbaraya eklendi.
+		more2 1
+		target
+	elseif (<src.targ.baseid> == i_kumbara)
+		if (<src.targ.more1>==<src.uid>)
+			if (<src.targ.uid>==<uid>)
+				sdialog d_bank_kumbara
+			endif
+		else
+		src.syshata Bu kumbaranın sahibi değilsiniz.
+		endif
+	else
+		target @69,1,1 Kumbara menüsünü açmak için kumbarayı, para yatırmak için parayı veya çeki seçin.
+	endif
+endif
+return 1
+
+on=@targon_char
+target @69,1,1 Kumbara menüsünü açmak için kumbarayı, para yatırmak için parayı veya çeki seçin.
+return 1
+
+[dialog d_bank_kumbara]
+0,0
+page 0
+
+F_DEF_DIALOG 50,50,180,195
+gumppictiled 57 57 165 180 2624
+
+tilepichue 50 60 <SERV.ITEMDEF.i_kumbara.ID> <EVAL 0233>
+dtext 95 65 70 <STRSUB 0 21 <UID.<MORE1>.FULLNAME>>
+
+dtext 105 103 0450 Nakit Akışı
+button 75 100 4005 4006 0 2 555
+
+dtext 105 133 0450 Çek İşlemleri
+button 75 130 4005 4006 0 3 555
+
+dtext 105 163 0450 Para Transferi
+button 75 160 4029 4030 0 4 555
+
+gumppic 60 190 1105
+dtext 105 203 <EVAL 015C> <F_DECIMAL <dtag.gp>> gp
+
+PAGE 2
+F_DEF_DIALOG 235,50,185,155
+gumppictiled 242 57 170 140 2624
+tilepic 360 75 3826
+tilepic 350 70 3823
+tilepic 360 70 3819
+tilepic 365 85 3825
+tilepic 355 75 3820
+tilepic 345 85 3823
+tilepic 355 85 3820
+dtext 305 80 0481 -->
+tilepichue 245 75 <SERV.ITEMDEF.i_kumbara.ID> <EVAL 0233>
+gumppic 245 124 2440 <eval 08F>
+dtextentry 265 127 90 20 990 1 0
+button 350 155 1103 1104 1 0 5
+dtext 265 157 0481 Altına çevir:
+
+PAGE 3
+F_DEF_DIALOG 235,50,185,155
+gumppictiled 242 57 170 140 2624
+tilepichue 345 75 <SERV.ITEMDEF.i_deed.ID> <EVAL 0233>
+dtext 305 80 0481 -->
+tilepichue 245 75 <SERV.ITEMDEF.i_kumbara.ID> <EVAL 0233>
+gumppic 245 124 2440 <eval 08F>
+dtextentry 265 127 90 20 990 2 0
+button 350 155 1103 1104 1 0 6
+dtext 285 157 0481 Çek yaz:
+
+
+PAGE 4
+F_DEF_DIALOG 235,50,270,195
+gumppictiled 242 57 255 180 2624
+
+IF (<SERV.ACCOUNT.<SRC.ACCOUNT.NAME>.CHARS> > 1)
+tilepichue 395 58 <SERV.ITEMDEF.i_pet_man.ID> <EVAL 03ed>
+dtext 355 70 <EVAL 0481> -->
+tilepichue 295 65 <SERV.ITEMDEF.i_kumbara.ID> <EVAL 0233>
+
+LOCAL.SAY 0
+FOR X 0 <EVAL <SERV.ACCOUNT.<SRC.ACCOUNT.NAME>.CHARS>-1>
+IF !(<SRC.UID>==<SERV.ACCOUNT.<SRC.ACCOUNT.NAME>.CHAR.<DLOCAL.X>.UID>)
+radio 245 <EVAL 136+(<DLOCAL.SAY>*25)> 210 211 0 <DLOCAL.X>
+DTEXT 267 <EVAL 135+(<DLOCAL.SAY>*25)> 035 <SERV.ACCOUNT.<SRC.ACCOUNT.NAME>.CHAR.<DLOCAL.X>.FULLNAME>
+LOCAL.SAY ++
+ENDIF
+ENDFOR
+
+ELSE
+tilepichue 395 58 <SERV.ITEMDEF.i_pet_man.ID> <EVAL 038A>
+dtext 355 70 <EVAL 038A> -->
+tilepichue 295 65 <SERV.ITEMDEF.i_kumbara.ID> <EVAL 038A>
+DTEXT 245 144 035 Hesabınızda başka karakter bulunmuyor.
+ENDIF
+
+gumppic 245 107 2440 <eval 08F>
+dtextentry 265 110 90 20 990 3 0
+button 465 108 1103 1104 1 0 7
+dtext 415 109 0481 Gönder:
+
+
+[dialog d_bank_kumbara button]
+
+on=2
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+sdialog d_bank_kumbara_check
+
+on=3
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+src.itemaktar
+
+on=5
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<src.findlayer.29.uid> == <cont.uid>)
+	src.syshata Bunu kullanabilmeniz için bankanızın en üst kısmında olmalı.
+	return 1
+ENDIF
+if !(<isnum <argtxt[1]>>)
+	src.syshata Sadece rakam girmelisiniz.
+	sdialog d_bank_kumbara,2
+elseif (<eval <argtxt[1]>> < 1)
+	src.syshata Hatalı rakam girdiniz.
+	sdialog d_bank_kumbara,2
+elseif (<eval <argtxt[1]>> > 500000)
+	src.syshata Tek seferde en fazla 500.000 altın aktarabilirsiniz.
+	sdialog d_bank_kumbara,2
+elseif (<eval <argtxt[1]>> > <dtag0.gp>)
+	src.syshata Kumbaranızda <F_DECIMAL <eval <argtxt[1]>>> gp bulunmuyor.
+	sdialog d_bank_kumbara,2
+else
+	src.sysyes <F_DECIMAL <eval <argtxt[1]>>> gp bankanıza aktarıldı.
+	tag.gp -= <eval <argtxt[1]>>
+	src.newgold_kb <eval <argtxt[1]>>
+	sdialog d_bank_kumbara,2
+endif
+
+on=6
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<src.findlayer.29.uid> == <cont.uid>)
+	src.syshata Bunu kullanabilmeniz için bankanızın en üst kısmında olmalı.
+	return 1
+ENDIF
+if !(<isnum <argtxt[2]>>)
+	src.syshata Sadece rakam girmelisiniz.
+	sdialog d_bank_kumbara,3
+elseif (<eval <argtxt[2]>> < 1)
+	src.syshata Hatalı rakam girdiniz.
+	sdialog d_bank_kumbara,3
+elseif (<eval <argtxt[2]>> > 10000000)
+	src.syshata Tek seferde en fazla 10.000.000 tutarında çek yazabilirsiniz.
+	sdialog d_bank_kumbara,3
+elseif (<eval <argtxt[2]>> > <dtag0.gp>)
+	src.syshata Kumbaranızda <F_DECIMAL <eval <argtxt[2]>>> gp bulunmuyor.
+	sdialog d_bank_kumbara,3
+else
+	src.sysyes <F_DECIMAL <eval <argtxt[2]>>> tutarında çek bankanıza aktarıldı.
+	tag.gp -= <eval <argtxt[2]>>
+	SERV.newitem i_check_brnx
+	new.more1 <eval <argtxt[2]>>
+	new.more2 <src.uid>
+	new.cont <src.findlayer(layer_bankbox)>
+	sdialog d_bank_kumbara,3
+endif
+
+
+on=7
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<src.findlayer.29.uid> == <cont.uid>)
+	src.syshata Bunu kullanabilmeniz için bankanızın en üst kısmında olmalı.
+	return 1
+ENDIF
+if !(<isnum <argtxt[3]>>)
+	src.syshata Sadece rakam girmelisiniz.
+	sdialog d_bank_kumbara,4
+elseif (<eval <argtxt[3]>> < 1)
+	src.syshata Hatalı rakam girdiniz.
+	sdialog d_bank_kumbara,4
+elseif (<eval <argtxt[3]>> > 10000000)
+	src.syshata Tek seferde en fazla 10.000.000 tutarında çek yazabilirsiniz.
+	sdialog d_bank_kumbara,4
+elseif (<eval <argtxt[3]>> > <dtag0.gp>)
+	src.syshata Kumbaranızda <F_DECIMAL <eval <argtxt[3]>>> gp bulunmuyor.
+	sdialog d_bank_kumbara,4
+else
+FOR Y 0 <EVAL <SERV.ACCOUNT.<SRC.ACCOUNT.NAME>.CHARS>-1>
+IF (<dARGCHK[<DLOCAL.Y>]>==1)
+REF61 <SERV.ACCOUNT.<SRC.ACCOUNT.NAME>.CHAR.<DLOCAL.Y>.UID>
+ENDIF
+ENDFOR
+
+IF !(<REF61>)
+SRC.SYSHATA Transfer yapılacak karakteri seçmelisiniz.
+sdialog d_bank_kumbara,4
+RETURN 1
+ENDIF
+
+	src.sysyes <F_DECIMAL <eval <argtxt[3]>>> tutarında çek gönderildi.
+	tag.gp -= <eval <argtxt[3]>>
+	SERV.newitem i_check_brnx
+	new.more1 <eval <argtxt[3]>>
+	new.more2 <ref61.uid>
+	new.cont <ref61.findlayer(layer_bankbox)>
+	sdialog d_bank_kumbara,4
+endif
+
+
+[FUNCTION newgold_kb]
+IF (<ARGS> > 0)
+     IF (<ARGS> > 65000)
+	serv.newitem i_gold,65000,<src.findlayer(layer_bankbox)>
+        newgold_kb <eval <ARGS>-65000>
+     ELSE
+	serv.newitem i_gold,<args>,<src.findlayer(layer_bankbox)>
+    ENDIF
+ENDIF
+
+[itemdef i_check_brnx]
+id i_deed
+type t_script
+weight 0.1
+name check
+
+On=@Create
+color 0233
+attr 04
+
+On=@Click
+message @70,,1 [<F_DECIMAL <eval <more1>>> gp]
+message @038a,,1 a banker check
+return 1
+
+On=@DClick
+src.syshata Çek bozdurmak için kumbaraya ihtiyacınız var.
+return 1
+
+[eof]

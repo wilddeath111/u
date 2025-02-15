@@ -1,0 +1,618 @@
+//****************************************************************************
+// SPHERE by : Menasoft 1997-2006 
+// www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: March 26, 2006
+
+VERSION=0.56b
+
+//[AREA Middle Earth]
+//EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+//TITLE=Middle Earth
+//RECT=1,1,5118,4095
+//
+
+[AREA Wilderness]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Wilderness
+NAME=Wilderness
+RECT=1,1,5118,4095
+//RECT=-8,32,952,1968
+//RECT=40,48,728,400
+//RECT=760,0,6232,2336
+//RECT=792,2272,3112,4160
+//RECT=-8,0,840,3040
+//RECT=8,384,824,4240
+//RECT=472,16,904,624
+//RECT=5048,2096,6376,4400
+//RECT=3192,2240,3672,2528
+//RECT=3656,2256,4056,2464
+//RECT=4088,2304,4536,2432
+//RECT=3016,2336,3304,2528
+
+
+[AREA Roxside]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=UoMap
+NAME=UoMap
+RECT=4672,17,6141,4093
+
+
+[AREA Wastelands]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Wastelands
+NAME=Wastelands
+RECT=2522,847,4670,1925
+
+
+[AREA Northern Territory]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Northern Territory
+NAME=Northern Territory
+RECT=214,372,2243,1863
+
+[AREA Shire Territory]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Shire Territory
+NAME=Shire Territory
+RECT=632,1189,1658,1648
+
+[AREA Isengard Territory]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Isengard Territory
+NAME=Isengard Territory
+RECT=1372,2112,1910,2482
+RECT=2032,2408,1812,2488
+
+[AREA Rivendell Territory]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Rivendell Territory
+NAME=Rivendell Territory
+RECT=2381,908,1996,1308
+
+
+[AREA Lorien Territory]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Lorien Territory
+NAME=Lorien Territory
+RECT=2242,1509,2687,2043
+
+
+[AREA Minas Tirith Territory]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Minas Tirith Territory
+RECT=2770,2496,3160,3279
+RECT=2321,2647,2969,2815
+RECT=2471,2643,3048,2873
+RECT=3042,3000,2543,3320
+NAME=Minas Tirith Territory
+
+[AREA Rohan Territory]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Rohan Territory
+NAME=Rohan Territory
+RECT=2817,2712,1835,2151
+
+
+[AREA Rohan Fields]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Rohan Fields
+NAME=Rohan Fields
+RECT=2409,2376,2620,2436
+RECT=2468,2401,2603,2484
+
+
+[AREA Desert of Compassion]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Desert of Compassion
+NAME=Desert of Compassion
+RECT=3179,3307,2533,4096
+RECT=2369,3907,3138,4096
+
+
+[AREA Orc Desert]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Orc Desert
+NAME=Orc Desert
+RECT=3089,2530,4631,1873
+
+
+[AREA Mordor Territory]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Mordor Territory
+NAME=Mordor Territory
+RECT=3096,2512,4296,4144
+RECT=4120,2448,5080,4144
+RECT=4520,2272,5064,2608
+RECT=3912,2384,4072,2464
+RECT=5045,2309,3094,2411
+
+
+[AREA Mordor]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Mordor
+NAME=Mordor
+P=3678,2715,5
+RECT=3523,2604,3749,2810
+FLAGS=region_flag_nobuilding
+
+[AREA Rohan]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass, r_gzhp
+TITLE=Rohan
+NAME=Rohan
+P=2347,2547
+RECT=2221,2538,2271,2582
+RECT=2247,2493,2327,2540
+RECT=2339,2515,2375,2624
+RECT=2301,2515,2347,2608
+RECT=2259,2526,2310,2613
+RECT=2244,2579,2265,2607
+RECT=2339,2508,2323,2520
+FLAGS=04000
+
+[AREA Lorien]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass, r_gzhp
+TITLE=Lorien
+NAME=Lorien
+P=2465,1869,21
+RECT=2376,1857,2401,1894
+RECT=2387,1843,2412,1863
+RECT=2381,1850,2398,1862
+RECT=2395,1835,2494,1880
+RECT=2411,1831,2443,1845
+RECT=2397,1878,2494,1901
+RECT=2434,1899,2461,1907
+RECT=2457,1901,2486,1906
+RECT=2440,1902,2464,1916
+RECT=2461,1904,2474,1913
+RECT=2399,1895,2435,1906
+RECT=2392,1894,2406,1898
+RECT=2433,1907,2446,1912
+RECT=2421,1905,2435,1910
+FLAGS=04000
+
+[AREA Minas Tirith]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass, r_gzhp
+TITLE=Minas Tirith
+NAME=Minas Tirith
+P=2966,2911,15
+RECT=2946,2838,2981,2872
+RECT=2976,2851,2995,2877
+RECT=2992,2864,3004,2877
+RECT=3000,2866,3007,2889
+RECT=3005,2878,3020,2970
+RECT=2927,2847,2966,2886
+RECT=2942,2845,2952,2854
+RECT=2940,2844,2945,2852
+RECT=2907,2863,2991,2954
+RECT=2984,2874,3005,2971
+RECT=2892,2885,2928,2952
+RECT=2944,2945,2985,2962
+RECT=2947,2834,2972,2853
+RECT=3014,2922,3034,2948
+RECT=3033,2929,3039,2939
+RECT=2937,2946,2947,2956
+RECT=2923,2858,2929,2864
+RECT=2923,2857,2928,2859
+FLAGS=04000
+
+[AREA Orc City]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass, r_orc
+TITLE=Orc City
+NAME=Orc City
+P=3845,2117
+RECT=3756,2075,3779,2104
+RECT=3776,2084,3842,2103
+RECT=3784,2148,3812,2169
+RECT=3804,2163,3841,2189
+RECT=3823,2073,3833,2093
+RECT=3824,2062,3886,2079
+RECT=3827,2085,3794,2092
+RECT=3840,2163,3857,2188
+RECT=3856,2164,3899,2175
+RECT=3862,2027,3877,2097
+RECT=3869,2021,3953,2153
+RECT=3863,2142,3944,2166
+RECT=3896,2157,3940,2186
+RECT=3888,2173,3898,2183
+RECT=3940,2141,3964,2187
+RECT=3838,2102,3879,2163
+RECT=3830,2075,3886,2135
+RECT=3815,2100,3852,2162
+RECT=3801,2100,3839,2160
+RECT=3810,2148,3818,2168
+RECT=3782,2102,3829,2158
+RECT=3749,2086,3763,2102
+RECT=3754,2080,3760,2088
+RECT=3744,2093,3761,2106
+RECT=3738,2097,3759,2109
+RECT=3734,2098,3748,2115
+RECT=3741,2113,3751,2124
+RECT=3747,2122,3760,2138
+RECT=3757,2122,3785,2139
+RECT=3741,2099,3783,2117
+RECT=3749,2109,3786,2128
+RECT=3766,2135,3788,2160
+RECT=3818,2161,3842,2166
+FLAGS=region_antimagic_all|region_antimagic_gate|region_antimagic_recall_out|region_antimagic_teleport|region_antimagic_damage|region_flag_nobuilding|region_flag_safe|region_flag_no_pvp
+
+[AREA Rivendell]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass, r_gzhp
+TITLE=Rivendell
+NAME=Rivendell
+P=2291,1133,6
+RECT=2259,1043,2260,1043
+RECT=2290,1016,2322,1076
+RECT=2291,1011,2323,1036
+RECT=2276,1058,2332,1154
+RECT=2237,1041,2332,1137
+RECT=2265,1033,2315,1073
+RECT=2252,1031,2280,1057
+RECT=2227,1040,2287,1099
+RECT=2209,1044,2269,1097
+RECT=2225,1096,2264,1132
+RECT=2236,1121,2287,1148
+RECT=2260,1143,2281,1153
+RECT=2220,1094,2236,1104
+RECT=2277,1030,2308,1039
+RECT=2225,1037,2269,1061
+RECT=2218,1040,2239,1050
+RECT=2316,1034,2335,1049
+RECT=2253,1025,2262,1032
+FLAGS=04000
+
+[AREA Shire]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass, r_gzhp
+TITLE=Shire
+NAME=Shire
+P=1161,1389
+RECT=1112,1294,1217,1412
+RECT=1142,1287,1181,1341
+RECT=1205,1321,1243,1406
+RECT=1197,1367,1261,1458
+RECT=1149,1406,1212,1464
+RECT=1114,1406,1168,1454
+RECT=1146,1454,1167,1468
+RECT=1133,1451,1167,1467
+RECT=1159,1462,1230,1486
+RECT=1207,1449,1259,1475
+RECT=1258,1437,1264,1455
+RECT=1105,1356,1124,1375
+RECT=1104,1337,1128,1356
+RECT=1109,1316,1124,1335
+FLAGS=04000
+
+[AREA Iron Hills Territory]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Iron Hills Territory
+NAME=Iron Hills Territory
+RECT=4665,179,3560,1279
+
+
+[AREA Ice Isle]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Ice Isle
+NAME=Ice Isle
+RECT=1338,402,4687,3
+
+
+[AREA Ice Island]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Ice Island
+NAME=Ice Island
+RECT=862,1,1233,1
+
+
+[AREA Iron Hills]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Iron Hills
+NAME=Iron Hills
+P=3819,1072
+RECT=3771,1034,3827,1083
+RECT=3806,1019,3846,1080
+RECT=3840,1038,3880,1099
+RECT=3751,1067,3794,1088
+RECT=3840,1167,3886,1127
+RECT=3803,1128,3825,1153
+RECT=3828,1144,3875,1156
+RECT=3794,1074,3868,1138
+RECT=3838,1095,3872,1148
+RECT=3821,1128,3861,1147
+RECT=3862,1140,3914,1167
+RECT=3868,1093,3914,1145
+RECT=3871,1054,3917,1111
+RECT=3912,1111,3930,1141
+RECT=3825,1156,3860,1073
+RECT=3832,1152,3840,1159
+RECT=3804,1088,3753,1118
+RECT=3783,1138,3887,1079
+FLAGS=04000
+
+[AREA Iron Hills Cave]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Iron Hills Cave
+NAME=Iron Hills Cave
+P=3854,999,70
+RECT=3736,962,3803,1022
+RECT=3796,952,3858,1010
+
+EVENTS=r_default_rock
+
+[AREA Iron Hills Swamp]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Iron Hills Swamp
+NAME=Iron Hills Swamp
+RECT=3768,1358,4200,1645
+
+
+[AREA Jail]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Jail
+NAME=Jail
+RECT=4942,3907,4975,3952
+FLAGS=region_antimagic_all|region_antimagic_gate|region_antimagic_recall_out|region_antimagic_teleport|region_antimagic_damage|region_flag_nobuilding|region_flag_safe|region_flag_no_pvp
+
+[AREA Mekan]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Mekan
+NAME=Mekan
+P=5929, 103
+RECT=5913,89,5942,116
+FLAGS=02000
+
+[AREA Isengard]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass, r_isengard
+TITLE=Isengard
+NAME=Isengard
+RECT=2018,2391,2042,2372
+FLAGS=region_antimagic_all|region_antimagic_gate|region_antimagic_recall_out|region_antimagic_teleport|region_antimagic_damage|region_flag_nobuilding|region_flag_safe|region_flag_no_pvp
+
+[AREA Mazmorras]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Mazmorras
+NAME=Mazmorras
+P=5848, 2043
+RECT=5424,1508,5932,2076
+FLAGS=0880|02|region_antimagic_recall_in|region_flag_nobuilding|region_antimagic_gate
+
+
+
+[AREA Moria's Heart]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Moria's Heart
+NAME=Moria's Heart
+P=5284,1868,-18
+RECT=5188,1854,5414,2018
+FLAGS=0880|02|region_antimagic_recall_in|region_flag_nobuilding|region_antimagic_gate
+
+
+
+[AREA Fecha]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Fecha
+NAME=Fecha
+P=5275,2041,-18
+RECT=5191,2021,5371,2271
+FLAGS=0880|02|region_antimagic_recall_in|region_flag_nobuilding|region_antimagic_gate
+
+
+
+[AREA Malas]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Malas
+NAME=Malas
+P=5302,2305,-17
+RECT=5194,2285,5361,2455
+FLAGS=0880|02|region_antimagic_recall_in|region_flag_nobuilding|region_antimagic_gate
+
+
+
+[AREA Helm's Deep]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Helm's Deep
+NAME= Helm's Deep
+P=5837,2301,10
+RECT=5760,2089,5954,2314
+FLAGS=0880|02|region_antimagic_recall_in|region_flag_nobuilding|region_antimagic_gate
+
+
+
+[AREA Small Iron]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Small Iron
+NAME=Small Iron
+P=5795,2384
+RECT=5738,2367,5883,2483
+FLAGS=0880|02|region_antimagic_recall_in|region_flag_nobuilding|region_antimagic_gate
+
+
+
+[AREA Inferno]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Inferno
+NAME=Inferno
+P=5345,2553,21
+RECT=5187,2470,5377,2623
+FLAGS=0880|02|region_antimagic_recall_in|region_flag_nobuilding|region_antimagic_gate
+
+
+
+[AREA Pescador]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Pescador
+NAME=Pescador
+P=4984,2238
+RECT=4726,1870,5020,2278
+FLAGS=0880|02|region_antimagic_recall_in|region_flag_nobuilding|region_antimagic_gate
+
+
+
+[AREA Mystica]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+NAME=Mystica
+TITLE=Mystica
+RECT=5192,436,5376,624
+P=5304,467,-17
+FLAGS=0880|02|region_antimagic_recall_in|region_flag_nobuilding|region_antimagic_gate
+
+
+
+[AREA Skull City]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+NAME=Skull City
+TITLE=Skull City
+RECT=5350,768,5498,872
+P=5473,850
+FLAGS=0880|02|region_antimagic_recall_in|region_flag_nobuilding|region_antimagic_gate
+
+
+
+
+
+
+[AREA Rohan Moongate]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Rohan Moongate
+NAME=Rohan Moongate
+RECT=2158,2482,2185,2510
+
+
+[AREA Iron Hills Moongate]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Iron Hills Moongate
+NAME=Iron Hills Moongate
+RECT=3937,1176,3946i,1186
+
+
+[AREA Lorien Moongate]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Lorien Moongate
+NAME=Lorien Moongate
+RECT=2586,1922,2603,1941
+
+
+[AREA Rohan Farm]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Rohan Farm
+NAME=Rohan Farm
+RECT=2197,2478,2225,2510
+
+
+[AREA Rivendell Moongate]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Rivendell Moongate
+NAME=Rivendell Moongate
+RECT=2155,1306,2182,1337
+
+
+[AREA Shire Moongate]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Shire Moongate
+NAME=Shire Moongate
+RECT=1185,1214,1211,1243
+
+
+[AREA Isengard Moongate]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Isengard Moongate
+NAME=Isengard Moongate
+RECT=2010,2454,2030,2474
+
+
+[AREA Minas Tirith Moongate]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Minas Tirith Moongate
+NAME=Minas Tirith Moongate
+RECT=2886,2811,2910,2836
+
+
+[AREA Mordor Moongate]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Mordor Moongate
+NAME=Mordor Moongate
+RECT=3510,2709,3533,2733
+
+
+[AREA Orc City Moongate]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Orc City Moongate
+NAME=Orc City Moongate
+RECT=3770,2195,3794,2219
+
+[AREA Rhun]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Rhun
+NAME=Rhun
+RECT=1852,324,3296,856
+
+[AREA Gondor]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Gondor
+NAME=Gondor
+RECT=1336,2652,2273,3072
+
+[AREA Minas Tirith Swamps]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Minas Tirith Swamps
+NAME=Minas Tirith Swamps
+RECT=2818,2417,3086,2776
+FLAGS=region_flag_nobuilding
+
+[AREA Jungle of Rohan]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Jungle of Rohan
+NAME=Jungle of Rohan
+RECT=2551,2047,2160,2356
+
+[AREA Mirkwood]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Mirkwood
+NAME=Mirkwood
+RECT=2551,2047,2160,2356
+RECT=3206,1304,2534,855
+
+[AREA Arnor]
+EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+TITLE=Arnor
+NAME=Arnor
+RECT=910,1700,1950,2058
+
+//[AREA Young]
+//EVENTS=r_default_rock, r_default_tree, r_default_water, r_default_grass
+//TITLE=Young
+//NAME=Young
+//RECT=150,2071,164,2055
+//RECT=164,2055,202,2084
+//RECT=160,2072,166,2076
+//FLAGS=region_antimagic_teleport|region_flag_nobuilding|region_antimagic_recall_in
+//EVENTS=R_YOUNG_ALAN
+
+[AREA Pazar2]
+TITLE=Pazar2
+NAME=Pazar2
+P=2134,2004,46
+RECT=2090,1971,2156,2030
+RECT=2078,1993,2144,2048
+RECT=2088,1989,2110,2020
+RECT=2092,1944,2171,2002
+RECT=2119,1923,2198,1981
+RECT=2083,1985,2094,2001
+RECT=2116,1938,2120,1959
+FLAGS=region_antimagic_all|region_antimagic_gate|region_antimagic_recall_out|region_antimagic_teleport|region_antimagic_damage|region_flag_nobuilding|region_flag_safe|region_flag_no_pvp
+EVENTS=r_events_pazar
+
+[AREA Pazar]
+TITLE=Pazar
+NAME=Pazar
+P=5935,2412
+RECT=5908,2381,5985,2442
+FLAGS=region_antimagic_all|region_antimagic_gate|region_antimagic_recall_out|region_antimagic_teleport|region_antimagic_damage|region_flag_nobuilding|region_flag_safe|region_flag_no_pvp
+EVENTS=r_events_pazar
+
+
+[EOF]

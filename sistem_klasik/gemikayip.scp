@@ -1,0 +1,79 @@
+﻿//------------------
+// SHIP FINDER
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Sondias
+//------------------
+
+[itemdef i_ship_finder]
+name ship finder deed
+id i_deed
+WEIGHT=1
+VALUE=14348
+TYPE=t_script
+
+on=@create
+COLOR=0256
+attr 04
+
+on=@click
+message @038a,,1 a <name>
+return 1
+
+on=@dclick
+if (<src.hits> < <src.str>)
+src.syshata Yaralıyken kullanamazsınız.
+return 1
+endif
+if (<src.findid.i_jailcik>)
+src.syshata Hapisteyken kullanamazsınız.
+return 1
+endif
+if !(<cont> == <src.findlayer.21.uid>)
+src.syshata Deed çantanızda olmalı.
+return 1
+endif
+target @0481,,1 Anahtarı seçiniz.
+return 1
+
+on=@targon_item
+if (<src.findid.i_jailcik>)
+src.syshata Hapisteyken kullanamazsınız.
+return 1
+endif
+if (<src.targ.type> == t_key)
+if !(<src.targ.link.type>==t_ship)
+src.syshata Bu anahtar geminiz ile uyuşmuyor.
+return 1
+endif
+if (<src.targ.link.more>==<src.uid>)
+if (<src.memoryfindtype.(memory_guard).link.uid> == <src.targ.link>)
+IF (<SRC.MANA><15)
+SRC.SYSHATA Yeterli mananız yok.
+RETURN 1
+ENDIF
+if (<src.restest 1 i_reag_black_pearl>) && (<src.restest 1 i_reag_mandrake_root>) && (<src.restest 1 i_reag_blood_moss>)
+SRC.MANA (<SRC.MANA>+-15)
+src.consume 1 i_reag_black_pearl
+src.consume 1 i_reag_blood_moss
+src.consume 1 i_reag_mandrake_root
+src.spell_say Kal Ort Por
+src.tag0.nomovetill 3
+src.timerf 4, src.gouid <src.targ.link>
+src.timerf 5, src.nudgeup 1
+src.fix
+src.update 
+remove
+else
+src.syshata Yeterli büyü malzemeniz yok.
+endif
+else
+src.syshata Bu anahtar geminiz ile uyuşmuyor.
+endif
+else
+src.syshata Bu bir anahtar değil.
+endif
+return 1
+
+
+[eof]

@@ -1,0 +1,305 @@
+//------------------
+// GOLEMS
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+
+////EVDE AÇILIYOR MU OLM?
+
+
+[ITEMDEF i_golem_repair]
+NAME=golem repairing tool
+ID=i_tinker_tools
+WEIGHT=1
+
+On=@Create
+COLOR=0515
+
+On=@Dclick
+if (<src.stamina> < 10)
+src.syshata Golem tamir edemeyecek kadar yorgunsunuz.
+return 1
+endif
+if (<src.tinkering> < 70.0)
+src.syshata Golem tamir edebilmek için Tinkering yeteneðinizin 70.0 veya üstü olmasý gerekiyor.
+return 1
+endif
+IF !(<src.restest 10 i_ingot_iron>) || !(<src.restest 10 i_ingot_bronze>)
+SRC.syshata Golem tamir edebilmek için 10 bronze ingot, 10 iron ingot'a ihtiyacýnýz var.
+RETURN 1
+ENDIF
+TARGET @0481,,1 Tamir edeceðiniz golemi seçiniz.
+RETURN 1
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+On=@TargOn_Item
+RETURN 1
+
+On=@TargOn_Char
+IF (<src.targ.distance> > 3)
+	src.syshata Goleme çok uzaksýnýz.
+elseif (<src.targ.id> == c_m_golem_tinker1)
+	if (<src.targ.hits> == <src.targ.str>)
+		src.syshata Golemin tamire ihtiyacý yok.
+	elseif (<src.targ.hits> > 350)
+		src.targ.hits 450
+		src.sysyes Golem yepyeni oldu.
+		src.consume 10 i_ingot_iron
+		src.consume 10 i_ingot_bronze
+		src.stamina (<src.stamina> - 10)
+
+	elseif (<src.targ.hits> < 350)
+		src.targ.hits (<src.targ.hits> + 80)
+		src.sysyes Golemi tamir ettiniz.
+		src.consume 10 i_ingot_iron
+		src.consume 10 i_ingot_bronze
+		src.stamina (<src.stamina> - 10)
+	endif
+elseif (<src.targ.id> == c_m_golem_tinker2)
+	if (<src.targ.hits> == <src.targ.str>)
+		src.syshata Golemin tamire ihtiyacý yok.
+	elseif (<src.targ.hits> > 450)
+		src.targ.hits 550
+		src.sysyes Golem yepyeni oldu.
+		src.consume 10 i_ingot_iron
+		src.consume 10 i_ingot_bronze
+		src.stamina (<src.stamina> - 10)
+
+	elseif (<src.targ.hits> < 450)
+		src.targ.hits (<src.targ.hits> + 80)
+		src.sysyes Golemi tamir ettiniz.
+		src.consume 10 i_ingot_iron
+		src.consume 10 i_ingot_bronze
+		src.stamina (<src.stamina> - 10)
+	endif
+endif
+return 1
+
+[ITEMDEF i_power_crystal]
+NAME=power crystal
+ID=01f1c
+WEIGHT=3
+
+On=@Create
+COLOR=0515
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+On=@DClick
+return 1
+
+[ITEMDEF i_clockwork_assembly]
+NAME=clockwork assembly
+ID=01ea9
+WEIGHT=15
+
+On=@Create
+COLOR=0515
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+	
+[ITEMDEF i_pet_golem1]
+ID=i_pet_elem_earth
+DEFNAME i_pet_golem1
+TYPE=t_animaldeed
+NAME=Golem
+WEIGHT=20.0
+VALUE={280 400}
+SKILLMAKE=TINKERING 90.0,t_tinker_tools
+RESOURCES=1 i_power_crystal,1 i_clockwork_assembly,5 i_axel_and_gears,50 i_ingot_iron,50 i_ingot_bronze
+
+On=@Create
+COLOR=0837
+TAG.TRADE_NAME Golem
+NAME Golem
+MORE2 1
+TAG.TRADE_KARMA 0
+TAG.TRADE_FAME 3000
+TAG.TRADE_STR 450
+TAG.TRADE_DEX 250
+TAG.TRADE_INT 300
+TAG.TRADE_FOOD 999
+TAG.TRADE_COLOR 0837
+TAG.TRADE_ID C_M_GOLEM_TINKER1
+
+[ITEMDEF i_pet_golem2]
+ID=i_pet_elem_earth
+DEFNAME i_pet_golem2
+TYPE=t_animaldeed
+NAME=Golem
+WEIGHT=20.0
+VALUE={280 400}
+SKILLMAKE=TINKERING 98.0,t_tinker_tools
+RESOURCES=1 i_power_crystal,1 i_clockwork_assembly,5 i_axel_and_gears,50 i_ingot_iron,50 i_ingot_bronze
+
+On=@Create
+COLOR=0839
+TAG.TRADE_NAME Golem
+NAME Golem
+MORE2 1
+TAG.TRADE_KARMA 0
+TAG.TRADE_FAME 3000
+TAG.TRADE_STR 550
+TAG.TRADE_DEX 350
+TAG.TRADE_INT 400
+TAG.TRADE_FOOD 999
+TAG.TRADE_COLOR 0839
+TAG.TRADE_ID C_M_GOLEM_TINKER2
+
+[CHARDEF c_m_golem_tinker1]
+DEFNAME=c_m_golem_tinker1
+NAME=Golem
+ID=c_elem_earth
+SOUND=snd_ELEMENTL_ERTHEL1
+ICON=i_pet_golem1
+DAM=15,40
+ARMOR=10
+TEVENTS=e_intel_golem_tinker
+CAN=MT_WALK|MT_USEHANDS
+//SHELTER=r_dungeon
+DESIRES=c_m_golem_tinker1,c_m_golem_tinker2
+AVERSIONS=r_water,t_eerie_stuff
+BLOODCOLOR=0515
+
+ON=@Create
+COLOR=0837
+STR=450
+DEX=250
+INT=300
+
+PARRYING={90.0 100.0}
+MAGERY=0
+MAGICRESISTANCE={290.0 900.0}
+TACTICS={90.0 100.0}
+WRESTLING={90.0 100.0}
+
+NPC=brain_monster
+
+FAME=1000
+KARMA=0
+
+CATEGORY=Monsters
+SUBSECTION=Golems
+DESCRIPTION=Tinker Low
+
+ON=@CLICK
+IF !((strmatch(´<memoryfindtype.memory_ipet.link.fullname>´,´0´)) || (strmatch(´<memoryfindtype.memory_ipet.link.fullname>´,´´)) || (strmatch(´<memoryfindtype.memory_ipet.link.fullname>´,´ ´)))
+IF !(<findid.i_rune_summon_creature>)
+message @0481 [<memoryfindtype.memory_ipet.link.fullname>]
+ENDIF
+ENDIF
+
+[CHARDEF c_m_golem_tinker2]
+DEFNAME=c_m_golem_tinker2
+NAME=Golem
+ID=c_elem_earth
+SOUND=snd_ELEMENTL_ERTHEL1
+ICON=i_pet_golem2
+DAM=25,50
+ARMOR=20
+TEVENTS=e_intel_golem_tinker
+CAN=MT_WALK|MT_USEHANDS
+//SHELTER=r_dungeon
+DESIRES=c_m_golem_tinker1,c_m_golem_tinker2
+AVERSIONS=r_water,t_eerie_stuff
+BLOODCOLOR=0525
+
+ON=@Create
+COLOR=0839
+STR=550
+DEX=350
+INT=400
+
+
+
+PARRYING={90.0 100.0}
+MAGERY=0
+MAGICRESISTANCE={290.0 900.0}
+TACTICS={90.0 100.0}
+WRESTLING={90.0 100.0}
+
+NPC=brain_monster
+
+FAME=1000
+KARMA=0
+
+CATEGORY=Monsters
+SUBSECTION=Golems
+DESCRIPTION=Tinker High
+
+ON=@CLICK
+IF !((strmatch(´<memoryfindtype.memory_ipet.link.fullname>´,´0´)) || (strmatch(´<memoryfindtype.memory_ipet.link.fullname>´,´´)) || (strmatch(´<memoryfindtype.memory_ipet.link.fullname>´,´ ´)))
+IF !(<findid.i_rune_summon_creature>)
+message @0481 [<memoryfindtype.memory_ipet.link.fullname>]
+ENDIF
+ENDIF
+
+[CHARDEF c_m_golem]
+DEFNAME=c_m_golem
+NAME=Golem
+ID=c_elem_earth
+SOUND=snd_ELEMENTL_ERTHEL1
+ICON=i_pet_golem1
+DAM=35,60
+ARMOR=30
+TEVENTS=e_intelligent
+CAN=MT_WALK|MT_RUN|MT_USEHANDS|MT_FIRE_IMMUNE
+//SHELTER=r_dungeon
+DESIRES=c_m_golem
+AVERSIONS=r_water
+BLOODCOLOR=0515
+
+ON=@Create
+EVENTS +e_npcq
+COLOR=0839
+STR=650
+DEX=450
+INT=500
+
+FAME={7000 9000}
+KARMA={-6000 -6999}
+
+PARRYING={90.0 100.0}
+MAGERY={200.0 300.0}
+MAGICRESISTANCE={1290.0 1900.0}
+TACTICS={90.0 100.0}
+WRESTLING={90.0 100.0}
+
+npc=brain_monster
+
+ITEMNEWBIE=i_spellbook
+ADDSPELL=s_energy_bolt
+
+ITEM=loot_GOLEM
+
+CATEGORY=Monsters
+SUBSECTION=Golems
+DESCRIPTION=Spawned
+
+ON=@CLICK
+IF !((strmatch(´<memoryfindtype.memory_ipet.link.fullname>´,´0´)) || (strmatch(´<memoryfindtype.memory_ipet.link.fullname>´,´´)) || (strmatch(´<memoryfindtype.memory_ipet.link.fullname>´,´ ´)))
+IF !(<findid.i_rune_summon_creature>)
+message @0481 [<memoryfindtype.memory_ipet.link.fullname>]
+ENDIF
+ENDIF

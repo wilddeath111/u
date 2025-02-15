@@ -1,0 +1,122 @@
+
+[events e_orc_pevent]
+on=@kill
+if (<argo.isplayer>)
+	if (<src.account.lastip> == <argo.account.lastip>)
+		sysmessage @38,,1 Kendi karakterinizi keserek ünvan kazanamazsınız.
+	elseif (<argo.fame> > 750)
+		tag.puan <eval <tag.puan>+1>
+		sysmessage @07a1,,1 Orc puaniniz 1 artti. Suanki Puaniniz: [<eval <src.tag0.puan>>]
+	endif
+endif
+
+if (<src.tag0.puan> == 50)//  Grunt
+src.modar <EVAL <dMODAR>+5>
+endif 
+if (<src.tag0.puan> == 500)// General
+src.modar <EVAL <dMODAR>+5>
+endif 
+
+if (<src.tag0.puan> >= 1500) && (<src.tag0.aldibu> != 1)
+	//if (<src.findlayer.25.uid>) 
+	//src.findlayer.25.remove
+	//src.findid.i_et_bear.remove
+	//endif
+src.findid.i_et_bear.remove
+newitem i_et_wolf
+act.bounce
+src.tag.aldibu 1
+src.syshata En yuksek rutbeye ulastiginiz icin kurt ile odullendirildiniz !
+endif
+
+
+on=@click
+if (<dtag.puan> < 25 )
+//0 - 24
+message @800 [Orc, Slave]
+elseif (<dtag.puan> < 50 )
+//25 - 49
+message @800 [Orc, Peon]
+elseif (<dtag.puan> < 100 )
+//50 - 99
+message @800 [Orc, Grunt]
+elseif (<dtag.puan> < 150 )
+//100 - 149
+message @800 [Orc, Slasher]
+elseif (<dtag.puan> < 250 )
+//150 - 249
+message @800 [Orc, Captain]
+elseif (<dtag.puan> < 500 )
+//250 - 499
+message @800 [Orc, Raider]
+elseif (<dtag.puan> < 750 )
+//500 - 749
+message @800 [Orc, General]
+elseif (<dtag.puan> < 1000 )
+//750 - 999
+message @800 [Orc, Slayer]
+elseif (<dtag.puan> < 1250 )
+//1000 - 1499
+message @800 [Orc, War Chief]
+elseif (<dtag.puan> > 1499 )
+//1500 ++
+message @800 [Orc, Uruk-Hai]
+endif
+
+on=@hit
+if (<tag0.puan> >= 100) // slasher ile başlıyor
+	if ((strmatch(*i_hammer_war*,'<findlayer(2).baseid>')) && (<macefighting> >= 98.0)) // War hammer + mf
+		if (rand(350) <= <eval (<macefighting> / 30)>) // 14 de 1 falan
+			argn1 = <eval <argn1> + 15>
+			src.sayua 020,6,6,0 *brute force*
+		endif
+	endif
+endif
+
+if (<tag0.puan> >= 250) // raider ile başlıyor
+	if ((strmatch(*i_club*,'<findlayer(2).baseid>')) && (<macefighting> >= 98.0)) // club + mf
+		if (rand(350) <= <eval (<macefighting> / 35)>) // 14 de 1 falan
+			src.sayua 020,6,6,0 *brute force*
+			argn1 = <eval <argn1> + 10>
+		endif
+	endif
+endif
+
+if (<tag0.puan> >= 1500) // uruk-hai ile başlıyor
+	IF ((<findlayer(2).type> == t_weapon_bow) || (<findlayer(2).type> == t_weapon_xbow))
+		if (rand(350) <= <eval (<archery> / 35)>) // 14 de 1 falan
+			src.damage {3 5}
+			src.hits (<src.hits> - 8)
+			src.skill fail
+			local.act <src.act.uid>
+			src.newitem i_bleeding
+			src.act.equip
+			src.newitem i_bleeding2
+			src.act.equip
+			src.act <local.act>
+			src.sayua 020,6,6,0 *ölümcül yara alır*
+			return 1
+		endif
+	endif
+endif
+
+on=@spelleffect
+if (<tag0.puan> >= 750) // Slayer'den itibaren
+	if (<magicresistance> >= 300)
+		if !(strmatch('<src.uid>','<uid>'))
+			local.bonus=<eval (<MagicResistance>/2)+1>
+				if (<magery> <= 400) // magery yoksa diye yazdım nolur nolmaz.
+					if (<serv.spell.<dargn>.flags>&spellflag_harm)
+						if <argn3> > <dlocal.bonus>
+							local.hesap=<eval <argn3>-<dlocal.bonus>>
+								if <dlocal.hesap> < 600
+									local.hesap=<eval {200 500}>
+								endif
+							argn3=<dlocal.hesap>
+							sysmessage @1153,,1 Buyu etkisini azalttiniz.
+						endif
+					endif
+				endif
+		endif	
+	endif
+endif

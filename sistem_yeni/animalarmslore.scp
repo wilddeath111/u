@@ -1,0 +1,62 @@
+﻿
+
+[DIALOG d_armslore]
+0, 0
+PAGE 0
+F_DEF_DIALOG 48,102,300,310
+
+resizepic 65 119 2620 265 60
+tilepichue 68 129 <serv.itemdef.<BASEID>.id> <dCOLOR>
+dtext 155 139 152 <strtoupper <strsub 0 1 <name>>><strtolower <strsub 1 50 <name>>> Bilgileri
+
+dtext 75 190 0481 Magical: <f_magicshow2>
+dtext 75 210 0481 Gerekli Str: <reqstr>
+dtext 75 230 0481 Speed: <dserv.itemdef.<baseid>.speed>
+dtext 75 250 <def.kirmizi> Damage: <serv.itemdef.<baseid>.dam>
+dtext 75 270 0481 Skill: <tag0.skill>
+dtext 75 290 0481 Çift El: <tag0.twohands>
+dtext 75 310 <def.kirmizi> Hasar: %<eval (100 - ((<more1l> * 100) / <more1h>))> eski
+if (<morez> > 0)
+dtext 75 330 <def.yesil> Zehir: Var
+else
+dtext 75 330 <def.yesil> Zehir: Yok
+endif
+
+IF ((<ISEMPTY <TAG0.BONUS>>) || (<ISNUM <TAG0.BONUS>>))
+dtext 75 370 100 Bonuslar: Yok
+else
+dtext 75 370 100 Bonuslar: <tag0.bonus>
+endif
+
+[DIALOG d_animallore]
+0, 0
+PAGE 0
+F_DEF_DIALOG 48,102,280,310
+
+	resizepic 65 119 2620 55 60
+	tilepichue 68 129 <ICON> <DCOLOR>
+	dtext 135 139 152 <JOB> Bilgileri
+
+
+IF (<flags>&statf_pet)
+dtext 75 189 0481 Sahip: <uid.<memoryfindtype.(memory_ipet|memory_guard).link.uid>.fullname>
+else
+dtext 75 189 0481 Sahip: yok
+endif
+
+tilepic 63 209 <serv.itemdef.i_shield_buckler.id>
+dtext 98 209 55 Armor Bonus: <dTAG0.ARMOR>
+dtext 98 229 <def.yesil> Açlık: <food>/<maxfood>
+tilepic 65 229 <serv.itemdef.i_fruit_carrot.id>
+
+dtext 75 269 0481 Karma: <karma>
+dtext 75 289 0481 Hits/Strength: <hits>/<str>
+dtext 75 309 0481 Stam/Dexterity: <stam>/<dex>
+dtext 75 329 0481 Mana/Intelligence: <mana>/<int>
+
+dtext 75 349 100 Animal Taming: <taming>
+dtext 75 369 100 Animal Lore: <animallore>
+
+
+
+[EOF]

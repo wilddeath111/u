@@ -1,0 +1,299 @@
+﻿//------------------
+// DYES
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+
+[itemdef i_dye_furny]
+DEFNAME=i_dye_furny
+id i_dye_tub
+name furniture dye tub
+type t_dye_vat
+weight 10
+resources 150 i_log, 5 i_dye_crystal
+skillmake CARPENTRY 89.0, TINKERING 89.0
+
+
+
+ON=@CLICK
+//dialog d_furnydegis
+
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+On=@Create
+DORAND 5
+	COLOR=07d4 // ye$il
+	COLOR=0846 // kirmizi
+	COLOR=084a // mavi
+	COLOR=06af // sari
+	COLOR=0455 // siyah
+ENDDO
+
+On=@DClick
+if (<src.hits> < 1)
+return 1
+else
+target @0481,,1 Boyamak istediğiniz eşyayı seçin.
+return 1
+endif
+
+On=@TargOn_Char
+return 1
+
+On=@TargOn_Item
+if !(<src.targ.topobj.uid> == <src.uid>)
+	src.syshata Boyamak istediğiniz eşya üzerinizde olmalı.
+elseif !((<src.targ.type> == t_table) || (<src.targ.type> == t_chair) || (<src.targ.baseid> == i_bookcase_full) || (<src.targ.baseid> == i_crate_small) || (<src.targ.baseid> == i_crate_md) || (<src.targ.baseid> == i_crate_lg) || (<src.targ.baseid> == i_box_wood) || (<src.targ.baseid> == i_chest_wooden_brass) || (<src.targ.baseid> == i_bureau_2) || (<src.targ.baseid> == i_armoir_lt) || (<src.targ.baseid> == i_armoir_dk) || (<src.targ.baseid> == i_bookcase) || (<src.targ.baseid> == i_bar_piece))
+	src.syshata Sadece mobilyaları boyayabilirsiniz.
+else
+	src.targ.color <color>
+	src.targ.update
+endif
+return 1
+
+on=@timer
+return 1
+
+[ITEMDEF i_dye_leat]
+DEFNAME=i_dye_leat
+NAME=leather dye tub
+ID=i_dye_tub
+WEIGHT=10
+resources 150 i_log, 8 i_dye_crystal
+skillmake CARPENTRY 89.0, TINKERING 89.0
+TYPE=T_DYE_VAT
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+
+On=@create
+morex 15
+DORAND 7
+	COLOR 06af
+	COLOR 0455
+	COLOR 07d4
+	COLOR 0846
+	COLOR 084a
+	COLOR 080d
+	COLOR 0798
+ENDDO
+
+on=@timer
+return 1
+
+On=@DClick
+if (<src.hits> < 1)
+return 1
+else
+target @0481,,1 Boyamak istediğiniz eşyayı seçin.
+return 1
+endif
+
+On=@TargOn_Char
+src.syshata Canlıları boyayamazsınız.
+return 1
+
+On=@TargOn_Item
+if !(<src.targ.topobj.uid> == <src.uid>)
+	src.syshata Boyamak istediğiniz eşya üzerinizde olmalı.
+elseif !((<src.targ.baseid> == i_boots_calf) || (<src.targ.baseid> == i_studded_cap) || (<src.targ.baseid> == i_leather_cap) || (<src.targ.baseid> == i_leather_gorget) || (<src.targ.baseid> == i_leather_gloves) || (<src.targ.baseid> == i_leather_sleeves) || (<src.targ.baseid> == i_leather_leggings) || (<src.targ.baseid> == i_leather_tunic) || (<src.targ.baseid> == i_studded_gorget) || (<src.targ.baseid> == i_studded_gloves) || (<src.targ.baseid> == i_studded_sleeves) || (<src.targ.baseid> == i_studded_leggings) || (<src.targ.baseid> == i_studded_tunic) || (<src.targ.baseid> == i_armor_female_shorts) || (<src.targ.baseid> == i_armor_female_bustier) || (<src.targ.baseid> == i_armor_female_bustier_studded) || (<src.targ.baseid> == i_armor_female_studded) || (<src.targ.baseid> == i_armor_female_skirt) || ( <src.targ.baseid> == i_armor_female_leather))
+	src.syshata Bu bir deri eşya değil.
+else
+	src.targ.color <color>
+	src.targ.update
+endif
+return 1
+
+//rare dye//
+
+[ITEMDEF i_dye_rare_new]
+defname i_dye_rare_new
+id 0fab
+name rare dye tub
+weight 1
+resources 150 i_log, 7 i_dye_crystal
+TYPE=T_DYE_VAT
+skillmake CARPENTRY 89.0, TINKERING 89.0
+
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+
+ON=@Create
+morex 10
+DORAND 8
+	COLOR 07a1
+	COLOR 0810
+	COLOR 0794
+	COLOR 0812
+	COLOR 0811
+	COLOR 080d
+	COLOR 0799
+	COLOR 0798
+ENDDO
+
+On=@DClick
+if (<src.hits> < 1)
+return 1
+else
+target @0481,,1 Boyamak istediğiniz eşyayı seçin.
+return 1
+endif
+
+On=@TargOn_Char
+src.syshata Canlıları boyayamazsınız.
+return 1
+
+On=@TargOn_Item
+if !(<src.targ.topobj.uid> == <src.uid>)
+	src.syshata Boyamak istediğiniz eşya üzerinizde olmalı.
+elseif ((<src.targ.baseid> == i_bag) || !(<src.targ.type> = t_clothing)) || (<src.targ.baseid> == i_robe_earth) || (<src.targ.baseid> == i_robe_fire)  || (<src.targ.baseid> == i_robe_ice) || (<src.targ.baseid> == i_robe_energy) || (<src.targ.baseid> == i_robe_ranger)
+	src.syshata Bunu boyayamazsınız.
+	return 1
+else
+	src.targ.color <color>
+	src.targ.update
+endif
+return 1
+
+on=@timer
+return 1
+
+[ITEMDEF i_dye_rare]
+defname i_dye_rare
+id 0fab
+name classic rare dye tub
+weight 1
+resources 150 i_log, 5 i_dye_crystal
+TYPE=T_DYE_VAT
+skillmake CARPENTRY 89.0, TINKERING 89.0
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+
+ON=@Create
+morex 10
+DORAND 9
+	COLOR 0455
+	COLOR 084a
+	COLOR 075f
+	COLOR 0846
+	COLOR 07d4
+	COLOR=0844
+	COLOR=0450
+	COLOR=0596
+	COLOR=0549
+ENDDO
+
+On=@DClick
+if (<src.hits> < 1)
+return 1
+else
+target @0481,,1 Boyamak istediğiniz eşyayı seçin.
+return 1
+endif
+
+On=@TargOn_Char
+src.syshata Canlıları boyayamazsınız.
+return 1
+
+On=@TargOn_Item
+if !(<src.targ.topobj.uid> == <src.uid>)
+	src.syshata Boyamak istediğiniz eşya üzerinizde olmalı.
+elseif ((<src.targ.baseid> == i_bag) || !(<src.targ.type> = t_clothing)) || (<src.targ.baseid> == i_robe_earth) || (<src.targ.baseid> == i_robe_fire)  || (<src.targ.baseid> == i_robe_ice) || (<src.targ.baseid> == i_robe_energy) || (<src.targ.baseid> == i_robe_ranger)
+	src.syshata Bunu boyayamazsınız.
+	return 1
+else
+	src.targ.color <color>
+	src.targ.update
+endif
+return 1
+
+on=@timer
+return 1
+
+
+
+
+[ITEMDEF i_dye_black]
+defname i_dye_black
+id 0fab
+name black dye tub
+weight 1
+resources 150 i_log, 5 i_dye_crystal
+TYPE=T_DYE_VAT
+skillmake CARPENTRY 89.0, TINKERING 89.0
+
+ON=@Create
+morex 10
+color 01
+
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+
+On=@DClick
+if (<src.hits> < 1)
+return 1
+else
+target @0481,,1 Boyamak istediğiniz eşyayı seçin.
+return 1
+endif
+
+On=@TargOn_Char
+src.syshata Canlıları boyayamazsınız.
+return 1
+
+On=@TargOn_Item
+if !(<src.targ.topobj.uid> == <src.uid>)
+	src.syshata Boyamak istediğiniz eşya üzerinizde olmalı.
+elseif ((<src.targ.baseid> == i_bag) || !(<src.targ.type> = t_clothing))
+	src.syshata Bunu boyayamazsınız.
+	return 1
+else
+	src.targ.color <color>
+	src.targ.update
+endif
+return 1
+
+on=@timer
+return 1

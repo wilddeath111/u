@@ -1,0 +1,416 @@
+﻿//------------------
+// REWARD BARREL
+//------------------
+// Rave UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+
+[ITEMDEF i_reward]
+ID=0e77
+TYPE=t_script
+NAME=Hediye Stogu
+weight 999
+
+On=@Create
+COLOR=0525
+ATTR=010
+
+ON=@click
+message @1153,,1 Hediye Stoğu
+return 1
+
+ON=@DCLICK
+if (<distance> > 4)
+src.sysh_trk Yetişemiyorsunuz.
+return 1
+endif
+sdialog d_reward
+return 1
+
+ON=@targon_item
+ref1 = <src.targ.uid>
+
+if (<distance> > 4)
+src.sysh_trk Hediye stoğuna yetişemiyorsunuz.
+return 1
+elseif !(<ref1.isitem>)
+src.sysh_trk Sadece itemları stoklayabilirsiniz.
+return 1
+elseif (<ref1.baseid> == i_reward_bilet)
+src.tag0.copuan += <ref1.amount>
+src.sys_trk <ref1.amount> bileti puana dönüştürdünüz.
+ref1.remove
+return 1
+elseif !(<ref1.topobj.uid> == <src.uid>)
+src.sysh_trk Sadece çantanızdaki eşyaları stoklayabilirsiniz.
+return 1
+elseif (<ref1.type> == t_gold) || (<ref1.type> == t_food) || (<ref1.type> == t_container) || (<ref1.type> == t_sign_gump) || (<ref1.baseid> == i_shield_order) || (<ref1.baseid> == i_shield_chaos) || (<ref1.baseid> == i_cloth) || (<ref1.baseid> == i_log) || (<ref1.baseid> == i_ingot_iron) || (<ref1.baseid> == i_cloth_bolt) || (<ref1.baseid> == i_bandage) || (<ref1.baseid> == i_kindling) || (<ref1.baseid> == i_robe) || (<ref1.type> == t_key) || (<ref1.dispid> == i_deed) || !(<ref1.value>) || (<ref1.baseid> == i_mr) || (<ref1.baseid> == i_tava_balik) 
+src.sysh_trk Bunu stoklayamazsınız.
+return 1
+elseif (<ref1.attr>&04)
+src.sysh_Trk Newbified eşyaları stoklayamazsınız.
+return 1
+elseif (<ref1.value> < 25)
+src.sysh_trk Bu item değersiz.
+return 1
+endif
+
+
+local.puan <eval (<ref1.value>/25) * <ref1.amount>>
+src.tag0.copuan += <dlocal.puan>
+src.sys_trk Puanınız <dlocal.puan> artmıştır.
+ref1.remove
+target
+return 1
+
+[dialog d_reward]
+20,50
+
+F_DEF_DIALOG 0,0,370,360
+
+dtext 130 20 95 <serv.name> Hediye Stoğu
+
+
+
+dtext 55 50 0481 Ostard Egg
+dtext 270 50 035 5.000 Puan
+
+dtext 55 80 0481 Random Ranger Parça
+dtext 270 80 035 10.000 Puan
+
+dtext 55 110 0481 Black Dye
+dtext 270 110 035 20.000 Puan
+
+dtext 55 140 0481 Random +15 Swordsmanship Silahı
+dtext 270 140 035 75.000 Puan
+
+dtext 55 170 0481 Random +15 Fencing Silahı
+dtext 270 170 035 75.000 Puan
+
+dtext 55 200 0481 Random +15 Macefighting Silahı
+dtext 270 200 035 75.000 Puan
+
+dtext 55 230 0481 Craft Görev Süresi Sıfırlama
+dtext 270 230 035 50.000 Puan
+
+//dtext 55 260 07d4 Craft Görev Süresi Sıfırlama == 50.000 Puan
+
+local.satir 50
+for 7
+button 20 <dlocal.satir> 4005 4006 1 0 <dlocal._for>
+local.satir += 30
+endfor
+
+local.satir += 20
+button 20 <dlocal.satir> 4005 4006 1 0 99
+dtext 55 <dlocal.satir> <def.yesil> Stokla
+dtext 200 <dlocal.satir> <def.kirmizi> Puanınız: <dsrc.tag0.copuan>
+
+local.satir += 40
+resizepic 53 <eval <dlocal.satir>-4> 3000 85 25
+dtextentry 55 <dlocal.satir> 80 25 07d4 1
+button 20 <eval <dlocal.satir>-4> 4005 4006 1 0 98
+dtext 140 <dlocal.satir> 1153 puanımı bilete dönüştür.
+local.satir += 30
+
+[dialog d_reward button]
+on 1
+if (<dsrc.tag0.copuan> >= 5000)
+serv.newitem i_ostard_egg
+new.bounce
+src.tag.copuan -= 5000
+return 1
+else
+src.syshata 5.000 puanınız bulunmamaktadır.
+return 1
+endif
+
+on 2
+if (<dsrc.tag0.copuan> >= 10000)
+
+DORAND 6
+serv.newitem i_ranger_tunic
+serv.newitem i_ranger_gorget
+serv.newitem i_ranger_legs
+serv.newitem i_ranger_cap
+serv.newitem i_ranger_sleeves
+serv.newitem i_ranger_gloves
+ENDDO
+
+new.bounce
+src.tag.copuan -= 10000
+return 1
+else
+src.syshata 10.000 puanınız bulunmamaktadır.
+return 1
+endif
+
+on 3
+if (<dsrc.tag0.copuan> >= 20000)
+serv.newitem i_dye_black
+new.bounce
+src.tag.copuan -= 20000
+return 1
+else
+src.syshata 20.000 puanınız bulunmamaktadır.
+return 1
+endif
+
+on 4
+if (<dsrc.tag0.copuan> >= 75000)
+
+DORAND 8
+serv.newitem i_sword_viking_vanq
+serv.newitem i_sword_long_vanq
+serv.newitem i_broadsword_vanq
+serv.newitem i_katana_vanq
+serv.newitem i_scimitar_vanq
+serv.newitem i_cutlass_vanq
+serv.newitem i_halberd_vanq
+serv.newitem i_bardiche_vanq
+ENDDO
+
+new.bounce
+src.tag.copuan -= 75000
+return 1
+else
+src.syshata 75.000 puanınız bulunmamaktadır.
+return 1
+endif
+
+on 5
+if (<dsrc.tag0.copuan> >= 75000)
+DORAND 4
+serv.newitem i_kryss_vanq
+serv.newitem i_spear_vanq
+serv.newitem i_war_fork_vanq
+serv.newitem i_spear_short_vanq
+ENDDO
+
+new.bounce
+src.tag.copuan -= 75000
+return 1
+else
+src.sysh_trk 75.000 puanınız bulunmamaktadır.
+return 1
+endif
+
+on 6
+if (<dsrc.tag0.copuan> >= 75000)
+DORAND 8
+serv.newitem i_mace_vanq
+serv.newitem i_mace_War_vanq
+serv.newitem i_hammer_War_vanq
+serv.newitem i_hammer_pick_vanq
+serv.newitem i_axe_war_vanq
+serv.newitem i_tc_bs15
+serv.newitem i_tc_qs15
+serv.newitem i_maul_vanq
+ENDDO
+
+new.bounce
+src.tag.copuan -= 75000
+return 1
+else
+src.sysh_trk 75.000 puanınız bulunmamaktadır.
+return 1
+endif
+
+on 7
+if (<dsrc.tag0.copuan> >= 50000)
+serv.newitem i_craft_Reset
+new.bounce
+src.tag.copuan -= 50000
+return 1
+else
+src.sysh_trk 50.000 puanınız bulunmamaktadır.
+return 1
+endif
+
+on 99
+target
+src.sys_trk Puana dönüştürmek istediğiniz itemları seçiniz.
+return 1
+
+on 98
+if (<IsNum <ARGTXT[1]>>==0)
+src.sysh_trk Sadece rakam girebilirsiniz.
+return 1
+elseif (strmatch('<argtxt[1]>',''))
+src.sysh_trk Bilete dönüştürmek istediğiniz değeri girmelisiniz.
+return 1
+elseif (<argtxt[1]> > 65000)
+src.sysh_trk Bir seferinde en fazla 65.000 bilet çıkarabilirsiniz.
+return 1
+elseif (<dsrc.tag0.copuan> < <argtxt[1]>)
+src.sysh_trk <argtxt[1]>  puanınız bulunmamaktadır.
+return 1
+elseif (<ARGTXT[1]> < 1)
+src.sysh_trk Girdiğiniz değer sıfırdan büyük olmak zorundadır.
+return 1
+endif
+serv.newitem i_reward_bilet
+new.amount <argtxt[1]>
+new.bounce
+src.tag.copuan -= <argtxt[1]>
+src.sys_trk <argtxt[1]> bilet çantanızdadır.
+return 1
+
+
+
+
+[ITEMDEF i_reward_bilet]
+ID=i_gem_ruby
+TYPE=t_script
+NAME=hediye stoğu bileti
+WEIGHT=0
+
+ON=@CREATE
+color 07a1
+attr 04
+
+ON=@CLICK
+IF (<AMOUNT> > 1)
+MESSAGE @038a,,1 <AMOUNT> <NAME>
+ELSE
+MESSAGE @038a,,1 a <NAME>
+ENDIF
+RETURN 1
+
+
+ON=@DCLICK
+src.sys_trk Kullanmak için hediye stoğuna eklemelisiniz.
+RETURN 1
+
+
+[ITEMDEF i_ranger_sleeves]
+//Studded Sleeves of Invulnerability
+DEFNAME=i_ranger_sleeves
+NAME=ranger sleeves
+ID=i_studded_sleeves
+RESOURCES=i_studded_sleeves,6 i_enchant_armor
+ARMOR=35
+
+CATEGORY=Provisions - Armor - Magic
+SUBSECTION=Studded
+DESCRIPTION=Studded Sleeves of Invulnerability
+
+ON=@Create
+	MOREY=100.0
+	HITPOINTS={36 44}
+	COLOR=07d4
+	
+ON=@CLICK
+MESSAGE <NAME>
+RETURN 1
+
+[ITEMDEF i_ranger_gloves]
+//Studded Gloves of Invulnerability
+DEFNAME=i_ranger_gloves
+NAME=ranger gloves
+ID=i_studded_gloves
+RESOURCES=i_studded_gloves,6 i_enchant_armor
+ARMOR=35
+
+
+CATEGORY=Provisions - Armor - Magic
+SUBSECTION=Studded
+DESCRIPTION=Studded Gloves of Invulnerability
+
+ON=@Create
+	MOREY=100.0
+	HITPOINTS={36 44}
+	COLOR=07d4
+	
+ON=@CLICK
+MESSAGE <NAME>
+RETURN 1
+
+[ITEMDEF i_ranger_gorget]
+//Studded Gorget of Invulnerability
+DEFNAME=i_ranger_gorget
+ID=i_studded_gorget
+NAME=ranger gorget
+RESOURCES=i_studded_gorget,6 i_enchant_armor
+ARMOR=35
+
+
+CATEGORY=Provisions - Armor - Magic
+SUBSECTION=Studded
+DESCRIPTION=Studded Gorget of Invulnerability
+
+ON=@Create
+	MOREY=100.0
+	HITPOINTS={36 44}
+	COLOR=07d4
+	
+ON=@CLICK
+MESSAGE a <NAME>
+RETURN 1
+
+[ITEMDEF i_ranger_legs]
+//Studded Leggings of Invulnerability
+DEFNAME=i_ranger_legs
+NAME=ranger leggings
+ID=i_studded_leggings
+RESOURCES=i_studded_leggings,6 i_enchant_armor
+ARMOR=30
+
+CATEGORY=Provisions - Armor - Magic
+SUBSECTION=Studded
+DESCRIPTION=Studded Leggings of Invulnerability
+
+ON=@Create
+	MOREY=100.0
+	HITPOINTS={36 44}
+	COLOR=07d4
+	
+ON=@CLICK
+RETURN 1
+
+[ITEMDEF i_ranger_tunic]
+//Studded Tunic of Invulnerability
+DEFNAME=i_ranger_tunic
+NAME=ranger tunic
+ID=i_studded_tunic
+RESOURCES=i_studded_tunic,6 i_enchant_armor
+ARMOR=30
+
+CATEGORY=Provisions - Armor - Magic
+SUBSECTION=Studded
+DESCRIPTION=Studded Tunic of Invulnerability
+
+ON=@Create
+	MOREY=100.0
+	HITPOINTS={36 44}
+	COLOR=07d4
+	
+ON=@CLICK
+MESSAGE a <NAME>
+RETURN 1
+
+[ITEMDEF i_ranger_cap]
+DEFNAME=i_ranger_cap
+NAME=ranger cap
+ID=i_leather_cap
+RESOURCES=i_studded_cap,6 i_enchant_armor
+TYPE=t_armor_leather
+ARMOR=35
+
+
+CATEGORY=Provisions - Armor - Magic
+SUBSECTION=Studded
+DESCRIPTION=Studded Cap of Invulnerability
+
+ON=@Create
+	MOREY=100.0
+	HITPOINTS={31 37}
+	COLOR=07d4
+	
+ON=@CLICK
+MESSAGE a <NAME>
+RETURN 1
+
+
+[EOF]

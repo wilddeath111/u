@@ -1,0 +1,68 @@
+﻿[plevel 1]
+itemaktar
+esyaaktar
+esyatransfer
+
+[function esyaaktar]
+itemaktar
+
+[function esyatransfer]
+itemaktar
+
+[function itemaktar]
+IF (<HITS> < 1)
+RETURN 1
+ENDIF
+IF !(<eval <account.chars>> > 1)
+SYSHATA Hesabınızda başka karakter bulunmuyor.
+RETURN 1
+ENDIF
+sdialog d_char_list
+
+[dialog d_char_list]
+230,130
+PAGE 0
+F_DEF_DIALOG 0,0,290,215
+//dtext 20 20 73 <serv.name> Eşya Aktarma
+dtext 20 20 1153 Hangi karaktere eşya aktarılacak?
+
+for 0 <eval <account.chars>-1>
+IF !(<account.char.<eval <local._for>>.UID>==<UID>)
+dtext 53 <eval (<eval <local.say>>*30)+52> 090 <account.char.<eval <local._for>>.FULLname>
+local.say <eval <local.say>+1>
+ENDIF
+endfor
+local.say 0
+for 1 <account.chars>
+IF !(<account.char.<eval <local._for>-1>.UID>==<UID>)
+button 20 <eval (<eval <local.say>>*30)+50> 4006 4007 1 0 <eval <local._for>>
+local.say <eval <local.say>+1>
+ENDIF
+endfor
+
+[dialog d_char_list button]
+on 1 5
+if (<src.account.char.<eval <argn>-1>.uid> == <src.uid>)
+src.syshata Bağlı olduğunuz karakterinize eşya aktaramazsınız.
+return 1
+endif
+//try ctag.<src.account.name><eval <argn>-1> <src.account.char.<eval <argn>-1>.uid>
+targetf item_at <eval <argn>-1>
+src.sysnorm Hangi eşyayı aktaracaksınız?
+
+[function item_at]
+local.lexobj <obj>
+obj=<argo>
+if !(<obj.isitem>)
+src.syshata Sadece eşya aktarabilirsiniz.
+return 1
+endif
+if (<src.findlayer.29.uid> == <obj.cont.uid>)
+obj.cont <uid.<src.account.char.<argn>.uid>.findlayer.29.uid>
+update
+src.sysyes <account.char.<argn>.name> isimli karakterinize <obj.amount> adet <obj.name> aktardınız.
+else
+src.syshata Sadece bankanızdaki eşyaları aktarabilirsiniz.
+return 1
+endif
+obj <local.lexobj>

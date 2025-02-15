@@ -1,0 +1,148 @@
+﻿[ITEMDEF i_piyango_main]
+DEFNAME=i_piyango_main
+ID=i_gravestone_18
+TYPE=t_script
+NAME=piyango main stone
+
+On=@create
+color 0481
+attr 010
+VAR.PIYANGO_MAIN <UID>
+timer 604800
+
+on=@click
+local.temp = <dtimer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+message @90,,1 [total bilet: <dvar0.toplambilet>]
+message @0481,,1 [<dlocal.day>g, <dlocal.hours>s, <dlocal.minutes>m]
+message @50,,1 piyango main
+RETURN 1
+
+////MAIN STONE
+ON=@TIMER
+IF (<dvar0.toplambilet> > 0)
+
+LOCAL.WIN <EVAL RAND(1, <dvar0.toplambilet>)>
+
+REF40 <VAR0.BILET<DLOCAL.WIN>>
+
+SERV.newitem i_check_brnx
+new.more1 <EVAL (<dvar0.toplambilet>*10000)+100000>
+new.more2 <REF40.uid>
+new.cont <ref40.findlayer(29).uid>
+
+DORAND 8
+TRY REF40.F_BINEK_YARAT C_LLAMA2
+TRY REF40.F_BINEK_YARAT C_LLAMA2
+TRY REF40.F_BINEK_YARAT C_LLAMA2
+TRY REF40.F_BINEK_YARAT C_A_MUST
+TRY REF40.F_BINEK_YARAT C_SHIRE
+TRY REF40.F_BINEK_YARAT C_BEAR_POLAR
+TRY REF40.F_BINEK_YARAT C_STEED_SILVER
+TRY REF40.F_BINEK_YARAT C_M_KIIRIN
+//TRY REF40.F_ODUL_YARAT RANDOM_WEAPON_POWER
+//TRY REF40.F_ODUL_YARAT RANDOM_WEAPON_VANQ
+//TRY REF40.F_ODUL_YARAT RANDOM_WEAPON_VANQ
+//TRY REF40.F_ODUL_YARAT RANDOM_WEAPON_VANQ
+//TRY REF40.F_ODUL_YARAT I_ROBE,1,0455,1
+ENDDO
+
+REF40.SYSYES Tebrikler! Bu haftaki piyango çekilişini siz kazandınız.
+REF40.SYSYES <EVAL (<dvar0.toplambilet>*10000)+100000> değerindeki çekiniz bankanıza aktarıldı.
+
+TIMERF 12, SERV.ALLCLIENTS SYSNORM [[Piyango]: Bu haftanın piyango talihlisi <REF40.FULLNAME> olmuştur. Kendisini tebrik ediyoruz.
+FOR X 1 <dvar0.toplambilet>
+TRY UID.<VAR0.BILET<DLOCAL.X>>.tag0.piyangobilet
+ENDFOR
+
+FOR Y 1 <dvar0.toplambilet>
+VAR0.BILET<DLOCAL.Y>
+ENDFOR
+var0.toplambilet
+var0.piyangokazanan <REF40.UID>
+
+ENDIF
+
+TIMER 604800
+
+RETURN 1
+
+[ITEMDEF i_piyango_stone]
+DEFNAME=i_piyango_stone
+ID=i_gravestone_18
+TYPE=t_script
+NAME=piyango stone
+
+On=@create
+color 0850
+attr 010
+
+on=@click
+local.temp = <UID.<VAR.PIYANGO_MAIN>.timer>
+local.day = <dlocal.temp> / 86400
+local.temp = <dlocal.temp> - (86400 * <dlocal.day>)
+local.hours = <dlocal.temp> / 3600
+local.temp = <dlocal.temp> - (3600 * <dlocal.hours>)
+local.minutes = <dlocal.temp> / 60
+local.seconds = <dlocal.temp> - (60 * <dlocal.minutes>)
+src.sysnorm Piyango çekilişine <dlocal.day> gün, <dlocal.hours> saat, <dlocal.minutes> dakika kaldı.
+message @033,,1 [Güncel ödül: <F_DECIMAL <EVAL (<dvar0.toplambilet>*10)+100>>.000]
+message @0481,,1 Piyango Taşı
+RETURN 1
+
+on=@dclick
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF (<DISTANCE> > 3)
+SRC.SYSHATA Taşa biraz daha yaklaşmalısınız.
+RETURN 1
+ENDIF
+
+SRC.SDIALOG D_PIYANGO
+//SRC.SYSNORM Bu haftaki çekiliş için toplam <dsrc.tag0.piyangobilet> biletiniz var.
+RETURN 1
+
+[dialog d_piyango]
+120,150
+F_DEF_DIALOG 0,0,370,200
+F_DEF_DHEADER 20,15,<SERV.NAME> Piyango
+
+DTEXT 20 40 033 - Piyango çekilişi her hafta Pazar gecesi yapılmaktadır.
+DTEXT 20 60 033 - Her bilet 10.000 altın değerindedir.
+DTEXT 20 80 033 - Ödül: Toplam altın ve sürpriz hediyeler
+
+DTEXT 20 100 1153 Piyango bileti satın almak istiyor musunuz?
+
+BUTTON 60 130 4005 4007 1 0 1
+DTEXT 90 132 70 Evet
+
+BUTTON 160 130 4017 4019 1 0 0
+DTEXT 190 132 35 Hayır
+
+dtext 20 161 033 Toplam <dsrc.tag0.piyangobilet> biletiniz var.
+
+[dialog d_piyango text]
+
+[dialog d_piyango button]
+ONBUTTON 0
+
+ONBUTTON 1
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF (<SRC.GOLD> < 10000)
+SRC.SYSHATA Bankanızın en üst kısmında 10.000 altın bulunmuyor.
+RETURN 1
+ENDIF
+SRC.GOLD -=10000
+var0.toplambilet <eval <dvar0.toplambilet>+1>
+var0.bilet<dvar0.toplambilet> <src.uid>
+src.tag0.piyangobilet <eval <dsrc.tag0.piyangobilet>+1>
+src.sysyes Bir adet piyango bileti satın aldınız. 
+

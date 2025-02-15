@@ -1,0 +1,600 @@
+﻿[plevel 1]
+friend
+friendlist
+arkadas
+
+[function friendlist]
+friend
+
+[function arkadas]
+friend
+
+[function friend]
+dialogclose D_ARK_PM
+dialogclose D_ARK_PM
+dialogclose D_ARK_DEL
+dialogclose D_ARK_DEL
+DIALOGCLOSE D_PM_OKU
+DIALOGCLOSE D_PM_OKU
+sdialog d_friendlist
+
+DB.QUERY "SELECT ID FROM friendlist_pm WHERE sendto='<UID>' AND unread='1'"
+if (<dDB.ROW.NUMROWS> > 0)
+src.sysnorm Okunmamış <dDB.ROW.NUMROWS> mesajınız var.
+endif
+
+[DIALOG d_ark_msg]
+0,80
+NOMOVE
+NOCLOSE
+
+page 1
+button 15 30 30 30 1 1 0
+dtext 15 60 0481 Yeni mesaj!
+
+[DIALOG d_ARK_msg BUTTON]
+ON=0
+SRC.SDIALOG D_FRIENDLIST2
+
+
+[EVENTS e_ark_msg]
+ON=@login
+src.sdialog d_ark_msg
+src.events -e_pg_msg
+
+[dialog d_friendlist2]
+100,50
+NOMOVE
+
+
+F_DEF_DIALOG 0,0,480,326
+
+SQLCONN
+
+PAGE 0
+
+DB.QUERY "SELECT * FROM friendlist WHERE frienda='<UID>' OR friend='<UID>'"
+
+dtext 340 32 035 Arkadaşlar (<dDB.ROW.NUMROWS>)
+button 435 30 4005 4006 1 1 4
+
+tilepichue 10 10 <serv.itemdef.i_pet_man.id> <eval 03ea>
+tilepichue 30 10 <serv.itemdef.i_pet_woman.id> <eval 03ea>
+
+DB.QUERY "SELECT ID,UNREAD FROM friendlist_pm WHERE sendto='<UID>'"
+if (<dDB.ROW.NUMROWS> > 50)
+src.syshata Mesaj kutunuz dolu, yeni mesajları görüntüleyemiyorsunuz.
+endif
+
+DB.QUERY "SELECT ID,UNREAD FROM friendlist_pm WHERE sendto='<UID>' ORDER BY ID ASC LIMIT 50"
+
+dtext 75 18 0481 Mesaj Kutusu (<dDB.ROW.NUMROWS> mesaj)
+dtext 75 33 70 <FULLNAME>
+dtext 350 12 035 Arkadaş ekle
+button 435 10 4005 4006 1 0 1
+
+gumppictiled 7 65 465 1 2417
+dtext 65 66 55 TARİH
+dtext 250 66 55 GÖNDEREN
+dtext 399 66 55 OKU
+dtext 442 66 55 SİL
+gumppictiled 7 85 465 1 2417
+
+if (<dDB.ROW.NUMROWS> > 0)
+
+LOCAL.AUMENTAR=0
+LOCAL.PAGE=1
+PAGE 1
+
+for R <eval <dDB.ROW.NUMROWS>-1> 0
+
+IF (<LOCAL.AUMENTAR> > 9)
+LOCAL.AUMENTAR=0
+button 435 290 4005 4007 0 <EVAL <LOCAL.PAGE>+1> 1
+dtext 350 292 035 sonraki sayfa
+LOCAL.PAGE += 1
+PAGE <EVAL <LOCAL.PAGE>>
+SQLCONN
+DB.QUERY "SELECT * FROM friendlist WHERE frienda='<UID>' OR friend='<UID>'"
+
+dtext 340 32 035 Arkadaşlar (<dDB.ROW.NUMROWS>)
+button 435 30 4005 4006 1 1 4
+
+DB.QUERY "SELECT ID,UNREAD FROM friendlist_pm WHERE sendto='<UID>' ORDER BY ID ASC LIMIT 50"
+
+gumppictiled 7 65 465 1 2417
+dtext 65 66 55 TARİH
+dtext 250 66 55 GÖNDEREN
+dtext 399 66 55 OKU
+dtext 442 66 55 SİL
+gumppictiled 7 85 465 1 2417
+button 15 290 4014 4016 0 <EVAL <LOCAL.PAGE>-1> 1
+dtext 48 292 035 önceki sayfa
+ENDIF
+
+
+
+LOCAL.AUMENTAR += 1
+LOCAL.AUM <LOCAL.AUMENTAR>-1
+
+LOCAL.UNREAD <DB.ROW.<eval <LOCAL.R>>.1>
+LOCAL.ID <EVAL <DB.ROW.<eval <LOCAL.R>>.0>+2000>
+LOCAL.IDS <EVAL <DB.ROW.<eval <LOCAL.R>>.0>+4000>
+
+DB.QUERY "SELECT sendby,date FROM friendlist_pm WHERE ID='<DB.ROW.<eval <LOCAL.R>>.0>'"
+
+	LOCAL.DATE <DB.ROW.0.1>
+	LOCAL.SENDBY <DB.ROW.0.0>
+	
+//	LOCAL.OKU <DLOCAL.OKU>+1
+//	SRC.CTAG0.PM<DLOCAL.OKU> <REF71.UID>
+//	LOCAL.FRXX <DLOCAL.FRXX>+1
+//	SRC.CTAG0.FRIENDD<DLOCAL.FRXX> <REF71.UID>
+	
+	IF (<DLOCAL.UNREAD>==1)
+dhtmlgump 23 <EVAL (<DLOCAL.AUM>*20)+86> 200 25 0 0 <def.bfont_yellow><LOCAL.DATE>
+//	DTEXT 23 <EVAL (<DLOCAL.AUM>*20)+85> 033 <LOCAL.DATE>
+dhtmlgump 160 <EVAL (<DLOCAL.AUM>*20)+86> 230 25 0 0 <def.center><def.bfont_yellow><STRSUB 0 19 <UID.<LOCAL.SENDBY>.FULLNAME>>
+	ELSE
+dhtmlgump 23 <EVAL (<DLOCAL.AUM>*20)+86> 200 25 0 0 <def.bfont_white><LOCAL.DATE>
+dhtmlgump 160 <EVAL (<DLOCAL.AUM>*20)+86> 230 25 0 0 <def.center><def.bfont_white><STRSUB 0 19 <UID.<LOCAL.SENDBY>.FULLNAME>>
+//	DTEXT 210 <EVAL (<DLOCAL.AUM>*20)+85> 0481 <STRSUB 0 19 <UID.<LOCAL.SENDBY>.FULLNAME>>
+	ENDIF
+
+	gumppictiled 7 <EVAL (<DLOCAL.AUM>*20)+104> 465 1 2417
+	gumppictiled 160 65 1 <EVAL <EVAL (<DLOCAL.AUM>+1)*20>+20> 2417 // DIKEY
+	gumppictiled 390 65 1 <EVAL <EVAL (<DLOCAL.AUM>+1)*20>+20> 2417 // DIKEY
+	gumppictiled 431 65 1 <EVAL <EVAL (<DLOCAL.AUM>+1)*20>+20> 2417 // DIKEY
+	button 397 <EVAL (<DLOCAL.AUM>*20)+83> 4029 4031 1 0 <DLOCAL.ID>
+	button 438 <EVAL (<DLOCAL.AUM>*20)+83> 4017 4019 1 0 <DLOCAL.IDS>
+
+	REF71 <LOCAL.REF71>
+DB.QUERY "SELECT ID,UNREAD FROM friendlist_pm WHERE sendto='<UID>'"
+
+	endfor
+
+else
+	gumppictiled 160 65 1 20 2417 // DIKEY
+	gumppictiled 390 65 1 20 2417 // DIKEY
+	gumppictiled 431 65 1 20 2417 // DIKEY
+	dtext 40 95 35 Mesaj kutunuz boş.
+
+endif
+
+
+[dialog d_friendlist2 button]
+on 1
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+src.targetf f_ark_ekle <src.uid>
+src.sysnorm Arkadaşlık teklifi göndermek istediğiniz oyuncuyu seçiniz.
+
+ON 3
+SDIALOG D_FRIENDLIST2
+
+ON 4
+SDIALOG D_FRIENDLIST
+
+ON 11 1999
+SRC.CTAG0.FRIENDO <SRC.CTAG0.FRIEND<DARGN>>
+IF !(<dISEMPTYZ <SRC.CTAG0.FRIENDO>>)
+dialogclose D_ARK_DEL
+SDIALOG D_ARK_PM
+ENDIF
+
+ON 2000 3999
+LOCAL.ARGN <EVAL <DARGN>-2000>
+SRC.CTAG0.PMOKU <DLOCAL.ARGN>
+SRC.DIALOGCLOSE D_PM_OKU
+SRC.SDIALOG D_PM_OKU
+
+ON 4000 5999
+LOCAL.ARGN <EVAL <DARGN>-4000>
+db.execute delete from friendlist_pm where ID='<DLOCAL.ARGN>'
+SRC.SYSYES Mesaj silindi.
+SRC.SDIALOG D_FRIENDLIST2
+
+ON 6001 9999
+SRC.CTAG0.FRIENDD <SRC.CTAG0.FRIENDD<DARGN>>
+IF !(<dISEMPTYZ <SRC.CTAG0.FRIENDD>>)
+dialogclose D_ARK_PM
+SDIALOG D_ARK_DEL
+ENDIF
+
+
+[dialog d_friendlist]
+100,50
+NOMOVE
+
+
+F_DEF_DIALOG 0,0,480,326
+
+SQLCONN
+
+PAGE 0
+
+DB.QUERY "SELECT date FROM friendlist_pm WHERE sendto='<UID>'"
+
+dtext 350 32 035 Mesajlar (<dDB.ROW.NUMROWS>)
+button 435 30 4005 4006 1 250 3
+tilepichue 10 10 <serv.itemdef.i_pet_man.id> <eval 03ea>
+tilepichue 30 10 <serv.itemdef.i_pet_woman.id> <eval 03ea>
+
+DB.QUERY "SELECT * FROM friendlist WHERE frienda='<UID>' OR friend='<UID>'"
+
+dtext 75 18 0481 Arkadaş Listesi (<dDB.ROW.NUMROWS> kişi)
+dtext 75 33 70 <FULLNAME>
+dtext 350 12 035 Arkadaş ekle
+button 435 10 4005 4006 1 0 1
+
+gumppictiled 7 65 465 1 2417
+dtext 65 66 55 İSİM
+dtext 280 66 55 BÖLGE
+dtext 399 66 55 Ö.M.
+dtext 442 66 55 SİL
+gumppictiled 7 85 465 1 2417
+
+page 1
+if (<dDB.ROW.NUMROWS> > 0)
+
+LOCAL.AUMENTAR=0
+LOCAL.PAGE=1
+LOCAL.FRX 10
+LOCAL.FRXX 6000
+
+
+	for R 0 <eval <dDB.ROW.NUMROWS>-1>
+
+IF (<LOCAL.AUMENTAR> > 9)
+LOCAL.AUMENTAR=0
+button 435 290 4005 4007 0 <EVAL <LOCAL.PAGE>+1> 1
+dtext 350 292 035 sonraki sayfa
+LOCAL.PAGE += 1
+PAGE <EVAL <LOCAL.PAGE>>
+button 15 290 4014 4016 0 <EVAL <LOCAL.PAGE>-1> 1
+dtext 48 292 035 önceki sayfa
+ENDIF
+
+	LOCAL.F1 <DB.ROW.<eval <LOCAL.R>>.0>
+	LOCAL.F2 <DB.ROW.<eval <LOCAL.R>>.1>
+	
+	IF (<LOCAL.F1>==<SRC.UID>)
+	LOCAL.FRIEND <LOCAL.F2>
+	ELSE
+	LOCAL.FRIEND <LOCAL.F1>
+	ENDIF
+
+	IF (<UID.<LOCAL.FRIEND>.UID>)
+	
+LOCAL.AUMENTAR += 1
+LOCAL.AUM <LOCAL.AUMENTAR>-1
+	
+	LOCAL.REF71 <REF71>
+	REF71 <LOCAL.FRIEND>
+
+	IF (<REF71.ISONLINE>)
+	LOCAL.GUMPPIC 2361
+	ELSE
+	LOCAL.GUMPPIC 2360
+	ENDIF
+
+	IF (<dREF71.ISPK>)
+	LOCAL.DCOLOR 35
+	ELSE
+	LOCAL.DCOLOR 95
+	ENDIF
+
+	LOCAL.FRX <DLOCAL.FRX>+1
+	SRC.CTAG0.FRIEND<DLOCAL.FRX> <REF71.UID>
+	LOCAL.FRXX <DLOCAL.FRXX>+1
+	SRC.CTAG0.FRIENDD<DLOCAL.FRXX> <REF71.UID>
+	
+	GUMPPIC 10 <EVAL (<DLOCAL.AUM>*20)+90> <DLOCAL.GUMPPIC>
+	DTEXT 23 <EVAL (<DLOCAL.AUM>*20)+85> <DLOCAL.DCOLOR> <STRSUB 0 29 <REF71.FULLNAME>>
+	IF (<REF71.ISONLINE>)
+	//DTEXT 230 <EVAL (<DLOCAL.AUM>*20)+85> 0481 <STRSUB 0 29 <REF71.REGION.NAME>>
+dhtmlgump 210 <EVAL (<DLOCAL.AUM>*20)+86> 180 25 0 0 <def.center><def.bfont_white><STRSUB 0 29 <REF71.REGION.NAME>>
+
+	ELSE
+dhtmlgump 278 <EVAL (<DLOCAL.AUM>*20)+86> 180 25 0 0 <def.bfont_white>(offline)
+	//DTEXT 278 <EVAL (<DLOCAL.AUM>*20)+85> 0481 (offline)
+	ENDIF
+	gumppictiled 7 <EVAL (<DLOCAL.AUM>*20)+104> 465 1 2417
+	gumppictiled 210 65 1 <EVAL <EVAL (<DLOCAL.AUM>+1)*20>+20> 2417 // DIKEY
+	gumppictiled 390 65 1 <EVAL <EVAL (<DLOCAL.AUM>+1)*20>+20> 2417 // DIKEY
+	gumppictiled 431 65 1 <EVAL <EVAL (<DLOCAL.AUM>+1)*20>+20> 2417 // DIKEY
+	button 397 <EVAL (<DLOCAL.AUM>*20)+83> 4029 4031 1 0 <DLOCAL.FRX>
+	button 438 <EVAL (<DLOCAL.AUM>*20)+83> 4017 4019 1 0 <DLOCAL.FRXX>
+
+	REF71 <LOCAL.REF71>
+
+	ENDIF
+
+	endfor
+
+else
+	gumppictiled 160 65 1 20 2417 // DIKEY
+	gumppictiled 390 65 1 20 2417 // DIKEY
+	gumppictiled 431 65 1 20 2417 // DIKEY
+	dtext 40 95 35 Arkadaş listenizde kimse yok.
+
+endif
+
+[dialog d_friendlist button]
+on 1
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+src.targetf f_ark_ekle <src.uid>
+src.sysnorm Arkadaşlık teklifi göndermek istediğiniz oyuncuyu seçiniz.
+
+ON 3
+SDIALOG D_FRIENDLIST2
+
+ON 4
+SDIALOG D_FRIENDLIST
+
+ON 11 1999
+SRC.CTAG0.FRIENDO <SRC.CTAG0.FRIEND<DARGN>>
+IF !(<dISEMPTYZ <SRC.CTAG0.FRIENDO>>)
+dialogclose D_ARK_DEL
+SDIALOG D_ARK_PM
+ENDIF
+
+ON 2000 3999
+LOCAL.ARGN <EVAL <DARGN>-2000>
+SRC.CTAG0.PMOKU <DLOCAL.ARGN>
+SRC.DIALOGCLOSE D_PM_OKU
+SRC.SDIALOG D_PM_OKU
+
+ON 4000 5999
+LOCAL.ARGN <EVAL <DARGN>-4000>
+db.execute delete from friendlist_pm where ID='<DLOCAL.ARGN>'
+SRC.SYSYES Mesaj silindi.
+SRC.SDIALOG D_FRIENDLIST2
+
+ON 6001 9999
+SRC.CTAG0.FRIENDD <SRC.CTAG0.FRIENDD<DARGN>>
+IF !(<dISEMPTYZ <SRC.CTAG0.FRIENDD>>)
+dialogclose D_ARK_PM
+SDIALOG D_ARK_DEL
+ENDIF
+
+[dialog D_PM_OKU]
+20,50
+SQLCONN
+
+DB.QUERY "SELECT sendby,message FROM friendlist_pm WHERE ID='<dSRC.CTAG0.PMOKU>'"
+
+if (<dDB.ROW.NUMROWS> > 0)
+
+db.execute "UPDATE friendlist_pm SET unread='0' where ID='<dSRC.CTAG0.PMOKU>'"
+
+F_DEF_DIALOG 190,175,500,200
+dhtmlgump 205 215 470 100 1 1 <def.bfont_black><DB.ROW.0.1>
+
+button 252 330 4029 4031 1 0 1
+button 407 330 4017 4019 1 0 2
+button 532 330 4014 4015 1 0 0
+SRC.CTAG0.PMUID <UID.<DB.ROW.0.0>.UID>
+dtext 210 190 1153 Gönderen: <UID.<DB.ROW.0.0>.FULLNAME>
+dtext 285 332 70 Cevap ver
+dtext 440 332 70 Sil
+dtext 565 332 35 Geri dön
+
+endif
+
+[dialog D_PM_OKU BUTTON]
+ON 0
+//SDIALOG D_FRIENDLIST2
+
+ON 1
+SRC.CTAG0.FRIENDO <SRC.CTAG0.PMUID>
+IF !(<dISEMPTYZ <SRC.CTAG0.FRIENDO>>)
+dialogclose D_ARK_DEL
+SDIALOG D_ARK_PM
+ENDIF
+
+ON 2
+db.execute delete from friendlist_pm where ID='<dSRC.CTAG0.PMOKU>'
+SRC.SYSYES Mesaj silindi.
+
+[dialog d_ark_DEL]
+0,0
+
+F_DEF_DIALOG 60,110,300,160
+text 70 140 1153 0 
+text 70 160 1153 1 
+text 70 180 1153 2 
+button 120 220 4005 4006 1 0 1
+button 220 220 4005 4006 1 0 0
+dtext 150 222 70 Evet
+dtext 250 222 35 Hayır
+
+[dialog d_ark_DEL text]
+<UID.<SRC.CTAG0.FRIENDD>.FULLNAME> isimli kişiyi
+arkadaşlık listenizden çıkartacaksnız.
+Emin misiniz?
+
+[dialog d_ark_DEL button]
+
+onbutton=0
+SRC.CTAG0.FRIENDD
+
+onbutton=1
+ref80 <SRC.CTAG0.FRIENDD>
+
+SQLCONN
+
+db.execute "delete from friendlist where friend='<REF80.UID>' AND frienda='<SRC.UID>'"
+db.execute "delete from friendlist where frienda='<REF80.UID>' AND friend='<SRC.UID>'"
+
+if (<ref80.isonline>)
+REF80.SYSSARI <SRC.FULLNAME> isimli oyuncu sizi arkadaş listesinden çıkardı.
+endif
+src.sysyes <ref80.fullname> arkadaş listenizden çıkarıldı.
+
+
+[dialog D_ARK_PM]
+20,50
+
+
+F_DEF_DIALOG 190,175,500,200
+resizepic 205 215 3000 470 100
+IF (<dISEMPTYZ <SRC.CTAG0.DUZELT>>)
+dtextentry 211 225 455 1500 1000 0
+ELSE
+dtextentry 211 225 455 1500 1000 0 <SRC.CTAG0.DUZELT>
+ENDIF
+SRC.CTAG0.DUZELT
+button 252 330 4029 4031 1 0 1
+button 532 330 4017 4019 1 0 0
+text 210 190 1153 0
+dtext 285 332 70 Gönder
+dtext 565 332 35 Vazgeç
+
+[dialog D_ARK_PM TEXT]
+Göndermek istediğiniz mesajı yazınız. [max. 240 karakter]
+
+[dialog D_ARK_PM BUTTON]
+On=0
+SRC.CTAG0.DUZELT
+
+on 1
+if (strmatch('<argtxt[0]>',''))
+	src.syshata Lütfen mesajınızı yazınız.
+	dialogclose D_ARK_DEL
+	sdialog D_ARK_PM
+elseif ((strlen(<argtxt[0]>)) > 240)
+	src.syshata Lütfen mesajınızın 240 karakteri geçmemesine özen gösteriniz.
+	SRC.CTAG0.DUZELT <argtxt[0]>
+	dialogclose D_ARK_DEL
+	sdialog D_ARK_PM
+else
+
+FOR s 1 <eval (strlen(<argtxt[0]>))-1>
+IF (strmatch('[şğüı@/\'"]','<strsub <eval <local.s>> 1 <argtxt[0]>>')) 
+src.syshata Sadece İngilizce harfler yazabilirsiniz.
+	SRC.CTAG0.DUZELT <argtxt[0]>
+	dialogclose D_ARK_DEL
+	sdialog D_ARK_PM
+RETURN 1
+ENDIF
+ENDFOR
+
+ref79 <SRC.CTAG0.FRIENDO>
+
+SQLCONN
+
+db.execute "INSERT INTO friendlist_pm (id, sendby, sendto, message, date, unread) VALUES ('','<SRC.UID>','<REF79.UID>','<addslashes <argtxt[0]>>','<F_DATE> -  <F_HOUR>:<F_MINUTE>','1')"
+
+if (<ref79.isonline>)
+REF79.SYSSARI <SRC.FULLNAME> isimli oyuncudan bir mesaj aldınız.
+trysrc <ref79> dialog d_ark_msg
+else
+ref79.events +e_ark_msg
+endif
+src.sysyes Mesajınız gönderildi.
+SRC.CTAG0.DUZELT
+endif
+
+[function f_ark_ekle]
+SQLCONN
+local.oldref1 <ref1>
+local.oldref2 <ref2>
+ref1=<args> // Alan
+ref2=<argo> // Alınan
+
+if !(<ref2.isplayer>)
+ref1.syshata Yalnızca oyunculara teklif gönderebilirsiniz.
+
+elseif (<ref2.hits> < 1)
+ref1.syshata Ölülere teklif gönderemezsiniz.
+
+elif (<ref1.uid> == <ref2.uid>)
+ref1.syshata Kendini ekleyemezsiniz.
+
+elif !(<ref2.isonline>)
+ref1.syshata <ref2.FULLname> oyuna bağlı değil.
+
+elif (<ref2.findid.i_rune_incognito>)
+ref1.syshata <ref2.FULLname> isimli oyuncunun adı gizli. Davet gönderilemedi.
+
+elif (<ref2.isdialogopen d_ark_girlex>)
+ref1.syshata <ref2.FULLname> isimli oyuncu şu an zaten bir teklif almış.
+
+else
+
+DB.QUERY "SELECT * FROM friendlist WHERE frienda='<REF1.UID>' AND friend='<REF2.UID>'"
+if (<DB.ROW.NUMROWS> > 0)
+REF1.SYSHATA <ref2.FULLname> zaten arkadaş listenize eklenmiş.
+RETURN 1
+ENDIF
+
+DB.QUERY "SELECT * FROM friendlist WHERE friend='<REF1.UID>' AND frienda='<REF2.UID>'"
+if (<DB.ROW.NUMROWS> > 0)
+REF1.SYSHATA <ref2.FULLname> zaten arkadaş listenize eklenmiş.
+RETURN 1
+ENDIF
+
+DB.QUERY "SELECT * FROM friendlist WHERE frienda='<REF1.UID>' OR friend='<REF1.UID>'"
+if (<DB.ROW.NUMROWS> > 74)
+REF1.SYSHATA En fazla 75 kişi ekleyebilirsiniz.
+RETURN 1
+ENDIF
+
+DB.QUERY "SELECT * FROM friendlist WHERE frienda='<REF2.UID>' OR friend='<REF2.UID>'"
+if (<DB.ROW.NUMROWS> > 74)
+REF1.SYSHATA <ref2.FULLname> isimli kişinin arkadaş listesi dolu.
+RETURN 1
+ENDIF
+
+ref2.tag0.daveteden <ref1.uid>
+REF1.sysnorm <ref2.FULLname> isimli oyuncuya arkadaşlık teklifi gonderdiniz.
+TRYSRC <ref2> dialogclose d_ark_girlex
+TRYSRC <ref2> dialog d_ark_girlex
+endif
+
+ref1 <local.oldref1>
+ref2 <local.oldref2>
+
+[dialog d_ark_girlex]
+0,0
+
+F_DEF_DIALOG 60,110,300,160
+text 70 140 1153 0 
+text 70 160 1153 1 
+text 70 180 1153 2 
+button 120 220 4005 4006 1 0 1
+button 220 220 4005 4006 1 0 0
+dtext 150 222 70 Evet
+dtext 250 222 35 Hayır
+
+[dialog d_ark_girlex text]
+<UID.<src.tag0.daveteden>.FULLNAME> isimli kişi
+sizi arkadaş listesine eklemek istiyor.
+Kabul ediyor musunuz?
+
+[dialog d_ark_girlex button]
+
+onbutton=0
+src.sysHATA Arkadaşlık teklifini reddettiniz.
+TRY UID.<src.tag0.daveteden>.SYShata <src.fullname> arkadaşlık teklifinizi kabul etmedi.
+src.tag0.daveteden
+
+onbutton=1
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+SQLCONN
+
+db.execute "delete from friendlist where frienda='<UID.<src.tag0.daveteden>.UID>' AND friend='<SRC.UID>'"
+db.execute "delete from friendlist where friend='<UID.<src.tag0.daveteden>.UID>' AND frienda='<SRC.UID>'"
+
+db.execute "INSERT INTO friendlist (frienda, friend) VALUES ('<UID.<src.tag0.daveteden>.UID>','<SRC.UID>')"
+
+TRY UID.<src.tag0.daveteden>.SYSYES <src.fullname> arkadaşlık teklifinizi kabul etti.
+SRC.SYSYES Arkadaşlık teklifini kabul ettiniz. (.arkadas veya .friend)
+
+src.tag0.daveteden

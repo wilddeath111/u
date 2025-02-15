@@ -1,0 +1,34 @@
+﻿[plevel 1]
+cantakaydet
+cantaduzenle
+
+[FUNCTION CANTAKAYDET]
+IF (<HITS> < 1)
+RETURN 1
+ENDIF
+
+FORCONT <FINDLAYER.21.UID> 0 // <FINDLAYER.21.UID> - UID of a container, 10 - how many subcontainers the function goes through, if set 0, it affects only items in container with UID
+	TRY UID.<SRC.FINDLAYER.21.UID>.TAG.POS<BASEID> <CONTP>
+ENDFOR
+
+SYSYES Çantanızdaki eşyaların konumu kaydedildi.
+SYSYES cantaduzenle komutu ile düzenleyebilirsiniz.
+TAG0.CANTAKAYIT 1
+
+
+[FUNCTION CANTADUZENLE]
+IF (<HITS> < 1)
+RETURN 1
+ENDIF
+IF (<dTAG0.CANTAKAYIT> < 1)
+SYSHATA Önce .cantakaydet komutu ile çantanızı kaydetmelisiniz.
+return 1
+endif
+
+FORCONT <FINDLAYER.21.UID> 0 // <FINDLAYER.21.UID> - UID of a container, 10 - how many subcontainers the function goes through, if set 0, it affects only items in container with UID
+	TRY UID.<UID>.CONTP <UID.<SRC.FINDLAYER.21.UID>.TAG.POS<BASEID>>
+	UPDATE
+	UPDATEX
+ENDFOR
+
+SYSYES Çantanız düzenlendi.

@@ -1,0 +1,314 @@
+﻿//------------------
+// MAKELAST
+//------------------
+// Roxside UO SHARD
+// KODLAYAN: Lexis
+//------------------
+
+[FUNCTION f_explode_log]
+local.chartertext
+FOR 0 <EVAL (<ARGV> - 1)>
+    local.chartertext .= <STRARG <ARGV[<LOCAL._FOR>]>> <SERV.ITEMDEF.<STREAT <ARGV[<LOCAL._FOR>]>>.NAME>,
+ENDFOR
+
+RETURN <STRSUB 1 <EVAL STRLEN(<local.chartertext>)-2> <local.chartertext>>
+
+[FUNCTION f_explode_log2]
+local.chartertext
+FOR 0 <EVAL (<ARGV> - 1)>
+IF !(STRMATCH(*_*, <ARGV[<LOCAL._FOR>]>))
+    local.chartertext .= <ARGV[<LOCAL._FOR>]>,
+ENDIF
+ENDFOR
+
+RETURN <STRSUB 1 <EVAL STRLEN(<local.chartertext>)-2> <local.chartertext>>
+
+
+[plevel 1]
+makelast
+tekraryap
+tekrarla
+makeloop
+uoloop
+
+[function uoloop]
+makelast
+
+[function makeloop]
+makelast
+
+[function tekraryap]
+makelast
+
+[function tekrarla]
+makelast
+
+[function makelast]
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+IF (<dCTAG0.MAKESYS> < 1)
+F_MAKELOOP
+RETURN 1
+ENDIF
+if !(<tag0.makelast>)
+syshata En son ne yaptığınızı hatırlamıyorsunuz.
+return 1
+endif
+if !(<src.canmake <tag0.makelast>>)
+syshata Yeterli malzemeye sahip değilsiniz.
+return 1
+endif
+proditem <tag0.makelast>
+
+
+[function f_makeloop]
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+if !(<tag0.makelast>)
+syshata En son ne yaptığınızı hatırlamıyorsunuz.
+return 1
+endif
+if (<isevent.e_makeloop>)
+syshata Tekrarlama işlemi iptal edildi.
+f_makeloop_cancel
+endif
+IF (<TAG0.MAKELAST>==I_RUNE_BOOK)
+CTAG0.MLCOLOR 07D4
+ELSEIF (<TAG0.MAKELAST>==I_RUNE_BOOK_LINK)
+CTAG0.MLCOLOR 08ac
+ELSEIF (<TAG0.MAKELAST>==I_RUNE_BOOK_COPY)
+CTAG0.MLCOLOR 08f
+ELSEIF (<TAG0.MAKELAST>==I_PET_GOLEM1)
+CTAG0.MLCOLOR 0837
+ELSEIF (<TAG0.MAKELAST>==I_PET_GOLEM2)
+CTAG0.MLCOLOR 0839
+ELSE
+CTAG0.MLCOLOR 0
+ENDIF
+sdialog d_makeloop
+
+
+[dialog d_makeloop] 
+0,0 
+F_DEF_DIALOG 200,175,500,230
+dtext 225 195 90 <serv.name> Makelast Sistemi
+
+htmlgump 222 222 300 80 0 1 1
+resizepic 542 222 2620 135 130 // resim bg
+tilepichue 590 272 <serv.itemdef.<tag0.makelast>.id> <dCTAG0.MLCOLOR>
+dhtmlgump 555 355 120 20 0 0 <def.bfont_yellow><serv.itemdef.<tag0.makelast>.name>
+
+
+resizepic 222 320 2620 45 30
+dtextentry 228 326 30 15 55 0
+dtext 270 326 0481 kez tekrarla
+button 350 325 4005 4007 1 0 1 
+
+button 222 366 2224 2117 1 0 2
+dtext 242 362 050 Manuel (tek tek) düzene çevir
+
+[dialog d_makeloop text] 
+<def.bfont_red>Gerekli malzemeler: <def.BFONT_LBLUE><F_EXPLODE_LOG <serv.itemdef.<tag0.makelast>.resources>> <def.bfont_red>Gerekli yetenekler: <def.BFONT_LBLUE><F_EXPLODE_LOG2 <serv.itemdef.<tag0.makelast>.skillmake>>
+
+[dialog d_makeloop button] 
+On=1 
+if !(<isnum <argtxt[0]>>)
+syshata Sadece rakam girebilirsiniz.
+sdialog d_makeloop
+return 1 
+endif 
+if (<dargtxt[0]> < 1)
+syshata Sıfırdan büyük bir sayı girmelisiniz.
+sdialog d_makeloop
+return 1 
+endif 
+if (<dargtxt[0]> > 1000)
+syshata En fazla 1000 girebilirsiniz.
+sdialog d_makeloop
+return 1 
+endif 
+if !(<tag0.makelast>)
+syshata En son ne yaptığınızı hatırlamıyorsunuz.
+return 1
+endif
+if !(<canmake <tag0.makelast>>)
+syshata Yeterli malzemeye veya yeteneğe sahip değilsiniz.
+return 1
+endif
+CRAFTITEM <tag0.makelast>
+events +e_makeloop
+ctag0.makeloop <dargtxt[0]>
+sysyes Makelast işlemi <dargtxt[0]> kere tekrar edilecek.
+
+CTAG0.MKLOOP <tag0.makelast>
+
+on=2
+f_makeloop_cancel
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+
+CTAG0.MAKESYS 1
+SYSNORM Makelast sistemi manuel olarak çalışacak, değiştirmek için logout olmalısınız.
+
+
+[function f_makeloop_cancel]
+events -e_makeloop
+CTAG0.MAKELOOP
+CTAG0.MKLOOP
+CTAG0.MKFIX
+
+[events e_makeloop]
+on=@death
+f_makeloop_cancel
+
+on=@userwarmode
+f_makeloop_cancel
+syshata Savaş moduna geçtiğiniz için tekrarlama işlemi durduruldu.
+
+on=@logout
+f_makeloop_cancel
+
+on=@attack
+f_makeloop_cancel
+syshata Savaş moduna geçtiğiniz için tekrarlama işlemi durduruldu.
+
+on=@spellcast
+f_makeloop_cancel
+syshata Büyü attığınız için tekrarlama işlemi durduruldu.
+
+on=@skillselect
+IF !(<ACTION>==<CTAG0.SKILLNE>)  && (<DCTAG0.MKFIX> < 1)
+syshata Başka bir skill kullandığınız için tekrarlama işlemi durduruldu.
+CTAG0.MKFIX 1 
+f_makeloop_cancel
+ENDIF
+
+CTAG0.MKFIX
+
+on=@skillstart
+	IF !(strmatch(´<tag0.makelast>´,´<Ctag0.mKLOOP>´) && (<DCTAG0.MKFIX> < 1)
+		syshata Başka bir eşya ürettğiniz için tekrarlama işlemi durduruldu.
+		CTAG0.MKFIX 1
+		f_makeloop_cancel
+	ENDIF
+IF !(<ACTION>==<CTAG0.SKILLNE>)  && (<DCTAG0.MKFIX> < 1)
+syshata Başka bir skill kullandığınız için tekrarlama işlemi durduruldu.
+CTAG0.MKFIX 1 
+f_makeloop_cancel
+ENDIF
+
+CTAG0.MKFIX
+
+on=@skillmakeitem
+
+	if !(<tag0.makelast>)
+		syshata En son ne yaptığınızı hatırlamıyorsunuz, tekrarlama işlemi durduruldu.
+		f_makeloop_cancel
+	elseif !(<canmake <tag0.makelast>>)
+		CTAG0.MLFIX 1
+		syshata Yeterli malzemeye veya yeteneğe sahip olmadığınız için tekrarlama işlemi durduruldu.
+		f_makeloop_cancel
+	ELSEIF (<CTAG0.MAKELOOP> < 2)
+		f_makeloop_cancel
+		SYShata Tekrarlama işlemi tamamlandı.
+	else
+		CTAG0.MAKELOOP <EVAL <CTAG0.MAKELOOP>-1>
+		SYSNORM Kalan tekrar sayısı: <dCTAG0.MAKELOOP>
+		if !(<canmake <tag0.makelast>>) && (<dCTAG0.MLFIX> < 1)
+		CTAG0.MLFIX 1
+		syshata Yeterli malzemeye veya yeteneğe sahip olmadığınız için tekrarlama işlemi durduruldu.
+		f_makeloop_cancel
+		endif
+		TIMERF 1,CRAFTITEM <TAG0.MAKELAST>
+	endif
+		if !(<canmake <tag0.makelast>>) && (<dCTAG0.MLFIX> < 1)
+		CTAG0.MLFIX 1
+		syshata Yeterli malzemeye veya yeteneğe sahip olmadığınız için tekrarlama işlemi durduruldu.
+		f_makeloop_cancel
+		endif
+
+CTAG0.MLFIX
+
+on=@skillfail
+	if !(<tag0.makelast>)
+		syshata En son ne yaptığınızı hatırlamıyorsunuz, tekrarlama işlemi durduruldu.
+		f_makeloop_cancel
+	elseif !(<canmake <tag0.makelast>>)
+		CTAG0.MLFIX 1
+		syshata Yeterli malzemeye veya yeteneğe sahip olmadığınız için tekrarlama işlemi durduruldu.
+		f_makeloop_cancel
+	ELSEIF (<CTAG0.MAKELOOP> < 2)
+		f_makeloop_cancel
+		SYShata Tekrarlama işlemi tamamlandı.
+	else
+		SYSNORM Kalan tekrar sayısı: <dCTAG0.MAKELOOP>
+		if !(<canmake <tag0.makelast>>) && (<dCTAG0.MLFIX> < 1)
+		CTAG0.MLFIX 1
+		syshata Yeterli malzemeye veya yeteneğe sahip olmadığınız için tekrarlama işlemi durduruldu.
+		f_makeloop_cancel
+		endif
+		TIMERF 1,CRAFTITEM <TAG0.MAKELAST>
+	endif
+		if !(<canmake <tag0.makelast>>) && (<dCTAG0.MLFIX> < 1)
+		CTAG0.MLFIX 1
+		syshata Yeterli malzemeye veya yeteneğe sahip olmadığınız için tekrarlama işlemi durduruldu.
+		f_makeloop_cancel
+		endif
+
+CTAG0.MLFIX
+
+on=@skillabort
+	IF !(strmatch(´<tag0.makelast>´,´<Ctag0.mKLOOP>´) && (<DCTAG0.MKFIX> < 1)
+		syshata Başka bir eşya ürettğiniz için tekrarlama işlemi durduruldu.
+		CTAG0.MKFIX 1
+		f_makeloop_cancel
+	elseif !(<tag0.makelast>)
+		syshata En son ne yaptığınızı hatırlamıyorsunuz, tekrarlama işlemi durduruldu.
+		f_makeloop_cancel
+	elseif !(<canmake <tag0.makelast>>)
+		CTAG0.MLFIX 1
+		syshata Yeterli malzemeye veya yeteneğe sahip olmadığınız için tekrarlama işlemi durduruldu.
+		f_makeloop_cancel
+	ELSEIF (<CTAG0.MAKELOOP> < 2)
+		f_makeloop_cancel
+		SYShata Tekrarlama işlemi tamamlandı.
+	else
+		SYSNORM Kalan tekrar sayısı: <dCTAG0.MAKELOOP>
+		if !(<canmake <tag0.makelast>>) && (<dCTAG0.MLFIX> < 1)
+		CTAG0.MLFIX 1
+		syshata Yeterli malzemeye veya yeteneğe sahip olmadığınız için tekrarlama işlemi durduruldu.
+		f_makeloop_cancel
+		endif
+		TIMERF 1,CRAFTITEM <TAG0.MAKELAST>
+	endif
+
+		if !(<canmake <tag0.makelast>>) && (<dCTAG0.MLFIX> < 1)
+		CTAG0.MLFIX 1
+		syshata Yeterli malzemeye veya yeteneğe sahip olmadığınız için tekrarlama işlemi durduruldu.
+		f_makeloop_cancel
+		endif
+
+CTAG0.MLFIX
+
+
+[FUNCTION CRAFTITEM]
+if !(<canmake <args>>) && (<dSRC.CTAG0.MLFIX> < 1)
+	SRC.CTAG0.MLFIX 1
+	syshata Yeterli malzemeye veya yeteneğe sahip olmadığınız için tekrarlama işlemi durduruldu.
+	f_makeloop_cancel
+ELSE
+	MAKEITEM <ARGS>
+	SRC.CTAG0.SKILLNE <ACTION>
+endif
+
+CTAG0.MLFIX
+
+[FUNCTION PRODITEM]
+IF (<ISEVENT.E_MAKELOOP>)
+syshata Başka bir işlem yaptığınız için tekrarlama işlemi durduruldu.
+f_makeloop_cancel
+ENDIF
+MAKEITEM <ARGS>

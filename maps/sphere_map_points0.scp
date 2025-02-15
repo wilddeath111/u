@@ -1,0 +1,49 @@
+//****************************************************************************
+// SPHERE by : Menasoft ©1997-2007 
+// www.sphereserver.net
+// All SPHERE script files and formats are copyright Menasoft & Partners.
+// This file may be freely edited for personal use, but may not be distributed
+// in whole or in part, in any format without express written permission from
+// Menasoft & Partners.  All donations and contributions
+// become the property of Menasoft & Partners.
+//****************************************************************************
+// FILE LAST UPDATED: June 09, 2011
+
+VERSION=0.56b
+
+[STARTS]	// new client
+Yew
+The Sturdy Bow
+1107,401,-80,2
+Minoc
+The Barnacle Tavern
+1107,401,-80,2
+Britain
+Sweet Dreams Inn
+1107,401,-80,2
+Moonglow
+The Scholars Inn
+1107,401,-80,2
+Trinsic
+The Traveller's Inn
+1107,401,-80,2
+Magincia
+The Great Horns Tavern
+1107,401,-80,2
+Jhelom
+The Morning Star Inn
+1107,401,-80,2
+Skara Brae
+The Falconers Inn
+1107,401,-80,2
+Vesper
+The Ironwood Inn
+1107,401,-80,2
+//181,2066,-25
+
+[MoonGates]
+
+[TELEPORTERS]
+
+
+[EOF]

@@ -1,0 +1,73 @@
+﻿[plevel 1]
+charsil
+karaktersil
+
+[function karaktersil]
+charsil
+
+[FUNCTION CHARSIL]
+IF (<HITS> < 1)
+RETURN 1
+ENDIF
+
+SDIALOG D_CHARSIL
+
+[dialog d_CHARSIL2]
+300,200
+
+F_DEF_DIALOG 0,0,310,120
+dtext 15 15 0481 <UID.<SRC.CTAG0.CHARSIL>.FULLNAME>
+
+dtext 15 35 035 Bu karakteri silmek istediğinize emin misiniz?
+
+button 40 75 <def.bno> 1 0 1
+button 180 75 <def.bno> 1 0 0
+dtext 70 77 <def.YESIL> Evet
+dtext 210 77 <def.KIRMIZI> Hayır
+
+[dialog d_CHARSIL2 button]
+on 0
+SRC.CTAG0.CHARSIL
+
+On=1
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+
+TRYSRV UID.<SRC.CTAG0.CHARSIL>.REMOVE 1
+
+SYSYES <UID.<SRC.CTAG0.CHARSIL>.FULLNAME> isimli karakter silinmiştir.
+
+
+[dialog d_CHARSIL]
+300,200
+
+F_DEF_DIALOG 0,0,270,185
+
+DTEXT 15 15 035 Hangi karakteri silmek istiyorsunuz?
+
+FOR X 0 <EVAL <SERV.ACCOUNT.<ACCOUNT.NAME>.CHARS>-1>
+IF (<SRC.UID>==<SERV.ACCOUNT.<ACCOUNT.NAME>.CHAR.<DLOCAL.X>.UID>)
+dtext 48 <EVAL 47+(<DLOCAL.X>*25)> <def.kirmizi> <SERV.ACCOUNT.<ACCOUNT.NAME>.CHAR.<DLOCAL.X>.FULLNAME>
+gumppic 15 <EVAL 45+(<DLOCAL.X>*25)> 4005 32
+ELSE
+dtext 48 <EVAL 47+(<DLOCAL.X>*25)> 0481 <SERV.ACCOUNT.<ACCOUNT.NAME>.CHAR.<DLOCAL.X>.FULLNAME>
+button 15 <EVAL 45+(<DLOCAL.X>*25)> <def.bno> 1 0 <EVAL <DLOCAL.X>+1>
+ENDIF
+ENDFOR
+
+[dialog d_CHARSIL button]
+ON=1 100
+IF (<SRC.HITS> < 1)
+RETURN 1
+ENDIF
+LOCAL.ARGN <EVAL <DARGN>-1>
+CTAG0.CHARSIL <SERV.ACCOUNT.<ACCOUNT.NAME>.CHAR.<DLOCAL.ARGN>.UID>
+
+IF (<eval (<UID.<CTAG0.CHARSIL>.AGE> / 86400)> < 7)
+SRC.SYSHATA Karakter en az 7 günlük olmalıdır.
+RETURN 1
+ENDIF
+
+SDIALOG D_CHARSIL2
+RETURN 1

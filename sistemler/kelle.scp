@@ -1,0 +1,63 @@
+//illa kelle sallandýrcaz diyen sadistlere...
+
+[ITEMDEF i_kelleci]
+Name kafa avcisi
+ID 01640
+
+On=@Create
+Attr 08000
+
+On=@Click
+message @0481 Kafa Sallandirma
+return 1
+
+On=@Dclick
+If (<distance> < 3)
+Target  @60,,1 Sallandirmak istediginiz kafayi secin.
+return 1
+else
+src.sysmessage @033,,1 Yeterince yakin degilsiniz.
+return 1
+endif
+
+On=@Targon_Item
+if (<src.targ.baseid> == i_flesh_head) || (<src.targ.baseid> == i_flesh_head_2) && !(<src.targ.link> == 04fffffff)
+If (<src.targ.link.fame> == 0)
+src.sysmessage @033,,1 Bu kafa degersiz.
+return 1
+endif
+if (<src.targ.link.fame> > -8000)
+local.famegold <src.targ.link.fame>*3
+src.sysmessage @100,,1 Cantaniza <src.targ.link.FULLNAME> sayesinde <eval <local.famegold>> eklenmistir.
+serv.allclients sysmessage @54,,1 <src.targ.link.FULLNAME>'in kafasi , <src.FULLNAME> tarafindan <src.region.name> civarlarinda sallandirilmistir.
+src.targ.link.sysmessage @100,,1 Kafaniz <src.FULLNAME> tarafindan sallandirilmistir.
+src.targ.link.fame -2000
+src.targ.remove
+src.newitem i_gold
+src.act.amount <eval <local.famegold>>
+src.act.bounce
+return 1
+else
+local.famegold <src.targ.link.fame>*3
+src.sysmessage @100,,1 Cantaniza <src.targ.link.FULLNAME> sayesinde <eval <local.famegold>> eklenmistir.
+serv.allclients sysmessage @54,,1 <src.targ.link.FULLNAME>'in kafasi , <src.FULLNAME> tarafindan <src.region.name> civarlarinda sallandirilmistir.
+src.targ.link.sysmessage @100,,1 Kafaniz <src.FULLNAME> tarafindan sallandirilmistir.
+src.targ.link.fame -10000
+src.targ.remove
+src.newitem i_gold
+src.act.amount <eval <local.famegold>>
+src.act.bounce
+return 1
+endif
+else
+src.sysmessage @033,,1 Bu bir kafa degil.
+return 1
+endif
+
+On=@Targon_Char
+return 1
+
+On=@Targon_Ground
+return 1
+
+[EOF]

@@ -1,0 +1,369 @@
+﻿[itemdef i_travgate]
+id=i_moongate_black
+type=t_moongate
+defname=i_travgate
+
+on=@create
+color=064
+
+on=@step
+if (<src.findid i_rune_poison>)
+src.syshata Üzerinizde zehir varken moongate kullanamazsınız.
+elseif (<src.hits> < <src.str>)
+src.syshata Yaralıyken moongate kullanamazsınız.
+elseif (<distance> > 3)
+src.syshata Yeterince yakın değilsiniz.
+else
+sdialog d_facet_moongate
+endif
+return 1
+
+on=@dclick
+if (<src.findid i_rune_poison>)
+src.syshata Üzerinizde zehir varken moongate kullanamazsınız.
+elseif (<src.hits> < <src.str>)
+src.syshata Yaralıyken moongate kullanamazsınız.
+elseif (<distance> > 3)
+src.syshata Yeterince yakın değilsiniz.
+else
+sdialog d_facet_moongate
+endif
+return 1
+
+on=@click
+message @1153,,1 Moongate
+return 1
+
+on=@timer
+return 1
+
+[dialog d_facet_moongate]
+50,50
+nomove
+PAGE 0
+F_DEF_DIALOG 187,80,240,340
+button 220 130 4005 4006 1 0 1 
+button 220 155 4005 4006 1 0 2
+button 220 180 4005 4006 1 0 3
+button 220 205 4005 4006 1 0 4
+button 220 230 4005 4006 1 0 5
+button 220 255 4005 4006 1 0 6
+button 220 280 4005 4006 1 0 7
+button 220 305 4005 4006 1 0 8
+button 220 330 4005 4006 1 0 9
+button 220 355 4005 4006 1 0 10
+button 220 380 4005 4006 1 0 11
+//button 220 405 4005 4006 1 0 12
+dtext 250 132 <eval 100> Rohan
+dtext 250 157 <eval 100> Iron Hills
+dtext 250 182 <eval 100> Lorien
+dtext 250 207 <eval 100> Rivendell
+dtext 250 232 <eval 100> Shire
+dtext 250 257 <eval 33> Isengard
+dtext 250 282 <eval 100> Minas Tirith
+dtext 250 307 <eval 33> Mordor
+dtext 250 332 <eval 33> Orc City
+dtext 250 357 <eval 0481> Duello Alanı
+dtext 250 382 <eval 0481> Pazar Alanı
+
+dtext 210 100 <eval 035> <serv.name> Moongate
+
+[dialog d_facet_moongate button]
+on=1 // Britain
+if (<src.isevent.e_ticaret>)
+src.syshata Ticaretteyken bunu yapamazsınız.
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.syshata Üzerinizde zehir varken moongate kullanamazsınız.
+return 1
+elseif (<src.hits> < (<src.str>)
+src.syshata Yaralıyken moongate kullanamazsınız.
+return 1
+endif
+IF (<DISTANCE> < 4)
+SRC.GO 2176,2498
+ELSE
+SRC.SYShata Moongate'den cok uzaktasınız.
+ENDIF
+src.fix
+
+
+on=2 // Jhelom 
+if (<src.isevent.e_ticaret>)
+src.syshata Ticaretteyken bunu yapamazsınız.
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.syshata Üzerinizde zehir varken moongate kullanamazsınız.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.syshata Yaralıyken moongate kullanamazsınız.
+return 1
+endif
+IF (<DISTANCE> <=3)
+SRC.GO 3941,1181
+ELSE
+SRC.SYSHATA Moongate'den çok uzaktasınız.
+return 1
+ENDIF
+SRC.FIX
+
+on=3 // Moonglow
+if (<src.isevent.e_ticaret>)
+src.syshata Ticaretteyken bunu yapamazsınız.
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.syshata Üzerinizde zehir varken moongate kullanamazsınız.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.syshata Yaralıyken moongate kullanamazsınız.
+return 1
+endif
+IF (<DISTANCE> <=3)
+SRC.GO 2594,1931
+ELSE
+SRC.SYSHATA Moongate'den çok uzaktasınız.
+return 1
+ENDIF
+SRC.FIX
+
+on=4 // Yew
+if (<src.isevent.e_ticaret>)
+src.syshata Ticaretteyken bunu yapamazsınız.
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.syshata Üzerinizde zehir varken moongate kullanamazsınız.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.syshata Yaralıyken moongate kullanamazsınız.
+return 1
+endif
+iF (<DISTANCE> <=3)
+SRC.GO 2167,1320
+ELSE
+SRC.SYSHATA Moongate'den çok uzaktasınız.
+return 1
+ENDIF
+SRC.FIX
+
+on=5 // Minoc
+if (<src.isevent.e_ticaret>)
+src.syshata Ticaretteyken bunu yapamazsınız.
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.syshata Üzerinizde zehir varken moongate kullanamazsınız.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.syshata Yaralıyken moongate kullanamazsınız.
+return 1
+endif
+IF (<DISTANCE> <=3)
+SRC.GO 1199,1231,10
+ELSE
+SRC.SYSHATA Moongate'den çok uzaktasınız.
+return 1
+ENDIF
+SRC.FIX
+
+on=6 // Magincia
+if (<src.isevent.e_ticaret>)
+src.syshata Ticaretteyken bunu yapamazsınız.
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.syshata Üzerinizde zehir varken moongate kullanamazsınız.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.syshata Yaralıyken moongate kullanamazsınız.
+return 1
+endif
+IF (<DISTANCE> <=3)
+SRC.GO 2021,2464
+ELSE
+SRC.SYSHATA Moongate'den çok uzaktasınız.
+return 1
+ENDIF
+SRC.FIX
+
+on=7 // Trinsic
+if (<src.isevent.e_ticaret>)
+src.syshata Ticaretteyken bunu yapamazsınız.
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.syshata Üzerinizde zehir varken moongate kullanamazsınız.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.syshata Yaralıyken moongate kullanamazsınız.
+return 1
+endif
+IF (<DISTANCE> <=3)
+SRC.GO 2900,2825
+ELSE
+SRC.SYSHATA Moongate'den çok uzaktasınız.
+return 1
+ENDIF
+SRC.FIX
+
+on=8 // Skara Brae
+if (<src.isevent.e_ticaret>)
+src.syshata Ticaretteyken bunu yapamazsınız.
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.syshata Üzerinizde zehir varken moongate kullanamazsınız.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.syshata Yaralıyken moongate kullanamazsınız.
+return 1
+endif
+IF (<DISTANCE> <=3)
+SRC.GO 3523,2722
+ELSE
+SRC.SYSHATA Moongate'den çok uzaktasınız.
+return 1
+ENDIF
+SRC.FIX
+
+on=9 // Cove
+if (<src.isevent.e_ticaret>)
+src.syshata Ticaretteyken bunu yapamazsınız.
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.syshata Üzerinizde zehir varken moongate kullanamazsınız.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.syshata Yaralıyken moongate kullanamazsınız.
+return 1
+endif
+
+
+IF (<DISTANCE> <=3)
+SRC.GO 3782,2205
+ELSE
+SRC.SYSHATA Moongate'den çok uzaktasınız.
+return 1
+ENDIF
+SRC.FIX
+
+on=10 // Delucia
+if (<src.isevent.e_ticaret>)
+src.syshata Ticaretteyken bunu yapamazsınız.
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.syshata Üzerinizde zehir varken moongate kullanamazsınız.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.syshata Yaralıyken moongate kullanamazsınız.
+return 1
+endif
+
+
+if (<src.findlayer(25).uid>)
+src.syshata Altınızda binek varken duello alanına giremezsiniz.
+return 1
+endif
+
+IF (<FINDLAYER.25>) || (<src.findlayer(layer_horse).id> > 0)
+src.syshata Altınızda binek varken duello alanına giremezsiniz.
+return 1
+endif
+
+
+forchars 16
+if (<memoryfindtype.memory_ipet>)
+if (<memoryfindtype.memory_ipet.link>==<src.uid>)
+src.syshata Etrafınızda size ait bir hayvan varken duello alanına giremezsiniz.
+return 1
+endif
+endif
+endfor
+
+if <src.FINDID.i_mem_exp>
+SRC.syshata Duello alanına giderken explosion kullanımı yasaktır.
+return 1
+endif
+
+IF (<DISTANCE> <=3)
+SRC.GO 776,1480,-28,2
+ELSE
+SRC.SYSHATA Moongate'den çok uzaktasınız.
+return 1
+ENDIF
+SRC.FIX
+
+on=11 // bucs
+if (<src.isevent.e_ticaret>)
+src.syshata Ticaretteyken bunu yapamazsınız.
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.syshata Üzerinizde zehir varken moongate kullanamazsınız.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.syshata Yaralıyken moongate kullanamazsınız.
+return 1
+endif
+
+IF (<DISTANCE> <=3)
+SRC.GO pazar
+ELSE
+SRC.SYSHATA Moongate'den çok uzaktasınız.
+return 1
+ENDIF
+SRC.FIX
+
+
+on=12 // pazar
+if (<src.isevent.e_ticaret>)
+src.syshata Ticaretteyken bunu yapamazsınız.
+return 1
+endif
+if (<src.findid i_rune_poison>)
+src.syshata Üzerinizde zehir varken moongate kullanamazsınız.
+return 1
+elseif !(<src.flags>&statf_dead) && (<src.hits> < (<src.str>)
+src.syshata Yaralıyken moongate kullanamazsınız.
+return 1
+endif
+
+if (<src.findlayer(25).uid>)
+src.syshata Altınızda binek varken duello alanına giremezsiniz.
+return 1
+endif
+
+IF (<FINDLAYER.25>) || (<src.findlayer(layer_horse).id> > 0)
+src.syshata Altınızda binek varken duello alanına giremezsiniz.
+return 1
+endif
+
+
+forchars 16
+if (<memoryfindtype.memory_ipet>)
+if (<memoryfindtype.memory_ipet.link>==<src.uid>)
+src.syshata Etrafınızda size ait bir hayvan varken duello alanına giremezsiniz.
+return 1
+endif
+endif
+endfor
+
+if <src.FINDID.i_mem_exp>
+SRC.syshata Duello alanına giderken explosion kullanımı yasaktır.
+return 1
+endif
+
+IF (<DISTANCE> <=3)
+SRC.GO 776,1480,-28,2
+ELSE
+SRC.SYSHATA Moongate'den çok uzaktasınız.
+return 1
+ENDIF
+SRC.FIX
+
+[EOF]

@@ -1,0 +1,1999 @@
+﻿[FUNCTION f_skill_carpentry_new]
+if (<src.hits> < 1)
+SYSHATA Ölüyken kullanamazsınız.
+return 1
+endif
+
+SDIALOG d_skill_carpentry_new,2
+
+[DIALOG d_skill_carpentry_new]                            
+10,10
+page 0
+
+F_DEF_DIALOG 0,0,710,325
+
+dtext 260 10 920 <serv.name> High Quality Carpenter Tool
+
+gumppictiled 10 35 690 1 2417 // YATAY
+gumppictiled 10 65 690 1 2417 // YATAY 2
+gumppictiled 116 35 1 30 2417 // dikey 1
+gumppictiled 216 35 1 30 2417 // dikey 2
+gumppictiled 316 35 1 30 2417 // dikey 3
+gumppictiled 416 35 1 30 2417 // dikey 4
+gumppictiled 516 35 1 30 2417 // dikey 5
+gumppictiled 616 35 1 30 2417 // dikey 6
+//gumppictiled 10 320 690 1 2417 // YATAY
+//gumppictiled 116 322 1 30 2417 // dikey 8
+//gumppictiled 216 322 1 30 2417 // dikey 9
+//gumppictiled 316 322 1 30 2417 // dikey 10
+//gumppictiled 416 322 1 30 2417 // dikey 11
+//gumppictiled 516 322 1 30 2417 // dikey 12
+//gumppictiled 616 322 1 30 2417 // dikey 13
+
+dtext 20 40 920 Other
+dtext 120 40 920 Decoration
+dtext 220 40 920 Ruined
+dtext 320 40 920 Tinkering
+dtext 420 40 920 Glass
+dtext 520 40 920 Container
+dtext 620 40 <def.kirmizi> Next //7
+//dtext 20 325 920 Tailoring
+//dtext 120 325 920 Animated
+//dtext 220 325 920 Tables
+//dtext 320 325 920 Chair
+//dtext 420 325 920 Stone
+//dtext 520 325 920 Sign
+//dtext 620 325 920 Carp.
+
+
+
+// menu buttons
+button 85 40  4006 4007 0 1 1 //other
+button 185 40  4006 4007 0 2 2 //deco
+button 285 40  4006 4007 0 3 3 //ruined
+button 385 40  4006 4007 0 4 4 //tinkering
+button 485 40  4006 4007 0 5 5 //glass
+button 585 40  4006 4007 0 6 6 //container
+button 670 40  4006 4007 1 0 7 //next
+//button 80 325  4006 4007 0 8 8 //tailoring
+//button 180 325  4006 4007 0 9 9 //animated
+//button 280 325  4006 4007 0 10 10 //tables
+//button 380 325  4006 4007 0 11 11 //bench
+//button 480 325  4006 4007 0 12 12 //stone
+//button 580 325  4006 4007 0 13 13 //sign
+//button 670 325  4006 4007 0 14 14 //carp
+
+
+Page 1 // Other Menu
+// row 1
+dtext 20 70 920 Gruesome
+dtext 120 70 920 Gruesome
+//dtext 220 70 920 Lantern Post
+//dtext 320 70 920 Lantern Post
+//dtext 420 70 920 Display Case
+//dtext 520 70 920 Display Case
+//dtext 620 70 920 Lamp Post
+
+// row 2
+//dtext 20 190 920 Gruesome Banner
+//dtext 120 190 920 Gruesome Banner
+//dtext 220 190 920 Lantern Post
+//dtext 320 190 920 Lantern Post
+//dtext 420 190 920 Display Case
+//dtext 520 190 920 Display Case
+//dtext 620 190 920 Lamp Post
+
+// row 1
+tilepic 50 90 0420 //gruesome
+tilepic 140 90 0429 //gruesome
+//tilepic 240 90 0a1f //lantern post
+//tilepic 340 90 0a20 //lantern post
+//tilepic 440 90 0b09 //display case
+//tilepic 540 90 0b0a //display case
+//tilepic 640 90 0b24 //lamp post
+
+// row 2
+//tilepic 50 210 0b26 //wall torch
+//tilepic 140 210 0a09 //wall torch
+//tilepic 240 210 0a1f //lantern post
+//tilepic 340 210 0a20 //lantern post
+//tilepic 440 210 0b09 //display case
+//tilepic 540 210 0b0a //display case
+//tilepic 640 210 0b24 //lamp post
+
+// row 1
+button 20 90 210 211 1 0 15 //Gruesome
+button 120 90 210 211 1 0 16 //Gruesome
+//button 220 90 210 211 1 0 17 //lantern post
+//button 320 90 210 211 1 0 18 //lantern post
+//button 420 90 210 211 1 0 19 //display case
+//button 520 90 210 211 1 0 20 //display case
+//button 620 90 210 211 1 0 21 //lamp post
+
+// row 2
+//button 20 210 210 211 1 0 22 //wall torch
+//button 120 210 210 211 1 0 23 //wall torch
+//button 220 210 210 211 1 0 24 //lantern post
+//button 320 210 210 211 1 0 25 //lantern post
+//button 420 210 210 211 1 0 26 //display case
+//button 520 210 210 211 1 0 27 //display case
+//button 620 210 210 211 1 0 28 //lamp post
+
+//button 670 290  4006 4007 0 100 100 //ileri
+
+
+Page 100 // Other 2 Menu
+// row 1
+dtext 20 70 920 Gruesome
+dtext 120 70 920 Gruesome
+dtext 220 70 920 Lantern Post
+dtext 320 70 920 Lantern Post
+dtext 420 70 920 Display Case
+dtext 520 70 920 Display Case
+dtext 620 70 920 Lamp Post
+
+// row 2
+dtext 20 190 920 Gruesome Banner
+dtext 120 190 920 Gruesome Banner
+dtext 220 190 920 Lantern Post
+dtext 320 190 920 Lantern Post
+dtext 420 190 920 Display Case
+dtext 520 190 920 Display Case
+dtext 620 190 920 Lamp Post
+
+// row 1
+tilepic 50 90 0420 //gruesome
+tilepic 140 90 0429 //gruesome
+tilepic 240 90 0a1f //lantern post
+tilepic 340 90 0a20 //lantern post
+tilepic 440 90 0b09 //display case
+tilepic 540 90 0b0a //display case
+tilepic 640 90 0b24 //lamp post
+
+// row 2
+tilepic 50 210 0b26 //wall torch
+tilepic 140 210 0a09 //wall torch
+tilepic 240 210 0a1f //lantern post
+tilepic 340 210 0a20 //lantern post
+tilepic 440 210 0b09 //display case
+tilepic 540 210 0b0a //display case
+tilepic 640 210 0b24 //lamp post
+
+
+// row 1
+button 20 90 210 211 1 0 15 //wall torch
+button 120 90 210 211 1 0 16 //wall torch
+button 220 90 210 211 1 0 17 //lantern post
+button 320 90 210 211 1 0 18 //lantern post
+button 420 90 210 211 1 0 19 //display case
+button 520 90 210 211 1 0 20 //display case
+button 620 90 210 211 1 0 21 //lamp post
+
+// row 2
+button 20 210 210 211 1 0 22 //wall torch
+button 120 210 210 211 1 0 23 //wall torch
+button 220 210 210 211 1 0 24 //lantern post
+button 320 210 210 211 1 0 25 //lantern post
+button 420 210 210 211 1 0 26 //display case
+button 520 210 210 211 1 0 27 //display case
+button 620 210 210 211 1 0 28 //lamp post
+
+
+button 670 290  4006 4007 0 101 101 //ileri
+button 15 290  4014 4015 0 1 1 //geri
+
+
+
+Page 2 // Deco Menu
+// row 1
+dtext 20 70 920 Wall Torch
+dtext 120 70 920 Wall Torch
+dtext 220 70 920 Lantern Post
+dtext 320 70 920 Lantern Post
+dtext 420 70 920 Display Case
+dtext 520 70 920 Display Case
+dtext 620 70 920 Lamp Post
+
+// row 2
+dtext 20 190 920 Candlebra
+dtext 120 190 920 Brazier
+dtext 220 190 920 Water Tube
+dtext 320 190 920 Canvas Easel
+dtext 420 190 920 Canvas Rack
+dtext 520 190 920 Canvas Rack
+dtext 620 190 920 Archery Butte
+
+// row 1
+tilepic 50 90 0a0e //wall torch
+tilepic 140 90 0a09 //wall torch
+tilepic 240 90 0a1f //lantern post
+tilepic 340 90 0a20 //lantern post
+tilepic 440 90 0b09 //display case
+tilepic 540 90 0b0a //display case
+tilepic 640 90 0b24 //lamp post
+
+// row 2
+tilepic 50 210 0b26 //Candlebra
+tilepic 140 210 0e31 //Brazier
+tilepic 240 210 0e7b //Water Tube
+tilepic 340 210 0f68 //canvas easel
+tilepic 440 210 0f71 //canvas easel
+tilepic 540 210 0f73 //canvas easel
+tilepic 640 210 0100a //archer butte
+
+
+// row 1
+button 20 90 210 211 1 0 29 //wall torch
+button 120 90 210 211 1 0 30 //wall torch
+button 220 90 210 211 1 0 31 //lantern post
+button 320 90 210 211 1 0 32 //lantern post
+button 420 90 210 211 1 0 33 //display case
+button 520 90 210 211 1 0 34 //display case
+button 620 90 210 211 1 0 35 //lamp post
+
+// row 2
+button 20 210 210 211 1 0 36 //candlebra
+button 120 210 210 211 1 0 37 //brazier
+button 220 210 210 211 1 0 38 //water tube
+button 320 210 210 211 1 0 39 //canvas easel
+button 420 210 210 211 1 0 40 //canvas easel
+button 520 210 210 211 1 0 41 //canvas easel
+button 620 210 210 211 1 0 42 //archer butte
+
+button 670 290  4006 4007 0 200 200 //ileri
+//button 15 290  4014 4015 0 2 2 //geri
+
+
+Page 200 // Deco 2 Menu
+// row 1
+dtext 20 70 920 Archery Butte
+dtext 120 70 920 Globe
+dtext 220 70 920 Stretched Hide
+dtext 320 70 920 Stretched Hide
+dtext 420 70 920 Stretched Hide
+dtext 520 70 920 Stretched Hide
+dtext 620 70 920 Stretched Hide
+
+// row 2
+dtext 20 190 920 Stretched Hide
+dtext 120 190 920 Ringmail Armor
+dtext 220 190 920 Ringmail Armor
+dtext 320 190 920 Studded Leggings
+dtext 420 190 920 Studded Tunic
+dtext 520 190 920 Studded Leggings
+dtext 620 190 920 Studded Tunic
+
+// row 1
+tilepic 50 90 0100b //Archery Butte
+tilepic 140 90 01048 //Globe
+tilepic 240 90 01069 //Stretched Hide
+tilepic 340 90 0106a //Stretched Hide
+tilepic 440 90 0106b //Stretched Hide
+tilepic 540 90 0107a //Stretched Hide
+tilepic 640 90 0107c //Stretched Hide
+
+// row 2
+tilepic 50 210 0107e //Stretched Hide
+tilepic 140 210 013e7 //Ringmail Armor
+tilepic 240 210 013e8 //Ringmail Armor
+tilepic 340 210 013d8 //Studded Leggings
+tilepic 440 210 013d9 //Studded Tunic
+tilepic 540 210 013df //Studded Leggings
+tilepic 640 210 013e0 //Studded Tunic
+
+
+// row 1
+button 20 90 210 211 1 0 2001 //wall torch
+button 120 90 210 211 1 0 2002 //wall torch
+button 220 90 210 211 1 0 2003 //lantern post
+button 320 90 210 211 1 0 2004 //lantern post
+button 420 90 210 211 1 0 2005 //display case
+button 520 90 210 211 1 0 2006 //display case
+button 620 90 210 211 1 0 2007 //lamp post
+
+// row 2
+button 20 210 210 211 1 0 2008 //Stretched Hide
+button 120 210 210 211 1 0 2009 //Ringmail Armor
+button 220 210 210 211 1 0 2010 //Ringmail Armor
+button 320 210 210 211 1 0 2011 //Studded Leggings
+button 420 210 210 211 1 0 2012 //Studded Tunic
+button 520 210 210 211 1 0 2013 //Studded Leggings
+button 620 210 210 211 1 0 2014 //Studded Tunic
+
+button 670 290  4006 4007 0 201 201 //ileri
+button 15 290  4014 4015 0 2 2 //geri
+
+Page 201 // Deco 3 Menu
+// row 1
+dtext 20 70 920 Anchor
+dtext 120 70 920 Anchor
+dtext 220 70 920 Tether
+dtext 320 70 920 Water Barrel
+dtext 420 70 920 Brazier
+dtext 520 70 920 Ore Cart
+dtext 620 70 920 Ore Cart
+
+// row 2
+dtext 20 190 920 Log Pile
+dtext 120 190 920 Log Pile
+dtext 220 190 920 Scarecrow
+dtext 320 190 920 Scarecrow
+dtext 420 190 920 Dartboard
+dtext 520 190 920 Dartboard
+dtext 620 190 920 Chest of Drawers
+
+// row 1
+tilepic 50 90 014f7 //Anchor
+tilepic 140 90 014f7 //Anchor
+tilepic 240 90 014e7 //Tether
+tilepic 340 90 0154d //Water Barrel
+tilepic 440 90 019aa //Brazier
+tilepic 540 90 01a83 //Ore Cart
+tilepic 640 90 01a88 //Ore Cart
+
+// row 2
+tilepic 50 210 01bdf //Log Pile
+tilepic 140 210 01be2 //Log Pile
+tilepic 240 210 01e34 //Scarecrow
+tilepic 340 210 01e35 //Scarecrow
+tilepic 440 210 01e30 //Dartboard
+tilepic 540 210 01e31 //Dartboard
+tilepic 640 210 01e71 //Chest of Drawers
+
+
+// row 1
+button 20 90 210 211 1 0 2015 //Anchor
+button 120 90 210 211 1 0 2016 //Anchor
+button 220 90 210 211 1 0 2017 //Tether
+button 320 90 210 211 1 0 2018 //Water Barrel
+button 420 90 210 211 1 0 2019 //Brazier
+button 520 90 210 211 1 0 2020 //Ore Cart
+button 620 90 210 211 1 0 2021 //Ore Cart
+
+// row 2
+button 20 210 210 211 1 0 2022 //Log Pile
+button 120 210 210 211 1 0 2023 //Log Pile
+button 220 210 210 211 1 0 2024 //Scarecrow
+button 320 210 210 211 1 0 2025 //Scarecrow
+button 420 210 210 211 1 0 2026 //Dartboard
+button 520 210 210 211 1 0 2027 //Dartboard
+button 620 210 210 211 1 0 2028 //Chest of Drawers
+
+button 670 290  4006 4007 0 202 202 //ileri
+button 15 290  4014 4015 0 200 200 //geri
+
+
+Page 202 // Deco 4 Menu
+// row 1
+dtext 20 70 920 Chest of Drawers
+dtext 120 70 920 Stool
+dtext 220 70 920 Unfinished Barrel
+dtext 320 70 920 Bulletin Board
+dtext 420 70 920 Bulletin Board
+dtext 520 70 920 Decorative Lamp
+dtext 620 70 920 Decorative Lamp
+
+// row 2
+dtext 20 190 920 Decorative Lamp
+dtext 120 190 920 Decorative Lamp
+dtext 220 190 920 Decorative Dog
+dtext 320 190 920 Wooden Shelf
+dtext 420 190 920 Wooden Shelf
+dtext 520 190 920 Wooden Shelf
+dtext 620 190 920 Decorative Katana
+
+// row 1
+tilepic 50 90 01e7a //Chest of Drawers
+tilepic 140 90 01e7f //Stool
+tilepic 240 90 01eb5 //Unfinished Barrel
+tilepic 340 90 01e5e //Bulletin Board
+tilepic 440 90 01e5f //Bulletin Board
+tilepic 540 90 024c2 //Decorative Lamp
+tilepic 640 90 024c4 //Decorative Lamp
+
+// row 2
+tilepic 50 210 024c6 //Decorative Lamp
+tilepic 140 210 024c8 //Decorative Lamp
+tilepic 240 210 025cf //Decorative Dog
+tilepic 340 210 0280b //Wooden Shelf
+tilepic 440 210 02815 //Wooden Shelf
+tilepic 540 210 02816 //Wooden Shelf
+tilepic 640 210 02851 //Decorative Katana
+
+
+// row 1
+button 20 90 210 211 1 0 2029 //Chest of Drawers
+button 120 90 210 211 1 0 2030 //Stool
+button 220 90 210 211 1 0 2031 //Unfinished Barrel
+button 320 90 210 211 1 0 2032 //Bulletin Board
+button 420 90 210 211 1 0 2033 //Bulletin Board
+button 520 90 210 211 1 0 2034 //Decorative Lamp
+button 620 90 210 211 1 0 2035 //Decorative Lamp
+
+// row 2
+button 20 210 210 211 1 0 2036 //Decorative Lamp
+button 120 210 210 211 1 0 2037 //Decorative Lamp
+button 220 210 210 211 1 0 2038 //Decorative Dog
+button 320 210 210 211 1 0 2039 //Wooden Shelf
+button 420 210 210 211 1 0 2040 //Wooden Shelf
+button 520 210 210 211 1 0 2041 //Wooden Shelf
+button 620 210 210 211 1 0 2042 //Decorative Katana
+
+button 670 290  4006 4007 0 203 203 //ileri
+button 15 290  4014 4015 0 201 201 //geri
+
+
+Page 203 // Deco 5 Menu
+// row 1
+dtext 20 70 920 Decorative Katana
+dtext 120 70 920 Decorative Cart
+dtext 220 70 920 Decorative Cart
+dtext 320 70 920 Vase with Drawer
+dtext 420 70 920 Long Comfy Chair
+dtext 520 70 920 Stand
+dtext 620 70 920 Casino Table
+
+// row 2
+dtext 20 190 920 Saddle
+dtext 120 190 920 Arrow Pile
+dtext 220 190 920 Arrow Pile
+dtext 320 190 920 Easel with Canvas
+//dtext 420 190 920 Wooden Shelf
+//dtext 520 190 920 Wooden Shelf
+//dtext 620 190 920 Decorative Katana
+
+// row 1
+tilepic 50 90 02852 //Decorative Katana
+tilepic 140 90 02dd9 //Decorative Cart
+tilepic 240 90 02dda //Decorative Cart
+tilepic 340 90 02ddc //Vase with Drawer
+tilepic 440 90 02ddf //Long Comfy Chair
+tilepic 540 90 02dde //Stand
+tilepic 640 90 02fea //Casino Table
+
+// row 2
+tilepic 50 210 0f38 //Saddle
+tilepic 140 210 0f40 //Arrow Pile
+tilepic 240 210 0f41 //Arrow Pile
+tilepic 340 210 0f66 //Easel with Canvas
+//tilepic 440 210 02815 //Wooden Shelf
+//tilepic 540 210 02816 //Wooden Shelf
+//tilepic 640 210 02851 //Decorative Katana
+
+
+// row 1
+button 20 90 210 211 1 0 2043 //Decorative Katana
+button 120 90 210 211 1 0 2044 //Decorative Cart
+button 220 90 210 211 1 0 2045 //Decorative Cart
+button 320 90 210 211 1 0 2046 //Vase with Drawer
+button 420 90 210 211 1 0 2047 //Long Comfy Chair
+button 520 90 210 211 1 0 2048 //Stand
+button 620 90 210 211 1 0 2049 //Casino Table
+
+// row 2
+button 20 210 210 211 1 0 2050 //Saddle
+button 120 210 210 211 1 0 2051 //Arrow Pile
+button 220 210 210 211 1 0 2052 //Arrow Pile
+button 320 210 210 211 1 0 2053 //Easel with Canvas
+//button 420 210 210 211 1 0 2054 //Wooden Shelf
+//button 520 210 210 211 1 0 2055 //Wooden Shelf
+//button 620 210 210 211 1 0 2056 //Decorative Katana
+
+//button 670 290  4006 4007 0 204 204 //ileri
+button 15 290  4014 4015 0 202 202 //geri
+
+
+
+Page 3 // Ruined Menu
+// row 1
+dtext 20 70 920 Broken Armoire
+dtext 120 70 920 Broken Armoire
+dtext 220 70 920 Ruined Bookcase
+dtext 320 70 920 Ruined Bookcase
+dtext 420 70 920 Broken Furniture
+dtext 520 70 920 Broken Furniture
+//dtext 620 70 920 Lamp Post
+
+// row 2
+//dtext 20 190 920 Candlebra
+//dtext 120 190 920 Wall Torch
+//dtext 220 190 920 Lantern Post
+//dtext 320 190 920 Lantern Post
+//dtext 420 190 920 Display Case
+//dtext 520 190 920 Display Case
+//dtext 620 190 920 Lamp Post
+
+// row 1
+tilepic 50 90 0c12 //Broken Armoire
+tilepic 140 90 0c13 //Broken Armoire
+tilepic 240 90 0c14 //Ruined Bookcase
+tilepic 340 90 0c15 //Ruined Bookcase
+tilepic 440 90 0c24 //Broken Furniture
+tilepic 540 90 0c25 //Broken Furniture
+//tilepic 640 90 0b24 //lamp post
+
+// row 2
+//tilepic 50 210 0b26 //wall torch
+//tilepic 140 210 0a09 //wall torch
+//tilepic 240 210 0a1f //lantern post
+//tilepic 340 210 0a20 //lantern post
+//tilepic 440 210 0b09 //display case
+//tilepic 540 210 0b0a //display case
+//tilepic 640 210 0b24 //lamp post
+
+
+// row 1
+button 20 90 210 211 1 0 43 //Broken Armoire
+button 120 90 210 211 1 0 44 //Broken Armoire
+button 220 90 210 211 1 0 45 //Ruined Bookcase
+button 320 90 210 211 1 0 46 //Ruined Bookcase
+button 420 90 210 211 1 0 47 //Broken Furniture
+button 520 90 210 211 1 0 48 //Broken Furniture
+//button 620 90 210 211 1 0 49 //lamp post
+
+// row 2
+//button 20 210 210 211 1 0 50 //wall torch
+//button 120 210 210 211 1 0 51 //wall torch
+//button 220 210 210 211 1 0 52 //lantern post
+//button 320 210 210 211 1 0 53 //lantern post
+//button 420 210 210 211 1 0 54 //display case
+//button 520 210 210 211 1 0 55 //display case
+//button 620 210 210 211 1 0 56 //lamp post
+
+//button 670 290  4006 4007 0 300 300 //ileri
+
+Page 300 // Ruined 2 Menu
+// row 1
+dtext 20 70 920 Broken Armoire
+dtext 120 70 920 Broken Armoire
+dtext 220 70 920 Ruined Bookcase
+dtext 320 70 920 Ruined Bookcase
+dtext 420 70 920 Broken Furniture
+dtext 520 70 920 Broken Furniture
+dtext 620 70 920 Lamp Post
+
+// row 2
+dtext 20 190 920 Candlebra
+dtext 120 190 920 Wall Torch
+dtext 220 190 920 Lantern Post
+dtext 320 190 920 Lantern Post
+dtext 420 190 920 Display Case
+dtext 520 190 920 Display Case
+dtext 620 190 920 Lamp Post
+
+// row 1
+tilepic 50 90 0c12 //Broken Armoire
+tilepic 140 90 0c13 //Broken Armoire
+tilepic 240 90 0c14 //Ruined Bookcase
+tilepic 340 90 0c15 //Ruined Bookcase
+tilepic 440 90 0c24 //Broken Furniture
+tilepic 540 90 0c25 //Broken Furniture
+tilepic 640 90 0b24 //lamp post
+
+// row 2
+tilepic 50 210 0b26 //wall torch
+tilepic 140 210 0a09 //wall torch
+tilepic 240 210 0a1f //lantern post
+tilepic 340 210 0a20 //lantern post
+tilepic 440 210 0b09 //display case
+tilepic 540 210 0b0a //display case
+tilepic 640 210 0b24 //lamp post
+
+
+// row 1
+button 20 90 210 211 1 0 43 //Broken Armoire
+button 120 90 210 211 1 0 44 //Broken Armoire
+button 220 90 210 211 1 0 45 //Ruined Bookcase
+button 320 90 210 211 1 0 46 //Ruined Bookcase
+button 420 90 210 211 1 0 47 //Broken Furniture
+button 520 90 210 211 1 0 48 //Broken Furniture
+button 620 90 210 211 1 0 49 //lamp post
+
+// row 2
+button 20 210 210 211 1 0 50 //wall torch
+button 120 210 210 211 1 0 51 //wall torch
+button 220 210 210 211 1 0 52 //lantern post
+button 320 210 210 211 1 0 53 //lantern post
+button 420 210 210 211 1 0 54 //display case
+button 520 210 210 211 1 0 55 //display case
+button 620 210 210 211 1 0 56 //lamp post
+
+button 670 290  4006 4007 0 301 301 //ileri
+button 15 290  4014 4015 0 3 3 //geri
+
+
+
+
+Page 4 // Tinkering Menu
+// row 1
+dtext 20 70 920 Crystal Ball
+dtext 120 70 920 Pile of Copper
+dtext 220 70 920 Pile of Copper
+dtext 320 70 920 Pile of Gold
+dtext 420 70 920 Pile of Gold
+dtext 520 70 920 Pile of Silver
+dtext 620 70 920 Pile of Silver
+
+// row 2
+//dtext 20 190 920 Candlebra
+//dtext 120 190 920 Wall Torch
+//dtext 220 190 920 Lantern Post
+//dtext 320 190 920 Lantern Post
+//dtext 420 190 920 Display Case
+//dtext 520 190 920 Display Case
+//dtext 620 190 920 Display Case
+
+// row 1
+tilepic 50 90 0e2f //Crystal Ball
+tilepic 140 90 01be5 //Pile of Copper
+tilepic 240 90 01be8 //Pile of Copper
+tilepic 340 90 01beb //Pile of Gold
+tilepic 440 90 01bee //Pile of Gold
+tilepic 540 90 01bf7 //Pile of Silver
+tilepic 640 90 01bfa //Pile of Silver
+
+// row 2
+//tilepic 50 210 0b26 //wall torch
+//tilepic 140 210 0a09 //wall torch
+//tilepic 240 210 0a1f //lantern post
+//tilepic 340 210 0a20 //lantern post
+//tilepic 440 210 0b09 //display case
+//tilepic 540 210 0b0a //display case
+//tilepic 640 210 0b24 //lamp post
+
+
+// row 1
+button 20 90 210 211 1 0 57 //Crystal Ball
+button 120 90 210 211 1 0 58 //Pile of Copper
+button 220 90 210 211 1 0 59 //Pile of Copper
+button 320 90 210 211 1 0 60 //Pile of Gold
+button 420 90 210 211 1 0 61 //Pile of Gold
+button 520 90 210 211 1 0 62 //Pile of Silver
+button 620 90 210 211 1 0 63 //Pile of Silver
+
+// row 2
+//button 20 210 210 211 1 0 64 //wall torch
+//button 120 210 210 211 1 0 65 //wall torch
+//button 220 210 210 211 1 0 66 //lantern post
+//button 320 210 210 211 1 0 67 //lantern post
+//button 420 210 210 211 1 0 68 //display case
+//button 520 210 210 211 1 0 69 //display case
+//button 620 210 210 211 1 0 70 //lamp post
+
+
+//button 670 290  4006 4007 0 400 400 //ileri
+
+
+Page 400 // Tinker 2 Menu
+// row 1
+dtext 20 70 920 Brazier
+dtext 120 70 920 Water Tube
+dtext 220 70 920 Lantern Post
+dtext 320 70 920 Lantern Post
+dtext 420 70 920 Display Case
+dtext 520 70 920 Display Case
+dtext 620 70 920 Lamp Post
+
+// row 2
+dtext 20 190 920 Candlebra
+dtext 120 190 920 Wall Torch
+dtext 220 190 920 Lantern Post
+dtext 320 190 920 Lantern Post
+dtext 420 190 920 Display Case
+dtext 520 190 920 Display Case
+dtext 620 190 920 Lamp Post
+
+// row 1
+tilepic 50 90 0e31 //Brazier
+tilepic 140 90 0e7b //water Tube
+tilepic 240 90 0a1f //lantern post
+tilepic 340 90 0a20 //lantern post
+tilepic 440 90 0b09 //display case
+tilepic 540 90 0b0a //display case
+tilepic 640 90 0b24 //lamp post
+
+// row 2
+tilepic 50 210 0b26 //wall torch
+tilepic 140 210 0a09 //wall torch
+tilepic 240 210 0a1f //lantern post
+tilepic 340 210 0a20 //lantern post
+tilepic 440 210 0b09 //display case
+tilepic 540 210 0b0a //display case
+tilepic 640 210 0b24 //lamp post
+
+
+// row 1
+button 20 90 210 211 1 0 4001 //wall torch
+button 120 90 210 211 1 0 4002 //wall torch
+button 220 90 210 211 1 0 4003 //lantern post
+button 320 90 210 211 1 0 4004 //lantern post
+button 420 90 210 211 1 0 4005 //display case
+button 520 90 210 211 1 0 4006 //display case
+button 620 90 210 211 1 0 4007 //lamp post
+
+// row 2
+button 20 210 210 211 1 0 4008 //wall torch
+button 120 210 210 211 1 0 4009 //wall torch
+button 220 210 210 211 1 0 4010 //lantern post
+button 320 210 210 211 1 0 4011 //lantern post
+button 420 210 210 211 1 0 4012 //display case
+button 520 210 210 211 1 0 4013 //display case
+button 620 210 210 211 1 0 4014 //lamp post
+
+button 670 290  4006 4007 0 401 401 //ileri
+button 15 290  4014 4015 0 400 400 //geri
+
+
+Page 5 // Glass Menu
+// row 1
+dtext 20 70 920 Jars
+//dtext 120 70 920 Wall Torch
+//dtext 220 70 920 Lantern Post
+//dtext 320 70 920 Lantern Post
+//dtext 420 70 920 Display Case
+//dtext 520 70 920 Display Case
+//dtext 620 70 920 Lamp Post
+
+// row 2
+//dtext 20 190 920 Candlebra
+//dtext 120 190 920 Wall Torch
+//dtext 220 190 920 Lantern Post
+//dtext 320 190 920 Lantern Post
+//dtext 420 190 920 Display Case
+//dtext 520 190 920 Display Case
+//dtext 620 190 920 Lamp Post
+
+// row 1
+tilepic 50 90 0e4f //Jars
+//tilepic 140 90 0a09 //wall torch
+//tilepic 240 90 0a1f //lantern post
+//tilepic 340 90 0a20 //lantern post
+//tilepic 440 90 0b09 //display case
+//tilepic 540 90 0b0a //display case
+//tilepic 640 90 0b24 //lamp post
+
+// row 2
+//tilepic 50 210 0b26 //wall torch
+//tilepic 140 210 0a09 //wall torch
+//tilepic 240 210 0a1f //lantern post
+//tilepic 340 210 0a20 //lantern post
+//tilepic 440 210 0b09 //display case
+//tilepic 540 210 0b0a //display case
+//tilepic 640 210 0b24 //lamp post
+
+
+// row 1
+button 20 90 210 211 1 0 71 //Jars
+//button 120 90 210 211 1 0 72 //wall torch
+//button 220 90 210 211 1 0 73 //lantern post
+//button 320 90 210 211 1 0 74 //lantern post
+//button 420 90 210 211 1 0 75 //display case
+//button 520 90 210 211 1 0 76 //display case
+//button 620 90 210 211 1 0 77 //lamp post
+
+// row 2
+//button 20 210 210 211 1 0 78 //wall torch
+//button 120 210 210 211 1 0 79 //wall torch
+//button 220 210 210 211 1 0 80 //lantern post
+//button 320 210 210 211 1 0 81 //lantern post
+//button 420 210 210 211 1 0 82 //display case
+//button 520 210 210 211 1 0 83 //display case
+//button 620 210 210 211 1 0 84 //lamp post
+
+
+//button 670 290  4006 4007 0 500 500 //ileri
+
+Page 500 // Glass 2 Menu
+// row 1
+dtext 20 70 920 Jars
+dtext 120 70 920 Wall Torch
+dtext 220 70 920 Lantern Post
+dtext 320 70 920 Lantern Post
+dtext 420 70 920 Display Case
+dtext 520 70 920 Display Case
+dtext 620 70 920 Lamp Post
+
+// row 2
+dtext 20 190 920 Candlebra
+dtext 120 190 920 Wall Torch
+dtext 220 190 920 Lantern Post
+dtext 320 190 920 Lantern Post
+dtext 420 190 920 Display Case
+dtext 520 190 920 Display Case
+dtext 620 190 920 Lamp Post
+
+// row 1
+tilepic 50 90 0e4f //Jars
+tilepic 140 90 0a09 //wall torch
+tilepic 240 90 0a1f //lantern post
+tilepic 340 90 0a20 //lantern post
+tilepic 440 90 0b09 //display case
+tilepic 540 90 0b0a //display case
+tilepic 640 90 0b24 //lamp post
+
+// row 2
+tilepic 50 210 0b26 //wall torch
+tilepic 140 210 0a09 //wall torch
+tilepic 240 210 0a1f //lantern post
+tilepic 340 210 0a20 //lantern post
+tilepic 440 210 0b09 //display case
+tilepic 540 210 0b0a //display case
+tilepic 640 210 0b24 //lamp post
+
+
+// row 1
+button 20 90 210 211 1 0 71 //wall torch
+button 120 90 210 211 1 0 72 //wall torch
+button 220 90 210 211 1 0 73 //lantern post
+button 320 90 210 211 1 0 74 //lantern post
+button 420 90 210 211 1 0 75 //display case
+button 520 90 210 211 1 0 76 //display case
+button 620 90 210 211 1 0 77 //lamp post
+
+// row 2
+button 20 210 210 211 1 0 78 //wall torch
+button 120 210 210 211 1 0 79 //wall torch
+button 220 210 210 211 1 0 80 //lantern post
+button 320 210 210 211 1 0 81 //lantern post
+button 420 210 210 211 1 0 82 //display case
+button 520 210 210 211 1 0 83 //display case
+button 620 210 210 211 1 0 84 //lamp post
+
+
+button 670 290  4006 4007 0 501 501 //ileri
+button 15 290  4014 4015 0 5 5 //geri
+
+
+Page 6 // Container Menu
+// row 1
+dtext 20 70 920 Wooden Container
+dtext 120 70 920 Wooden Container
+dtext 220 70 920 Stone Container
+dtext 320 70 920 Stone Container
+dtext 420 70 920 Wooden Container
+//dtext 520 70 920 Display Case
+//dtext 620 70 920 Lamp Post
+
+// row 2
+//dtext 20 190 920 Candlebra
+//dtext 120 190 920 Wall Torch
+//dtext 220 190 920 Lantern Post
+//dtext 320 190 920 Lantern Post
+//dtext 420 190 920 Display Case
+//dtext 520 190 920 Display Case
+//dtext 620 190 920 Lamp Post
+
+// row 1
+tilepic 50 90 02de9 //Wooden Container
+tilepic 140 90 02dea //Wooden Container
+tilepic 240 90 02ff9 //Stone Container
+tilepic 340 90 02ffa //Stone Container
+tilepic 440 90 0280e //Wooden Container
+//tilepic 540 90 0b0a //display case
+//tilepic 640 90 0b24 //lamp post
+
+// row 2
+//tilepic 50 210 0b26 //wall torch
+//tilepic 140 210 0a09 //wall torch
+//tilepic 240 210 0a1f //lantern post
+//tilepic 340 210 0a20 //lantern post
+//tilepic 440 210 0b09 //display case
+//tilepic 540 210 0b0a //display case
+//tilepic 640 210 0b24 //lamp post
+
+
+// row 1
+button 20 90 210 211 1 0 85 //Wooden Container
+button 120 90 210 211 1 0 86 //Wooden Container
+button 220 90 210 211 1 0 87 //Stone Container
+button 320 90 210 211 1 0 88 //Stone Container
+button 420 90 210 211 1 0 89 //Wooden Container
+//button 520 90 210 211 1 0 90 //display case
+//button 620 90 210 211 1 0 91 //lamp post
+
+// row 2
+//button 20 210 210 211 1 0 92 //wall torch
+//button 120 210 210 211 1 0 93 //wall torch
+//button 220 210 210 211 1 0 94 //lantern post
+//button 320 210 210 211 1 0 95 //lantern post
+//button 420 210 210 211 1 0 96 //display case
+//button 520 210 210 211 1 0 97 //display case
+//button 620 210 210 211 1 0 98 //lamp post
+
+
+//button 670 290  4006 4007 0 600 600 //ileri
+
+
+Page 600 // Container 2 Menu
+// row 1
+dtext 20 70 920 Wooden Container
+dtext 120 70 920 Wooden Container
+dtext 220 70 920 Stone Container
+dtext 320 70 920 Stone Container
+dtext 420 70 920 Wooden Container
+dtext 520 70 920 Display Case
+dtext 620 70 920 Lamp Post
+
+// row 2
+dtext 20 190 920 Candlebra
+dtext 120 190 920 Wall Torch
+dtext 220 190 920 Lantern Post
+dtext 320 190 920 Lantern Post
+dtext 420 190 920 Display Case
+dtext 520 190 920 Display Case
+dtext 620 190 920 Lamp Post
+
+// row 1
+tilepic 50 90 02de9 //Wooden Container
+tilepic 140 90 02dea //Wooden Container
+tilepic 240 90 02ff9 //Stone Container
+tilepic 340 90 02ffa //Stone Container
+tilepic 440 90 0280e //Wooden Container
+tilepic 540 90 0b0a //display case
+tilepic 640 90 0b24 //lamp post
+
+// row 2
+tilepic 50 210 0b26 //wall torch
+tilepic 140 210 0a09 //wall torch
+tilepic 240 210 0a1f //lantern post
+tilepic 340 210 0a20 //lantern post
+tilepic 440 210 0b09 //display case
+tilepic 540 210 0b0a //display case
+tilepic 640 210 0b24 //lamp post
+
+
+// row 1
+button 20 90 210 211 1 0 85 //Wooden Container
+button 120 90 210 211 1 0 86 //Wooden Container
+button 220 90 210 211 1 0 87 //Stone Container
+button 320 90 210 211 1 0 88 //Stone Container
+button 420 90 210 211 1 0 89 //Wooden Container
+button 520 90 210 211 1 0 90 //display case
+button 620 90 210 211 1 0 91 //lamp post
+
+// row 2
+button 20 210 210 211 1 0 92 //wall torch
+button 120 210 210 211 1 0 93 //wall torch
+button 220 210 210 211 1 0 94 //lantern post
+button 320 210 210 211 1 0 95 //lantern post
+button 420 210 210 211 1 0 96 //display case
+button 520 210 210 211 1 0 97 //display case
+button 620 210 210 211 1 0 98 //lamp post
+
+
+button 670 290  4006 4007 0 600 600 //ileri
+button 15 290  4014 4015 0 6 6 //geri
+
+
+[DIALOG d_skill_carpentry_new button]
+on=7
+sdialog d_skill_carpentry_new2,8
+
+
+on=15
+IF <src.CANMAKE 0420>
+	src.proditem=0420
+	src.tag0.makelast=0420
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0420.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0420.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=16
+IF <src.CANMAKE 0429>
+	src.proditem=0429
+	src.tag0.makelast=0429
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0429.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0429.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=29
+IF <src.CANMAKE 0a0e>
+	src.proditem=0a0e
+	src.tag0.makelast=0a0e
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0a0e.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0a0e.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=30
+IF <src.CANMAKE 0a09>
+	src.proditem=0a09
+	src.tag0.makelast=0a09
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0a09.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0a09.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=31
+IF <src.CANMAKE 0a1f>
+	src.proditem=0a1f
+	src.tag0.makelast=0a1f
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0a1f.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0a1f.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=32
+IF <src.CANMAKE 0a20>
+	src.proditem=0a20
+	src.tag0.makelast=0a20
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0a20.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0a20.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=33
+IF <src.CANMAKE 0b09>
+	src.proditem=0b09
+	src.tag0.makelast=0b09
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0b09.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0b09.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=34
+IF <src.CANMAKE 0b0a>
+	src.proditem=0b0a
+	src.tag0.makelast=0b0a
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0b0a.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0b0a.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=35
+IF <src.CANMAKE 0b24>
+	src.proditem=0b24
+	src.tag0.makelast=0b24
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0b24.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0b24.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=36
+IF <src.CANMAKE 0b26>
+	src.proditem=0b26
+	src.tag0.makelast=0b26
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0b26.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0b26.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=37
+IF <src.CANMAKE 0e31>
+	src.proditem=0e31
+	src.tag0.makelast=0e31
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0e31.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0e31.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=38
+IF <src.CANMAKE 0e7b>
+	src.proditem=0e7b
+	src.tag0.makelast=0e7b
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0e7b.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0e7b.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=43
+IF <src.CANMAKE 0c12>
+	src.proditem=0c12
+	src.tag0.makelast=0c12
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0c12.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0c12.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=44
+IF <src.CANMAKE 0c13>
+	src.proditem=0c13
+	src.tag0.makelast=0c13
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0c13.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0c13.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=45
+IF <src.CANMAKE 0c14>
+	src.proditem=0c14
+	src.tag0.makelast=0c14
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0c14.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0c14.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=46
+IF <src.CANMAKE 0c15>
+	src.proditem=0c15
+	src.tag0.makelast=0c15
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0c15.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0c15.RESOURCES>>)
+	return 1
+
+ENDIF
+on=47
+IF <src.CANMAKE 0c24>
+	src.proditem=0c24
+	src.tag0.makelast=0c24
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0c24.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0c24.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=48
+IF <src.CANMAKE 0c25>
+	src.proditem=0c25
+	src.tag0.makelast=0c25
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0c25.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0c25.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=57
+IF <src.CANMAKE 0e2f>
+	src.proditem=0e2f
+	src.tag0.makelast=0e2f
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0e2f.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0e2f.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=71
+IF <src.CANMAKE 0e4f>
+	src.proditem=0e4f
+	src.tag0.makelast=0e4f
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0e4f.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0e4f.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=2050
+IF <src.CANMAKE 0f38>
+	src.proditem=0f38
+	src.tag0.makelast=0f38
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0f38.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0f38.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2051
+IF <src.CANMAKE 0f40>
+	src.proditem=0f40
+	src.tag0.makelast=0f40
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0f40.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0f40.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2052
+IF <src.CANMAKE 0f41>
+	src.proditem=0f41
+	src.tag0.makelast=0f41
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0f41.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0f41.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2053
+IF <src.CANMAKE 0f66>
+	src.proditem=0f66
+	src.tag0.makelast=0f66
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0f66.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0f66.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=39
+IF <src.CANMAKE 0f68>
+	src.proditem=0f68
+	src.tag0.makelast=0f68
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0f68.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0f68.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=40
+IF <src.CANMAKE 0f71>
+	src.proditem=0f71
+	src.tag0.makelast=0f71
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0f71.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0f71.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=41
+IF <src.CANMAKE 0f73>
+	src.proditem=0f73
+	src.tag0.makelast=0f73
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0f73.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0f73.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=42
+IF <src.CANMAKE 0100a>
+	src.proditem=0100a
+	src.tag0.makelast=0100a
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0100a.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0100a.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2001
+IF <src.CANMAKE 0100b>
+	src.proditem=0100b
+	src.tag0.makelast=0100b
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0100b.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0100b.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2002
+IF <src.CANMAKE 01048>
+	src.proditem=01048
+	src.tag0.makelast=01048
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01048.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01048.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2003
+IF <src.CANMAKE 01069>
+	src.proditem=01069
+	src.tag0.makelast=01069
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01069.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01069.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2004
+IF <src.CANMAKE 0106a>
+	src.proditem=0106a
+	src.tag0.makelast=0106a
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0106a.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0106a.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2005
+IF <src.CANMAKE 0106b>
+	src.proditem=0106b
+	src.tag0.makelast=0106b
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0106b.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0106b.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2006
+IF <src.CANMAKE 0107a>
+	src.proditem=0107a
+	src.tag0.makelast=0107a
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0107a.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0107a.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2007
+IF <src.CANMAKE 0107c>
+	src.proditem=0107c
+	src.tag0.makelast=0107c
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0107c.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0107c.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2008
+IF <src.CANMAKE 0107c>
+	src.proditem=0107c
+	src.tag0.makelast=0107c
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0107c.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0107c.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2009
+IF <src.CANMAKE 013e7>
+	src.proditem=013e7
+	src.tag0.makelast=013e7
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.013e7.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.013e7.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2010
+IF <src.CANMAKE 013e8>
+	src.proditem=013e8
+	src.tag0.makelast=013e8
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.013e8.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.013e8.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2011
+IF <src.CANMAKE 013d8>
+	src.proditem=013d8
+	src.tag0.makelast=013d8
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.013d8.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.013d8.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2012
+IF <src.CANMAKE 013d9>
+	src.proditem=013d9
+	src.tag0.makelast=013d9
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.013d9.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.013d9.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=2013
+IF <src.CANMAKE 013df>
+	src.proditem=013df
+	src.tag0.makelast=013df
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.013df.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.013df.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2014
+IF <src.CANMAKE 013e0>
+	src.proditem=013e0
+	src.tag0.makelast=013e0
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.013e0.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.013e0.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=2015
+IF <src.CANMAKE 014f7>
+	src.proditem=014f7
+	src.tag0.makelast=014f7
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.014f7.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.014f7.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2016
+IF <src.CANMAKE 014f9>
+	src.proditem=014f9
+	src.tag0.makelast=014f9
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.014f9.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.014f9.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2017
+IF <src.CANMAKE 014e7>
+	src.proditem=014e7
+	src.tag0.makelast=014e7
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.014e7.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.014e7.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2018
+IF <src.CANMAKE 0154d>
+	src.proditem=0154d
+	src.tag0.makelast=0154d
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0154d.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0154d.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=37
+IF <src.CANMAKE 019aa>
+	src.proditem=019aa
+	src.tag0.makelast=019aa
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.019aa.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.019aa.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=2020
+IF <src.CANMAKE 01a83>
+	src.proditem=01a83
+	src.tag0.makelast=01a83
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01a83.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01a83.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=2021
+IF <src.CANMAKE 01a88>
+	src.proditem=01a88
+	src.tag0.makelast=01a88
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.013e0.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.013e0.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2022
+IF <src.CANMAKE 01bdf>
+	src.proditem=01bdf
+	src.tag0.makelast=01bdf
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01bdf.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01bdf.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2023
+IF <src.CANMAKE 01be2>
+	src.proditem=01be2
+	src.tag0.makelast=01be2
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01be2.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01be2.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=2024
+IF <src.CANMAKE 01e34>
+	src.proditem=01e34
+	src.tag0.makelast=01e34
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01e34.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01e34.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2025
+IF <src.CANMAKE 01e35>
+	src.proditem=01e35
+	src.tag0.makelast=01e35
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01e35.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01e35.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2026
+IF <src.CANMAKE 01e30>
+	src.proditem=01e30
+	src.tag0.makelast=01e30
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01e30.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01e30.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=2027
+IF <src.CANMAKE 01e31>
+	src.proditem=01e31
+	src.tag0.makelast=01e31
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01e31.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01e31.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=58
+IF <src.CANMAKE 01be35>
+	src.proditem=01be5
+	src.tag0.makelast=01be5
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01be5.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01be5.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=59
+IF <src.CANMAKE 01be8>
+	src.proditem=01be8
+	src.tag0.makelast=01be8
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01be8.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01be8.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=60
+IF <src.CANMAKE 01beb>
+	src.proditem=01beb
+	src.tag0.makelast=01beb
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01beb.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01beb.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=61
+IF <src.CANMAKE 01bee>
+	src.proditem=01bee
+	src.tag0.makelast=01bee
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01bee.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01bee.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=62
+IF <src.CANMAKE 01bf7>
+	src.proditem=01bf7
+	src.tag0.makelast=01bf7
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01bf7.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01bf7.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+
+on=63
+IF <src.CANMAKE 01bfa>
+	src.proditem=01bfa
+	src.tag0.makelast=01bfa
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01bfa.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01bfa.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+
+on=2028
+IF <src.CANMAKE 01e71>
+	src.proditem=01e71
+	src.tag0.makelast=01e71
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01e71.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01e71.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=2030
+IF <src.CANMAKE 01e7f>
+	src.proditem=01e7f
+	src.tag0.makelast=01e7f
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01e7f.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01e7f.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+
+on=2029
+IF <src.CANMAKE 01e7a>
+	src.proditem=01e7a
+	src.tag0.makelast=01e7a
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01e7a.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01e7a.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=2031
+IF <src.CANMAKE 01eb5>
+	src.proditem=01eb5
+	src.tag0.makelast=01eb5
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01eb5.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01eb5.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=2032
+IF <src.CANMAKE 01e5e>
+	src.proditem=01e5e
+	src.tag0.makelast=01e5e
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01e5e.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01e5e.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=2033
+IF <src.CANMAKE 01e5f>
+	src.proditem=01e5f
+	src.tag0.makelast=01e5f
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01e5f.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01e5f.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+
+on=2034
+IF <src.CANMAKE 024c2>
+	src.proditem=024c2
+	src.tag0.makelast=024c2
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.024c2.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.024c2.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+
+on=2035
+IF <src.CANMAKE 024c4>
+	src.proditem=024c4
+	src.tag0.makelast=024c4
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.024c4.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.024c4.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+
+on=2036
+IF <src.CANMAKE 024c6>
+	src.proditem=024c6
+	src.tag0.makelast=024c6
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.024c6.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.024c6.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=2037
+IF <src.CANMAKE 024c8>
+	src.proditem=024c8
+	src.tag0.makelast=024c8
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.024c8.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.024c8.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+
+on=2038
+IF <src.CANMAKE 025cf>
+	src.proditem=025cf
+	src.tag0.makelast=025cf
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.025cf.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.025cf.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=2039
+IF <src.CANMAKE 0280b>
+	src.proditem=0280b
+	src.tag0.makelast=0280b
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0280b.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0280b.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+
+on=2040
+IF <src.CANMAKE 02815>
+	src.proditem=02815
+	src.tag0.makelast=02815
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.02815.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.02815.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=2041
+IF <src.CANMAKE 02816>
+	src.proditem=02816
+	src.tag0.makelast=02816
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.01e30.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.01e30.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+
+on=2042
+IF <src.CANMAKE 02851>
+	src.proditem=02851
+	src.tag0.makelast=02851
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.02851.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.02851.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+
+
+on=2043
+IF <src.CANMAKE 02852>
+	src.proditem=02852
+	src.tag0.makelast=02852
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.02852.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.02852.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+
+
+on=2044
+IF <src.CANMAKE 02dd9>
+	src.proditem=02dd9
+	src.tag0.makelast=02dd9
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.02dd9.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.02dd9.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=2045
+IF <src.CANMAKE 02dda>
+	src.proditem=02dda
+	src.tag0.makelast=02dda
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.02dda.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.02dda.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+
+on=2046
+IF <src.CANMAKE 02ddc>
+	src.proditem=02ddc
+	src.tag0.makelast=02ddc
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.02ddc.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.02ddc.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=2047
+IF <src.CANMAKE 02ddf>
+	src.proditem=02ddf
+	src.tag0.makelast=02ddf
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.02ddf.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.02ddf.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+
+on=2048
+IF <src.CANMAKE 02dde>
+	src.proditem=02dde
+	src.tag0.makelast=02dde
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.02dde.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.02dde.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+
+
+on=85
+IF <src.CANMAKE 02de9>
+	src.proditem=02de9
+	src.tag0.makelast=02de9
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.02de9.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.02de9.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=86
+IF <src.CANMAKE 02dea>
+	src.proditem=02dea
+	src.tag0.makelast=02dea
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.02dea.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.02dea.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=2049
+IF <src.CANMAKE 02fea>
+	src.proditem=02fea
+	src.tag0.makelast=02fea
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.02fea.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.02fea.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=88
+IF <src.CANMAKE 02ffa>
+	src.proditem=02ffa
+	src.tag0.makelast=02ffa
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.02ffa.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.02ffa.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+on=87
+IF <src.CANMAKE 02ff9>
+	src.proditem=02ff9
+	src.tag0.makelast=02ff9
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.02ff9.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.02ff9.RESOURCES>>)
+	return 1
+
+ENDIF
+
+on=89
+IF <src.CANMAKE 0280e>
+	src.proditem=0280e
+	src.tag0.makelast=0280e
+	ELSE
+
+	SRC.syshata Yeterli malzeme veya yeteneğe sahip değilsiniz: (<F_EXPLODE_LOG2 <SERV.ITEMDEF.0280e.SKILLMAKE>> ve <F_EXPLODE_LOG <SERV.ITEMDEF.0280e.RESOURCES>>)
+	return 1
+
+ENDIF
+
+
+
